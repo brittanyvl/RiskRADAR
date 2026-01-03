@@ -127,6 +127,25 @@ final_path = move_and_rename(
 )
 ```
 
+### Rate Limiting
+
+Always use rate limiting to be respectful to servers:
+
+```python
+from scraper.waits import rate_limit
+
+# Between page navigations
+rate_limit(config.page_delay_sec)
+
+# Between downloads
+rate_limit(config.download_delay_sec)
+
+# Generic request delay
+rate_limit(2.0)  # 2 seconds +/- jitter
+```
+
+The `rate_limit` function adds random jitter to avoid predictable request patterns.
+
 ## Environment Variables
 
 | Variable | Default | Description |
@@ -136,6 +155,9 @@ final_path = move_and_rename(
 | `SCRAPER_DOWNLOAD_TIMEOUT` | `120` | Download timeout in seconds |
 | `HTTP_USER_AGENT` | `RiskRADARBot/1.0` | Browser user agent string |
 | `SCRAPER_PAGELOAD_TIMEOUT` | `60` | Page load timeout in seconds |
+| `SCRAPER_REQUEST_DELAY` | `2.0` | Delay between requests (seconds) |
+| `SCRAPER_DOWNLOAD_DELAY` | `3.0` | Delay between downloads (seconds) |
+| `SCRAPER_PAGE_DELAY` | `2.0` | Delay between page navigations (seconds) |
 
 ## Summary
 

@@ -34,6 +34,8 @@ def _chrome_options(cfg: BrowserConfig) -> Options:
         "download.prompt_for_download": False,
         "download.directory_upgrade": True,
         "safebrowsing.enabled": True,
+        # Force PDF download instead of viewing in browser
+        "plugins.always_open_pdf_externally": True,
     }
     opts.add_experimental_option("prefs", prefs)
     return opts

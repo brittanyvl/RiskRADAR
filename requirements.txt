@@ -10,8 +10,7 @@ webdriver-manager>=4.0.0
 # pytesseract>=0.3.10
 # Pillow>=10.0.0
 
-# Database
-# sqlalchemy>=2.0.0
+# Database (using stdlib sqlite3 - no additional deps needed)
 
 # Vector DB (Phase 5)
 # qdrant-client>=1.7.0

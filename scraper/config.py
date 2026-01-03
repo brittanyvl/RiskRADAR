@@ -15,13 +15,23 @@ import os
 
 @dataclass(frozen=True)
 class BrowserConfig:
+    # Browser settings
     headless: bool = bool(os.getenv("SCRAPER_HEADLESS", "1") == "1")
-    user_agent: str = os.getenv("HTTP_USER_AGENT", "RiskRADARBot/1.0 (+https://github.com/)")
+    user_agent: str = os.getenv("HTTP_USER_AGENT", "RiskRADARBot/1.0 (+https://github.com/bvlma/RiskRADAR; educational project)")
     window_width: int = int(os.getenv("SCRAPER_WIN_W", "1400"))
     window_height: int = int(os.getenv("SCRAPER_WIN_H", "900"))
-    downloads_dir: Path = Path(os.getenv("SCRAPER_DOWNLOADS_DIR", ".scraper_tmp_downloads")).resolve()
+
+    # Timeouts
     page_load_timeout_sec: int = int(os.getenv("SCRAPER_PAGELOAD_TIMEOUT", "60"))
     implicit_wait_sec: int = int(os.getenv("SCRAPER_IMPLICIT_WAIT", "0"))
-    partial_suffixes: tuple[str, ...] = (".crdownload", ".part", ".tmp")
+
+    # Download settings
+    downloads_dir: Path = Path(os.getenv("SCRAPER_DOWNLOADS_DIR", ".scraper_tmp_downloads")).resolve()
     download_timeout_sec: int = int(os.getenv("SCRAPER_DOWNLOAD_TIMEOUT", "120"))
     stable_check_interval_sec: float = float(os.getenv("SCRAPER_STABLE_CHECK_INTERVAL", "0.5"))
+    partial_suffixes: tuple[str, ...] = (".crdownload", ".part", ".tmp")
+
+    # Rate limiting (be respectful to servers)
+    request_delay_sec: float = float(os.getenv("SCRAPER_REQUEST_DELAY", "2.0"))
+    download_delay_sec: float = float(os.getenv("SCRAPER_DOWNLOAD_DELAY", "3.0"))
+    page_delay_sec: float = float(os.getenv("SCRAPER_PAGE_DELAY", "2.0"))
