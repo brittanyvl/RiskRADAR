@@ -1,0 +1,26 @@
+# Scraping
+selenium>=4.0.0
+webdriver-manager>=4.0.0
+
+# PDF processing (Phase 3)
+# pypdf>=3.0.0
+# pdfminer.six>=20221105
+
+# OCR (Phase 3)
+# pytesseract>=0.3.10
+# Pillow>=10.0.0
+
+# Database
+# sqlalchemy>=2.0.0
+
+# Vector DB (Phase 5)
+# qdrant-client>=1.7.0
+
+# Embeddings (Phase 5)
+# sentence-transformers>=2.2.0
+
+# App (Phase 8)
+# streamlit>=1.30.0
+
+# Development
+python-dotenv>=1.0.0
