@@ -6,7 +6,7 @@ Database connection management for RiskRADAR.
 import sqlite3
 from pathlib import Path
 
-from .schema import SCHEMA_VERSION, ALL_TABLES, INDEXES
+from .schema import SCHEMA_VERSION, ALL_TABLES, INDEXES, PHASE3_TABLES, PHASE3_INDEXES
 
 
 def get_connection(db_path: Path | str) -> sqlite3.Connection:
@@ -58,7 +58,22 @@ def init_db(db_path: Path | str) -> sqlite3.Connection:
         conn.commit()
 
     elif current_version < SCHEMA_VERSION:
-        # Future: handle migrations here
-        pass
+        # Handle migrations
+        if current_version == 1 and SCHEMA_VERSION >= 2:
+            # Migration v1 → v2: Add extraction tables
+            print(f"Migrating database from v{current_version} to v2...")
+            for table_sql in PHASE3_TABLES:
+                cursor.execute(table_sql)
+
+            for index_sql in PHASE3_INDEXES:
+                cursor.execute(index_sql)
+
+            cursor.execute("PRAGMA user_version = 2")
+            conn.commit()
+            print("Migration complete!")
+
+        # Future migrations can be added here
+        # elif current_version == 2 and SCHEMA_VERSION >= 3:
+        #     ...
 
     return conn

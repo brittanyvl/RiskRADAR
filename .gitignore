@@ -65,6 +65,16 @@ htmlcov/
 # Log files
 logs/
 
+# Extraction outputs (JSON files with text)
+extraction/json_data/passed/
+extraction/json_data/failed/
+extraction/json_data/ocr_retry/
+extraction/temp/
+
+# Keep directory structure but ignore contents
+!extraction/json_data/.gitkeep
+!extraction/temp/.gitkeep
+
 # OS files
 .DS_Store
 Thumbs.db

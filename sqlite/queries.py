@@ -170,3 +170,193 @@ def get_scrape_stats(conn: sqlite3.Connection) -> dict:
     stats["total"] = cursor.fetchone()["total"]
 
     return stats
+
+
+# --- Phase 3: Pages table ---
+
+def insert_page(conn: sqlite3.Connection, page_data: dict) -> int:
+    """
+    Insert or update page extraction results.
+
+    Args:
+        page_data: Dict with keys: report_id, page_number, json_path, status,
+                   extraction_method, extraction_pass, extraction_time_ms,
+                   char_count, alphabetic_ratio, garbage_ratio, word_count,
+                   passes_threshold, mean_ocr_confidence (optional),
+                   low_confidence_word_count (optional)
+
+    Returns:
+        Row ID of inserted/updated page
+    """
+    cursor = conn.execute(
+        """
+        INSERT INTO pages (
+            report_id, page_number, json_path, status,
+            extraction_method, extraction_pass, extraction_time_ms, extracted_at,
+            char_count, alphabetic_ratio, garbage_ratio, word_count, passes_threshold,
+            mean_ocr_confidence, low_confidence_word_count
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(report_id, page_number) DO UPDATE SET
+            json_path = excluded.json_path,
+            status = excluded.status,
+            extraction_method = excluded.extraction_method,
+            extraction_pass = excluded.extraction_pass,
+            extraction_time_ms = excluded.extraction_time_ms,
+            extracted_at = excluded.extracted_at,
+            char_count = excluded.char_count,
+            alphabetic_ratio = excluded.alphabetic_ratio,
+            garbage_ratio = excluded.garbage_ratio,
+            word_count = excluded.word_count,
+            passes_threshold = excluded.passes_threshold,
+            mean_ocr_confidence = excluded.mean_ocr_confidence,
+            low_confidence_word_count = excluded.low_confidence_word_count
+        """,
+        (
+            page_data["report_id"],
+            page_data["page_number"],
+            page_data["json_path"],
+            page_data["status"],
+            page_data["extraction_method"],
+            page_data["extraction_pass"],
+            page_data.get("extraction_time_ms"),
+            datetime.now().isoformat(),
+            page_data.get("char_count"),
+            page_data.get("alphabetic_ratio"),
+            page_data.get("garbage_ratio"),
+            page_data.get("word_count"),
+            page_data.get("passes_threshold"),
+            page_data.get("mean_ocr_confidence"),
+            page_data.get("low_confidence_word_count"),
+        )
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def get_extracted_pages(conn: sqlite3.Connection, report_id: str) -> set[int]:
+    """Get set of page numbers already extracted for a report."""
+    cursor = conn.execute(
+        "SELECT page_number FROM pages WHERE report_id = ?",
+        (report_id,)
+    )
+    return {row["page_number"] for row in cursor.fetchall()}
+
+
+def get_failed_pages(conn: sqlite3.Connection) -> list[dict]:
+    """Get all pages that failed quality checks and need OCR."""
+    cursor = conn.execute(
+        """
+        SELECT p.*, r.local_path as pdf_path
+        FROM pages p
+        JOIN reports r ON p.report_id = r.filename
+        WHERE p.status = 'failed'
+        ORDER BY p.report_id, p.page_number
+        """
+    )
+    return [dict(row) for row in cursor.fetchall()]
+
+
+# --- Extraction runs ---
+
+def create_extraction_run(
+    conn: sqlite3.Connection,
+    run_type: str,
+    config_json: str | None = None
+) -> int:
+    """
+    Create a new extraction run.
+
+    Args:
+        run_type: 'initial', 'ocr_retry', or 'full_reprocess'
+        config_json: JSON string of configuration used
+
+    Returns:
+        Run ID
+    """
+    cursor = conn.execute(
+        """
+        INSERT INTO extraction_runs (run_type, started_at, status, config_json)
+        VALUES (?, ?, 'running', ?)
+        """,
+        (run_type, datetime.now().isoformat(), config_json)
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def update_extraction_run(
+    conn: sqlite3.Connection,
+    run_id: int,
+    status: str | None = None,
+    **stats
+) -> None:
+    """
+    Update extraction run status and stats.
+
+    Args:
+        run_id: Run ID to update
+        status: New status ('running', 'completed', 'failed', 'interrupted')
+        **stats: Stats to update (total_pages, passed_pages, failed_pages, etc.)
+    """
+    updates = []
+    values = []
+
+    if status:
+        updates.append("status = ?")
+        values.append(status)
+        if status in ('completed', 'failed', 'interrupted'):
+            updates.append("completed_at = ?")
+            values.append(datetime.now().isoformat())
+
+    for key, value in stats.items():
+        updates.append(f"{key} = ?")
+        values.append(value)
+
+    if updates:
+        values.append(run_id)
+        conn.execute(
+            f"UPDATE extraction_runs SET {', '.join(updates)} WHERE id = ?",
+            tuple(values)
+        )
+        conn.commit()
+
+
+def get_latest_run(conn: sqlite3.Connection, run_type: str | None = None) -> dict | None:
+    """Get the most recent extraction run, optionally filtered by type."""
+    query = "SELECT * FROM extraction_runs"
+    params = ()
+
+    if run_type:
+        query += " WHERE run_type = ?"
+        params = (run_type,)
+
+    query += " ORDER BY id DESC LIMIT 1"
+
+    cursor = conn.execute(query, params)
+    row = cursor.fetchone()
+    return dict(row) if row else None
+
+
+# --- Extraction errors ---
+
+def log_extraction_error(
+    conn: sqlite3.Connection,
+    report_id: str,
+    error_type: str,
+    error_message: str,
+    run_id: int | None = None,
+    page_number: int | None = None,
+    stack_trace: str | None = None,
+) -> None:
+    """Record an extraction error."""
+    conn.execute(
+        """
+        INSERT INTO extraction_errors
+        (run_id, report_id, page_number, error_type, error_message, stack_trace, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        (run_id, report_id, page_number, error_type, error_message, stack_trace,
+         datetime.now().isoformat())
+    )
+    conn.commit()
