@@ -20,10 +20,10 @@ def check_pymupdf():
     try:
         import fitz
         version = fitz.version
-        print(f"✓ pymupdf (fitz) installed: {version}")
+        print(f"[OK] pymupdf (fitz) installed: {version}")
         return True
     except ImportError as e:
-        print(f"✗ pymupdf not found: {e}")
+        print(f"[FAIL] pymupdf not found: {e}")
         print("  Install: pip install pymupdf")
         return False
 
@@ -33,14 +33,14 @@ def check_tesseract():
     try:
         import pytesseract
         version = pytesseract.get_tesseract_version()
-        print(f"✓ Tesseract OCR found: {version}")
+        print(f"[OK] Tesseract OCR found: {version}")
         return True
     except ImportError:
-        print("✗ pytesseract not found")
+        print("[FAIL] pytesseract not found")
         print("  Install: pip install pytesseract")
         return False
     except pytesseract.TesseractNotFoundError:
-        print("✗ Tesseract OCR executable not found")
+        print("[FAIL] Tesseract OCR executable not found")
         print("  Windows: choco install tesseract")
         print("  Or download: https://github.com/tesseract-ocr/tesseract")
         print("  Or run: scripts/install_tesseract.ps1")
@@ -49,26 +49,39 @@ def check_tesseract():
 
 def check_pdf2image():
     """Check if pdf2image and poppler are installed."""
-    try:
-        from pdf2image import convert_from_path
-        from pdf2image.exceptions import PDFInfoNotInstalledError
+    import shutil
+    import subprocess
 
-        # Try to check if poppler is available
-        # This will fail if poppler is not in PATH
-        try:
-            import pdf2image.pdfinfo_from_path
-            print("✓ pdf2image installed")
-            print("✓ Poppler found (pdf2image backend)")
-            return True
-        except (PDFInfoNotInstalledError, Exception):
-            print("✓ pdf2image installed")
-            print("⚠ Poppler may not be installed or not in PATH")
+    try:
+        from pdf2image import convert_from_path  # noqa: F401
+
+        print("[OK] pdf2image installed")
+
+        # Check if pdfinfo executable is available (Poppler)
+        pdfinfo_path = shutil.which("pdfinfo")
+        if pdfinfo_path:
+            try:
+                result = subprocess.run(
+                    [pdfinfo_path, "-v"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                # pdfinfo -v outputs to stderr
+                version_line = result.stderr.strip().split("\n")[0]
+                print(f"[OK] Poppler found: {version_line}")
+                return True
+            except Exception as e:
+                print(f"[WARN] Poppler found but error running: {e}")
+                return False
+        else:
+            print("[WARN] Poppler not found in PATH")
             print("  Windows: Download from https://github.com/oschwartz10612/poppler-windows/releases")
             print("  Extract and add bin/ to PATH")
             return False
 
     except ImportError as e:
-        print(f"✗ pdf2image not found: {e}")
+        print(f"[FAIL] pdf2image not found: {e}")
         print("  Install: pip install pdf2image")
         return False
 
@@ -78,10 +91,10 @@ def check_pillow():
     try:
         from PIL import Image
         import PIL
-        print(f"✓ Pillow installed: {PIL.__version__}")
+        print(f"[OK] Pillow installed: {PIL.__version__}")
         return True
     except ImportError as e:
-        print(f"✗ Pillow not found: {e}")
+        print(f"[FAIL] Pillow not found: {e}")
         print("  Install: pip install Pillow")
         return False
 
@@ -90,10 +103,10 @@ def check_pandas():
     """Check if pandas is installed."""
     try:
         import pandas as pd
-        print(f"✓ pandas installed: {pd.__version__}")
+        print(f"[OK] pandas installed: {pd.__version__}")
         return True
     except ImportError as e:
-        print(f"✗ pandas not found: {e}")
+        print(f"[FAIL] pandas not found: {e}")
         print("  Install: pip install pandas")
         return False
 
@@ -117,14 +130,14 @@ def main():
     print("=" * 60)
 
     if all(checks):
-        print("✓ All OCR dependencies installed correctly!")
+        print("[OK] All OCR dependencies installed correctly!")
         print()
         print("You can now run:")
         print("  riskradar extract initial --limit 1  # Test extraction on 1 report")
         print("=" * 60)
         return 0
     else:
-        print("✗ Some dependencies are missing - see errors above")
+        print("[FAIL] Some dependencies are missing - see errors above")
         print()
         print("To install all Python dependencies:")
         print("  pip install -r requirements.txt")
