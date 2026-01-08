@@ -26,26 +26,34 @@ This directory contains the multi-pass PDF text extraction pipeline for RiskRADA
 Extracts embedded text from all PDFs using pymupdf.
 
 ```bash
-riskradar extract initial
+# Process all reports
+py -m extraction.processing.extract initial
+
+# Process limited batch (for testing)
+py -m extraction.processing.extract initial 10
 ```
 
 ### Pass 2: OCR Retry
 Runs OCR on pages that failed quality checks.
 
 ```bash
-riskradar extract ocr-retry
+py -m extraction.processing.extract ocr
 ```
 
 ### Full Pipeline
 Runs both passes sequentially.
 
 ```bash
-riskradar extract all
+py -m extraction.processing.extract all
 ```
+
+**Note:** On Windows, use `py` instead of `python`. The pipeline requires NAS access for PDF files.
 
 ## JSON Schema
 
-Each page is stored as `{report_id}/page_{number:04d}.json`:
+Each page is stored as `{report_id}/{report_base}_page_{number:04d}.json`:
+
+Example: `AAR7008.pdf/AAR7008_page_0001.json`
 
 ```json
 {
@@ -90,37 +98,46 @@ OCR extractions include word-level confidence scores:
 View quality statistics:
 
 ```bash
-riskradar analytics quality          # Overall summary
-riskradar analytics by-decade        # Per-decade breakdown
-riskradar analytics low-confidence   # Pages needing review
+py -m extraction.processing.analytics
 ```
+
+Or query the database directly:
+```bash
+sqlite3 sqlite/riskradar.db "SELECT status, COUNT(*) FROM pages GROUP BY status;"
+```
+
+## Database
+
+Extraction data is stored in `sqlite/riskradar.db`:
+
+| Table | Purpose |
+|-------|---------|
+| `pages` | Per-page extraction status and quality metrics |
+| `extraction_runs` | Pipeline execution history |
+| `extraction_errors` | Error details with stack traces |
 
 ## Troubleshooting
 
 **Resume interrupted run:**
-```bash
-riskradar extract all --resume
-```
+The pipeline automatically resumes - it checks which pages are already extracted.
 
 **Re-process specific report:**
-```bash
-# Delete from database and JSON files
-# Then re-run extraction
+```sql
+-- Delete existing pages for a report
+DELETE FROM pages WHERE report_id = 'AAR7008.pdf';
 ```
+Then delete the corresponding JSON files and re-run extraction.
 
 **Check run history:**
 ```bash
-riskradar analytics runs
+sqlite3 sqlite/riskradar.db "SELECT * FROM extraction_runs ORDER BY id;"
 ```
 
-## Database Tables
-
-- `pages` - Per-page extraction tracking (JSON path, quality metrics, status)
-- `extraction_runs` - Pipeline execution history
-- `extraction_errors` - Error log with stack traces
+**NAS connection issues:**
+See CLAUDE.md for NAS troubleshooting steps.
 
 ## Performance
 
 - Embedded text: ~35ms/page
-- OCR with confidence: ~4 seconds/page
-- Full corpus estimate: ~28 hours
+- OCR with confidence: ~7-10 seconds/page (300 DPI)
+- Batch of 10 reports (~450 pages): ~1.5 hours for OCR

@@ -214,10 +214,19 @@ def run_initial_extraction(
     run_id = create_extraction_run(conn, "initial", config_json)
     logger.info(f"Created extraction run #{run_id}")
 
-    # Get list of completed downloads
-    cursor = conn.execute(
-        "SELECT filename, local_path FROM reports WHERE status = 'completed' ORDER BY filename"
-    )
+    # Get list of completed downloads - ordered by year (oldest first)
+    # Filename patterns: AAR68XX=1968, AAR70XX=1970, AAR00XX=2000, AAB00XX=2000
+    cursor = conn.execute("""
+        SELECT filename, local_path FROM reports
+        WHERE status = 'completed'
+        ORDER BY
+            CASE
+                WHEN SUBSTR(filename, 4, 2) GLOB '[6-9][0-9]' THEN '19' || SUBSTR(filename, 4, 2)
+                WHEN SUBSTR(filename, 4, 2) GLOB '[0-5][0-9]' THEN '20' || SUBSTR(filename, 4, 2)
+                ELSE '2099'
+            END,
+            filename
+    """)
     reports = [(row["filename"], row["local_path"]) for row in cursor.fetchall()]
 
     logger.info(f"Found {len(reports)} completed downloads")

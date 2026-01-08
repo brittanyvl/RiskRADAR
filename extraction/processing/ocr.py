@@ -271,8 +271,9 @@ def ocr_page_to_json(
     report_dir = output_dir / report_id
     report_dir.mkdir(parents=True, exist_ok=True)
 
-    # Save JSON
-    json_filename = f"page_{page_number:04d}.json"
+    # Save JSON - include report ID in filename for clarity
+    report_base = report_id.replace('.pdf', '')
+    json_filename = f"{report_base}_page_{page_number:04d}.json"
     json_path = report_dir / json_filename
 
     with open(json_path, 'w', encoding='utf-8') as f:
