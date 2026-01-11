@@ -76,6 +76,9 @@ extraction/json_data/pages.jsonl
 extraction/json_data/documents.jsonl
 extraction/json_data/chunks.jsonl
 
+# Analytics - Parquet files (users generate these themselves)
+analytics/data/*.parquet
+
 # Keep directory structure but ignore contents
 !extraction/json_data/.gitkeep
 !extraction/temp/.gitkeep
