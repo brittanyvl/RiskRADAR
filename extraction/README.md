@@ -41,24 +41,24 @@ Extracts embedded text from all PDFs using pymupdf.
 
 ```bash
 # Process all reports
-py -m extraction.processing.extract initial
+python -m extraction.processing.extract initial
 
 # Process limited batch (for testing)
-py -m extraction.processing.extract initial 10
+python -m extraction.processing.extract initial 10
 ```
 
 ### Pass 2: OCR Retry
 Runs OCR on pages that failed quality checks.
 
 ```bash
-py -m extraction.processing.extract ocr
+python -m extraction.processing.extract ocr
 ```
 
 ### Full Pipeline
 Runs both passes sequentially.
 
 ```bash
-py -m extraction.processing.extract all
+python -m extraction.processing.extract all
 ```
 
 **Note:** On Windows, use `py` instead of `python`. The pipeline requires NAS access for PDF files.
@@ -81,15 +81,15 @@ Pass 2: documents.jsonl → chunks.jsonl (search-ready segments)
 
 ```bash
 # Run full pipeline (all three passes)
-py -m extraction.processing.chunk all
+python -m extraction.processing.chunk all
 
 # Run individual passes
-py -m extraction.processing.chunk pages      # Pass 0 only
-py -m extraction.processing.chunk documents  # Pass 1 only
-py -m extraction.processing.chunk chunks     # Pass 2 only
+python -m extraction.processing.chunk pages      # Pass 0 only
+python -m extraction.processing.chunk documents  # Pass 1 only
+python -m extraction.processing.chunk chunks     # Pass 2 only
 
 # Limit number of reports (for testing)
-py -m extraction.processing.chunk all --limit 10
+python -m extraction.processing.chunk all --limit 10
 ```
 
 ### Chunking Parameters
@@ -217,7 +217,7 @@ OCR extractions include word-level confidence scores:
 View quality statistics:
 
 ```bash
-py -m extraction.processing.analytics
+python -m extraction.processing.analytics
 ```
 
 Or query the database directly:

@@ -22,21 +22,23 @@ An end-to-end data + ML project that transforms unstructured NTSB aviation accid
 git clone <repo>
 cd RiskRADAR
 python -m venv venv
-venv\Scripts\activate  # Windows
-pip install -r requirements.txt
-pip install -e ./scraper
+venv\Scripts\activate  # Windows (use `source venv/bin/activate` on Linux/Mac)
+python -m pip install -r requirements.txt
+python -m pip install -e ./scraper
 
 # Run extraction pipeline (requires NAS access)
-py -m extraction.processing.extract initial --limit 10
-py -m extraction.processing.extract ocr
+python -m extraction.processing.extract initial --limit 10
+python -m extraction.processing.extract ocr
 
 # Run chunking pipeline (Phase 4)
-py -m extraction.processing.chunk all
+python -m extraction.processing.chunk all
 
 # Setup analytics (DuckDB)
-py -m analytics.convert        # Convert JSONL to Parquet
-py -m analytics.cli            # Launch interactive SQL shell
+python -m analytics.convert    # Convert JSONL to Parquet
+python -m analytics.cli        # Launch interactive SQL shell
 ```
+
+**Note:** Always use `python` (not `py`) when the venv is activated. See [CLAUDE.md](CLAUDE.md) for details.
 
 ## Directory Structure
 

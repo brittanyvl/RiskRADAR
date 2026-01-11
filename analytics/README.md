@@ -9,17 +9,17 @@ DuckDB-based analytics layer for querying pages, documents, and chunks data with
 pip install duckdb
 
 # 2. Convert JSONL to Parquet (one-time)
-py -m analytics.convert
+python -m analytics.convert
 
 # 3. Launch interactive SQL shell
-py -m analytics.cli
+python -m analytics.cli
 ```
 
 ## CLI Usage
 
 ### Interactive Shell
 ```bash
-py -m analytics.cli
+python -m analytics.cli
 ```
 
 This opens an interactive SQL prompt with:
@@ -29,7 +29,7 @@ This opens an interactive SQL prompt with:
 
 ### Single Query
 ```bash
-py -m analytics.cli --query "SELECT COUNT(*) FROM chunks"
+python -m analytics.cli --query "SELECT COUNT(*) FROM chunks"
 ```
 
 ### Shell Commands
@@ -121,7 +121,7 @@ SELECT * FROM chunks_per_report LIMIT 10;
 If you re-run the chunking pipeline, regenerate the Parquet files:
 
 ```bash
-py -m analytics.convert
+python -m analytics.convert
 ```
 
 ## Data Files
