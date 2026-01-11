@@ -71,6 +71,11 @@ extraction/json_data/failed/
 extraction/json_data/ocr_retry/
 extraction/temp/
 
+# Phase 4 - Chunking outputs (users generate these themselves)
+extraction/json_data/pages.jsonl
+extraction/json_data/documents.jsonl
+extraction/json_data/chunks.jsonl
+
 # Keep directory structure but ignore contents
 !extraction/json_data/.gitkeep
 !extraction/temp/.gitkeep

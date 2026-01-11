@@ -9,9 +9,10 @@ Additional tables will be added as we implement later phases.
 SCHEMA_VERSION history:
 - v1: Phase 1 - Scraping (reports, scrape_progress, scrape_errors)
 - v2: Phase 3 - Text Extraction (pages, extraction_runs, extraction_errors)
+- v3: Phase 4 - Chunking (documents, chunks, chunking_runs, chunking_errors)
 """
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -143,9 +144,6 @@ PHASE3_INDEXES = [
     "CREATE INDEX IF NOT EXISTS idx_errors_run ON extraction_errors(run_id);",
 ]
 
-# All indexes
-INDEXES = PHASE1_INDEXES + PHASE3_INDEXES
-
 # All tables for Phase 1
 PHASE1_TABLES = [
     REPORTS_TABLE,
@@ -160,5 +158,177 @@ PHASE3_TABLES = [
     EXTRACTION_ERRORS_TABLE,
 ]
 
+# ============================================================================
+# Phase 4: Chunking
+# ============================================================================
+
+# Documents table - consolidated full-text documents from pages
+DOCUMENTS_TABLE = """
+CREATE TABLE IF NOT EXISTS documents (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id TEXT UNIQUE NOT NULL,
+
+    -- Text content (not stored in DB, only in JSONL - use jsonl_path)
+    -- full_text is intentionally NOT stored here to keep DB size small
+
+    -- Page statistics
+    total_pages INTEGER NOT NULL,
+    included_pages INTEGER NOT NULL,
+    skipped_pages_json TEXT,           -- JSON array of skipped page numbers (TOC, etc.)
+
+    -- Source tracking
+    primary_source TEXT NOT NULL CHECK(primary_source IN ('embedded', 'ocr', 'mixed')),
+    embedded_page_count INTEGER DEFAULT 0,
+    ocr_page_count INTEGER DEFAULT 0,
+    excluded_low_confidence INTEGER DEFAULT 0,
+
+    -- Footnotes
+    footnotes_json TEXT,               -- JSON array: [{"marker": "1/", "text": "..."}]
+
+    -- Page boundaries for chunk-to-page mapping
+    page_boundaries_json TEXT,         -- JSON array: [[start, end], ...]
+
+    -- Token count (using tiktoken cl100k)
+    token_count INTEGER,
+
+    -- File reference
+    jsonl_path TEXT NOT NULL,          -- Relative path to document JSONL
+
+    -- Metadata
+    pipeline_version TEXT,
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (report_id) REFERENCES reports(filename) ON DELETE CASCADE,
+    FOREIGN KEY (run_id) REFERENCES chunking_runs(id) ON DELETE SET NULL
+);
+"""
+
+# Chunks table - individual text chunks for vector search
+CHUNKS_TABLE = """
+CREATE TABLE IF NOT EXISTS chunks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chunk_id TEXT UNIQUE NOT NULL,     -- Format: {report_id}_chunk_{seq:04d}
+    report_id TEXT NOT NULL,
+    chunk_sequence INTEGER NOT NULL,   -- 0-indexed order within document
+
+    -- Position tracking
+    page_start INTEGER NOT NULL,
+    page_end INTEGER NOT NULL,
+    page_list_json TEXT,               -- JSON array: [5, 6, 7] for precise tracking
+    char_start INTEGER NOT NULL,       -- Character offset in full document text
+    char_end INTEGER NOT NULL,
+
+    -- Section info
+    section_name TEXT,                 -- Detected section name (e.g., "SYNOPSIS")
+    section_number TEXT,               -- Section number (e.g., "1.8")
+    section_detection_method TEXT CHECK(section_detection_method IN
+        ('pattern_match', 'paragraph_fallback', 'no_structure')),
+
+    -- Content (not stored in DB - use jsonl_path)
+    -- chunk_text is intentionally NOT stored here to keep DB size small
+    token_count INTEGER NOT NULL,
+    overlap_tokens INTEGER DEFAULT 0,  -- Tokens shared with previous chunk
+
+    -- Source lineage
+    text_source TEXT NOT NULL CHECK(text_source IN ('embedded', 'ocr', 'mixed')),
+    page_sources_json TEXT,            -- JSON: [{"page": 5, "source": "embedded", ...}]
+    source_quality_json TEXT,          -- JSON: {"min_alphabetic_ratio": 0.72, ...}
+
+    -- Footnotes
+    has_footnotes INTEGER DEFAULT 0 CHECK(has_footnotes IN (0, 1)),
+    footnotes_json TEXT,               -- JSON array of appended footnotes
+
+    -- Quality flags
+    quality_flags_json TEXT,           -- JSON array of quality indicators
+
+    -- File reference
+    jsonl_path TEXT NOT NULL,          -- Relative path to chunks JSONL
+
+    -- Metadata
+    pipeline_version TEXT,
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (report_id) REFERENCES reports(filename) ON DELETE CASCADE,
+    FOREIGN KEY (run_id) REFERENCES chunking_runs(id) ON DELETE SET NULL,
+    UNIQUE (report_id, chunk_sequence)
+);
+"""
+
+# Chunking runs - tracks pipeline executions
+CHUNKING_RUNS_TABLE = """
+CREATE TABLE IF NOT EXISTS chunking_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_type TEXT NOT NULL CHECK(run_type IN
+        ('pages', 'documents', 'chunks', 'full', 'retry_failed')),
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK(status IN ('running', 'completed', 'failed', 'interrupted')),
+
+    -- Input stats
+    total_reports INTEGER DEFAULT 0,
+    total_pages INTEGER DEFAULT 0,
+
+    -- Output stats
+    documents_created INTEGER DEFAULT 0,
+    chunks_created INTEGER DEFAULT 0,
+
+    -- Quality stats
+    toc_pages_skipped INTEGER DEFAULT 0,
+    low_confidence_excluded INTEGER DEFAULT 0,
+    sections_detected INTEGER DEFAULT 0,
+    sections_fallback INTEGER DEFAULT 0,
+
+    -- Error stats
+    error_count INTEGER DEFAULT 0,
+
+    -- Resume info
+    last_report_id TEXT,
+
+    -- Config snapshot (includes tokenizer settings, thresholds, etc.)
+    config_json TEXT
+);
+"""
+
+# Chunking errors - detailed error logging
+CHUNKING_ERRORS_TABLE = """
+CREATE TABLE IF NOT EXISTS chunking_errors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER,
+    report_id TEXT NOT NULL,
+    error_type TEXT NOT NULL,          -- 'consolidation_error', 'chunking_error', etc.
+    error_message TEXT,
+    stack_trace TEXT,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES chunking_runs(id) ON DELETE CASCADE,
+    FOREIGN KEY (report_id) REFERENCES reports(filename) ON DELETE CASCADE
+);
+"""
+
+# Phase 4 indexes
+PHASE4_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_documents_report ON documents(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_documents_source ON documents(primary_source);",
+    "CREATE INDEX IF NOT EXISTS idx_chunks_report ON chunks(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_chunks_section ON chunks(section_name);",
+    "CREATE INDEX IF NOT EXISTS idx_chunks_sequence ON chunks(report_id, chunk_sequence);",
+    "CREATE INDEX IF NOT EXISTS idx_chunks_method ON chunks(section_detection_method);",
+    "CREATE INDEX IF NOT EXISTS idx_chunking_runs_status ON chunking_runs(status);",
+    "CREATE INDEX IF NOT EXISTS idx_chunking_errors_run ON chunking_errors(run_id);",
+]
+
+# All tables for Phase 4
+PHASE4_TABLES = [
+    DOCUMENTS_TABLE,
+    CHUNKS_TABLE,
+    CHUNKING_RUNS_TABLE,
+    CHUNKING_ERRORS_TABLE,
+]
+
+# All indexes
+INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES
+
 # All tables combined
-ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES
+ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES
