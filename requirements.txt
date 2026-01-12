@@ -20,10 +20,11 @@ duckdb>=0.9.0  # SQL analytics engine with Parquet support
 # Database (using stdlib sqlite3 - no additional deps needed)
 
 # Vector DB (Phase 5)
-# qdrant-client>=1.7.0
+qdrant-client>=1.7.0
 
 # Embeddings (Phase 5)
-# sentence-transformers>=2.2.0
+sentence-transformers>=2.2.0
+pyarrow>=14.0.0  # Parquet storage for embeddings
 
 # App (Phase 8)
 # streamlit>=1.30.0

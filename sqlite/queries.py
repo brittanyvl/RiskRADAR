@@ -827,3 +827,286 @@ def get_chunking_stats(conn: sqlite3.Connection) -> dict:
     stats["error_count"] = cursor.fetchone()["count"]
 
     return stats
+
+
+# ============================================================================
+# Phase 5: Embeddings
+# ============================================================================
+
+# --- Embedding runs ---
+
+def create_embedding_run(
+    conn: sqlite3.Connection,
+    model_name: str,
+    model_id: str,
+    run_type: str = "full",
+    config_json: str | None = None
+) -> int:
+    """
+    Create a new embedding run record.
+
+    Args:
+        model_name: 'minilm' or 'mika'
+        model_id: HuggingFace model ID
+        run_type: 'full', 'resume', or 'incremental'
+        config_json: JSON string of configuration
+
+    Returns:
+        Run ID
+    """
+    cursor = conn.execute(
+        """
+        INSERT INTO embedding_runs (model_name, model_id, run_type, started_at, status, config_json)
+        VALUES (?, ?, ?, ?, 'running', ?)
+        """,
+        (model_name, model_id, run_type, datetime.now().isoformat(), config_json)
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def update_embedding_run(
+    conn: sqlite3.Connection,
+    run_id: int,
+    status: str | None = None,
+    **stats
+) -> None:
+    """
+    Update embedding run status and stats.
+
+    Args:
+        run_id: Run ID to update
+        status: New status ('running', 'completed', 'failed', 'interrupted')
+        **stats: Stats to update (total_chunks, embeddings_generated, etc.)
+    """
+    updates = []
+    values = []
+
+    if status:
+        updates.append("status = ?")
+        values.append(status)
+        if status in ('completed', 'failed', 'interrupted'):
+            updates.append("completed_at = ?")
+            values.append(datetime.now().isoformat())
+
+    for key, value in stats.items():
+        updates.append(f"{key} = ?")
+        values.append(value)
+
+    if updates:
+        values.append(run_id)
+        conn.execute(
+            f"UPDATE embedding_runs SET {', '.join(updates)} WHERE id = ?",
+            tuple(values)
+        )
+        conn.commit()
+
+
+def get_latest_embedding_run(
+    conn: sqlite3.Connection,
+    model_name: str | None = None
+) -> dict | None:
+    """Get the most recent embedding run, optionally filtered by model."""
+    query = "SELECT * FROM embedding_runs"
+    params = ()
+
+    if model_name:
+        query += " WHERE model_name = ?"
+        params = (model_name,)
+
+    query += " ORDER BY id DESC LIMIT 1"
+
+    cursor = conn.execute(query, params)
+    row = cursor.fetchone()
+    return dict(row) if row else None
+
+
+# --- Qdrant upload runs ---
+
+def create_qdrant_upload_run(
+    conn: sqlite3.Connection,
+    model_name: str,
+    collection_name: str,
+    qdrant_url: str,
+    embedding_run_id: int | None = None,
+    config_json: str | None = None
+) -> int:
+    """
+    Create a new Qdrant upload run record.
+
+    Args:
+        model_name: 'minilm' or 'mika'
+        collection_name: Qdrant collection name
+        qdrant_url: Qdrant Cloud URL
+        embedding_run_id: Optional link to embedding run
+        config_json: JSON string of configuration
+
+    Returns:
+        Run ID
+    """
+    cursor = conn.execute(
+        """
+        INSERT INTO qdrant_upload_runs
+        (model_name, collection_name, qdrant_url, embedding_run_id, started_at, status, config_json)
+        VALUES (?, ?, ?, ?, ?, 'running', ?)
+        """,
+        (model_name, collection_name, qdrant_url, embedding_run_id,
+         datetime.now().isoformat(), config_json)
+    )
+    conn.commit()
+    return cursor.lastrowid
+
+
+def update_qdrant_upload_run(
+    conn: sqlite3.Connection,
+    run_id: int,
+    status: str | None = None,
+    **stats
+) -> None:
+    """
+    Update Qdrant upload run status and stats.
+
+    Args:
+        run_id: Run ID to update
+        status: New status ('running', 'completed', 'failed', 'interrupted')
+        **stats: Stats to update (uploaded_vectors, failed_vectors, etc.)
+    """
+    updates = []
+    values = []
+
+    if status:
+        updates.append("status = ?")
+        values.append(status)
+        if status in ('completed', 'failed', 'interrupted'):
+            updates.append("completed_at = ?")
+            values.append(datetime.now().isoformat())
+
+    for key, value in stats.items():
+        updates.append(f"{key} = ?")
+        values.append(value)
+
+    if updates:
+        values.append(run_id)
+        conn.execute(
+            f"UPDATE qdrant_upload_runs SET {', '.join(updates)} WHERE id = ?",
+            tuple(values)
+        )
+        conn.commit()
+
+
+def get_latest_qdrant_upload_run(
+    conn: sqlite3.Connection,
+    model_name: str | None = None
+) -> dict | None:
+    """Get the most recent Qdrant upload run, optionally filtered by model."""
+    query = "SELECT * FROM qdrant_upload_runs"
+    params = ()
+
+    if model_name:
+        query += " WHERE model_name = ?"
+        params = (model_name,)
+
+    query += " ORDER BY id DESC LIMIT 1"
+
+    cursor = conn.execute(query, params)
+    row = cursor.fetchone()
+    return dict(row) if row else None
+
+
+# --- Embedding errors ---
+
+def log_embedding_error(
+    conn: sqlite3.Connection,
+    run_id: int,
+    run_type: str,
+    error_type: str,
+    error_message: str,
+    chunk_id: str | None = None,
+    stack_trace: str | None = None,
+) -> None:
+    """
+    Record an embedding or upload error.
+
+    Args:
+        run_id: Embedding or upload run ID
+        run_type: 'embed' or 'upload'
+        error_type: Type of error
+        error_message: Error message
+        chunk_id: Optional chunk ID that caused error
+        stack_trace: Optional stack trace
+    """
+    conn.execute(
+        """
+        INSERT INTO embedding_errors
+        (run_id, run_type, chunk_id, error_type, error_message, stack_trace, created_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        (run_id, run_type, chunk_id, error_type, error_message, stack_trace,
+         datetime.now().isoformat())
+    )
+    conn.commit()
+
+
+# --- Embedding stats ---
+
+def get_embedding_stats(conn: sqlite3.Connection) -> dict:
+    """Get comprehensive embedding statistics."""
+    stats = {}
+
+    # Embedding runs
+    cursor = conn.execute(
+        """
+        SELECT
+            model_name,
+            COUNT(*) as run_count,
+            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed,
+            SUM(embeddings_generated) as total_embeddings,
+            AVG(embeddings_per_sec) as avg_speed
+        FROM embedding_runs
+        GROUP BY model_name
+        """
+    )
+    stats["embedding_runs"] = {
+        row["model_name"]: {
+            "run_count": row["run_count"],
+            "completed": row["completed"],
+            "total_embeddings": row["total_embeddings"],
+            "avg_speed": row["avg_speed"],
+        }
+        for row in cursor.fetchall()
+    }
+
+    # Upload runs
+    cursor = conn.execute(
+        """
+        SELECT
+            model_name,
+            collection_name,
+            COUNT(*) as run_count,
+            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed,
+            SUM(uploaded_vectors) as total_uploaded
+        FROM qdrant_upload_runs
+        GROUP BY model_name, collection_name
+        """
+    )
+    stats["upload_runs"] = {
+        row["model_name"]: {
+            "collection_name": row["collection_name"],
+            "run_count": row["run_count"],
+            "completed": row["completed"],
+            "total_uploaded": row["total_uploaded"],
+        }
+        for row in cursor.fetchall()
+    }
+
+    # Error counts
+    cursor = conn.execute(
+        """
+        SELECT run_type, COUNT(*) as count
+        FROM embedding_errors
+        GROUP BY run_type
+        """
+    )
+    stats["errors"] = {row["run_type"]: row["count"] for row in cursor.fetchall()}
+
+    return stats

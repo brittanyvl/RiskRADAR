@@ -6,7 +6,7 @@ This document outlines the implementation plan for Phase 5 (Embeddings + Vector 
 
 1. Generate embeddings for 28,321 text chunks using two models:
    - **Baseline:** `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions) - general purpose
-   - **Domain-specific:** `NASA-AIML/MIKA_Custom_IR` (dimension TBD) - aerospace/aviation specialized
+   - **Domain-specific:** `NASA-AIML/MIKA_Custom_IR` (768 dimensions) - aerospace/aviation specialized (BERT-base architecture)
 
 2. Store embeddings locally (Parquet) before uploading to Qdrant Cloud
 
@@ -43,7 +43,7 @@ Based on your input:
                     ▼                           ▼
         ┌───────────────────────┐   ┌───────────────────────┐
         │  MiniLM Embeddings    │   │   MIKA Embeddings     │
-        │  (384 dimensions)     │   │   (D dimensions)      │
+        │  (384 dimensions)     │   │   (768 dimensions)    │
         └───────────┬───────────┘   └───────────┬───────────┘
                     │                           │
                     ▼                           ▼
@@ -471,9 +471,9 @@ due to superior relevance metrics in the aviation domain.
 
 | File | Size |
 |------|------|
-| minilm_embeddings.parquet | ~45 MB |
-| mika_embeddings.parquet | ~45-100 MB (dimension dependent) |
-| Qdrant free tier usage | ~5% of 1GB quota |
+| minilm_embeddings.parquet | ~45 MB (28K × 384 dims) |
+| mika_embeddings.parquet | ~90 MB (28K × 768 dims) |
+| Qdrant free tier usage | ~10% of 1GB quota |
 
 ---
 

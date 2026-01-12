@@ -12,7 +12,7 @@ SCHEMA_VERSION history:
 - v3: Phase 4 - Chunking (documents, chunks, chunking_runs, chunking_errors)
 """
 
-SCHEMA_VERSION = 3
+SCHEMA_VERSION = 4
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -327,8 +327,112 @@ PHASE4_TABLES = [
     CHUNKING_ERRORS_TABLE,
 ]
 
+# ============================================================================
+# Phase 5: Embeddings
+# ============================================================================
+
+# Embedding runs - tracks embedding generation
+EMBEDDING_RUNS_TABLE = """
+CREATE TABLE IF NOT EXISTS embedding_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model_name TEXT NOT NULL,           -- 'minilm' or 'mika'
+    model_id TEXT NOT NULL,             -- HuggingFace model ID
+    run_type TEXT NOT NULL CHECK(run_type IN ('full', 'resume', 'incremental')),
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK(status IN ('running', 'completed', 'failed', 'interrupted')),
+
+    -- Input stats
+    total_chunks INTEGER DEFAULT 0,
+
+    -- Embedding stats
+    embedding_dimension INTEGER,
+    embeddings_generated INTEGER DEFAULT 0,
+
+    -- Performance stats
+    total_time_sec REAL,
+    embeddings_per_sec REAL,
+
+    -- Output
+    parquet_path TEXT,
+    parquet_size_mb REAL,
+
+    -- Error stats
+    error_count INTEGER DEFAULT 0,
+
+    -- Config snapshot
+    config_json TEXT
+);
+"""
+
+# Qdrant upload runs - tracks uploads to Qdrant
+QDRANT_UPLOAD_RUNS_TABLE = """
+CREATE TABLE IF NOT EXISTS qdrant_upload_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    model_name TEXT NOT NULL,
+    collection_name TEXT NOT NULL,
+    embedding_run_id INTEGER,           -- Links to embedding_runs
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK(status IN ('running', 'completed', 'failed', 'interrupted')),
+
+    -- Upload stats
+    total_vectors INTEGER DEFAULT 0,
+    uploaded_vectors INTEGER DEFAULT 0,
+    failed_vectors INTEGER DEFAULT 0,
+    batches_uploaded INTEGER DEFAULT 0,
+
+    -- Performance
+    total_time_sec REAL,
+    vectors_per_sec REAL,
+
+    -- Qdrant info
+    qdrant_url TEXT NOT NULL,
+
+    -- Error stats
+    error_count INTEGER DEFAULT 0,
+
+    -- Config snapshot
+    config_json TEXT,
+
+    FOREIGN KEY (embedding_run_id) REFERENCES embedding_runs(id) ON DELETE SET NULL
+);
+"""
+
+# Embedding errors
+EMBEDDING_ERRORS_TABLE = """
+CREATE TABLE IF NOT EXISTS embedding_errors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER,
+    run_type TEXT NOT NULL CHECK(run_type IN ('embed', 'upload')),
+    chunk_id TEXT,
+    error_type TEXT NOT NULL,
+    error_message TEXT,
+    stack_trace TEXT,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES embedding_runs(id) ON DELETE CASCADE
+);
+"""
+
+# Phase 5 indexes
+PHASE5_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_embedding_runs_model ON embedding_runs(model_name);",
+    "CREATE INDEX IF NOT EXISTS idx_embedding_runs_status ON embedding_runs(status);",
+    "CREATE INDEX IF NOT EXISTS idx_qdrant_runs_collection ON qdrant_upload_runs(collection_name);",
+    "CREATE INDEX IF NOT EXISTS idx_qdrant_runs_status ON qdrant_upload_runs(status);",
+    "CREATE INDEX IF NOT EXISTS idx_embedding_errors_run ON embedding_errors(run_id);",
+]
+
+# All tables for Phase 5
+PHASE5_TABLES = [
+    EMBEDDING_RUNS_TABLE,
+    QDRANT_UPLOAD_RUNS_TABLE,
+    EMBEDDING_ERRORS_TABLE,
+]
+
 # All indexes
-INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES
+INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES + PHASE5_INDEXES
 
 # All tables combined
-ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES
+ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES + PHASE5_TABLES
