@@ -32,10 +32,13 @@ venv/
 ENV/
 env/
 
-# Environment variables
+# Environment variables (NEVER COMMIT SECRETS)
 .env
 .env.local
 .env.*.local
+
+# Streamlit secrets (NEVER COMMIT)
+.streamlit/secrets.toml
 
 # IDE
 .vscode/
@@ -78,6 +81,9 @@ extraction/json_data/chunks.jsonl
 
 # Analytics - Parquet files (users generate these themselves)
 analytics/data/*.parquet
+
+# Phase 5 - Embeddings output (users generate these themselves)
+embeddings_data/
 
 # Keep directory structure but ignore contents
 !extraction/json_data/.gitkeep
