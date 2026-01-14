@@ -1,8 +1,10 @@
 # RiskRADAR Phase 5: Text Embedding Pipeline - Implementation Plan
 
+**Status: IMPLEMENTED (2026-01-13)**
+
 ## Executive Summary
 
-This document outlines the implementation plan for Phase 5 (Embeddings + Vector Database + Benchmark) of the RiskRADAR project. The pipeline will:
+This document outlines the implementation plan for Phase 5 (Embeddings + Vector Database + Benchmark) of the RiskRADAR project. The pipeline:
 
 1. Generate embeddings for 28,321 text chunks using two models:
    - **Baseline:** `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions) - general purpose
@@ -304,156 +306,148 @@ Each vector in Qdrant will include this payload (for filtering):
 
 ## Benchmark Evaluation Plan
 
-### Gold Queries File Format (eval/gold_queries.yaml)
+**Status: IMPLEMENTED with 50 stratified queries**
 
-```yaml
-queries:
-  - id: "crew_fatigue"
-    query: "accidents caused by pilot fatigue or crew rest issues"
-    expected_themes: ["fatigue", "crew rest", "duty time"]
-    expected_report_ids: ["AAR9901.pdf", "AAR0502.pdf"]  # Known relevant reports
+### Query Categories (50 total)
 
-  - id: "icing_conditions"
-    query: "aircraft icing and anti-ice system failures"
-    expected_themes: ["icing", "anti-ice", "de-ice", "freezing"]
+| Category | Count | Difficulty | Purpose |
+|----------|-------|------------|---------|
+| Incident Lookup | 10 | Easy | Known accidents with specific report IDs |
+| Conceptual Queries | 12 | Medium-Hard | Technical concepts requiring semantic understanding |
+| Section Queries | 10 | Medium | Queries targeting specific report sections |
+| Comparative Queries | 8 | Hard | Analytical queries about patterns |
+| Aircraft Queries | 6 | Medium | Aircraft-type specific searches |
+| Phase Queries | 4 | Medium | Flight phase specific searches |
 
-  # ... 20-30 total queries
-```
+### Ground Truth Methodology
 
-### Metrics to Compute
+All ground truth established via SQL queries against `chunks.parquet`, NOT human judgment:
+- **Incident queries:** Report IDs verified from NTSB metadata
+- **Conceptual queries:** Term co-occurrence verified via LIKE patterns
+- **Section queries:** Section names from chunk metadata
+
+### Metrics Computed
 
 | Metric | Description |
 |--------|-------------|
-| Precision@k | % of top-k results that are relevant |
-| Recall@k | % of relevant docs found in top-k |
-| MRR | Mean Reciprocal Rank of first relevant result |
-| nDCG@k | Normalized Discounted Cumulative Gain |
-| Latency | Average query response time |
+| MRR | Mean Reciprocal Rank - position of first relevant result |
+| Hit@K | K = 1, 3, 5, 10, 20 - at least one relevant in top K |
+| Precision@K | K = 5, 10 - fraction of top K that are relevant |
+| Recall@K | K = 5, 10, 20 - fraction of relevant found in top K |
+| nDCG@10 | Normalized Discounted Cumulative Gain |
+| Section Accuracy | For section queries - fraction from expected sections |
+| Latency | Embed time + search time per query |
 
-### Benchmark Report Structure
+### Statistical Tests
 
-```markdown
-# RiskRADAR Embedding Model Benchmark Report
+- **Paired t-test** - parametric comparison between models
+- **Wilcoxon signed-rank** - non-parametric alternative
+- **Bootstrap 95% CI** - confidence intervals (n=1000)
+- **Win/Loss/Tie analysis** - per-query comparison
 
-## Summary
-| Metric | MiniLM | MIKA | Winner |
-|--------|--------|------|--------|
-| Precision@10 | 0.72 | 0.81 | MIKA |
-| Recall@10 | 0.65 | 0.78 | MIKA |
-| MRR | 0.82 | 0.89 | MIKA |
-| Avg Latency (ms) | 45 | 62 | MiniLM |
+### CLI Commands
 
-## Recommendation
-Based on benchmark results, **MIKA** is recommended for production use
-due to superior relevance metrics in the aviation domain.
+```bash
+python -m eval.benchmark run              # Benchmark both models
+python -m eval.benchmark run -m minilm    # Single model
+python -m eval.benchmark report           # Generate comparison report
+python -m eval.benchmark validate         # Validate query definitions
+```
 
-## Per-Query Analysis
-[Detailed breakdown by query...]
+### Output Files
+
+```
+eval/
+├── gold_queries.yaml              # 50 stratified test queries
+├── benchmark.py                   # Benchmark runner
+├── benchmark_report.md            # Generated comparison report
+└── results/
+    ├── benchmark_minilm_*.json    # Full JSON results
+    ├── benchmark_minilm_*.parquet # Streamlit-ready DataFrame
+    ├── benchmark_mika_*.json
+    └── benchmark_mika_*.parquet
 ```
 
 ---
 
 ## Implementation Phases
 
-### Phase 5A: Foundation (Local Embedding)
+### Phase 5A: Foundation (Local Embedding) - COMPLETE
 **Goal:** Generate embeddings and save to Parquet
 
-**Tasks:**
-1. Update `requirements.txt` - uncomment sentence-transformers, qdrant-client, add pyarrow
-2. Create `embeddings/config.py` - model registry, batch sizes, paths
-3. Create `embeddings/models.py` - model wrapper with dimension detection
-4. Create `embeddings/storage.py` - Parquet read/write operations
-5. Create `embeddings/embed.py` - embedding generation pipeline
-6. Create `embeddings/cli.py` - CLI with `embed` command
-7. Test with `--limit 100` on both models
-
-**Acceptance Criteria:**
-- `python -m embeddings.cli embed minilm --limit 100` succeeds
-- `python -m embeddings.cli embed mika --limit 100` succeeds
-- Parquet files created with correct dimensions
-- MIKA fails loudly if model unavailable
+**Completed:**
+- `requirements.txt` updated with sentence-transformers, qdrant-client, pyarrow
+- `embeddings/config.py` - model registry with MiniLM and MIKA configs
+- `embeddings/models.py` - model wrapper with dimension validation
+- `embeddings/storage.py` - Parquet read/write operations
+- `embeddings/embed.py` - embedding generation pipeline
+- `embeddings/cli.py` - full CLI with all commands
 
 ---
 
-### Phase 5B: Database Integration
+### Phase 5B: Database Integration - COMPLETE
 **Goal:** Track embedding runs in SQLite
 
-**Tasks:**
-1. Update `sqlite/schema.py` - add Phase 5 tables, bump version to 4
-2. Update `sqlite/queries.py` - add CRUD for embedding_runs, qdrant_upload_runs
-3. Integrate run tracking into `embeddings/embed.py`
-4. Test: Verify embedding_runs table populated after embed
-
-**Acceptance Criteria:**
-- Each embed command creates a run record
-- Stats (time, dimension, count) correctly recorded
-- Error logging functional
+**Completed:**
+- `sqlite/schema.py` updated to v4 with embedding_runs, qdrant_upload_runs, embedding_errors tables
+- `sqlite/queries.py` with CRUD for all Phase 5 tables
+- Run tracking integrated into embed.py and upload.py
 
 ---
 
-### Phase 5C: Qdrant Upload
+### Phase 5C: Qdrant Upload - COMPLETE
 **Goal:** Upload embeddings to Qdrant Cloud
 
-**Tasks:**
-1. Update `riskradar/config.py` - add `get_qdrant_config()` function
-2. Update `.env.example` - add Qdrant variables
-3. Create `embeddings/upload.py` - Qdrant upload with retry logic
-4. Add `upload` and `verify` commands to CLI
-5. Test with small batch, then full upload
-
-**Acceptance Criteria:**
-- `python -m embeddings.cli upload minilm` succeeds
-- Collection created with correct dimension
-- `verify` confirms vector count matches
-- qdrant_upload_runs table populated
+**Completed:**
+- `riskradar/config.py` with `get_qdrant_config()` function
+- `.env.example` with Qdrant variables
+- `embeddings/upload.py` with retry logic and batch uploads
+- `upload`, `verify`, and `stats` commands in CLI
+- Secrets management via .env and .streamlit/secrets.toml
 
 ---
 
-### Phase 5D: Full Production Run
+### Phase 5D: Full Production Run - PENDING
 **Goal:** Complete embedding + upload for both models
 
-**Tasks:**
-1. Run full embed pipeline: `python -m embeddings.cli embed both`
-2. Run full upload: `python -m embeddings.cli upload both`
-3. Verify both Qdrant collections
-4. Document results
-
-**Acceptance Criteria:**
-- 28,321 embeddings per model
-- Both Qdrant collections verified
-- No errors in logs
+**To Run:**
+```bash
+python -m embeddings.cli embed both      # Generate embeddings
+python -m embeddings.cli upload both     # Upload to Qdrant
+python -m embeddings.cli verify both     # Verify collections
+```
 
 ---
 
-### Phase 5E: Benchmarking
+### Phase 5E: Benchmarking - COMPLETE
 **Goal:** Compare models and determine winner
 
-**Tasks:**
-1. Create `eval/gold_queries.yaml` - 20-30 test queries
-2. Create `eval/metrics.py` - relevance metric calculations
-3. Create `eval/benchmark.py` - benchmark runner
-4. Add `benchmark` command to CLI
-5. Generate comparison report
+**Completed:**
+- `eval/gold_queries.yaml` - 50 stratified test queries with verifiable ground truth
+- `eval/benchmark.py` - professional benchmark runner with:
+  - 6 query categories (incident, conceptual, section, comparative, aircraft, phase)
+  - Full IR metrics (MRR, Hit@K, P@K, R@K, nDCG@10, Section Accuracy)
+  - Latency tracking (embed + search time)
+  - Statistical tests (paired t-test, Wilcoxon, bootstrap CI)
+  - Win/loss/tie analysis
+- JSON and Parquet output for Streamlit visualization
 
-**Acceptance Criteria:**
-- Both models benchmarked on identical queries
-- Metrics comparable (precision, recall, MRR, nDCG)
-- Clear recommendation in benchmark_report.md
+**To Run:**
+```bash
+python -m eval.benchmark run             # Benchmark both models
+python -m eval.benchmark report          # Generate comparison report
+```
 
 ---
 
-### Phase 5F: Documentation
+### Phase 5F: Documentation - COMPLETE
 **Goal:** Complete Phase 5 documentation
 
-**Tasks:**
-1. Write `embeddings/README.md` with usage examples
-2. Update `CLAUDE.md` with Phase 5 completion status
-3. Finalize `eval/results/benchmark_report.md`
-
-**Acceptance Criteria:**
-- All documentation complete
-- CLI usage examples included
-- Benchmark results professionally formatted
+**Completed:**
+- `README.md` updated with Phase 5 status and commands
+- `CLAUDE.md` updated with full Phase 5 details
+- `PHASE5_PLAN.md` (this file) marked as implemented
+- `eval/README.md` created for benchmark documentation
 
 ---
 

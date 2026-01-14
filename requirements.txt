@@ -26,6 +26,10 @@ qdrant-client>=1.7.0
 sentence-transformers>=2.2.0
 pyarrow>=14.0.0  # Parquet storage for embeddings
 
+# Benchmark (Phase 5)
+PyYAML>=6.0.0  # Gold queries format
+scipy>=1.10.0  # Statistical significance tests
+
 # App (Phase 8)
 # streamlit>=1.30.0
 

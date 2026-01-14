@@ -61,7 +61,7 @@ Runs both passes sequentially.
 python -m extraction.processing.extract all
 ```
 
-**Note:** On Windows, use `py` instead of `python`. The pipeline requires NAS access for PDF files.
+**Note:** Use `python` (not `py`) when the venv is activated. The pipeline requires NAS access for PDF files.
 
 ---
 
@@ -276,3 +276,22 @@ See CLAUDE.md for NAS troubleshooting steps.
 - Pass 0 (consolidate pages): ~7 seconds
 - Pass 1 (build documents): ~25 seconds
 - Pass 2 (chunk documents): ~35 seconds
+
+---
+
+## Next Step: Phase 5 Embeddings
+
+After chunking is complete, the `chunks.jsonl` file is ready for embedding:
+
+```bash
+# Generate embeddings for both models
+python -m embeddings.cli embed both
+
+# Upload to Qdrant Cloud
+python -m embeddings.cli upload both
+
+# Run benchmark evaluation
+python -m eval.benchmark run
+```
+
+See [eval/README.md](../eval/README.md) for benchmark documentation.

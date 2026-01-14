@@ -148,3 +148,19 @@ The analytics engine:
 2. Loads Parquet into DuckDB in-memory tables
 3. Attaches SQLite for report metadata joins
 4. Registers pre-built views for common queries
+
+## Benchmark Integration
+
+The benchmark framework (Phase 5) uses the Parquet files for ground truth verification:
+
+```sql
+-- Verify expected chunks exist for a benchmark query
+SELECT COUNT(*) FROM chunks
+WHERE chunk_text ILIKE '%hydraulic system failure%'
+  AND section_name ILIKE '%probable cause%';
+```
+
+Benchmark results are also exported to Parquet for Streamlit visualization:
+- `eval/results/*_results.parquet` - Per-model benchmark results
+
+See [eval/README.md](../eval/README.md) for benchmark documentation.

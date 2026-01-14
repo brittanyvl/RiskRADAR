@@ -1,0 +1,679 @@
+# RiskRADAR Embedding Benchmark: Gold Standard Queries v2.0
+# ==========================================================
+#
+# Methodology: Ground truth established via SQL queries against chunks.parquet,
+# NOT human judgment. Each query has verifiable expected results.
+#
+# Query Design Principles:
+# 1. Stratified by difficulty (lexical overlap vs pure semantic)
+# 2. Balanced across query intent types
+# 3. Multiple expected results for recall measurement
+# 4. Reproducible via documented SQL verification
+
+metadata:
+  version: "2.0"
+  created: "2026-01-13"
+  total_queries: 50
+  corpus_stats:
+    total_chunks: 28321
+    total_reports: 510
+    total_sections: 15
+  verification_method: "SQL queries against chunks.parquet"
+
+  # Schema for Streamlit visualization
+  output_schema:
+    query_results:
+      - query_id: "string"
+      - query_text: "string"
+      - category: "string"  # incident | conceptual | section | comparative
+      - difficulty: "string"  # easy | medium | hard
+      - intent: "string"  # lookup | exploratory | comparative
+      - model: "string"
+      - mrr: "float"
+      - precision_at_5: "float"
+      - precision_at_10: "float"
+      - recall_at_10: "float"
+      - section_accuracy: "float"
+      - embed_latency_ms: "float"
+      - search_latency_ms: "float"
+      - hit_at_10: "boolean"
+
+# =============================================================================
+# CATEGORY 1: INCIDENT LOOKUP (Known accidents - exact match expected)
+# Difficulty: EASY (high lexical overlap with ground truth)
+# Intent: Factual lookup - user knows what they're looking for
+# =============================================================================
+incident_lookup:
+  - id: "INC-001"
+    query: "Alaska Airlines flight 261 horizontal stabilizer jackscrew failure"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%alaska%' AND lower(chunk_text) LIKE '%261%' AND lower(chunk_text) LIKE '%jackscrew%'"
+      expected_report_ids: ["AAR0201.pdf"]
+      expected_chunk_count: 15  # Approximate chunks mentioning this
+      relevance_signals: ["jackscrew", "horizontal stabilizer", "acme nut", "trim system"]
+
+  - id: "INC-002"
+    query: "Aloha Airlines flight 243 explosive decompression fuselage"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%aloha%' AND lower(chunk_text) LIKE '%decompression%'"
+      expected_report_ids: ["AAR8903.pdf"]
+      expected_chunk_count: 10
+      relevance_signals: ["decompression", "fuselage", "fatigue", "lap joint", "bonding"]
+
+  - id: "INC-003"
+    query: "USAir flight 427 rudder power control unit malfunction Pittsburgh"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%usair%427%' OR (lower(chunk_text) LIKE '%pittsburgh%' AND lower(chunk_text) LIKE '%rudder%')"
+      expected_report_ids: ["AAR9901.pdf"]
+      expected_chunk_count: 20
+      relevance_signals: ["rudder", "pcu", "hardover", "servo valve", "yaw damper"]
+
+  - id: "INC-004"
+    query: "ValuJet flight 592 cargo fire oxygen generators Everglades"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%valujet%' AND lower(chunk_text) LIKE '%oxygen%'"
+      expected_report_ids: ["AAR9706.pdf"]
+      expected_chunk_count: 12
+      relevance_signals: ["oxygen generator", "cargo", "fire", "chemical oxygen", "sabretech"]
+
+  - id: "INC-005"
+    query: "American Airlines flight 587 vertical stabilizer separation Queens"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%american%587%' OR (lower(chunk_text) LIKE '%queens%' AND lower(chunk_text) LIKE '%stabilizer%')"
+      expected_report_ids: ["AAR0404.pdf"]
+      expected_chunk_count: 18
+      relevance_signals: ["vertical stabilizer", "composite", "wake turbulence", "rudder inputs"]
+
+  - id: "INC-006"
+    query: "Colgan Air flight 3407 stall stick pusher Buffalo"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%colgan%' AND lower(chunk_text) LIKE '%3407%'"
+      expected_report_ids: ["AAR1001.pdf"]
+      expected_chunk_count: 25
+      relevance_signals: ["stall", "stick pusher", "icing", "q400", "approach"]
+
+  - id: "INC-007"
+    query: "Asiana Airlines flight 214 San Francisco visual approach automation"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%asiana%214%'"
+      expected_report_ids: ["AAR1401.pdf"]
+      expected_chunk_count: 20
+      relevance_signals: ["autothrottle", "approach", "airspeed", "automation", "777"]
+
+  - id: "INC-008"
+    query: "TWA flight 800 center fuel tank explosion Long Island"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%twa%800%' OR (lower(chunk_text) LIKE '%center%tank%' AND lower(chunk_text) LIKE '%explosion%')"
+      expected_report_ids: ["AAR0003_app.pdf"]  # Note: Only appendix in corpus
+      expected_chunk_count: 30
+      relevance_signals: ["fuel tank", "explosion", "747", "center wing tank", "ignition"]
+
+  - id: "INC-009"
+    query: "United Airlines flight 232 Sioux City DC-10 hydraulic failure"
+    difficulty: "easy"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%sioux%city%' OR (lower(chunk_text) LIKE '%united%232%')"
+      expected_report_ids: ["AAR-90-06.pdf"]  # Note: Dash format in corpus
+      expected_chunk_count: 15
+      relevance_signals: ["hydraulic", "dc-10", "engine failure", "fan disk", "differential thrust"]
+
+  - id: "INC-010"
+    query: "Air France flight 447 pitot tube icing Atlantic stall"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%air france%447%' OR lower(chunk_text) LIKE '%pitot%ice%atlantic%'"
+      expected_report_ids: []  # May not be in NTSB corpus - tests negative case
+      expected_chunk_count: 0
+      relevance_signals: ["pitot", "icing", "stall", "airspeed indication"]
+
+# =============================================================================
+# CATEGORY 2: CONCEPTUAL QUERIES (Technical concepts - semantic required)
+# Difficulty: MEDIUM to HARD (requires understanding, not just keyword match)
+# Intent: Exploratory - user wants to learn about a topic
+# =============================================================================
+conceptual_queries:
+  - id: "CON-001"
+    query: "uncommanded flight control surface movement"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%uncommanded%' AND (lower(chunk_text) LIKE '%rudder%' OR lower(chunk_text) LIKE '%aileron%' OR lower(chunk_text) LIKE '%elevator%')"
+      # Verified via chunks.parquet: reports with most chunks discussing uncommanded control movements
+      expected_report_ids: ["AAR9901.pdf", "AAR9601.pdf", "AAR0101.pdf", "AAR0404.pdf", "AAR9602.pdf"]
+      min_relevant_reports: 3
+      relevance_signals: ["uncommanded", "hardover", "runaway", "control surface"]
+
+  - id: "CON-002"
+    query: "ice contamination on wing leading edge aerodynamic degradation"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%icing%' AND lower(chunk_text) LIKE '%wing%'"
+      # Verified: Reports with most chunks on wing icing (939 total chunks across 370 reports)
+      expected_report_ids: ["AAR9601.pdf", "AAR9602.pdf", "AAR1001.pdf", "AAR9302.pdf", "AAR1102.pdf", "AAR0702.pdf"]
+      min_relevant_reports: 5
+      relevance_signals: ["icing", "deicing", "leading edge", "lift", "stall"]
+
+  - id: "CON-003"
+    query: "controlled flight into terrain warning system GPWS TAWS"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%gpws%' OR lower(chunk_text) LIKE '%ground proximity%' OR lower(chunk_text) LIKE '%terrain%warning%'"
+      # Verified: Reports with most GPWS/TAWS content (512 chunks across 108 reports)
+      expected_report_ids: ["AAR0001.pdf", "AAR1802.pdf", "AAR1402.pdf", "AAR1003.pdf", "AAR9701.pdf", "AAR1102.pdf"]
+      min_relevant_reports: 10
+      relevance_signals: ["gpws", "taws", "terrain", "cfit", "warning"]
+
+  - id: "CON-004"
+    query: "crew resource management breakdown communication failure"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%crew resource management%' OR lower(chunk_text) LIKE '%crm%'"
+      # Verified: Reports with most CRM content (404 chunks across 122 reports)
+      expected_report_ids: ["AAR1802.pdf", "AAR0001.pdf", "AAR1101.pdf", "AAR1001.pdf", "AAR1102.pdf", "AAR1002.pdf", "AAR9607.pdf"]
+      min_relevant_reports: 8
+      relevance_signals: ["crm", "communication", "coordination", "cockpit", "assertiveness"]
+
+  - id: "CON-005"
+    query: "pilot fatigue circadian rhythm duty time regulations"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%fatigue%' AND lower(chunk_text) LIKE '%pilot%'"
+      # Verified: Reports with most pilot fatigue content (823 chunks across 189 reports)
+      expected_report_ids: ["AAR1001.pdf", "AAR1402.pdf", "AAR0801.pdf", "AAR9404.pdf", "AAR0601.pdf", "AAR1101.pdf"]
+      min_relevant_reports: 10
+      relevance_signals: ["fatigue", "duty time", "rest", "sleep", "circadian"]
+
+  - id: "CON-006"
+    query: "metal fatigue crack propagation structural inspection"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%fatigue%crack%' OR lower(chunk_text) LIKE '%crack%propagation%'"
+      # Verified: Reports with most metal fatigue/crack content (510 chunks across 75 reports)
+      expected_report_ids: ["AAR8903.pdf", "AAR0704.pdf", "AAR-90-06.pdf", "AAR0201.pdf", "AAR1903.pdf", "AAR9606.pdf"]
+      min_relevant_reports: 15
+      relevance_signals: ["fatigue", "crack", "inspection", "propagation", "fracture"]
+
+  - id: "CON-007"
+    query: "automation mode confusion glass cockpit display"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%automation%' AND (lower(chunk_text) LIKE '%confusion%' OR lower(chunk_text) LIKE '%mode%')"
+      # Verified: Reports with most automation/mode content (94 chunks across 21 reports)
+      expected_report_ids: ["AAR1401.pdf", "AAR2002.pdf", "AAR0602.pdf", "AAR0001.pdf", "AAR8801.pdf"]
+      min_relevant_reports: 5
+      relevance_signals: ["automation", "autoflight", "mode", "display", "awareness"]
+
+  - id: "CON-008"
+    query: "turbine engine uncontained failure blade separation"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%uncontained%' OR (lower(chunk_text) LIKE '%turbine%' AND lower(chunk_text) LIKE '%blade%fail%')"
+      # Verified: Reports with most uncontained failure content (210 chunks across 81 reports)
+      expected_report_ids: ["AAR1801.pdf", "AAR9801.pdf", "AAR-90-06.pdf", "AAR8701.pdf", "AAR7107.pdf"]
+      min_relevant_reports: 8
+      relevance_signals: ["uncontained", "blade", "turbine", "disk", "fan"]
+
+  - id: "CON-009"
+    query: "wake turbulence vortex encounter separation standards"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%wake%turbulence%' OR lower(chunk_text) LIKE '%vortex%'"
+      # Verified: Reports with most wake turbulence/vortex content (235 chunks across 57 reports)
+      expected_report_ids: ["AAR9901.pdf", "AAR0404.pdf", "AAR7303.pdf", "AAR8101.pdf", "AAR8809.pdf"]
+      min_relevant_reports: 10
+      relevance_signals: ["wake", "vortex", "turbulence", "separation", "heavy"]
+
+  - id: "CON-010"
+    query: "spatial disorientation vestibular illusion instrument flight"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%spatial disorientation%' OR lower(chunk_text) LIKE '%vestibular%'"
+      # Verified: Reports with spatial disorientation content (126 chunks across 28 reports)
+      expected_report_ids: ["AAR2101.pdf", "AAR2002.pdf", "AAR1403.pdf", "AAR0301.pdf", "AAR0703.pdf"]
+      min_relevant_reports: 3
+      relevance_signals: ["disorientation", "vestibular", "illusion", "instrument", "attitude"]
+
+  - id: "CON-011"
+    query: "fuel system contamination water ice crystals"
+    difficulty: "medium"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%fuel%' AND (lower(chunk_text) LIKE '%contamination%' OR lower(chunk_text) LIKE '%water%ice%')"
+      # Verified: Reports with fuel contamination content (319 chunks across 140 reports)
+      expected_report_ids: ["AAR8508.pdf", "AAR1006.pdf", "AAR1105.pdf", "AAR8214.pdf", "AAR1904.pdf"]
+      min_relevant_reports: 5
+      relevance_signals: ["fuel", "contamination", "water", "ice", "filter"]
+
+  - id: "CON-012"
+    query: "loss of control inflight upset recovery training"
+    difficulty: "hard"
+    intent: "exploratory"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%loss of control%' OR lower(chunk_text) LIKE '%upset%recovery%'"
+      # Verified: Reports with loss of control/upset content (600 chunks across 149 reports)
+      expected_report_ids: ["AAR9901.pdf", "AAR0404.pdf", "AAR0101.pdf", "AAR1001.pdf", "AAR1401.pdf", "AAR9602.pdf"]
+      min_relevant_reports: 20
+      relevance_signals: ["loss of control", "upset", "recovery", "stall", "unusual attitude"]
+
+# =============================================================================
+# CATEGORY 3: SECTION-TARGETED QUERIES (Should retrieve from specific sections)
+# Difficulty: MEDIUM (tests section understanding)
+# Intent: Structured lookup - user wants specific type of information
+#
+# NOTE: "Universal sections" (SYNOPSIS, EXECUTIVE SUMMARY, SUMMARY, ABSTRACT,
+# CONCLUSIONS, APPENDIX) are valid for ALL queries because they summarize or
+# contain information from multiple sections. These are defined once here and
+# applied to all section queries during evaluation.
+# =============================================================================
+
+# Universal sections that are valid matches for any section query
+# These sections summarize or contain information spanning multiple topics
+#
+# Design Philosophy: Sections should be SIGNALS, not BARRIERS.
+# If a user searches for "tests and research" and gets ANALYSIS content
+# that discusses test results, that's a VALID result for a search product.
+#
+# Tier 1 - Summary sections (always valid, explicitly summarize):
+#   SYNOPSIS, EXECUTIVE SUMMARY, SUMMARY, ABSTRACT, BRIEF, OVERVIEW
+#
+# Tier 2 - Synthesis sections (valid because they discuss/conclude on topics):
+#   ANALYSIS - Interprets evidence, discusses all investigation aspects
+#   FINDINGS - Lists key findings across all areas
+#   CONCLUSIONS - States final determinations
+#
+# Tier 3 - NOT included (too broad, would inflate scores artificially):
+#   FACTUAL INFORMATION - This is the entire "facts" chapter (2700 chunks)
+#   INVESTIGATION - Similar issue
+#
+# Tier 4 - Reference sections (always valid, contain supporting data):
+#   APPENDIX, APPENDICES
+#
+universal_valid_sections:
+  - "SYNOPSIS"
+  - "EXECUTIVE SUMMARY"
+  - "SUMMARY"
+  - "ABSTRACT"
+  - "BRIEF"
+  - "OVERVIEW"
+  - "APPENDIX"
+  - "APPENDICES"
+  - "ANALYSIS"
+  - "FINDINGS"
+  - "CONCLUSIONS"
+
+section_queries:
+  - id: "SEC-001"
+    query: "what was determined to be the probable cause"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      # Primary sections where this info should appear
+      primary_sections: ["PROBABLE CAUSE", "CONCLUSIONS"]
+      # Also valid: universal sections (applied automatically)
+      section_chunk_count: 557
+      min_section_accuracy: 0.4  # Lowered because universal sections are valid
+
+  - id: "SEC-002"
+    query: "safety recommendations issued to the FAA"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["RECOMMENDATIONS", "SAFETY RECOMMENDATIONS"]
+      section_chunk_count: 1621
+      min_section_accuracy: 0.5
+
+  - id: "SEC-003"
+    query: "weather conditions temperature visibility at accident time"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["METEOROLOGICAL INFORMATION", "WEATHER"]
+      section_chunk_count: 600
+      min_section_accuracy: 0.4
+
+  - id: "SEC-004"
+    query: "wreckage distribution debris field impact marks"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["WRECKAGE AND IMPACT INFORMATION", "WRECKAGE"]
+      section_chunk_count: 700
+      min_section_accuracy: 0.4
+
+  - id: "SEC-005"
+    query: "flight data recorder parameters cockpit voice recorder transcript"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["FLIGHT RECORDERS", "TESTS AND RESEARCH", "CVR", "FDR"]
+      section_chunk_count: 1513
+      min_section_accuracy: 0.3
+
+  - id: "SEC-006"
+    query: "pilot certificate ratings flight experience hours"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["PERSONNEL INFORMATION", "PILOT INFORMATION", "FLIGHT CREW INFORMATION", "CREW INFORMATION"]
+      section_chunk_count: 500
+      min_section_accuracy: 0.3
+
+  - id: "SEC-007"
+    query: "aircraft maintenance records inspection history airworthiness"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["AIRCRAFT INFORMATION", "MAINTENANCE RECORDS", "AIRPLANE INFORMATION"]
+      section_chunk_count: 1300
+      min_section_accuracy: 0.3
+
+  - id: "SEC-008"
+    query: "fire damage burn patterns post-crash fire"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["FIRE", "WRECKAGE AND IMPACT INFORMATION", "POST-CRASH FIRE"]
+      section_chunk_count: 616
+      min_section_accuracy: 0.3
+
+  - id: "SEC-009"
+    query: "survival factors injuries occupant protection evacuation"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      primary_sections: ["SURVIVAL ASPECTS", "MEDICAL AND PATHOLOGICAL INFORMATION", "SURVIVAL FACTORS"]
+      section_chunk_count: 829
+      min_section_accuracy: 0.3
+
+  - id: "SEC-010"
+    query: "tests conducted simulations research findings"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      # FACTUAL INFORMATION is valid because tests/research are nested under it in NTSB structure
+      primary_sections: ["TESTS AND RESEARCH", "ADDITIONAL INFORMATION", "RESEARCH", "FACTUAL INFORMATION"]
+      section_chunk_count: 2815
+      min_section_accuracy: 0.3
+
+# =============================================================================
+# CATEGORY 4: COMPARATIVE / ANALYTICAL QUERIES (Hardest - pure semantic)
+# Difficulty: HARD (requires understanding relationships, not keywords)
+# Intent: Analytical - user wants to compare or analyze patterns
+# =============================================================================
+comparative_queries:
+  - id: "CMP-001"
+    query: "accidents caused by inadequate maintenance procedures"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%maintenance%' AND lower(section_name) = 'probable cause'"
+      min_relevant_reports: 20
+      relevance_signals: ["maintenance", "inspection", "oversight", "procedure"]
+
+  - id: "CMP-002"
+    query: "accidents where pilots failed to respond to warnings"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%warning%' AND lower(chunk_text) LIKE '%fail%'"
+      min_relevant_reports: 15
+      relevance_signals: ["warning", "ignored", "response", "alert"]
+
+  - id: "CMP-003"
+    query: "recurring design defects in Boeing aircraft"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%boeing%' AND lower(chunk_text) LIKE '%design%'"
+      min_relevant_reports: 30
+      relevance_signals: ["boeing", "design", "defect", "flaw", "modification"]
+
+  - id: "CMP-004"
+    query: "accidents during night visual flight rules operations"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%night%' AND lower(chunk_text) LIKE '%vfr%'"
+      min_relevant_reports: 10
+      relevance_signals: ["night", "vfr", "visual", "darkness"]
+
+  - id: "CMP-005"
+    query: "regulatory failures that contributed to accidents"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%faa%' AND lower(chunk_text) LIKE '%oversight%'"
+      min_relevant_reports: 25
+      relevance_signals: ["faa", "regulatory", "oversight", "certification"]
+
+  - id: "CMP-006"
+    query: "training deficiencies identified after accidents"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%training%' AND lower(section_name) IN ('analysis', 'probable cause')"
+      min_relevant_reports: 30
+      relevance_signals: ["training", "proficiency", "inadequate", "deficient"]
+
+  - id: "CMP-007"
+    query: "accidents involving regional airlines commuter operations"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%regional%' OR lower(chunk_text) LIKE '%commuter%'"
+      min_relevant_reports: 40
+      relevance_signals: ["regional", "commuter", "part 135", "scheduled"]
+
+  - id: "CMP-008"
+    query: "post-accident safety improvements and industry changes"
+    difficulty: "hard"
+    intent: "analytical"
+    ground_truth:
+      verification_sql: "WHERE lower(section_name) = 'recommendations'"
+      min_relevant_reports: 50
+      relevance_signals: ["recommendation", "improvement", "require", "mandate"]
+
+# =============================================================================
+# CATEGORY 5: AIRCRAFT-TYPE QUERIES (Tests domain specificity)
+# Difficulty: MEDIUM (lexical cues available but semantic understanding helps)
+# Intent: Filtered lookup - user wants reports about specific aircraft
+# =============================================================================
+aircraft_queries:
+  - id: "ACF-001"
+    query: "Boeing 737 rudder system problems and accidents"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%boeing 737%' AND lower(chunk_text) LIKE '%rudder%'"
+      expected_report_count: 76  # Reports mentioning Boeing 737
+      relevance_signals: ["737", "rudder", "pcu", "yaw damper"]
+
+  - id: "ACF-002"
+    query: "DC-10 cargo door and structural issues"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE (lower(chunk_text) LIKE '%dc-10%' OR lower(chunk_text) LIKE '%dc10%') AND lower(chunk_text) LIKE '%cargo%door%'"
+      expected_report_count: 65
+      relevance_signals: ["dc-10", "cargo door", "latch", "structural"]
+
+  - id: "ACF-003"
+    query: "Cessna small aircraft accidents general aviation"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%cessna%'"
+      expected_report_count: 147
+      # Added common Cessna model numbers for better signal coverage
+      relevance_signals: ["cessna", "general aviation", "single-engine", "172", "182", "210"]
+
+  - id: "ACF-004"
+    query: "Boeing 747 jumbo jet accidents and incidents"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%boeing 747%' OR lower(chunk_text) LIKE '%747%jumbo%'"
+      expected_report_count: 59
+      # Updated signals: "jumbo"/"wide body" rarely used in NTSB reports (only 5-8 chunks)
+      # Using actual NTSB terminology instead
+      relevance_signals: ["747", "boeing 747", "b-747", "747-400", "747-200"]
+
+  - id: "ACF-005"
+    query: "turboprop aircraft propeller related accidents"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%turboprop%' OR (lower(chunk_text) LIKE '%propeller%' AND lower(chunk_text) LIKE '%turb%')"
+      expected_report_count: 100
+      relevance_signals: ["turboprop", "propeller", "prop", "pt6"]
+
+  - id: "ACF-006"
+    query: "helicopter rotor system failures and accidents"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%helicopter%' AND lower(chunk_text) LIKE '%rotor%'"
+      expected_report_count: 50
+      relevance_signals: ["helicopter", "rotor", "blade", "rotorcraft"]
+
+# =============================================================================
+# CATEGORY 6: TEMPORAL/PHASE QUERIES (Tests flight phase understanding)
+# Difficulty: MEDIUM (requires understanding flight phases)
+# Intent: Filtered lookup
+# =============================================================================
+phase_queries:
+  - id: "PHS-001"
+    query: "accidents during takeoff roll and initial climb"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%during takeoff%' OR lower(chunk_text) LIKE '%takeoff roll%'"
+      expected_report_count: 153
+      relevance_signals: ["takeoff", "v1", "rotate", "initial climb", "runway"]
+
+  - id: "PHS-002"
+    query: "approach and landing accidents runway environment"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%during approach%' OR lower(chunk_text) LIKE '%during landing%'"
+      expected_report_count: 128
+      relevance_signals: ["approach", "landing", "runway", "touchdown", "go-around"]
+
+  - id: "PHS-003"
+    query: "in-flight emergencies during cruise altitude"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%during cruise%' OR lower(chunk_text) LIKE '%cruise altitude%'"
+      expected_report_count: 41
+      relevance_signals: ["cruise", "altitude", "level flight", "en route"]
+
+  - id: "PHS-004"
+    query: "ground operations taxi incidents ramp accidents"
+    difficulty: "medium"
+    intent: "lookup"
+    ground_truth:
+      verification_sql: "WHERE lower(chunk_text) LIKE '%during taxi%' OR lower(chunk_text) LIKE '%ramp%'"
+      expected_report_count: 59
+      relevance_signals: ["taxi", "ramp", "ground", "apron", "gate"]
+
+# =============================================================================
+# EVALUATION CONFIGURATION
+# =============================================================================
+evaluation:
+  k_values: [1, 3, 5, 10, 20]
+
+  primary_metrics:
+    - name: "MRR"
+      description: "Mean Reciprocal Rank - position of first relevant result"
+      aggregation: "mean"
+    - name: "Hit@K"
+      description: "Percentage of queries with at least one relevant result in top K"
+      aggregation: "mean"
+    - name: "Precision@K"
+      description: "Fraction of top K results that are relevant"
+      aggregation: "mean"
+    - name: "Recall@K"
+      description: "Fraction of relevant results found in top K"
+      aggregation: "mean"
+    - name: "nDCG@K"
+      description: "Normalized Discounted Cumulative Gain"
+      aggregation: "mean"
+
+  secondary_metrics:
+    - name: "Section_Accuracy@K"
+      description: "For section queries: fraction from expected sections"
+    - name: "Embed_Latency_ms"
+      description: "Time to embed query"
+    - name: "Search_Latency_ms"
+      description: "Time to search Qdrant"
+    - name: "Total_Latency_ms"
+      description: "End-to-end query time"
+
+  stratification:
+    by_difficulty: ["easy", "medium", "hard"]
+    by_intent: ["lookup", "exploratory", "analytical"]
+    by_category: ["incident_lookup", "conceptual_queries", "section_queries", "comparative_queries", "aircraft_queries", "phase_queries"]
+
+  statistical_tests:
+    - name: "paired_t_test"
+      description: "Compare means between models"
+    - name: "wilcoxon_signed_rank"
+      description: "Non-parametric alternative"
+    - name: "bootstrap_ci"
+      description: "95% confidence intervals via bootstrap"
+      n_bootstrap: 1000
+
+  visualization_outputs:
+    - type: "comparison_bar"
+      title: "Model Comparison by Metric"
+      x: "metric_name"
+      y: "value"
+      color: "model"
+    - type: "scatter"
+      title: "Per-Query Model Comparison"
+      x: "minilm_mrr"
+      y: "mika_mrr"
+      hover: "query_text"
+    - type: "heatmap"
+      title: "Performance by Category and Difficulty"
+      x: "category"
+      y: "difficulty"
+      value: "mrr"
+    - type: "histogram"
+      title: "MRR Distribution"
+      x: "mrr"
+      bins: 20
+      color: "model"
+    - type: "latency_distribution"
+      title: "Query Latency Distribution"
+      x: "total_latency_ms"
+      color: "model"

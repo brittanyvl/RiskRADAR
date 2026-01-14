@@ -8,6 +8,10 @@ Loads settings from environment variables with sensible defaults.
 import os
 from pathlib import Path
 
+# Load .env file if it exists
+from dotenv import load_dotenv
+load_dotenv()
+
 # Project root (parent of this file's directory)
 PROJECT_ROOT = Path(__file__).parent.parent.resolve()
 
