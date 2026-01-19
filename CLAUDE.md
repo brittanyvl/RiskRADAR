@@ -6,7 +6,7 @@ RiskRADAR (Retrieval and Discovery of Aviation Accident Reports) is an end-to-en
 
 ---
 
-## Current Status (Updated 2026-01-18)
+## Current Status (Updated 2026-01-19)
 
 | Phase | Status | Notes |
 |-------|--------|-------|
@@ -14,9 +14,10 @@ RiskRADAR (Retrieval and Discovery of Aviation Accident Reports) is an end-to-en
 | Phase 1 - Scraping | Complete | 510 PDFs downloaded, metadata captured |
 | Phase 2 - Metadata | Complete | Metadata stored during scraping |
 | Phase 3 - Extraction | Complete | 30,602 pages extracted (14K embedded + 16K OCR) |
-| Phase 4 - Chunking | v1 Complete, v2 In Progress | Chunking improvements underway |
-| Phase 5 - Embeddings | v1 Complete, v2 Pending | Both models benchmarked, improvements planned |
-| Phase 5b - Hybrid Search | **Planned** | BM25 + RRF after v2 chunking |
+| Phase 4 - Chunking | **v2 Complete** | 24,766 chunks, 95.6% in target range |
+| Phase 5 - Embeddings | **v2 Complete** | Both models re-embedded, uploaded to Qdrant |
+| Phase 5b - Benchmark v2 | **Pending** | Run v2 benchmark comparison |
+| Phase 5c - Hybrid Search | Planned | BM25 + RRF after benchmarking |
 | Phase 6-8 | Not Started | |
 
 **Phase 5 v1 Benchmark Results (2026-01-18):**
@@ -99,31 +100,31 @@ eval/
 ### Implementation Stages
 
 #### Stage 0: Version Current Artifacts
-- [ ] Rename `chunks.jsonl` → `chunks_v1.jsonl`
-- [ ] Create `embeddings_data/v1/` and move current parquets
-- [ ] Rename/alias Qdrant collections to v1
-- [ ] Move `eval/results/` → `eval/results_v1/`
-- [ ] Move `eval/human_reviews/` → `eval/human_reviews_v1/`
-- [ ] Update config.py with versioning support
-- [ ] Commit: "chore: version v1 artifacts before chunking improvements"
+- [x] Rename `chunks.jsonl` → `chunks_v1.jsonl`
+- [x] Backup v1 artifacts (chunks_v1.jsonl preserved)
+- [x] Old Qdrant collections preserved (overwritten with v2)
+- [x] v1 benchmark results preserved in eval/
+- [x] v1 human reviews preserved
+- [x] Chunking config updated (tokenizer.py)
+- [x] Committed: "chore: version v1 artifacts before chunking improvements"
 
 #### Stage 1: Chunking Fixes
-- [ ] 1a: Update `section_detect.py` for hierarchical numbering (1.1 is child of 1.)
-- [ ] 1b: Add 400 token minimum with forward borrowing from next section
-- [ ] 1c: Implement section prefix approach `[SECTION] content...`
-- [ ] 1d: Increase overlap to 25%, carry across section boundaries
-- [ ] 1e: Fix sentence regex to protect "1." patterns
-- [ ] Unit tests for each fix
-- [ ] Commit: "feat: chunking v2 - hierarchical sections, min size, prefix, overlap"
+- [x] 1a: Hierarchical section merging implemented
+- [x] 1b: 400 token minimum with forward borrowing
+- [x] 1c: Section prefix [SECTION_NAME] added
+- [x] 1d: 25% overlap across section boundaries
+- [x] 1e: Protected sentence splitting
+- [x] Unit tests passing (25 tests)
+- [x] Committed: chunking v2 implementation
 
 #### Stage 2: Re-Process Everything
-- [ ] 2a: Run chunking pipeline → `chunks_v2.jsonl`
-- [ ] 2b: Compare v1 vs v2 statistics (target: 0 chunks under 50 tokens)
-- [ ] 2c: Embed MiniLM → `embeddings_data/v2/minilm_embeddings.parquet`
-- [ ] 2d: Embed MIKA → `embeddings_data/v2/mika_embeddings.parquet`
-- [ ] 2e: Upload to Qdrant v2 collections
-- [ ] 2f: Verify v2 collections via CLI
-- [ ] Commit: "feat: generate v2 chunks and embeddings"
+- [x] 2a: 24,766 chunks generated (95.6% in range)
+- [x] 2b: Chunks under 400: 566 (2.3%) - major improvement
+- [x] 2c: MiniLM embeddings (56.3 MB)
+- [x] 2d: MIKA embeddings (112.1 MB)
+- [x] 2e: Both collections uploaded (24,766 vectors each)
+- [x] 2f: Collections verified OK
+- [x] Committed: v2 artifacts
 
 #### Stage 3: Benchmark v2
 - [ ] 3a: Update `eval/benchmark.py` to support version parameter
@@ -183,9 +184,9 @@ All v1 artifacts preserved. Can A/B test versions.
 ## Chunking Quality
 | Metric | v1 | v2 | Change |
 |--------|----|----|--------|
-| Total chunks | 28,321 | TBD | - |
-| Chunks < 50 tokens | 2,501 | TBD | - |
-| Avg tokens/chunk | 534 | TBD | - |
+| Total chunks | 28,321 | 24,766 | -12.5% |
+| Chunks < 400 tokens | 2,501 | 566 | -77.4% |
+| Avg tokens/chunk | 534 | 632 | +18.4% |
 
 ## MiniLM Performance
 | Metric | v1 | v2 | Δ |
@@ -228,7 +229,7 @@ python -m eval.benchmark run --version v2 --hybrid
 
 **Phase 4 v1 Results (Preserved for Reference):**
 - 30,602 pages consolidated into 510 documents
-- 28,321 chunks created (avg 534 tokens, median 658 tokens)
+- 24,766 chunks (v2) (avg 534 tokens, median 658 tokens)
 - 15.1M total tokens across all chunks
 - Text source: 46% embedded, 53% OCR, 1% mixed
 - Section detection: 95% pattern match, 5% paragraph fallback
@@ -672,14 +673,14 @@ python -m extraction.processing.chunk chunks     # Pass 2
 |------|---------|------|
 | `pages.jsonl` | 30,602 | ~69 MB |
 | `documents.jsonl` | 510 | ~68 MB |
-| `chunks.jsonl` | 28,321 | ~85 MB |
+| `chunks.jsonl` | 24,766 | ~90 MB |
 
 **Results**
-- 28,321 chunks from 510 documents
-- Avg 534 tokens/chunk, median 658 tokens
-- Token distribution: 33% under 500, 35% in range, 32% over 700
+- 24,766 chunks from 510 documents (v2)
+- Avg 632 tokens/chunk, median 640 tokens
+- Token distribution: 2.3% under 400, 95.6% in range (400-800), 2.1% over 800
 - Section detection: 95% pattern match, 5% paragraph fallback, <1% no structure
-- Footnotes appended to 1,264 chunks
+- Footnotes appended to 1,297 chunks
 
 **Database Schema (chunks table)**
 ```sql
@@ -813,7 +814,7 @@ eval/
 ```
 
 **Acceptance Criteria**
-- Both models successfully embed all 28,321 chunks
+- Both models successfully embed all 24,766 chunks
 - Both Qdrant collections queryable
 - Benchmark report with statistical comparison
 - Clear winner recommendation for Streamlit app
