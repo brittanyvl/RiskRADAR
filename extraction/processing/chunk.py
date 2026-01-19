@@ -14,11 +14,11 @@ Creates overlapping, section-aware chunks for vector search:
 8. Write all chunks to chunks.jsonl
 
 CLI Entry Point for full pipeline:
-  py -m extraction.processing.chunk pages     # Pass 0
-  py -m extraction.processing.chunk documents # Pass 1
-  py -m extraction.processing.chunk chunks    # Pass 2
-  py -m extraction.processing.chunk all       # All passes
-  py -m extraction.processing.chunk stats     # Show statistics
+  python -m extraction.processing.chunk pages     # Pass 0
+  python -m extraction.processing.chunk documents # Pass 1
+  python -m extraction.processing.chunk chunks    # Pass 2
+  python -m extraction.processing.chunk all       # All passes
+  python -m extraction.processing.chunk stats     # Show statistics
 """
 
 import argparse

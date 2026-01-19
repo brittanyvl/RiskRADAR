@@ -5,8 +5,11 @@ Shared configuration for all RiskRADAR modules.
 
 Loads settings from environment variables with sensible defaults.
 """
+import logging
 import os
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 # Load .env file if it exists
 from dotenv import load_dotenv
@@ -61,9 +64,9 @@ def get_qdrant_config() -> dict:
             if url and api_key:
                 return {"url": url, "api_key": api_key}
     except ImportError:
-        pass  # Streamlit not installed
-    except Exception:
-        pass  # Streamlit secrets not available
+        logger.debug("Streamlit not installed, skipping Streamlit secrets")
+    except Exception as e:
+        logger.debug(f"Could not access Streamlit secrets: {e}")
 
     raise ValueError(
         "Qdrant configuration not found. Set QDRANT_URL and QDRANT_API_KEY "

@@ -1,63 +1,64 @@
-# Scraper Library Documentation
+# scraper - Web Scraping Library
 
-This scraper library makes Selenium scraping clean and consistent. It provides building blocks for browser setup, form actions, waits, and download handling. You keep site-specific locators in your scripts, while the library handles repetitive boilerplate.
+A clean, composable Selenium wrapper for web scraping with built-in rate limiting and download handling.
 
-## Features
+---
 
-### Browser configuration and setup
-Use the configuration object to control headless mode, user agent, timeouts, and download directory. The browser context manager sets up ChromeDriver and closes it automatically.
+## Table of Contents
 
-### Page navigation and form actions
-Functions let you go to a page, select values from dropdown menus, or click buttons with proper waits so the page is ready.
+- [Overview](#overview)
+- [Role in Pipeline](#role-in-pipeline)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [API Reference](#api-reference)
+- [Environment Variables](#environment-variables)
+- [Usage Patterns](#usage-patterns)
+- [Rate Limiting](#rate-limiting)
+- [Limitations](#limitations)
 
-### Download handling
-Functions wait for a new file to appear, confirm the file is stable, and move or rename it atomically so downstream code always sees complete files.
+---
 
-## Quick Example
+## Overview
 
-Short example showing how to scrape and download a file:
+The `scraper` module provides:
 
-```python
-from pathlib import Path
-from datetime import datetime
-from selenium.webdriver.common.by import By
+- **Browser configuration and setup** with headless mode support
+- **Page navigation and form actions** with automatic waiting
+- **Download handling** with file completion detection
+- **Rate limiting** with jitter to avoid predictable patterns
+- **Context managers** for clean resource management
 
-from scraper.config import BrowserConfig
-from scraper.browser import chrome
-from scraper.actions import go_to, select_dropdown_by_value, click
-from scraper.download import wait_for_new_download, move_and_rename
+This library handles repetitive Selenium boilerplate while keeping site-specific logic in your application code.
 
-URL = "https://example.com/data"
-SHOW_LENGTH_DROPDOWN = (By.NAME, "DataTables_Table_0_length")
-EXPORT_BUTTON = (By.CLASS_NAME, "buttons-excel")
+---
 
-def download_data(download_directory: str) -> str:
-    config = BrowserConfig()
-    file_name = f"data_{datetime.today().strftime('%Y-%m-%d')}.xlsx"
+## Role in Pipeline
 
-    with chrome(config) as driver:
-        go_to(driver, URL)
-        select_dropdown_by_value(driver, SHOW_LENGTH_DROPDOWN, "-1")
-        click(driver, EXPORT_BUTTON)
-        downloaded_file = wait_for_new_download(config)
-
-    final_file = move_and_rename(downloaded_file, Path(download_directory), file_name)
-    return str(final_file)
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                          Phase 1: Scraping                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│    NTSB Website ──────► scraper library ──────► NAS Storage             │
+│                              │                      │                    │
+│                              │                      │                    │
+│                              ▼                      ▼                    │
+│                         Rate Limiting          510 PDFs                  │
+│                         (2-3s delays)         (metadata)                 │
+│                                                     │                    │
+│                                                     ▼                    │
+│                                                SQLite DB                 │
+│                                              (reports table)             │
+└─────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Usage Patterns
+The scraper library was used to:
+1. Navigate NTSB's paginated report listings
+2. Extract metadata from report pages
+3. Download 510 aviation accident PDFs
+4. Store metadata in SQLite for downstream processing
 
-### Simple form and download
-Go to page, set dropdown, click export, wait for download, move file.
-
-### Stable naming
-Move once with dated filename, again with "latest.xlsx".
-
-### Multiple downloads
-Trigger each export, call wait, then move/rename each.
-
-### PDF downloads
-The library handles any file type. For PDFs, trigger the download link/button and use the same wait/move pattern.
+---
 
 ## Installation
 
@@ -67,6 +68,39 @@ From the repository root:
 pip install -e ./scraper
 ```
 
+---
+
+## Quick Start
+
+```python
+from pathlib import Path
+from selenium.webdriver.common.by import By
+
+from scraper.config import BrowserConfig
+from scraper.browser import chrome
+from scraper.actions import go_to, select_dropdown_by_value, click
+from scraper.download import wait_for_new_download, move_and_rename
+
+URL = "https://example.com/reports"
+DOWNLOAD_BUTTON = (By.ID, "download-btn")
+
+def download_report(report_id: str) -> Path:
+    config = BrowserConfig()
+
+    with chrome(config) as driver:
+        go_to(driver, f"{URL}/{report_id}")
+        click(driver, DOWNLOAD_BUTTON)
+        downloaded_file = wait_for_new_download(config)
+
+    return move_and_rename(
+        downloaded_file,
+        target_dir=Path("/storage/reports"),
+        new_name=f"{report_id}.pdf"
+    )
+```
+
+---
+
 ## API Reference
 
 ### Browser Configuration
@@ -74,25 +108,29 @@ pip install -e ./scraper
 ```python
 from scraper.config import BrowserConfig
 
-# Default configuration
+# Default configuration (reads from environment)
 config = BrowserConfig()
 
 # Custom configuration
 config = BrowserConfig(
-    headless=False,
-    downloads_dir=Path("/custom/downloads"),
-    user_agent="CustomBot/1.0",
-    timeout_secs=30
+    headless=False,                          # Show browser window
+    downloads_dir=Path("/custom/downloads"), # Download location
+    user_agent="CustomBot/1.0",              # User agent string
+    timeout_secs=30,                         # Page load timeout
+    request_delay_sec=2.0,                   # Delay between requests
+    download_delay_sec=3.0,                  # Delay between downloads
+    page_delay_sec=2.0                       # Delay between pages
 )
 ```
 
-### Browser Management
+### Browser Context Manager
 
 ```python
 from scraper.browser import chrome
 
 with chrome(config) as driver:
-    # Your scraping code here
+    # driver is a configured Chrome WebDriver
+    # Automatically closes when context exits
     pass
 ```
 
@@ -101,14 +139,14 @@ with chrome(config) as driver:
 ```python
 from scraper.actions import go_to, select_dropdown_by_value, click
 
-# Navigate to a page
+# Navigate to URL (waits for page load)
 go_to(driver, "https://example.com")
 
-# Select dropdown value
+# Select dropdown by value
 select_dropdown_by_value(driver, (By.NAME, "dropdown"), "value")
 
-# Click button
-click(driver, (By.CLASS_NAME, "button"))
+# Click element (waits for clickable)
+click(driver, (By.ID, "button"))
 ```
 
 ### Download Handling
@@ -116,49 +154,148 @@ click(driver, (By.CLASS_NAME, "button"))
 ```python
 from scraper.download import wait_for_new_download, move_and_rename
 
-# Wait for download to complete
+# Wait for download to complete (blocks until file stable)
 downloaded_file = wait_for_new_download(config)
 
-# Move and rename file
+# Move and rename with atomic operation
 final_path = move_and_rename(
     downloaded_file,
     target_dir=Path("/target"),
-    new_name="final_file.pdf"
+    new_name="report.pdf"
 )
 ```
 
 ### Rate Limiting
 
-Always use rate limiting to be respectful to servers:
-
 ```python
 from scraper.waits import rate_limit
 
-# Between page navigations
-rate_limit(config.page_delay_sec)
+# Add delay with random jitter
+rate_limit(2.0)  # 2 seconds +/- random jitter
 
-# Between downloads
+# Use config delays
+rate_limit(config.request_delay_sec)
 rate_limit(config.download_delay_sec)
-
-# Generic request delay
-rate_limit(2.0)  # 2 seconds +/- jitter
+rate_limit(config.page_delay_sec)
 ```
 
-The `rate_limit` function adds random jitter to avoid predictable request patterns.
+---
 
 ## Environment Variables
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `SCRAPER_HEADLESS` | `1` | Run browser in headless mode |
+| `SCRAPER_HEADLESS` | `1` | Run browser in headless mode (0 for visible) |
 | `SCRAPER_DOWNLOADS_DIR` | `.scraper_tmp_downloads` | Temporary download directory |
 | `SCRAPER_DOWNLOAD_TIMEOUT` | `120` | Download timeout in seconds |
 | `HTTP_USER_AGENT` | `RiskRADARBot/1.0` | Browser user agent string |
 | `SCRAPER_PAGELOAD_TIMEOUT` | `60` | Page load timeout in seconds |
 | `SCRAPER_REQUEST_DELAY` | `2.0` | Delay between requests (seconds) |
 | `SCRAPER_DOWNLOAD_DELAY` | `3.0` | Delay between downloads (seconds) |
-| `SCRAPER_PAGE_DELAY` | `2.0` | Delay between page navigations (seconds) |
+| `SCRAPER_PAGE_DELAY` | `2.0` | Delay between page navigations |
 
-## Summary
+---
 
-The scraper library keeps your code short and expressive. Compose browser setup, actions, waits, and downloads in sequence. Keep the library generic and put site-specific steps in your application code.
+## Usage Patterns
+
+### Simple Form and Download
+
+```python
+with chrome(config) as driver:
+    go_to(driver, url)
+    select_dropdown_by_value(driver, dropdown_locator, value)
+    click(driver, export_button)
+    downloaded = wait_for_new_download(config)
+    move_and_rename(downloaded, target_dir, filename)
+```
+
+### Paginated Scraping
+
+```python
+with chrome(config) as driver:
+    go_to(driver, base_url)
+
+    while has_next_page(driver):
+        # Process current page
+        for item in get_items(driver):
+            process_item(item)
+            rate_limit(config.request_delay_sec)
+
+        # Navigate to next page
+        click(driver, next_button)
+        rate_limit(config.page_delay_sec)
+```
+
+### Multiple Downloads
+
+```python
+with chrome(config) as driver:
+    for report_id in report_ids:
+        go_to(driver, f"{base_url}/{report_id}")
+        click(driver, download_button)
+        downloaded = wait_for_new_download(config)
+        move_and_rename(downloaded, storage_dir, f"{report_id}.pdf")
+        rate_limit(config.download_delay_sec)
+```
+
+---
+
+## Rate Limiting
+
+**Always use rate limiting** to be respectful to target servers. The library provides configurable delays with random jitter to avoid predictable patterns.
+
+### robots.txt Compliance
+
+Before scraping, verify the target path is allowed:
+
+```bash
+curl https://example.com/robots.txt
+```
+
+For NTSB (the target of this project):
+- `/investigations/AccidentReports/` is **ALLOWED**
+- No `Crawl-delay` specified, but we enforce 2-3 second delays
+
+### Recommended Delays
+
+| Operation | Minimum Delay | Default |
+|-----------|---------------|---------|
+| Between requests | 1.0s | 2.0s |
+| Between downloads | 2.0s | 3.0s |
+| Between page navigations | 1.0s | 2.0s |
+
+---
+
+## Limitations
+
+1. **Chrome Only**: Currently only supports ChromeDriver. Firefox/Safari not implemented.
+
+2. **Single Session**: No connection pooling or session management. Each `chrome()` context is a fresh browser instance.
+
+3. **No Proxy Support**: Proxy configuration not currently implemented.
+
+4. **No JavaScript Rendering Wait**: Uses page load detection, not JavaScript completion. For SPAs, add explicit waits.
+
+5. **Local Downloads Only**: Downloads go to local filesystem. No direct cloud storage upload.
+
+---
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `config.py` | BrowserConfig dataclass and environment loading |
+| `browser.py` | Chrome driver setup and context manager |
+| `actions.py` | Page navigation, form actions, clicking |
+| `download.py` | Download waiting and file operations |
+| `waits.py` | Rate limiting and wait utilities |
+| `setup.py` | Package installation configuration |
+| `__init__.py` | Package exports |
+
+---
+
+## See Also
+
+- [Main README](../README.md) - Project overview
+- [riskradar/README.md](../riskradar/README.md) - Configuration
+- [sqlite/README.md](../sqlite/README.md) - Database schema (reports table)

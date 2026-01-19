@@ -4,16 +4,19 @@ RiskRADAR Analytics CLI
 Interactive DuckDB shell for querying pages, documents, and chunks data.
 
 Usage:
-    py -m analytics.cli                           # Interactive shell
-    py -m analytics.cli --query "SELECT ..."      # Run single query
-    py -m analytics.cli --help                    # Show help
+    python -m analytics.cli                           # Interactive shell
+    python -m analytics.cli --query "SELECT ..."      # Run single query
+    python -m analytics.cli --help                    # Show help
 """
 
 import argparse
+import logging
 import sys
 from pathlib import Path
 
 import duckdb
+
+logger = logging.getLogger(__name__)
 
 from analytics.views import register_views, list_views
 
@@ -48,7 +51,7 @@ def setup_connection() -> duckdb.DuckDBPyConnection:
 
     if missing:
         print(f"Warning: Missing Parquet files: {missing}")
-        print("Run 'py -m analytics.convert' to generate them.")
+        print("Run 'python -m analytics.convert' to generate them.")
         print()
 
     # Attach SQLite database
@@ -75,25 +78,29 @@ def get_data_summary(conn: duckdb.DuckDBPyConnection) -> dict:
     try:
         result = conn.execute("SELECT COUNT(*) FROM pages").fetchone()
         summary["pages"] = result[0] if result else 0
-    except Exception:
+    except Exception as e:
+        logger.debug(f"Could not query pages table: {e}")
         summary["pages"] = 0
 
     try:
         result = conn.execute("SELECT COUNT(*) FROM documents").fetchone()
         summary["documents"] = result[0] if result else 0
-    except Exception:
+    except Exception as e:
+        logger.debug(f"Could not query documents table: {e}")
         summary["documents"] = 0
 
     try:
         result = conn.execute("SELECT COUNT(*) FROM chunks").fetchone()
         summary["chunks"] = result[0] if result else 0
-    except Exception:
+    except Exception as e:
+        logger.debug(f"Could not query chunks table: {e}")
         summary["chunks"] = 0
 
     try:
         result = conn.execute("SELECT COUNT(*) FROM sqlite.reports").fetchone()
         summary["reports"] = result[0] if result else 0
-    except Exception:
+    except Exception as e:
+        logger.debug(f"Could not query sqlite.reports table: {e}")
         summary["reports"] = 0
 
     return summary
@@ -243,7 +250,7 @@ def main():
 
     if not parquet_exists:
         print("No Parquet files found. Run conversion first:")
-        print("  py -m analytics.convert")
+        print("  python -m analytics.convert")
         sys.exit(1)
 
     # Setup connection

@@ -1,43 +1,124 @@
-# PDF Text Extraction & Chunking Pipeline
+# extraction - PDF Text Extraction & Chunking Pipeline
 
-This directory contains the multi-pass PDF text extraction (Phase 3) and chunking (Phase 4) pipelines for RiskRADAR.
+Text extraction (Phase 3) and semantic chunking (Phase 4) pipelines for RiskRADAR.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Role in Pipeline](#role-in-pipeline)
+- [Directory Structure](#directory-structure)
+- [Phase 3: Text Extraction](#phase-3-text-extraction)
+  - [Pass 1: Initial Extraction](#pass-1-initial-extraction)
+  - [Pass 2: OCR Retry](#pass-2-ocr-retry)
+  - [Quality Thresholds](#quality-thresholds)
+  - [OCR Confidence](#ocr-confidence)
+- [Phase 4: Chunking](#phase-4-chunking)
+  - [Three-Pass Pipeline](#three-pass-pipeline)
+  - [CLI Commands](#cli-commands)
+  - [Chunking Parameters (v2)](#chunking-parameters-v2)
+  - [Section Detection](#section-detection)
+  - [Footnote Handling](#footnote-handling)
+- [Output Files](#output-files)
+  - [Phase 3 JSON Schema](#phase-3-json-schema)
+  - [Chunk JSONL Schema](#chunk-jsonl-schema)
+- [Database Tables](#database-tables)
+- [Performance](#performance)
+- [Troubleshooting](#troubleshooting)
+- [Limitations](#limitations)
+- [See Also](#see-also)
+
+---
+
+## Overview
+
+The `extraction` module provides:
+
+- **Multi-pass PDF text extraction** with quality metrics and OCR fallback
+- **Section-aware chunking** with header detection and footnote linking
+- **Token-controlled chunk sizes** (400-800 tokens) optimized for embedding models
+- **Full lineage tracking** from source PDF page to final chunk
+- **Quality gates** at every stage to ensure data integrity
+
+This is where raw PDFs become search-ready text chunks. The extraction quality directly impacts downstream embedding and retrieval quality.
+
+---
+
+## Role in Pipeline
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                      Phase 3: Text Extraction                            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│    510 PDFs ──────► pymupdf ──────► Quality Gate ──────► OCR fallback   │
+│    (NAS)              │                   │                    │         │
+│                       ▼                   ▼                    ▼         │
+│                 embedded text        threshold?          pytesseract     │
+│                 (47% pages)         char_count          (53% pages)      │
+│                       │             alpha_ratio              │           │
+│                       │             garbage_ratio            │           │
+│                       └───────────────────┬──────────────────┘           │
+│                                           ▼                              │
+│                                     30,602 pages                         │
+│                                    (json_data/)                          │
+└─────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        Phase 4: Chunking                                 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│    pages.jsonl ────► documents.jsonl ────► chunks.jsonl                 │
+│    (30,602)              (510)               (24,766)                    │
+│        │                   │                    │                        │
+│        ▼                   ▼                    ▼                        │
+│    consolidated       full text           search-ready                   │
+│    deduplicated       per report          with sections                  │
+│                                           and footnotes                  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
 
 ## Directory Structure
 
-- `processing/` - Pipeline modules
-  - **Phase 3 (Extraction):**
-    - `quality.py` - Quality assessment and thresholds
-    - `pdf_reader.py` - Embedded text extraction (pymupdf)
-    - `ocr.py` - OCR processing with confidence scores (pytesseract)
-    - `extract.py` - Multi-pass extraction orchestration
-    - `analytics.py` - Quality reporting and analytics queries
-  - **Phase 4 (Chunking):**
-    - `chunk.py` - Chunking pipeline CLI entry point
-    - `consolidate_pages.py` - Pass 0: JSON → pages.jsonl
-    - `consolidate.py` - Pass 1: pages → documents.jsonl
-    - `section_detect.py` - Section header detection
-    - `toc_detect.py` - TOC page detection
-    - `footnote_parse.py` - Footnote extraction
-    - `tokenizer.py` - tiktoken cl100k wrapper
-- `scripts/` - Extraction-specific scripts
-  - `verify_ocr.py` - Verify OCR dependencies installed
-  - `install_tesseract.ps1` - Automated Tesseract installation (Windows)
-  - `validate_extraction.py` - Pipeline validation script
-- `json_data/` - Pipeline outputs (GITIGNORED)
-  - **Phase 3 outputs:**
-    - `passed/` - Pages that passed quality checks (per-page JSON)
-    - `failed/` - Pages that failed embedded extraction (need OCR)
-    - `ocr_retry/` - OCR re-extraction results (per-page JSON)
-  - **Phase 4 outputs:**
-    - `pages.jsonl` - Consolidated pages (one line per page)
-    - `documents.jsonl` - Full documents (one line per document)
-    - `chunks.jsonl` - Search-ready chunks (one line per chunk)
-- `temp/` - Temporary workspace (deleted after quality gate)
+```
+extraction/
+├── processing/               # Pipeline modules
+│   ├── extract.py           # Multi-pass extraction orchestration
+│   ├── pdf_reader.py        # Embedded text extraction (pymupdf)
+│   ├── ocr.py               # OCR processing (pytesseract)
+│   ├── quality.py           # Quality assessment and thresholds
+│   ├── analytics.py         # Quality reporting queries
+│   ├── chunk.py             # Chunking pipeline CLI entry point
+│   ├── consolidate_pages.py # Pass 0: JSON → pages.jsonl
+│   ├── consolidate.py       # Pass 1: pages → documents.jsonl
+│   ├── section_detect.py    # Section header detection
+│   ├── toc_detect.py        # TOC page detection
+│   ├── footnote_parse.py    # Footnote extraction
+│   └── tokenizer.py         # tiktoken cl100k wrapper
+├── scripts/                  # Utility scripts
+│   ├── verify_ocr.py        # Verify OCR dependencies
+│   ├── install_tesseract.ps1 # Automated Tesseract install (Windows)
+│   └── validate_extraction.py # Pipeline validation
+├── json_data/                # Pipeline outputs (GITIGNORED)
+│   ├── passed/              # Pages that passed quality checks
+│   ├── failed/              # Pages that failed (need OCR)
+│   ├── ocr_retry/           # OCR re-extraction results
+│   ├── pages.jsonl          # Consolidated pages
+│   ├── documents.jsonl      # Full documents
+│   └── chunks.jsonl         # Search-ready chunks
+└── temp/                     # Temporary workspace (deleted after use)
+```
 
-## Phase 3: Extraction Pipeline
+---
+
+## Phase 3: Text Extraction
 
 ### Pass 1: Initial Extraction
-Extracts embedded text from all PDFs using pymupdf.
+
+Extracts embedded text from all PDFs using pymupdf. Fast (~35ms/page) but only works for PDFs with embedded text.
 
 ```bash
 # Process all reports
@@ -47,27 +128,59 @@ python -m extraction.processing.extract initial
 python -m extraction.processing.extract initial 10
 ```
 
+**Output:** JSON files in `json_data/passed/` or `json_data/failed/` based on quality gate.
+
 ### Pass 2: OCR Retry
-Runs OCR on pages that failed quality checks.
+
+Runs OCR on pages that failed quality checks. Slower (~7-10s/page at 300 DPI) but handles scanned documents.
 
 ```bash
 python -m extraction.processing.extract ocr
 ```
 
+**Output:** JSON files in `json_data/ocr_retry/` with confidence scores.
+
 ### Full Pipeline
-Runs both passes sequentially.
+
+Runs both passes sequentially:
 
 ```bash
 python -m extraction.processing.extract all
 ```
 
-**Note:** Use `python` (not `py`) when the venv is activated. The pipeline requires NAS access for PDF files.
+**Note:** Use `python` (not `py`) when venv is activated. Requires NAS access for PDF files.
+
+### Quality Thresholds
+
+Pages must meet ALL criteria to pass:
+
+| Metric | Threshold | Purpose |
+|--------|-----------|---------|
+| `char_count` | ≥ 50 | Page has meaningful content |
+| `alphabetic_ratio` | ≥ 0.50 | More letters than garbage characters |
+| `garbage_ratio` | ≤ 0.15 | Low proportion of unrecognized characters |
+| `word_count` | ≥ 10 | At least some words extracted |
+
+Pages failing any threshold are sent to OCR retry.
+
+### OCR Confidence
+
+OCR extractions include word-level confidence scores:
+
+| Range | Quality | Action |
+|-------|---------|--------|
+| ≥ 80 | Good | Use as-is |
+| 60-80 | Acceptable | Use with caution |
+| < 60 | Poor | Flagged for review |
+
+```bash
+# View quality analytics
+python -m extraction.processing.analytics
+```
 
 ---
 
-## Phase 4: Chunking Pipeline
-
-Transforms extracted pages into search-ready chunks for embedding.
+## Phase 4: Chunking
 
 ### Three-Pass Pipeline
 
@@ -76,6 +189,8 @@ Pass 0: JSON files → pages.jsonl (consolidated, deduplicated, ordered)
 Pass 1: pages.jsonl → documents.jsonl (per-report full text)
 Pass 2: documents.jsonl → chunks.jsonl (search-ready segments)
 ```
+
+Each pass is independently runnable and resumable.
 
 ### CLI Commands
 
@@ -92,87 +207,54 @@ python -m extraction.processing.chunk chunks     # Pass 2 only
 python -m extraction.processing.chunk all --limit 10
 ```
 
-### Chunking Parameters
+### Chunking Parameters (v2)
 
 | Parameter | Value | Description |
 |-----------|-------|-------------|
+| Token min | 400 | Minimum tokens per chunk |
 | Token target | 600 | Target tokens per chunk |
-| Token min | 500 | Minimum tokens (soft limit) |
-| Token max | 700 | Maximum tokens (soft limit) |
-| Overlap | 20% | Overlap between consecutive chunks (~120 tokens) |
-| Tokenizer | cl100k_base | tiktoken encoding |
+| Token max | 800 | Maximum tokens per chunk |
+| Overlap | 25% | Overlap between consecutive chunks (~150 tokens) |
+| Tokenizer | cl100k_base | tiktoken encoding (GPT-4 compatible) |
+| Section prefix | Yes | Chunks prefixed with `[SECTION_NAME]` for context |
 
-### Output Files
-
-| File | Records | Size | Description |
-|------|---------|------|-------------|
-| `pages.jsonl` | 30,602 | ~69 MB | One line per page, deduplicated |
-| `documents.jsonl` | 510 | ~68 MB | One line per document, full text |
-| `chunks.jsonl` | 28,321 | ~85 MB | One line per chunk, search-ready |
-
-### Chunk JSONL Schema
-
-```json
-{
-  "chunk_id": "AAR7005.pdf_chunk_0003",
-  "report_id": "AAR7005.pdf",
-  "chunk_sequence": 3,
-  "page_start": 5,
-  "page_end": 6,
-  "char_start": 8500,
-  "char_end": 10200,
-  "section_name": "METEOROLOGICAL INFORMATION",
-  "section_number": "1.8",
-  "section_detection_method": "pattern_match",
-  "chunk_text": "...",
-  "token_count": 623,
-  "text_source": "embedded",
-  "has_footnotes": true,
-  "footnotes": [{"marker": "1/", "text": "All times are Pacific standard"}],
-  "created_at": "2026-01-11T16:40:00"
-}
-```
+> **v1 vs v2:** v1 used 500-700 token range with 20% overlap and no section prefixes. v2 expanded to 400-800 with 25% overlap and section prefixes for better retrieval. This improved MRR from 0.788 to 0.816 (+3.5%).
 
 ### Section Detection
 
 The pipeline detects NTSB section headers using regex patterns:
 
-| Pattern | Example |
-|---------|---------|
+| Pattern Type | Example |
+|--------------|---------|
 | Numbered section | `1.8 METEOROLOGICAL INFORMATION` |
 | Standalone header | `SYNOPSIS` |
 | Letter subsection | `(a) Findings` |
-| Spaced decimal | `1. 8 Aids to Navigation` |
+| Spaced decimal | `1. 8 Aids to Navigation` (OCR artifacts) |
+
+**Detection stats (v2):**
+- 99.2% pattern match
+- 0.8% paragraph fallback
+- <0.1% no structure
 
 When no sections detected, falls back to paragraph-based chunking.
 
-### Analytics
+### Footnote Handling
 
-The pipeline logs comprehensive analytics at completion:
+NTSB reports heavily use footnotes. The pipeline:
 
-```
-CHUNK ANALYTICS REPORT
-Total chunks: 28,321
-Total documents: 510
-Total tokens: 15,124,726
-Avg tokens/chunk: 534.0
-Median tokens/chunk: 658.0
-Token distribution:
-  Under 500: 9,419 (33.3%)
-  In range (500-700): 9,863 (34.8%)
-  Over 700: 9,039 (31.9%)
-Text source distribution: {'embedded': 12977, 'mixed': 452, 'ocr': 14892}
-Section detection: {'pattern_match': 26977, 'paragraph_fallback': 1334}
-Chunks with footnotes: 1264
-```
+1. Detects footnote markers in text (e.g., "1/", "2/")
+2. Extracts footnote definitions from page bottoms
+3. Appends relevant footnotes to chunks that reference them
+
+**v2 stats:** 1,297 chunks (5.2%) have footnotes appended.
 
 ---
 
-## Phase 3 JSON Schema
+## Output Files
+
+### Phase 3 JSON Schema
 
 Each page is stored as `{report_id}/{report_base}_page_{number:04d}.json`:
-
-Example: `AAR7008.pdf/AAR7008_page_0001.json`
 
 ```json
 {
@@ -197,39 +279,43 @@ Example: `AAR7008.pdf/AAR7008_page_0001.json`
 }
 ```
 
-## Quality Thresholds
+### Chunk JSONL Schema
 
-Pages must meet ALL criteria to pass:
-- `char_count >= 50`
-- `alphabetic_ratio >= 0.50`
-- `garbage_ratio <= 0.15`
-- `word_count >= 10`
-
-## OCR Confidence
-
-OCR extractions include word-level confidence scores:
-- **Good:** mean_confidence >= 80
-- **Acceptable:** 60-80
-- **Poor:** < 60 (flagged for review)
-
-## Analytics
-
-View quality statistics:
-
-```bash
-python -m extraction.processing.analytics
+```json
+{
+  "chunk_id": "AAR7005.pdf_chunk_0003",
+  "report_id": "AAR7005.pdf",
+  "chunk_sequence": 3,
+  "page_start": 5,
+  "page_end": 6,
+  "char_start": 8500,
+  "char_end": 10200,
+  "section_name": "METEOROLOGICAL INFORMATION",
+  "section_number": "1.8",
+  "section_detection_method": "pattern_match",
+  "chunk_text": "...",
+  "token_count": 623,
+  "text_source": "embedded",
+  "has_footnotes": true,
+  "footnotes": [{"marker": "1/", "text": "All times are Pacific standard"}],
+  "created_at": "2026-01-11T16:40:00"
+}
 ```
 
-Or query the database directly:
-```bash
-sqlite3 sqlite/riskradar.db "SELECT status, COUNT(*) FROM pages GROUP BY status;"
-```
+### Output File Sizes (v2)
 
-## Database
+| File | Records | Size | Description |
+|------|---------|------|-------------|
+| `pages.jsonl` | 30,602 | ~69 MB | One line per page, deduplicated |
+| `documents.jsonl` | 510 | ~68 MB | One line per document, full text |
+| `chunks.jsonl` | 24,766 | ~85 MB | One line per chunk, search-ready |
 
-Extraction and chunking data is stored in `sqlite/riskradar.db`:
+---
+
+## Database Tables
 
 ### Phase 3 Tables
+
 | Table | Purpose |
 |-------|---------|
 | `pages` | Per-page extraction status and quality metrics |
@@ -237,12 +323,42 @@ Extraction and chunking data is stored in `sqlite/riskradar.db`:
 | `extraction_errors` | Extraction error details with stack traces |
 
 ### Phase 4 Tables
+
 | Table | Purpose |
 |-------|---------|
 | `documents` | Consolidated document metadata |
 | `chunks` | Search-ready chunks with lineage |
 | `chunking_runs` | Chunking pipeline execution history |
 | `chunking_errors` | Chunking error details with stack traces |
+
+```bash
+# Check run history
+sqlite3 sqlite/riskradar.db "SELECT * FROM extraction_runs ORDER BY id;"
+sqlite3 sqlite/riskradar.db "SELECT * FROM chunking_runs ORDER BY id;"
+```
+
+---
+
+## Performance
+
+### Phase 3 (Extraction)
+
+| Operation | Time | Notes |
+|-----------|------|-------|
+| Embedded text | ~35ms/page | Fast, uses pymupdf |
+| OCR with confidence | ~7-10s/page | 300 DPI, pytesseract |
+| Batch of 10 reports (~450 pages) | ~1.5 hours | Mostly OCR time |
+
+### Phase 4 (Chunking)
+
+| Operation | Time | Notes |
+|-----------|------|-------|
+| Full pipeline | ~70 seconds | All 510 reports, 30K pages |
+| Pass 0 (consolidate pages) | ~7 seconds | |
+| Pass 1 (build documents) | ~25 seconds | |
+| Pass 2 (chunk documents) | ~35 seconds | |
+
+---
 
 ## Troubleshooting
 
@@ -264,34 +380,33 @@ sqlite3 sqlite/riskradar.db "SELECT * FROM extraction_runs ORDER BY id;"
 **NAS connection issues:**
 See CLAUDE.md for NAS troubleshooting steps.
 
-## Performance
-
-### Phase 3 (Extraction)
-- Embedded text: ~35ms/page
-- OCR with confidence: ~7-10 seconds/page (300 DPI)
-- Batch of 10 reports (~450 pages): ~1.5 hours for OCR
-
-### Phase 4 (Chunking)
-- Full pipeline (510 reports, 30K pages): ~70 seconds
-- Pass 0 (consolidate pages): ~7 seconds
-- Pass 1 (build documents): ~25 seconds
-- Pass 2 (chunk documents): ~35 seconds
+**OCR dependency missing:**
+```bash
+python -m extraction.scripts.verify_ocr
+```
 
 ---
 
-## Next Step: Phase 5 Embeddings
+## Limitations
 
-After chunking is complete, the `chunks.jsonl` file is ready for embedding:
+1. **Tesseract Required**: OCR pass requires Tesseract 4.0+ installed on the system. Windows users can run `install_tesseract.ps1`.
 
-```bash
-# Generate embeddings for both models
-python -m embeddings.cli embed both
+2. **NAS Dependency**: PDFs must be accessible via the configured NAS path. No local PDF storage.
 
-# Upload to Qdrant Cloud
-python -m embeddings.cli upload both
+3. **Memory for Large PDFs**: Some 100+ page reports may require significant memory during OCR. Consider processing in batches.
 
-# Run benchmark evaluation
-python -m eval.benchmark run
-```
+4. **OCR Quality Varies**: Historical documents (1960s-1980s) often have lower OCR confidence due to scan quality.
 
-See [eval/README.md](../eval/README.md) for benchmark documentation.
+5. **No Multi-Language**: OCR configured for English only. Reports with non-English content may have lower quality.
+
+6. **Single-Threaded**: Extraction runs single-threaded for predictability. Could be parallelized for speed.
+
+---
+
+## See Also
+
+- [Main README](../README.md) - Project overview
+- [sqlite/README.md](../sqlite/README.md) - Database schema (pages, chunks tables)
+- [embeddings/README.md](../embeddings/README.md) - Next step: generating embeddings
+- [analytics/README.md](../analytics/README.md) - DuckDB queries on chunks data
+- [PORTFOLIO.md](../PORTFOLIO.md) - Chunking evolution (v1 vs v2)

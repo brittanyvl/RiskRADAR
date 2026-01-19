@@ -89,6 +89,9 @@ embeddings_data/
 !extraction/json_data/.gitkeep
 !extraction/temp/.gitkeep
 
+# Pip version artifacts (from malformed pip commands)
+=*
+
 # OS files
 .DS_Store
 Thumbs.db

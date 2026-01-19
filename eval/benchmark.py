@@ -66,6 +66,46 @@ def get_final_report_path(version: str = DEFAULT_VERSION) -> Path:
 # Legacy compatibility - defaults to current version
 RESULTS_DIR = get_results_dir(DEFAULT_VERSION)
 
+# Paths for prerequisite checking
+CHUNKS_PARQUET_PATH = EVAL_DIR.parent / "analytics" / "data" / "chunks.parquet"
+
+
+def validate_prerequisites() -> Tuple[bool, List[str]]:
+    """
+    Check prerequisites before running benchmark.
+
+    Returns:
+        Tuple of (all_ok, list of error messages)
+    """
+    errors = []
+
+    # Check Qdrant credentials
+    try:
+        get_qdrant_config()
+    except ValueError:
+        errors.append(
+            "Qdrant credentials not configured.\n"
+            "  1. Create account at https://cloud.qdrant.io/\n"
+            "  2. Copy .env.example to .env\n"
+            "  3. Add QDRANT_URL and QDRANT_API_KEY"
+        )
+
+    # Check chunks.parquet exists for signal-based evaluation
+    if not CHUNKS_PARQUET_PATH.exists():
+        errors.append(
+            f"chunks.parquet not found at {CHUNKS_PARQUET_PATH}\n"
+            "  This file is required for signal-based relevance evaluation.\n"
+            "  Run these commands first:\n"
+            "    python -m extraction.processing.chunk all  # Phase 4\n"
+            "    python -m analytics.convert                # Convert to Parquet"
+        )
+
+    # Check gold_queries.yaml exists
+    if not GOLD_QUERIES_PATH.exists():
+        errors.append(f"Gold queries file not found: {GOLD_QUERIES_PATH}")
+
+    return (len(errors) == 0, errors)
+
 
 # =============================================================================
 # DATA CLASSES
@@ -456,15 +496,20 @@ def load_gold_queries() -> Dict:
 
 def load_chunks_for_relevance() -> Optional[pd.DataFrame]:
     """Load chunks parquet for relevance checking."""
-    chunks_path = Path(__file__).parent.parent / "analytics" / "data" / "chunks.parquet"
-    if chunks_path.exists():
+    if CHUNKS_PARQUET_PATH.exists():
         try:
-            df = pd.read_parquet(chunks_path)
+            df = pd.read_parquet(CHUNKS_PARQUET_PATH)
             df = df.set_index("chunk_id")
             logger.info(f"Loaded {len(df)} chunks for relevance checking")
             return df
         except Exception as e:
             logger.warning(f"Could not load chunks parquet: {e}")
+    else:
+        logger.warning(
+            f"chunks.parquet not found at {CHUNKS_PARQUET_PATH}. "
+            "Signal-based evaluation (comparative, aircraft, phase queries) will show MRR=0. "
+            "Run 'python -m analytics.convert' to generate it."
+        )
     return None
 
 
@@ -1768,6 +1813,16 @@ def cmd_run(args):
     RESULTS_DIR = get_results_dir(args.version)
     HUMAN_REVIEW_DIR = get_human_reviews_dir(args.version)
     setup_logging(args.verbose)
+
+    # Check prerequisites before running
+    prereqs_ok, errors = validate_prerequisites()
+    if not prereqs_ok:
+        print("ERROR: Prerequisites not met:\n")
+        for error in errors:
+            print(f"  - {error}\n")
+        print("Please fix these issues before running the benchmark.")
+        return 1
+
     print(f"Running benchmark for version: {args.version}")
     print(f"Results will be saved to: {RESULTS_DIR}")
 
@@ -1793,6 +1848,13 @@ def cmd_run(args):
         print(f"  Mean latency: {run.mean_total_latency_ms:.0f}ms (p95: {run.p95_total_latency_ms:.0f}ms)")
         print(f"  Duration: {run.duration_sec:.1f}s")
         print(f"  Results: {json_path}")
+
+        # Warn if results look suspicious
+        if run.mean_mrr < 0.1 and run.total_queries >= 20:
+            print(f"\n  WARNING: Mean MRR is very low ({run.mean_mrr:.3f}). This may indicate:")
+            print(f"    - Embeddings not uploaded to Qdrant (run: python -m embeddings.cli upload {model_name})")
+            print(f"    - chunks.parquet missing for signal-based evaluation")
+            print(f"    - Collection name mismatch in Qdrant")
 
     # Generate report if both models run
     if len(runs) == 2:
@@ -2034,7 +2096,7 @@ def cmd_organize_reviews(args):
     if stats['errors'] > 0:
         print(f"  Errors: {stats['errors']}")
 
-    print(f"\nYou can now focus on files in: eval/human_reviews_{version}/manual_review/")
+    print(f"\nYou can now focus on files in: eval/human_reviews_{args.version}/manual_review/")
 
     return 0
 

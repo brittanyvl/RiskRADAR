@@ -2,170 +2,364 @@
 
 **R**etrieval and **D**iscovery of **A**viation **A**ccident **R**eports
 
-An end-to-end data + ML project that transforms unstructured NTSB aviation accident PDFs into searchable, structured, explainable safety insights using embeddings, a vector database, and a hierarchical taxonomy.
+An end-to-end data engineering and machine learning pipeline that transforms unstructured NTSB aviation accident PDFs into searchable, semantically-indexed safety insights using modern NLP techniques, vector databases, and rigorous evaluation methodology.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Project Status](#project-status)
+- [Key Results](#key-results)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Requirements](#requirements)
+- [Module Documentation](#module-documentation)
+- [Data Pipeline](#data-pipeline)
+- [Evaluation Framework](#evaluation-framework)
+- [Project Structure](#project-structure)
+- [Technologies](#technologies)
+- [License](#license)
+
+---
+
+## Overview
+
+RiskRADAR demonstrates a complete production-grade pipeline for processing unstructured documents into a semantic search system. The project:
+
+1. **Scrapes** 510 aviation accident reports from the NTSB website
+2. **Extracts** text using embedded extraction and OCR with quality metrics
+3. **Chunks** documents into semantically coherent segments with section awareness
+4. **Embeds** chunks using both general-purpose and domain-specific models
+5. **Indexes** vectors in Qdrant Cloud for similarity search
+6. **Evaluates** retrieval quality using a rigorous 50-query benchmark with human review
+
+This project serves as a portfolio piece demonstrating skills in data engineering, NLP, information retrieval, and ML evaluation methodology.
+
+---
 
 ## Project Status
 
 | Phase | Status | Description |
 |-------|--------|-------------|
-| Phase 1 - Scraping | Complete | 510 PDFs downloaded from NTSB |
-| Phase 2 - Metadata | Complete | Report metadata extracted |
-| Phase 3 - Text Extraction | Complete | 30,602 pages extracted (14K embedded + 16K OCR) |
-| Phase 4 - Chunking | Complete | 28,321 search-ready chunks created |
-| Phase 5 - Embeddings | **In Progress** | Embedding pipeline built, benchmark ready |
-| Phase 6-8 - App | Not Started | |
+| Phase 1 - Scraping | **Complete** | 510 PDFs downloaded from NTSB |
+| Phase 2 - Metadata | **Complete** | Report metadata extracted and stored |
+| Phase 3 - Text Extraction | **Complete** | 30,602 pages extracted (14K embedded + 16K OCR) |
+| Phase 4 - Chunking | **Complete** | 24,766 search-ready chunks (v2: 400-800 tokens) |
+| Phase 5 - Embeddings | **Complete** | Dual-model embeddings with benchmark evaluation |
+| Phase 6-8 - App | Planned | Streamlit search and analytics interface |
 
-### Phase 5 Status (Current)
+---
 
-- Embedding pipeline implemented for MiniLM (384d) and MIKA (768d)
-- Qdrant Cloud integration complete
-- Professional benchmark framework with 50 stratified queries
-- Awaiting embedding generation and benchmark execution
+## Key Results
+
+### Benchmark Performance (v2)
+
+| Model | MRR | Hit@10 | Semantic Precision | Semantic Lift |
+|-------|-----|--------|-------------------|---------------|
+| MiniLM | 0.704 | 100% | 92.7% | +28.2% |
+| **MIKA** | **0.816** | **100%** | **97.1%** | **+38.6%** |
+
+**Recommendation:** MIKA (NASA's aviation-domain model) achieves 38.6% semantic lift over keyword baseline, demonstrating the value of domain-specific embeddings for specialized corpora.
+
+### v1 to v2 Improvements
+
+| Metric | v1 | v2 | Improvement |
+|--------|----|----|-------------|
+| MRR (MIKA) | 0.788 | 0.816 | +3.5% |
+| Hit@10 | 94.9% | 100% | +5.1% |
+| Chunks in target range | 35% | 95.6% | +60.6% |
+
+The v2 chunking strategy (400-800 tokens with section prefixes and 25% overlap) dramatically improved both chunk quality and retrieval performance.
+
+---
+
+## Architecture
+
+```
+                                 RiskRADAR Architecture
+
+    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+    │   NTSB      │     │   Extract   │     │   Chunk     │     │   Embed     │
+    │   Website   │────▶│   + OCR     │────▶│   + Index   │────▶│   + Upload  │
+    │  (510 PDFs) │     │  (30K pages)│     │ (24K chunks)│     │  (Qdrant)   │
+    └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+          │                   │                   │                   │
+          ▼                   ▼                   ▼                   ▼
+    ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+    │   SQLite    │     │   JSON/     │     │   Parquet   │     │   Vector    │
+    │  (metadata) │     │   JSONL     │     │  (analytics)│     │   Search    │
+    └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+```
+
+---
 
 ## Quick Start
 
+### Prerequisites
+
+- Python 3.9+
+- Git
+- Tesseract OCR (for PDF processing)
+- Qdrant Cloud account (free tier sufficient)
+
+### Installation
+
 ```bash
-# Clone and setup
-git clone <repo>
-cd RiskRADAR
+# Clone repository
+git clone https://github.com/yourusername/riskRADAR.git
+cd riskRADAR
+
+# Create and activate virtual environment
 python -m venv venv
-venv\Scripts\activate  # Windows (use `source venv/bin/activate` on Linux/Mac)
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # Linux/Mac
+
+# Install dependencies
 python -m pip install -r requirements.txt
 python -m pip install -e ./scraper
 
-# Run extraction pipeline (requires NAS access)
-python -m extraction.processing.extract initial --limit 10
-python -m extraction.processing.extract ocr
+# Configure environment
+cp .env.example .env
+# Edit .env with your Qdrant credentials
+```
 
-# Run chunking pipeline (Phase 4)
+### Verify Setup
+
+```bash
+python -m scripts.verify_setup
+```
+
+### Run Pipeline
+
+```bash
+# Phase 3: Extract text from PDFs (requires NAS access)
+python -m extraction.processing.extract all
+
+# Phase 4: Chunk documents
 python -m extraction.processing.chunk all
 
-# Setup analytics (DuckDB)
-python -m analytics.convert    # Convert JSONL to Parquet
-python -m analytics.cli        # Launch interactive SQL shell
+# Phase 5: Generate embeddings and upload
+python -m embeddings.cli all
 
-# Phase 5: Embeddings (requires Qdrant credentials in .env)
-python -m embeddings.cli embed both      # Generate embeddings
-python -m embeddings.cli upload both     # Upload to Qdrant
-python -m eval.benchmark run             # Run benchmark
+# Run benchmark evaluation
+python -m eval.benchmark run
 ```
 
-**Note:** Always use `python` (not `py`) when the venv is activated. See [CLAUDE.md](CLAUDE.md) for details.
+---
 
-## Directory Structure
+## Requirements
+
+### System Requirements
+
+| Component | Requirement |
+|-----------|-------------|
+| Python | 3.9 or higher |
+| RAM | 8GB minimum (16GB recommended for MIKA) |
+| Storage | ~2GB for embeddings + source data |
+| Tesseract | 4.0+ for OCR processing |
+| Poppler | For PDF to image conversion |
+
+### Python Dependencies
+
+Core dependencies (see `requirements.txt` for full list):
+
+- **Data Processing:** pandas, numpy, pyarrow
+- **PDF Extraction:** pymupdf, pytesseract, pdf2image
+- **Embeddings:** sentence-transformers, torch
+- **Vector Database:** qdrant-client
+- **Analytics:** duckdb
+- **Web Scraping:** selenium, webdriver-manager
+- **Tokenization:** tiktoken
+
+### External Services
+
+| Service | Purpose | Tier |
+|---------|---------|------|
+| Qdrant Cloud | Vector database hosting | Free tier (1M vectors) |
+| HuggingFace | Model downloads | Free |
+
+---
+
+## Module Documentation
+
+Each module has detailed documentation covering usage, API reference, and examples:
+
+| Module | Description | Documentation |
+|--------|-------------|---------------|
+| **riskradar** | Core configuration and shared utilities | [riskradar/README.md](riskradar/README.md) |
+| **sqlite** | Database schema and query layer | [sqlite/README.md](sqlite/README.md) |
+| **scraper** | Selenium-based web scraping library | [scraper/readme.md](scraper/readme.md) |
+| **extraction** | PDF extraction and chunking pipeline | [extraction/README.md](extraction/README.md) |
+| **embeddings** | Embedding generation and Qdrant upload | [embeddings/README.md](embeddings/README.md) |
+| **eval** | Benchmark framework and evaluation | [eval/README.md](eval/README.md) |
+| **analytics** | DuckDB analytics and SQL interface | [analytics/README.md](analytics/README.md) |
+
+---
+
+## Data Pipeline
+
+### Phase 3: Text Extraction
+
+```bash
+python -m extraction.processing.extract initial  # Embedded text
+python -m extraction.processing.extract ocr      # OCR for failed pages
+```
+
+- Extracts text from 510 PDFs (30,602 pages)
+- Quality metrics: alphabetic ratio, garbage ratio, word count
+- Automatic OCR fallback for scanned/image PDFs
+- Per-page JSON output with full lineage
+
+### Phase 4: Chunking
+
+```bash
+python -m extraction.processing.chunk all
+```
+
+- Three-pass pipeline: pages → documents → chunks
+- Section-aware chunking with header detection
+- Token range: 400-800 (target 600) with 25% overlap
+- Footnote extraction and linking
+- Output: 24,766 search-ready chunks
+
+### Phase 5: Embeddings
+
+```bash
+python -m embeddings.cli embed both   # Generate embeddings (~3.5 hours)
+python -m embeddings.cli upload both  # Upload to Qdrant
+python -m embeddings.cli verify both  # Verify collections
+```
+
+Two embedding models for comparison:
+
+| Model | Dimensions | Purpose |
+|-------|------------|---------|
+| MiniLM | 384 | General-purpose baseline |
+| MIKA | 768 | NASA aviation-domain model |
+
+---
+
+## Evaluation Framework
+
+The benchmark framework evaluates retrieval quality across 50 stratified queries:
+
+| Category | Count | Purpose |
+|----------|-------|---------|
+| Incident Lookup | 10 | Known accidents (Alaska 261, ValuJet 592) |
+| Conceptual Queries | 12 | Technical concepts (CRM, CFIT, fatigue) |
+| Section Queries | 10 | Structural retrieval (PROBABLE CAUSE) |
+| Comparative Queries | 8 | Analytical patterns |
+| Aircraft Queries | 6 | Aircraft-type specific |
+| Phase Queries | 4 | Flight phase specific |
+
+### Metrics
+
+- **MRR** (Mean Reciprocal Rank): Primary ranking metric
+- **Hit@K**: Recall at K=1,3,5,10,20
+- **nDCG@10**: Normalized discounted cumulative gain
+- **Semantic Precision**: Human-judged relevance
+- **Semantic Lift**: Improvement over keyword baseline
+
+### Run Evaluation
+
+```bash
+python -m eval.benchmark run              # Automated evaluation
+python -m eval.benchmark export-review    # Export for human review
+python -m eval.benchmark import-review    # Import completed reviews
+python -m eval.benchmark final-report     # Generate final report
+python -m eval.benchmark version-compare  # Compare v1 vs v2
+```
+
+See [eval/README.md](eval/README.md) for complete methodology documentation.
+
+---
+
+## Project Structure
 
 ```
-RiskRADAR/
-├── riskradar/           # Core configuration
-│   └── config.py        # DB_PATH, NAS_PATH, Qdrant settings
+riskRADAR/
+├── riskradar/           # Core configuration module
+│   └── config.py        # Paths, Qdrant settings, environment
 ├── sqlite/              # Database layer
-│   ├── riskradar.db     # SQLite database (510 reports)
-│   ├── schema.py        # Table definitions (v4)
-│   └── queries.py       # Common queries
+│   ├── schema.py        # Table definitions (14 tables)
+│   ├── connection.py    # Connection management
+│   └── queries.py       # Common SQL operations
 ├── scraper/             # Web scraping library
-├── extraction/          # PDF text extraction + chunking
-│   ├── processing/      # Pipeline modules
-│   │   ├── extract.py   # Text extraction pipeline
-│   │   ├── chunk.py     # Chunking pipeline (Phase 4)
-│   │   └── ...          # Supporting modules
-│   └── json_data/       # Pipeline outputs
-│       ├── passed/      # Embedded text pages
-│       ├── ocr_retry/   # OCR processed pages
-│       ├── pages.jsonl  # Consolidated pages
-│       ├── documents.jsonl  # Full document text
-│       └── chunks.jsonl # Search-ready chunks
-├── embeddings/          # Embedding pipeline (Phase 5)
-│   ├── config.py        # Model registry
+│   ├── browser.py       # Chrome driver management
+│   ├── actions.py       # Page interactions
+│   └── download.py      # File download handling
+├── extraction/          # PDF processing pipeline
+│   ├── processing/      # Extraction and chunking modules
+│   └── json_data/       # Pipeline outputs (gitignored)
+├── embeddings/          # Embedding pipeline
 │   ├── models.py        # Model wrapper
-│   ├── embed.py         # Embedding generation
-│   ├── upload.py        # Qdrant upload
-│   └── cli.py           # CLI entry point
-├── eval/                # Benchmark framework (Phase 5)
-│   ├── gold_queries.yaml  # 50 stratified test queries
-│   ├── benchmark.py     # Benchmark runner
+│   ├── embed.py         # Generation pipeline
+│   └── upload.py        # Qdrant integration
+├── eval/                # Benchmark framework
+│   ├── benchmark.py     # Evaluation runner
+│   ├── gold_queries.yaml # 50 test queries
 │   └── results/         # Benchmark outputs
-├── embeddings_data/     # Local embeddings (gitignored)
-├── analytics/           # DuckDB analytics engine
-│   ├── convert.py       # JSONL to Parquet conversion
+├── analytics/           # DuckDB analytics
 │   ├── cli.py           # Interactive SQL shell
-│   └── data/            # Parquet files (gitignored)
-├── logs/                # Execution logs
-├── CLAUDE.md            # Detailed project context
-├── PHASE5_PLAN.md       # Phase 5 implementation plan
+│   └── views.py         # Pre-built analytical views
+├── scripts/             # Utility scripts
+│   └── verify_setup.py  # Environment verification
+├── .env.example         # Environment template
+├── requirements.txt     # Python dependencies
+├── PORTFOLIO.md         # Project narrative and learnings
 └── README.md            # This file
 ```
 
-## Key Technologies
+---
 
-- **Scraping:** Selenium + webdriver-manager
-- **PDF Parsing:** pymupdf (embedded text)
-- **OCR:** pytesseract + pdf2image
-- **Database:** SQLite
-- **Analytics:** DuckDB + Parquet
-- **Vector DB:** Qdrant Cloud
-- **Embeddings:** sentence-transformers
-  - Baseline: `sentence-transformers/all-MiniLM-L6-v2` (384 dimensions)
-  - Domain: `NASA-AIML/MIKA_Custom_IR` (768 dimensions)
-- **App:** Streamlit (planned)
+## Technologies
 
-## Phase 5 Embedding Pipeline
+### Core Stack
 
-### CLI Commands
+| Category | Technology | Purpose |
+|----------|------------|---------|
+| Language | Python 3.9+ | Primary development |
+| Database | SQLite | Metadata and run tracking |
+| Analytics | DuckDB + Parquet | Ad-hoc SQL queries |
+| Vector DB | Qdrant Cloud | Similarity search |
+| Embeddings | sentence-transformers | Text vectorization |
 
-```bash
-# Embedding generation
-python -m embeddings.cli embed minilm    # MiniLM only
-python -m embeddings.cli embed mika      # MIKA only
-python -m embeddings.cli embed both      # Both models
+### Models
 
-# Qdrant upload
-python -m embeddings.cli upload minilm
-python -m embeddings.cli upload both
+| Model | Source | Dimensions |
+|-------|--------|------------|
+| all-MiniLM-L6-v2 | sentence-transformers | 384 |
+| MIKA_Custom_IR | NASA-AIML | 768 |
 
-# Full pipeline
-python -m embeddings.cli all             # Embed + upload both
+### PDF Processing
 
-# Verification
-python -m embeddings.cli verify minilm
-python -m embeddings.cli stats
-```
+| Tool | Purpose |
+|------|---------|
+| pymupdf | Embedded text extraction |
+| pytesseract | OCR processing |
+| pdf2image | PDF to image conversion |
 
-### Benchmark Framework
+---
 
-```bash
-# Run benchmark on both models
-python -m eval.benchmark run
+## Contributing
 
-# Run single model
-python -m eval.benchmark run -m minilm
+This is a portfolio project. Issues and suggestions are welcome.
 
-# Generate comparison report
-python -m eval.benchmark report
+---
 
-# Validate query definitions
-python -m eval.benchmark validate
-```
+## License
 
-The benchmark evaluates 50 queries across 6 categories:
-- Incident Lookup (10) - Known accidents with specific report IDs
-- Conceptual Queries (12) - Technical concepts requiring semantic understanding
-- Section Queries (10) - Queries targeting specific report sections
-- Comparative Queries (8) - Analytical queries about patterns
-- Aircraft Queries (6) - Aircraft-type specific searches
-- Phase Queries (4) - Flight phase specific searches
+MIT License - See LICENSE file for details.
 
-## Data Source
+---
 
-- **URL:** https://www.ntsb.gov/investigations/AccidentReports/
-- **PDFs:** Stored on NAS at `\\TRUENAS\Photos\RiskRADAR`
-- **Database:** `sqlite/riskradar.db`
-- **Vector DB:** Qdrant Cloud (riskradar_minilm, riskradar_mika collections)
+## Acknowledgments
 
-## Documentation
+- **NTSB** for making aviation accident reports publicly available
+- **NASA-AIML** for the MIKA domain-specific embedding model
+- **Qdrant** for the vector database platform
 
-- [CLAUDE.md](CLAUDE.md) - Detailed project context and phase specifications
-- [PHASE5_PLAN.md](PHASE5_PLAN.md) - Phase 5 embedding pipeline plan
-- [extraction/README.md](extraction/README.md) - Text extraction pipeline docs
-- [analytics/README.md](analytics/README.md) - DuckDB analytics engine docs
-- [eval/README.md](eval/README.md) - Benchmark framework docs
-- [scraper/readme.md](scraper/readme.md) - Web scraping library docs
+---
+
+*For detailed project narrative, technical challenges, and learnings, see [PORTFOLIO.md](PORTFOLIO.md).*

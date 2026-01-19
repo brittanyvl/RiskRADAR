@@ -12,9 +12,9 @@ Performs comprehensive checks on:
 - Section detection coverage
 
 Usage:
-  py -m extraction.scripts.validate_chunking
-  py -m extraction.scripts.validate_chunking --verbose
-  py -m extraction.scripts.validate_chunking --sample 10
+  python -m extraction.scripts.validate_chunking
+  python -m extraction.scripts.validate_chunking --verbose
+  python -m extraction.scripts.validate_chunking --sample 10
 """
 
 import argparse

@@ -24,11 +24,11 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from riskradar.config import DB_PATH
+from riskradar.config import DB_PATH, get_qdrant_config
 from sqlite.connection import init_db
 from sqlite import queries
 
-from .config import MODELS, get_parquet_path
+from .config import MODELS, get_parquet_path, CHUNKS_JSONL_PATH
 from .embed import embed_all_models, embed_chunks
 from .storage import get_parquet_stats
 from .upload import upload_all_models, upload_embeddings, verify_collection
@@ -75,13 +75,60 @@ def setup_logging(log_name: str, verbose: bool = False) -> logging.Logger:
     return logger
 
 
+def validate_prerequisites(command: str, logger: logging.Logger) -> bool:
+    """
+    Check prerequisites before running commands.
+
+    Returns True if all prerequisites are met, False otherwise.
+    """
+    errors = []
+
+    # For embed command: check chunks.jsonl exists
+    if command in ("embed", "all"):
+        if not CHUNKS_JSONL_PATH.exists():
+            errors.append(
+                f"Chunks file not found: {CHUNKS_JSONL_PATH}\n"
+                "  Run Phase 4 (chunking) first:\n"
+                "    python -m extraction.processing.chunk all"
+            )
+
+    # For upload/verify/all commands: check Qdrant credentials
+    if command in ("upload", "verify", "all"):
+        try:
+            get_qdrant_config()
+        except ValueError:
+            errors.append(
+                "Qdrant credentials not configured.\n"
+                "  1. Create account at https://cloud.qdrant.io/\n"
+                "  2. Copy .env.example to .env\n"
+                "  3. Add QDRANT_URL and QDRANT_API_KEY"
+            )
+
+    # For upload command: check embeddings parquet exists
+    if command == "upload":
+        # Will be checked per-model in upload function
+        pass
+
+    if errors:
+        for error in errors:
+            logger.error(f"Prerequisite check failed:\n  {error}")
+        return False
+
+    return True
+
+
 def cmd_embed(args):
     """Handle embed command."""
     logger = setup_logging(f"embed_{args.model}", args.verbose)
     logger.info(f"Embedding command: model={args.model}, limit={args.limit}")
 
+    # Check prerequisites
+    if not validate_prerequisites("embed", logger):
+        return 1
+
     conn = init_db(DB_PATH)
 
+    exit_code = 0
     try:
         if args.model == "both":
             stats = embed_all_models(limit=args.limit, conn=conn)
@@ -90,14 +137,23 @@ def cmd_embed(args):
                     logger.info(f"{model_name}: {model_stats['embeddings_generated']} embeddings")
                 else:
                     logger.error(f"{model_name}: {model_stats.get('error', 'failed')}")
+                    exit_code = 1
         else:
             stats = embed_chunks(model_name=args.model, limit=args.limit, conn=conn)
-            logger.info(f"Completed: {stats['embeddings_generated']} embeddings")
+            if stats.get("status") == "completed":
+                logger.info(f"Completed: {stats['embeddings_generated']} embeddings")
+            else:
+                logger.error(f"Embedding failed: {stats.get('error', 'unknown error')}")
+                exit_code = 1
+
+    except Exception as e:
+        logger.error(f"Embedding failed: {e}")
+        exit_code = 1
 
     finally:
         conn.close()
 
-    return 0
+    return exit_code
 
 
 def cmd_upload(args):
@@ -105,8 +161,13 @@ def cmd_upload(args):
     logger = setup_logging(f"upload_{args.model}", args.verbose)
     logger.info(f"Upload command: model={args.model}, recreate={args.recreate}")
 
+    # Check prerequisites
+    if not validate_prerequisites("upload", logger):
+        return 1
+
     conn = init_db(DB_PATH)
 
+    exit_code = 0
     try:
         if args.model == "both":
             stats = upload_all_models(recreate_collections=args.recreate, conn=conn)
@@ -115,24 +176,37 @@ def cmd_upload(args):
                     logger.info(f"{model_name}: {model_stats['uploaded_vectors']} vectors uploaded")
                 else:
                     logger.error(f"{model_name}: {model_stats.get('error', 'failed')}")
+                    exit_code = 1
         else:
             stats = upload_embeddings(
                 model_name=args.model,
                 recreate_collection=args.recreate,
                 conn=conn
             )
-            logger.info(f"Completed: {stats['uploaded_vectors']} vectors uploaded")
+            if stats.get("status") == "completed":
+                logger.info(f"Completed: {stats['uploaded_vectors']} vectors uploaded")
+            else:
+                logger.error(f"Upload failed: {stats.get('error', 'unknown error')}")
+                exit_code = 1
+
+    except Exception as e:
+        logger.error(f"Upload failed: {e}")
+        exit_code = 1
 
     finally:
         conn.close()
 
-    return 0
+    return exit_code
 
 
 def cmd_all(args):
     """Handle all command (embed + upload)."""
     logger = setup_logging("all", args.verbose)
     logger.info(f"Full pipeline: limit={args.limit}")
+
+    # Check prerequisites
+    if not validate_prerequisites("all", logger):
+        return 1
 
     conn = init_db(DB_PATH)
 
@@ -154,9 +228,16 @@ def cmd_all(args):
         logger.info("=" * 60)
         upload_stats = upload_all_models(conn=conn)
 
+        # Check for upload failures
+        exit_code = 0
+        for model_name, stats in upload_stats.items():
+            if stats.get("status") != "completed":
+                logger.error(f"Upload failed for {model_name}: {stats.get('error', 'unknown')}")
+                exit_code = 1
+
         # Summary
         logger.info("=" * 60)
-        logger.info("PIPELINE COMPLETE")
+        logger.info("PIPELINE COMPLETE" if exit_code == 0 else "PIPELINE COMPLETED WITH ERRORS")
         logger.info("=" * 60)
         for model_name in MODELS:
             e_stats = embed_stats.get(model_name, {})
@@ -166,15 +247,23 @@ def cmd_all(args):
             logger.info(f"  Uploaded: {u_stats.get('uploaded_vectors', 0)}")
             logger.info(f"  Collection: {u_stats.get('collection_name', 'N/A')}")
 
+    except Exception as e:
+        logger.error(f"Pipeline failed: {e}")
+        return 1
+
     finally:
         conn.close()
 
-    return 0
+    return exit_code
 
 
 def cmd_verify(args):
     """Handle verify command."""
     logger = setup_logging(f"verify_{args.model}", args.verbose)
+
+    # Check prerequisites
+    if not validate_prerequisites("verify", logger):
+        return 1
 
     if args.model == "both":
         models = list(MODELS.keys())
