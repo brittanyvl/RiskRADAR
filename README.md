@@ -13,9 +13,18 @@ An end-to-end data engineering and machine learning pipeline that transforms uns
 - [Key Results](#key-results)
 - [Architecture](#architecture)
 - [Quick Start](#quick-start)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Setup](#environment-setup)
+  - [Verify Setup](#verify-setup)
+  - [Run Pipeline](#run-pipeline)
 - [Requirements](#requirements)
 - [Module Documentation](#module-documentation)
 - [Data Pipeline](#data-pipeline)
+  - [Phase 1-2: Web Scraping](#phase-1-2-web-scraping)
+  - [Phase 3: Text Extraction](#phase-3-text-extraction)
+  - [Phase 4: Chunking](#phase-4-chunking)
+  - [Phase 5: Embeddings](#phase-5-embeddings)
 - [Evaluation Framework](#evaluation-framework)
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
@@ -118,11 +127,37 @@ venv\Scripts\activate        # Windows
 # Install dependencies
 python -m pip install -r requirements.txt
 python -m pip install -e ./scraper
-
-# Configure environment
-cp .env.example .env
-# Edit .env with your Qdrant credentials
 ```
+
+### Environment Setup
+
+Copy the environment template and configure your settings:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your values:
+
+```bash
+# Required for Phase 5 (Embeddings) - get from https://cloud.qdrant.io/
+QDRANT_URL=https://your-cluster-id.region.aws.cloud.qdrant.io:6333
+QDRANT_API_KEY=your_api_key_here
+
+# Required for PDF access - path to your PDF storage
+# Default assumes NAS at \\TRUENAS\Photos\RiskRADAR
+# RISKRADAR_NAS_PATH=\\TRUENAS\Photos\RiskRADAR
+
+# Optional - adjust if needed
+# RISKRADAR_DB_PATH=sqlite/riskradar.db
+# RISKRADAR_LOG_DIR=logs
+```
+
+**Getting Qdrant credentials:**
+1. Create account at https://cloud.qdrant.io/
+2. Create a cluster (free tier is sufficient)
+3. Go to **API Keys** tab → Create new key
+4. Copy the cluster URL and API key to `.env`
 
 ### Verify Setup
 
@@ -132,19 +167,27 @@ python -m scripts.verify_setup
 
 ### Run Pipeline
 
+The pipeline has 5 phases that must be run in order:
+
 ```bash
-# Phase 3: Extract text from PDFs (requires NAS access)
+# Phase 1-2: Scrape PDFs from NTSB (only if PDFs not already downloaded) and loads metadata into SQLite database. 
+# See scraper/readme.md for details - this downloads 510 PDFs to NAS
+python -m scraper.ntsb_scraper  # Takes ~1 hour with rate limiting
+
+# Phase 3: Extract text from PDFs (requires NAS access to PDFs)
 python -m extraction.processing.extract all
 
-# Phase 4: Chunk documents
+# Phase 4: Chunk documents into search-ready segments
 python -m extraction.processing.chunk all
 
-# Phase 5: Generate embeddings and upload
+# Phase 5: Generate embeddings and upload to Qdrant
 python -m embeddings.cli all
 
 # Run benchmark evaluation
 python -m eval.benchmark run
 ```
+
+**Note:** Phase 1-2 (scraping) has already been completed and the 510 PDFs are stored on the NAS in my configuration. New users need NAS access or other storage configured in their environment to run extraction.
 
 ---
 
@@ -199,6 +242,24 @@ Each module has detailed documentation covering usage, API reference, and exampl
 
 ## Data Pipeline
 
+### Phase 1-2: Web Scraping
+
+```bash
+# Only needed if PDFs are not already downloaded
+python -m scraper.ntsb_scraper
+```
+
+- Scrapes 510 aviation accident reports from [NTSB website](https://www.ntsb.gov/investigations/AccidentReports/Pages/Reports.aspx)
+- Downloads PDFs to configured NAS storage path
+- Extracts metadata (title, location, dates, report number) from web pages
+- Stores metadata in SQLite `reports` table
+- Rate limited (2-3s delays) to respect robots.txt
+- **Runtime:** ~1 hour with rate limiting
+
+See [scraper/readme.md](scraper/readme.md) for detailed documentation.
+
+**Note:** This phase has been completed. The 510 PDFs are stored on NAS and metadata is in the database.
+
 ### Phase 3: Text Extraction
 
 ```bash
@@ -210,6 +271,7 @@ python -m extraction.processing.extract ocr      # OCR for failed pages
 - Quality metrics: alphabetic ratio, garbage ratio, word count
 - Automatic OCR fallback for scanned/image PDFs
 - Per-page JSON output with full lineage
+- **Requires:** NAS access to PDF files
 
 ### Phase 4: Chunking
 
