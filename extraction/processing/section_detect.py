@@ -126,6 +126,29 @@ def normalize_section_number(number_str: str | None) -> str | None:
     return normalized
 
 
+def _is_parent_of(parent_num: str | None, child_num: str | None) -> bool:
+    """
+    Check if parent_num is a direct parent of child_num in hierarchical numbering.
+
+    Used to detect when a top-level section (e.g., "1") is immediately followed
+    by its first subsection (e.g., "1.1"), which would create a tiny header-only
+    section that should be merged.
+
+    Examples:
+        "1" is parent of "1.1" -> True
+        "1" is parent of "1.2" -> True
+        "1" is parent of "2.1" -> False
+        "1.1" is parent of "1.1.1" -> True
+        "1.1" is parent of "1.2" -> False
+        None is parent of anything -> False
+    """
+    if parent_num is None or child_num is None:
+        return False
+
+    # Child must start with parent followed by "."
+    return child_num.startswith(parent_num + ".")
+
+
 def detect_sections(text: str) -> tuple[list[Section], str]:
     """
     Detect section headers in document text.
@@ -195,6 +218,11 @@ def _detect_by_pattern(text: str) -> list[Section]:
     # Sort by position
     sections.sort(key=lambda s: s.start)
 
+    # v2: Merge parent sections into children to prevent tiny header-only sections
+    # A parent section like "1. THE ACCIDENT" followed immediately by "1.1 HISTORY OF FLIGHT"
+    # would create a 17-char section - instead, skip the parent as a section boundary
+    sections = _merge_hierarchical_sections(sections, text)
+
     # Set end positions (each section ends where the next begins)
     for i, section in enumerate(sections):
         if i + 1 < len(sections):
@@ -203,6 +231,67 @@ def _detect_by_pattern(text: str) -> list[Section]:
             section.end = len(text)
 
     return sections
+
+
+def _merge_hierarchical_sections(sections: list[Section], text: str) -> list[Section]:
+    """
+    Merge parent sections into their first child to prevent tiny header-only chunks.
+
+    When a numbered section (e.g., "1. THE ACCIDENT") is immediately followed by
+    its first subsection (e.g., "1.1 HISTORY OF FLIGHT"), the parent would create
+    a section with only ~17 characters (just the header text). This function
+    identifies these cases and removes the parent section, letting the child
+    inherit the full content.
+
+    The parent's name is preserved by prepending it to the child's name:
+    "1.1 HISTORY OF FLIGHT" becomes "1. THE ACCIDENT > 1.1 HISTORY OF FLIGHT"
+
+    Args:
+        sections: List of detected sections, sorted by position
+        text: Full document text (used to check content between sections)
+
+    Returns:
+        Filtered list with parent-only sections removed
+    """
+    if len(sections) < 2:
+        return sections
+
+    # Maximum characters between parent header end and child header start
+    # to consider them "immediate" (just whitespace/newlines between them)
+    MAX_GAP_CHARS = 50
+
+    # Identify indices of parent sections to remove
+    parents_to_remove = set()
+
+    for i in range(len(sections) - 1):
+        current = sections[i]
+        next_section = sections[i + 1]
+
+        # Check if current is parent of next
+        if _is_parent_of(current.number, next_section.number):
+            # Check if they're immediately adjacent (small gap between them)
+            gap_start = current.start
+            gap_end = next_section.start
+
+            # Find where current's header line ends
+            header_end = text.find('\n', current.start)
+            if header_end == -1:
+                header_end = gap_end
+            else:
+                header_end = min(header_end, gap_end)
+
+            # Content between headers (excluding the header line itself)
+            content_between = text[header_end:gap_end].strip()
+
+            # If there's minimal content between parent and child headers,
+            # the parent section would be nearly empty - mark for removal
+            if len(content_between) < MAX_GAP_CHARS:
+                parents_to_remove.add(i)
+                # Prepend parent name to child for context preservation
+                next_section.name = f"{current.name} > {next_section.name}"
+
+    # Filter out parent-only sections
+    return [s for i, s in enumerate(sections) if i not in parents_to_remove]
 
 
 def _detect_by_paragraphs(text: str) -> list[Section]:
@@ -310,4 +399,4 @@ def get_detection_stats(sections: list[Section]) -> dict:
 
 
 # Version for tracking
-SECTION_DETECT_VERSION = "1.0.0"
+SECTION_DETECT_VERSION = "2.0.0"  # v2: Hierarchical section merging

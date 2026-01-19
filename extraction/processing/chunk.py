@@ -54,10 +54,21 @@ logger = logging.getLogger(__name__)
 
 
 # Pipeline version
-PIPELINE_VERSION = "4.0.1"
+# v2: Hierarchical sections, 400 token minimum, 25% overlap, section prefix
+PIPELINE_VERSION = "5.0.0"
 
 # Sentence splitting pattern
-SENTENCE_REGEX = re.compile(r"(?<=[.!?])\s+(?=[A-Z])")
+# v2: Protect section numbers like "1." or "1.1" from being split
+# Old pattern: r"(?<=[.!?])\s+(?=[A-Z])" - would split "1. The Accident"
+# New pattern: requires letter OR 2+ digits before punctuation
+# This preserves "1. The Accident" while splitting "Boeing 737. The aircraft"
+# Note: Python lookbehinds need fixed width, so we use specific digit counts
+SENTENCE_REGEX = re.compile(
+    r"(?<=[a-zA-Z][.!?])\s+(?=[A-Z])"   # Letter + punct + space + uppercase
+    r"|(?<=\d\d[.!?])\s+(?=[A-Z])"      # 2 digits + punct (e.g., "17.")
+    r"|(?<=\d\d\d[.!?])\s+(?=[A-Z])"    # 3 digits + punct (e.g., "737.")
+    r"|(?<=\d\d\d\d[.!?])\s+(?=[A-Z])"  # 4 digits + punct (e.g., "2000.")
+)
 
 
 def split_sentences(text: str) -> list[str]:
@@ -87,7 +98,15 @@ def chunk_document(
     document: dict,
     footnote_map: dict[str, Footnote]
 ) -> list[dict]:
-    """Chunk a document into search-ready segments."""
+    """
+    Chunk a document into search-ready segments.
+
+    v2 improvements:
+    - Forward borrowing: chunks below min_tokens borrow from next section
+    - Cross-section overlap: overlap carries across section boundaries
+    - 400 token minimum enforced
+    - 25% overlap (up from 20%)
+    """
     report_id = document["report_id"]
     full_text = document["full_text"]
     page_boundaries = document.get("page_boundaries", [])
@@ -102,162 +121,171 @@ def chunk_document(
     # Build page source lookup
     page_source_map = {ps["page"]: ps for ps in page_sources}
 
-    # Chunking parameters
+    # Chunking parameters from config
+    min_tokens = TOKENIZER_CONFIG["chunk_min_tokens"]  # v2: enforced minimum
     max_tokens = TOKENIZER_CONFIG["chunk_max_tokens"]
     overlap_tokens = get_overlap_tokens()
 
-    chunks = []
-    chunk_sequence = 0
-
-    # Process each section
+    # Build unified sentence list with section metadata
+    # This enables forward borrowing across section boundaries
+    all_sentences = []
     for section in sections:
         section_text = full_text[section.start:section.end]
         sentences = split_sentences(section_text)
-
-        if not sentences:
-            continue
-
-        current_sentences = []
-        current_tokens = 0
-        overlap_text = ""
-        overlap_token_count = 0
-
         for sentence in sentences:
-            sentence_tokens = count_tokens(sentence)
-
-            if current_tokens + sentence_tokens > max_tokens and current_sentences:
-                # Create chunk
-                chunk_text = " ".join(current_sentences)
-                if overlap_text:
-                    chunk_text = overlap_text + " " + chunk_text
-
-                chunk_start = full_text.find(current_sentences[0], section.start)
-                chunk_end = chunk_start + len(" ".join(current_sentences))
-                page_start, page_end, page_list = get_page_range(
-                    chunk_start, chunk_end, page_boundaries
-                )
-
-                # Determine source
-                sources = set()
-                for p in page_list:
-                    if p in page_source_map:
-                        sources.add(page_source_map[p].get("source", "unknown"))
-                text_source = "mixed" if len(sources) > 1 else (sources.pop() if sources else document.get("primary_source", "unknown"))
-
-                # Source quality
-                source_quality = {}
-                if page_list:
-                    alpha_ratios = [page_source_map[p].get("alphabetic_ratio") for p in page_list if p in page_source_map and page_source_map[p].get("alphabetic_ratio")]
-                    if alpha_ratios:
-                        source_quality["min_alphabetic_ratio"] = min(alpha_ratios)
-                    ocr_confs = [page_source_map[p].get("ocr_confidence") for p in page_list if p in page_source_map and page_source_map[p].get("ocr_confidence")]
-                    if ocr_confs:
-                        source_quality["avg_ocr_confidence"] = sum(ocr_confs) / len(ocr_confs)
-
-                # Append footnotes
-                final_text, appended_footnotes = append_footnotes_to_chunk(chunk_text, footnote_map)
-
-                chunk = {
-                    "chunk_id": f"{report_id}_chunk_{chunk_sequence:04d}",
-                    "report_id": report_id,
-                    "chunk_sequence": chunk_sequence,
-                    "page_start": page_start,
-                    "page_end": page_end,
-                    "page_list": page_list,
-                    "char_start": chunk_start,
-                    "char_end": chunk_end,
-                    "section_name": section.name,
-                    "section_number": section.number,
-                    "section_detection_method": detection_method,
-                    "chunk_text": final_text,
-                    "token_count": count_tokens(final_text),
-                    "overlap_tokens": overlap_token_count,
-                    "text_source": text_source,
-                    "page_sources": [page_source_map.get(p, {"page": p}) for p in page_list],
-                    "source_quality": source_quality,
-                    "has_footnotes": len(appended_footnotes) > 0,
-                    "footnotes": [{"marker": f.marker, "text": f.text} for f in appended_footnotes] if appended_footnotes else None,
-                    "quality_flags": [],
-                    "pipeline_version": PIPELINE_VERSION,
-                    "created_at": datetime.now(timezone.utc).isoformat(),
-                }
-                chunks.append(chunk)
-                chunk_sequence += 1
-
-                # Prepare overlap
-                overlap_sentences = []
-                overlap_count = 0
-                for s in reversed(current_sentences):
-                    s_tokens = count_tokens(s)
-                    if overlap_count + s_tokens <= overlap_tokens:
-                        overlap_sentences.insert(0, s)
-                        overlap_count += s_tokens
-                    else:
-                        break
-                overlap_text = " ".join(overlap_sentences)
-                overlap_token_count = overlap_count
-
-                current_sentences = []
-                current_tokens = 0
-
-            current_sentences.append(sentence)
-            current_tokens += sentence_tokens
-
-        # Handle remaining sentences
-        if current_sentences:
-            chunk_text = " ".join(current_sentences)
-            if overlap_text:
-                chunk_text = overlap_text + " " + chunk_text
-
-            chunk_start = full_text.find(current_sentences[0], section.start)
-            chunk_end = chunk_start + len(" ".join(current_sentences))
-            page_start, page_end, page_list = get_page_range(chunk_start, chunk_end, page_boundaries)
-
-            sources = set()
-            for p in page_list:
-                if p in page_source_map:
-                    sources.add(page_source_map[p].get("source", "unknown"))
-            text_source = "mixed" if len(sources) > 1 else (sources.pop() if sources else document.get("primary_source", "unknown"))
-
-            source_quality = {}
-            if page_list:
-                alpha_ratios = [page_source_map[p].get("alphabetic_ratio") for p in page_list if p in page_source_map and page_source_map[p].get("alphabetic_ratio")]
-                if alpha_ratios:
-                    source_quality["min_alphabetic_ratio"] = min(alpha_ratios)
-                ocr_confs = [page_source_map[p].get("ocr_confidence") for p in page_list if p in page_source_map and page_source_map[p].get("ocr_confidence")]
-                if ocr_confs:
-                    source_quality["avg_ocr_confidence"] = sum(ocr_confs) / len(ocr_confs)
-
-            final_text, appended_footnotes = append_footnotes_to_chunk(chunk_text, footnote_map)
-
-            chunk = {
-                "chunk_id": f"{report_id}_chunk_{chunk_sequence:04d}",
-                "report_id": report_id,
-                "chunk_sequence": chunk_sequence,
-                "page_start": page_start,
-                "page_end": page_end,
-                "page_list": page_list,
-                "char_start": chunk_start,
-                "char_end": chunk_end,
+            # Find actual position in full_text
+            sentence_start = full_text.find(sentence, section.start)
+            all_sentences.append({
+                "text": sentence,
+                "tokens": count_tokens(sentence),
                 "section_name": section.name,
                 "section_number": section.number,
-                "section_detection_method": detection_method,
-                "chunk_text": final_text,
-                "token_count": count_tokens(final_text),
-                "overlap_tokens": overlap_token_count,
-                "text_source": text_source,
-                "page_sources": [page_source_map.get(p, {"page": p}) for p in page_list],
-                "source_quality": source_quality,
-                "has_footnotes": len(appended_footnotes) > 0,
-                "footnotes": [{"marker": f.marker, "text": f.text} for f in appended_footnotes] if appended_footnotes else None,
-                "quality_flags": [],
-                "pipeline_version": PIPELINE_VERSION,
-                "created_at": datetime.now(timezone.utc).isoformat(),
-            }
-            chunks.append(chunk)
-            chunk_sequence += 1
-            overlap_text = ""
-            overlap_token_count = 0
+                "char_start": sentence_start,
+            })
+
+    if not all_sentences:
+        return []
+
+    chunks = []
+    chunk_sequence = 0
+    i = 0  # Current sentence index
+
+    overlap_text = ""
+    overlap_token_count = 0
+
+    while i < len(all_sentences):
+        current_sentences = []
+        current_tokens = 0
+        chunk_sections = set()  # Track sections this chunk spans
+        first_section_name = None
+        first_section_number = None
+
+        # Accumulate sentences until we hit max or run out
+        while i < len(all_sentences):
+            sentence_info = all_sentences[i]
+            sentence_tokens = sentence_info["tokens"]
+
+            # Would this sentence push us over max?
+            if current_tokens + sentence_tokens > max_tokens and current_sentences:
+                # Check if we've hit minimum - if not, include anyway up to max
+                if current_tokens >= min_tokens:
+                    break  # Create chunk with current content
+                # Under minimum - continue adding if we won't exceed max too much
+                # Allow going up to max to meet minimum requirement
+                if current_tokens + sentence_tokens > max_tokens:
+                    break  # Can't add without exceeding max
+
+            current_sentences.append(sentence_info)
+            current_tokens += sentence_tokens
+            chunk_sections.add(sentence_info["section_name"])
+
+            if first_section_name is None:
+                first_section_name = sentence_info["section_name"]
+                first_section_number = sentence_info["section_number"]
+
+            i += 1
+
+        # No more sentences accumulated - done
+        if not current_sentences:
+            break
+
+        # Forward borrowing: if we're below minimum and there are more sentences,
+        # continue accumulating (handled in the loop above)
+        # If we're still below minimum at end of document, that's acceptable
+
+        # Build chunk text
+        chunk_text = " ".join(s["text"] for s in current_sentences)
+        if overlap_text:
+            chunk_text = overlap_text + " " + chunk_text
+
+        # v2: Add section prefix for embedding context
+        # Format: [SECTION_NAME] content...
+        # This helps embedding models understand the structural context
+        if first_section_name:
+            section_prefix = f"[{first_section_name}] "
+            chunk_text = section_prefix + chunk_text
+
+        # Calculate positions
+        chunk_start = current_sentences[0]["char_start"]
+        chunk_end = current_sentences[-1]["char_start"] + len(current_sentences[-1]["text"])
+        page_start, page_end, page_list = get_page_range(chunk_start, chunk_end, page_boundaries)
+
+        # Determine source
+        sources = set()
+        for p in page_list:
+            if p in page_source_map:
+                sources.add(page_source_map[p].get("source", "unknown"))
+        text_source = "mixed" if len(sources) > 1 else (
+            sources.pop() if sources else document.get("primary_source", "unknown")
+        )
+
+        # Source quality
+        source_quality = {}
+        if page_list:
+            alpha_ratios = [
+                page_source_map[p].get("alphabetic_ratio")
+                for p in page_list
+                if p in page_source_map and page_source_map[p].get("alphabetic_ratio")
+            ]
+            if alpha_ratios:
+                source_quality["min_alphabetic_ratio"] = min(alpha_ratios)
+            ocr_confs = [
+                page_source_map[p].get("ocr_confidence")
+                for p in page_list
+                if p in page_source_map and page_source_map[p].get("ocr_confidence")
+            ]
+            if ocr_confs:
+                source_quality["avg_ocr_confidence"] = sum(ocr_confs) / len(ocr_confs)
+
+        # Append footnotes
+        final_text, appended_footnotes = append_footnotes_to_chunk(chunk_text, footnote_map)
+
+        # Determine if chunk spans multiple sections
+        spans_multiple = len(chunk_sections) > 1
+        section_list = sorted(chunk_sections)
+
+        chunk = {
+            "chunk_id": f"{report_id}_chunk_{chunk_sequence:04d}",
+            "report_id": report_id,
+            "chunk_sequence": chunk_sequence,
+            "page_start": page_start,
+            "page_end": page_end,
+            "page_list": page_list,
+            "char_start": chunk_start,
+            "char_end": chunk_end,
+            "section_name": first_section_name,  # Primary section
+            "section_number": first_section_number,
+            "section_detection_method": detection_method,
+            "chunk_text": final_text,
+            "token_count": count_tokens(final_text),
+            "overlap_tokens": overlap_token_count,
+            "text_source": text_source,
+            "page_sources": [page_source_map.get(p, {"page": p}) for p in page_list],
+            "source_quality": source_quality,
+            "has_footnotes": len(appended_footnotes) > 0,
+            "footnotes": [
+                {"marker": f.marker, "text": f.text} for f in appended_footnotes
+            ] if appended_footnotes else None,
+            "quality_flags": ["spans_multiple_sections"] if spans_multiple else [],
+            "sections_spanned": section_list if spans_multiple else None,  # v2: track multi-section chunks
+            "pipeline_version": PIPELINE_VERSION,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        chunks.append(chunk)
+        chunk_sequence += 1
+
+        # Prepare overlap for next chunk (v2: carries across sections)
+        overlap_sentences = []
+        overlap_count = 0
+        for s in reversed(current_sentences):
+            s_tokens = s["tokens"]
+            if overlap_count + s_tokens <= overlap_tokens:
+                overlap_sentences.insert(0, s["text"])
+                overlap_count += s_tokens
+            else:
+                break
+        overlap_text = " ".join(overlap_sentences)
+        overlap_token_count = overlap_count
 
     return chunks
 
@@ -526,15 +554,18 @@ def log_analytics(stats: dict, chunks_path: Path):
         logger.info(f"Min tokens: {min(token_counts)}")
         logger.info(f"Max tokens: {max(token_counts)}")
 
-        in_range = sum(1 for t in token_counts if 500 <= t <= 700)
-        under = sum(1 for t in token_counts if t < 500)
-        over = sum(1 for t in token_counts if t > 700)
+        # v2: Use config values for thresholds
+        min_t = TOKENIZER_CONFIG["chunk_min_tokens"]  # 400
+        max_t = TOKENIZER_CONFIG["chunk_max_tokens"]  # 800
+        in_range = sum(1 for t in token_counts if min_t <= t <= max_t)
+        under = sum(1 for t in token_counts if t < min_t)
+        over = sum(1 for t in token_counts if t > max_t)
         total = len(token_counts)
 
         logger.info(f"Token distribution:")
-        logger.info(f"  Under 500: {under:,} ({100*under/total:.1f}%)")
-        logger.info(f"  In range (500-700): {in_range:,} ({100*in_range/total:.1f}%)")
-        logger.info(f"  Over 700: {over:,} ({100*over/total:.1f}%)")
+        logger.info(f"  Under {min_t}: {under:,} ({100*under/total:.1f}%)")
+        logger.info(f"  In range ({min_t}-{max_t}): {in_range:,} ({100*in_range/total:.1f}%)")
+        logger.info(f"  Over {max_t}: {over:,} ({100*over/total:.1f}%)")
 
     logger.info(f"Text source distribution: {dict(chunk_stats['by_source'])}")
     logger.info(f"Section detection: {dict(chunk_stats['by_section_method'])}")
@@ -585,17 +616,20 @@ def print_stats(extraction_base: Path):
     chunk_stats = get_chunks_stats(chunks_path)
     if chunk_stats.get("exists"):
         token_counts = chunk_stats["token_counts"]
-        in_range = sum(1 for t in token_counts if 500 <= t <= 700)
-        over = sum(1 for t in token_counts if t > 700)
-        under = sum(1 for t in token_counts if t < 500)
+        # v2: Use config values
+        min_t = TOKENIZER_CONFIG["chunk_min_tokens"]  # 400
+        max_t = TOKENIZER_CONFIG["chunk_max_tokens"]  # 800
+        in_range = sum(1 for t in token_counts if min_t <= t <= max_t)
+        over = sum(1 for t in token_counts if t > max_t)
+        under = sum(1 for t in token_counts if t < min_t)
         total = len(token_counts)
 
         print(f"  Total chunks: {chunk_stats['total_chunks']:,}")
         print(f"  Total tokens: {chunk_stats['total_tokens']:,}")
         print(f"  Avg tokens/chunk: {statistics.mean(token_counts):.0f}" if token_counts else "")
-        print(f"  In range (500-700): {in_range:,} ({100*in_range/total:.1f}%)" if total else "")
-        print(f"  Over 700: {over:,} ({100*over/total:.1f}%)" if total else "")
-        print(f"  Under 500: {under:,} ({100*under/total:.1f}%)" if total else "")
+        print(f"  In range ({min_t}-{max_t}): {in_range:,} ({100*in_range/total:.1f}%)" if total else "")
+        print(f"  Over {max_t}: {over:,} ({100*over/total:.1f}%)" if total else "")
+        print(f"  Under {min_t}: {under:,} ({100*under/total:.1f}%)" if total else "")
         print(f"\n  Qdrant Planning:")
         print(f"    Current chunks: {chunk_stats['total_chunks']:,}")
         print(f"    If both models: {chunk_stats['total_chunks'] * 2:,}")

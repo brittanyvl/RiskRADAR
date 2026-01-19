@@ -13,13 +13,14 @@ Configuration is tracked for reproducibility.
 import tiktoken
 
 # Configuration - tracked for reproducibility
+# v2: Increased min to 400 (enforced), max to 800, overlap to 25%
 TOKENIZER_CONFIG = {
     "encoding": "cl100k_base",
     "library": "tiktoken",
     "chunk_target_tokens": 600,
-    "chunk_min_tokens": 500,
-    "chunk_max_tokens": 700,
-    "overlap_ratio": 0.20,
+    "chunk_min_tokens": 400,  # v2: Hard minimum (enforced with forward borrowing)
+    "chunk_max_tokens": 800,  # v2: Increased from 700 to accommodate minimum
+    "overlap_ratio": 0.25,    # v2: Increased from 0.20 to 0.25
 }
 
 # Lazy initialization
