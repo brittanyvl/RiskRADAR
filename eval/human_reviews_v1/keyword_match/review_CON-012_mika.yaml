@@ -1,0 +1,232 @@
+metadata:
+  query_id: CON-012
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: loss of control inflight upset recovery training
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%loss of control%' OR lower(chunk_text) LIKE '%upset%recovery%'
+  expected_report_ids:
+  - AAR0101.pdf
+  - AAR9602.pdf
+  - AAR9901.pdf
+  - AAR1401.pdf
+  - AAR0404.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - loss of control
+  - upset
+  - recovery
+  - stall
+  - unusual attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR9901.pdf_chunk_0304
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6608
+  text_preview: 'Factual Information
+
+    198
+
+    Aircraft Accident Report
+
+    In a January 16, 1997, letter to the Safety Board, the FAA stated that it was
+
+    considering an NPRM proposing to require that air carriers conduct training that will
+
+    emphasize recognition, prevention, and recovery from aircraft attitudes that are normally
+
+    not associated with air carrier flight operations. In its July 15, 1997, response, the Safety
+
+    Board stated that it was not aware of any training programs that specifically addressed
+
+    unusual attitud...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0906.pdf_chunk_0054
+  report_id: AAR0906.pdf
+  section_name: ANALYSIS
+  score: 0.6061
+  text_preview: "Regardless of what the initiating event was, evidence from Cessna flight test records, \npostaccident simulator\
+    \ tests, and the NTSB’s postaccident performance study indicated that the \nresult would have been controllable if the\
+    \ captain had not allowed the airspeed and resulting \ncontrol forces to increase while he tried to troubleshoot the problem.\
+    \ Evidence showed that, \ndespite the abnormal control situation, the captain was able to maintain control of the airplane\
+    \ \nwithout much exertion when th..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0906.pdf_chunk_0045
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6044
+  text_preview: "The airplane upset recovery training aid indicates that there are myriad potential \nsituations that pilots\
+    \ can experience while flying and that pilots should first gain control of the \nairplane and then determine and eliminate\
+    \ the cause of the upset. Specifically, the aid indicates \nthat every upset recovery should include managing the energy\
+    \ (airspeed), arresting any flightpath \ndivergence, and recovering to a stabilized flightpath. The airplane upset recovery\
+    \ training aid \nalso states that the..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR2002.pdf_chunk_0033
+  report_id: AAR2002.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.6016
+  text_preview: "In all cases, however, successful recoveries were based on a distinct pattern of actions: \nrecognize, confirm,\
+    \ and recover. The FCOM emphasized that top priority should be given to early \nrecognition and rapid correction of attitude\
+    \ excursions, including transitioning to instrument \nreferences any time disorientation occurs or outside visual references\
+    \ become unreliable. During the recognition process, the attitude must be correctly interpreted by crosschecking \nother\
+    \ sources of information (for..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0404.pdf_chunk_0142
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5909
+  text_preview: 'Factual Information
+
+    96
+
+    Aircraft Accident Report
+
+    In public hearing testimony, the vice president of training for Airbus North
+
+    America customer services indicated that the manufacturers wanted upset training to be
+
+    developed as awareness training because of the infinite number of variables that could be
+
+    experienced. The Airbus vice president also stated that many of the carriers wanted to
+
+    develop upset training procedures that could be adapted to all of their fleets. The joint industry Airplane Ups...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9901.pdf_chunk_0302
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.558
+  text_preview: 'Factual Information
+
+    196
+
+    Aircraft Accident Report
+
+    In a January 26, 1993, letter to the FAA, the Safety Board stated that it continued
+
+    to believe that instrument-rated pilots should receive recurrent training in techniques for
+
+    recognizing and recovering from unusual attitudes and that proficiency programs should
+
+    include this same training. The letter also stated the Board’s belief that requiring such
+
+    training annually would greatly enhance a pilot’s ability to safely recover from an unusual
+
+    attitu...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR0906.pdf_chunk_0044
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5457
+  text_preview: "On August 31, 1990, the FAA issued change 4 to its Handbook 8400.10, “Air \nTransportation Operations Inspector’s\
+    \ Handbook.” This change contained direction and guidance \nconcerning the check airman program for Part 121 and 135 operators,\
+    \ including the role and \npurpose of the check airman, the regulatory requirements, qualifications, functional \nresponsibilities,\
+    \ and the approval process and training requirements for check airmen. On \nAugust 1, 1991, based on these actions, the\
+    \ NTSB classified S..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR0404.pdf_chunk_0227
+  report_id: AAR0404.pdf
+  section_name: ANALYSIS
+  score: 0.5178
+  text_preview: 'Analysis
+
+    158
+
+    Aircraft Accident Report
+
+    members of the training community believe that advanced simulators should not be used
+
+    in upset training because the range of simulator fidelity is relatively narrow and the
+
+    portrayal of accelerations is not comparable with what could occur during an aggressive
+
+    upset.210 Therefore, the Safety Board concludes that the use of lower levels of automation,
+
+    such as simulators without motion or simple computer screen displays, may be more
+
+    appropriate to provide the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0404.pdf_chunk_0226
+  report_id: AAR0404.pdf
+  section_name: ANALYSIS
+  score: 0.5108
+  text_preview: 'Analysis
+
+    157
+
+    Aircraft Accident Report
+
+    recognized the need for such training by voluntarily developing programs, such as the
+
+    American Airlines AAMP, and issuing the Airplane Upset Recovery Training Aid. There
+
+    is widespread agreement among operations and training managers that unusual attitude
+
+    training helps prepare flight crews for such unusual situations. However, without a
+
+    regulatory requirement and published guidance from the FAA, the design and adoption of
+
+    such programs has been voluntary, an...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR0404.pdf_chunk_0144
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5085
+  text_preview: 'Factual Information
+
+    98
+
+    Aircraft Accident Report
+
+    made by the Airbus chief test pilot and did not think that his comments reflected what
+
+    American was teaching in the AAMP. For example:
+
+    •
+
+    The Airbus chief test pilot indicated that “the thrust effects of
+
+    underwing-mounted engines were being ignored, whereas it has a significant
+
+    influence on recovery.” American’s presentation at the public hearing indicated
+
+    that the AAMP flight training booklet states, “the thrust vector effect on all AA
+
+    [American Ai...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

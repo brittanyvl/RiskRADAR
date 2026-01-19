@@ -1,0 +1,228 @@
+metadata:
+  query_id: CON-010
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: spatial disorientation vestibular illusion instrument flight
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%spatial disorientation%' OR lower(chunk_text) LIKE '%vestibular%'
+  expected_report_ids:
+  - AAR2101.pdf
+  - AAR0703.pdf
+  - AAR0301.pdf
+  - AAR2002.pdf
+  - AAR1403.pdf
+  relevance_signals:
+  - disorientation
+  - vestibular
+  - illusion
+  - instrument
+  - attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR0703.pdf_chunk_0044
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.7063
+  text_preview: 'Army Rotary-wing Operations,” Aviation, Space, and Environmental Medicine, Vol. 69 (1998):
+
+    1031-1037.
+
+    61 (a) F.H. Previc, “Visual Illusions in Flight,” Spatial Disorientation in Aviation (2004): 283-323; and
+
+    (b) L.R. Young, “Spatial Orientation,” Human Factors in Aviation (2003).
+
+    62 F.R. Tormes and F.E. Guedry, “Disorientation Phenomena in Naval Helicopter Pilots,” Aviation,
+
+    Space, and Environmental Medicine, Vol. 46, No. 4 (1975): 387-393.'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR9205.pdf_chunk_0039
+  report_id: AAR9205.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6957
+  text_preview: 'Report
+
+    Number 89H007.
+
+
+    40
+
+
+    experienced during normal activity on the surface of the earth where
+
+    the force of gravity is a stable reference and is regarded as the
+
+    vertical. The acceleration of gravity is the same physical
+
+    phenomenon as an imposed acceleration, and hence, in certain
+
+    circumstances, one may not be easily distinguishable from the other. When the imposed acceleration is of short duration,
+    such as the
+
+    bounce of a car or the motion of a swing, one can separate
+
+    perceptually the imposed m...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0703.pdf_chunk_0043
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6887
+  text_preview: 'Factual Information
+
+    25
+
+    Aircraft Accident Report
+
+    Reduced visibility conditions, such as IMC or dark night VMC, also greatly
+
+    increase the risk of spatial disorientation. One recent study of U.S. Army rotary-wing
+
+    operations found that sudden loss of visual cues preceded about 25 percent of helicopter
+
+    accidents attributed to spatial disorientation.60
+
+    1.18.2 Spatial Disorientation
+
+    Spatial disorientation occurs when a pilot develops an incorrect perception of
+
+    aircraft attitude, altitude, or motion rel...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAB0202.pdf_chunk_0027
+  report_id: AAB0202.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6825
+  text_preview: 'ADDITIONAL INFORMATION
+
+    Spatial Disorientation
+
+    One purpose for instrument training and maintaining instrument proficiency is to
+
+    prevent a pilot from being misled by several types of hazardous illusions that are peculiar
+
+    to flight. Under IFR conditions, an aircraft’s attitude can only be determined accurately by
+
+    observing and interpreting the flight instruments and rejecting the bodily sensations
+
+    associated with the aircraft’s movement, which can be exacerbated by head movements. Practice and expe...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR8213.pdf_chunk_0020
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6573
+  text_preview: 'This situation is worse at night than during the day, for your
+
+    eyes are furnishing less information. Under such conditions your
+
+    eyes can send false messages to the brain.
+
+
+    * * ¢
+
+
+    Letting your senses take over and putting your trust in them
+
+    may or may not cause an illusion. You may have absolutely no idea
+
+    what the attitude of the airplane is or its position in reference to
+
+    the ground. Trust your instruments.
+
+
+    *+ + *
+
+
+    Other sensing mectanisms located in the inner ear are called
+
+    otolith organs. ey ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR2101.pdf_chunk_0055
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.6419
+  text_preview: "In addition to adverse weather avoidance, another important facet of preventing spatial \ndisorientation-related\
+    \ accidents involves training pilots to successfully maneuver the helicopter \nwhile referencing only the flight instruments\
+    \ following a VFR flight’s encounter with IMC. This \nincludes training pilots to reference the instruments and recover\
+    \ the helicopter from unusual \nattitudes, which can occur when a pilot becomes spatially disoriented. For civilian pilots,\
+    \ these \nskills are taught and..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR2101.pdf_chunk_0056
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.6088
+  text_preview: "Such skills are important for \npilots of all types of aircraft because spatial disorientation accidents\
+    \ are not limited to only \n \n66 According to the USHST, although commercially available devices exist, they are too\
+    \ limited in number to \nenable widespread use by a large segment of the pilot population (USHST 2019, 2). The FAA has\
+    \ two spatial \ndisorientation demonstrators (each of a different design) available for civilian pilot use (FAA 2003 and\
+    \ 2011). NTSB \nAircraft Accident Report \n46 \nhelic..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR2002.pdf_chunk_0047
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.6078
+  text_preview: "Thus, the NTSB concludes that, given that \nthe FO was the PF and had not verbalized any problem to the captain\
+    \ or initiated a positive transfer \nof airplane control, the manual forward elevator control column inputs that were\
+    \ applied seconds \nafter the inadvertent activation of the go-around mode were likely made by the FO. Further, the \n\
+    captain was communicating with an air traffic controller at the time, consistent with his PM duties. \n2.3.1.1 Somatogravic\
+    \ Illusion \nThe human body uses three i..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR9503.pdf_chunk_0087
+  report_id: AAR9503.pdf
+  section_name: ANALYSIS
+  score: 0.573
+  text_preview: 'Further, because the flightcrew was initiating
+
+    the missed approach, which involved a large increase in engine thrust, a pronounced
+
+    increase in pitch attitude, and a banked tum to the night, the crew would have been
+
+    exposed to significant linear and angular accelerative forces. These forces could have
+
+    stimulated the flightcrew''s vestibular and proprioceptive sensory systems and produced
+
+    a form of spatial disorientation known as somatogravic illusion. The Safety Board believes that since the capta...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR1403.pdf_chunk_0068
+  report_id: AAR1403.pdf
+  section_name: ANALYSIS
+  score: 0.5685
+  text_preview: "Although the reason the pilot distrusted the information cannot be known, the \ninvestigation considered\
+    \ two possible explanations. One possible explanation is that the pilot might have distrusted the attitude display \n\
+    because he was spatially disoriented. Maneuvering flight without external visual references can \nlead to a variety of\
+    \ illusions of motion, which can result in inaccurate perceptions of an aircraft’s \nattitude and trajectory. A number\
+    \ of risk factors for spatial disorientation prece..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

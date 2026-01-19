@@ -1,0 +1,212 @@
+metadata:
+  query_id: CON-001
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: uncommanded flight control surface movement
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncommanded%' AND (lower(chunk_text) LIKE '%rudder%' OR lower(chunk_text)
+    LIKE '%aileron%' OR lower(chunk_text) LIKE '%elevator%')
+  expected_report_ids:
+  - AAR0101.pdf
+  - AAR9602.pdf
+  - AAR9901.pdf
+  - AAR0404.pdf
+  - AAR9601.pdf
+  relevance_signals:
+  - uncommanded
+  - hardover
+  - runaway
+  - control surface
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR8010.pdf_chunk_0017
+  report_id: AAR8010.pdf
+  section_name: FLIGHT RECORDERS
+  score: 0.483
+  text_preview: 'The rudder, ailerons, and elevators were also
+
+    subjected to sharp step inputs with no problems observed. The entire hydraulic
+
+    system was tested and found to be functioning properly. The surface position
+
+    indicator and flap/slat instrument performed satisfactorily during the control
+
+
+    ‘system operation. The flight directors and autopilots were operated and no
+
+    anomalies were observed. Each autopilot and flight director was engaged into the
+
+    V/S, IAS Hold, Mach Hold, Turb and Altitude Hold modes in pit...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9401.pdf_chunk_0075
+  report_id: AAR9401.pdf
+  section_name: ANALYSIS
+  score: 0.4757
+  text_preview: "This technique, published \nwithout the requirement for the nonflying pilot to hold forward pressure on the\
+    \ yoke, \nis considered ineffective. Further, the technique could lead one to believe that the \nuse of the handwheel\
+    \ steering control to steer back toward the runway centerline, \nduring attempted deceleration, is appropriate. However,\
+    \ as the manufacturer's \nprocedure describes, such high speed use is not the purpose of the handwheel \nsteering control.\
+    \ The Safety Board understands that certain ..."
+  judgment: ''
+  notes: ''
+- rank: 3
+  chunk_id: AAR0101.pdf_chunk_0125
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4739
+  text_preview: 'Proper interpolation can reduce the ‘noise’
+
+    providing more reliable information on rudder movement.”
+
+    60 The Safety Board’s flight simulation computer program is a Windows™-based executive program
+
+    that uses Boeing-developed flight control, aerodynamics, and engine models to derive force and moment
+
+    time histories of the airplane. Safety Board-developed equations of motion convert these forces and
+
+    moments into airplane motion.
+
+    61 The Safety Board’s workstation-based flight simulations used computer...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR9602.pdf_chunk_0103
+  report_id: AAR9602.pdf
+  section_name: ANALYSIS
+  score: 0.4712
+  text_preview: 'All these analyses, in particular, the many flights made with artificial shapes
+
+    show a load level controllable by one pilot, close to the maximum temporary
+
+    force given in FAR PART 25.143. Without invoking the assistance that could
+
+    be given by the second pilot on request.
+
+    212
+
+
+    All these elements confirm that the force level required to control the
+
+    ailerons in separated flow conditions, at the origin of the roll anomaly, were
+
+    near to the maximum temporary force level.
+
+    5. CAPACITY OF CONTROLLING RO...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR9901.pdf_chunk_0152
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4661
+  text_preview: 'Proper interpolation can reduce the ‘noise’ providing
+
+    more reliable information on rudder movement.”
+
+    163 The Safety Board’s flight simulation computer program is a Windows™-based executive program
+
+    that uses Boeing-developed flight control, aerodynamics, and engine models to derive force and moment
+
+    time histories of the airplane. Safety Board-developed equations of motion convert these forces and
+
+    moments into airplane motion.
+
+    164 The Safety Board’s workstation-based flight simulations used comput...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0101.pdf_chunk_0127
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4633
+  text_preview: 'Heading is determined by the angle of the outer gimbal to the airplane body. Combinations of pitch, roll,
+    and gyro rotor alignment introduce angle errors into the outer gimbal and
+
+    produce predictable heading errors that can be quantified and corrected.
+
+    64 During normal rudder operation, a considerable pilot force on the rudder pedals can result in the
+
+    rudder moving beyond its blowdown limit based on hydraulic actuator force alone. However, in a rudder
+
+    reversal situation, a considerable pilot for...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR0201.pdf_chunk_0104
+  report_id: AAR0201.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4592
+  text_preview: 'The flight control
+
+    surface positions required to match the FDR angular and position data are then calculated using
+
+    aerodynamic data for the airplane that have been provided by the manufacturer.'
+  judgment: 'semantic_match'
+  notes: 'This result discusses flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 8
+  chunk_id: AAR0101.pdf_chunk_0124
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4578
+  text_preview: 'Factual Information
+
+    86
+
+    Aircraft Accident Report
+
+    time histories. Further, kinematics techniques magnified the noise59 that was inherent in
+
+    the accident airplane’s FDR data, so smoothing techniques were needed to reduce this
+
+    noise and minimize the potential for erratic signatures in the extracted control surface time
+
+    histories. Safety Board investigators used the Board’s workstation-based flight simulation
+
+    computer program60 for the 737-200 and -300 to perform simulations of the flights of
+
+    USAir f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR-90-06.pdf_chunk_0060
+  report_id: AAR-90-06.pdf
+  section_name: FIRE
+  score: 0.4512
+  text_preview: "For a landing, the elevator and ailerons may produce the required \nmaneuvers in several seconds which allows\
+    \ for a precise approach to \ntouchdown. For UAL 232, pilot-induced thrust variations were required to \ncontrol the phugoid\
+    \ and \nthe asymmetric rolling moments attributed to \nairframe damage, in addition to the maneuvers required for landing.\
+    \ The \nrequired maneuvers could be implemented, via thrust variations, with a delay \nof as much as 20 to 40 seconds.\
+    \ Thus, any thrust changes required fo..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9901.pdf_chunk_0165
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4474
+  text_preview: "Factual Information\n97\n Aircraft Accident Report\nFigure 19. USAir flight 427 rudder surface positions\
+    \ resulting from \nBoeing’s kinematic analysis. Figure 20. USAir flight 427 control wheel positions resulting from \n\
+    Boeing’s kinematic analysis.\n19:02:50.00\n19:02:55.00\n19:03: 0.00\n19:03: 5.00\n19:03:10.00\n-5\n0\n5\n10\n15\n20\n\
+    25\nNose Right\nNose Left\nUSAir 427\nSimulator Input\nBoeing Kinematic Solution\nRudder (deg)\nTime (hr:min:sec)\n19:02:50.00\n\
+    19:02:55.00\n19:03: 0.00\n19:03: 5.00\n19:03:10.00\n-20\n0\n20\n40\n6..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 8
+  needs_human_review: 2

@@ -1,0 +1,334 @@
+metadata:
+  query_id: CON-008
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: turbine engine uncontained failure blade separation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncontained%' OR (lower(chunk_text) LIKE '%turbine%' AND lower(chunk_text)
+    LIKE '%blade%fail%')
+  expected_report_ids:
+  - AAR8701.pdf
+  - AAR-90-06.pdf
+  - AAR1801.pdf
+  - AAR9801.pdf
+  - AAR7107.pdf
+  relevance_signals:
+  - uncontained
+  - blade
+  - turbine
+  - disk
+  - fan
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR-90-06.pdf_chunk_0050
+  report_id: AAR-90-06.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.587
+  text_preview: "In this. AC, \nthe \nFAA defines potential fragment spread angles that should be \nconsidered in the design\
+    \ of the aircraft to minimize the hazards associated \nwith uncontained rotor failures. Predicted piece-size and energy\
+    \ levels are \ndiscussed. Further, this AC proposed that critical components, such as \ncritical control systems and hydraulic\
+    \ system~, be located outside the area \nof debris impact, as determined by the spread angle and fragment energy \nlevels.\
+    \ If this is not possible, shields or ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR1903.pdf_chunk_0034
+  report_id: AAR1903.pdf
+  section_name: HISTORY OF FLIGHT
+  score: 0.5801
+  text_preview: "NTSB \nAircraft Accident Report \n29 \nsignificant changes in structural stiffness or geometry, or both,\
+    \ follow from a structural failure or \npartial failure, the effect on damage tolerance must be further investigated.”\
+    \ \nSection 25.629, Aeroelastic Stability Requirements, paragraph (d), addressed failures, \nmalfunctions, and adverse\
+    \ conditions that were required to be considered to show compliance with \nthis section. These considerations included\
+    \ the “failure of any single element of the structure..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8110.pdf_chunk_0015
+  report_id: AAR8110.pdf
+  section_name: FINDINGS
+  score: 0.577
+  text_preview: 'Findings
+
+
+    The aircraft was certificated and had been maintained in accordance with
+
+    approved procedures,
+
+
+    The flighterew was properly certificated and meaically qualified for the flight. There was no evidence of preincident
+    failure or malfunction of the aircraft
+
+    structures, fiight controls, or systems,
+
+
+    Fan blade No. 30 on the No, 3 engine separated 1 inch from the fan blade
+
+    platform because of a high cycle fatigue fracture. The origin of the fatigue was a preexisting high temperature arc burn
+    fr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8203.pdf_chunk_0041
+  report_id: AAR8203.pdf
+  section_name: INVESTIGATION
+  score: 0.5727
+  text_preview: 'Chorles R. Foster,
+
+
+    Director, Northweai Mountain Royion. JR Doc. G2-TROD Find 1-26-45 om
+
+
+    GALNOS CODE 0018-19-48
+
+
+    Federal Register, January, 26 1982
+
+
+    RB 2
+
+
+    2/28/72
+
+    1/11/73
+
+
+    11/25/76
+
+
+    1/28/80
+
+
+    8/9/74
+
+    8/1/76
+
+
+    10/26/76
+
+
+    4/14/77
+
+    6/12/77
+
+    7/28/77
+
+    3/14/79
+
+    6/9/80
+
+
+    7/3/81
+
+
+    9/22/81
+
+
+    IT9D
+
+    Date
+
+
+    8/17/70
+
+    9/18/70
+
+    5/3/71
+
+    5/20/71
+
+    4/1/73
+
+    9/25/75
+
+    11/7/75
+
+    3/16/77
+
+    3/7/78
+
+
+    ~32-
+
+
+    APPENDIX E
+
+
+    UNCONTAINED TURBINE OR ROTOR DISK FAILURES
+
+
+    IN HIGH BYPASS RATIO ENGINES
+
+
+    Aircraft
+
+
+    £1011
+
+    Li011
+
+    L611
+
+    L1011
+
+
+    Aircraft
+
+
+    DC-10
+
+    DC-...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR7209.pdf_chunk_0025
+  report_id: AAR7209.pdf
+  section_name: ANALYSIS
+  score: 0.5706
+  text_preview: '2.1 Analysis
+
+
+    There was no evidence of structural failure,
+
+    malfunction, or abnormality of the airframe,
+
+    contro! systems, powerplants, and other comnponents other than the failure of the No. 1
+
+    engine. The failure of this engine occurred at a
+
+    height of approximately 50 feet and above V4
+
+    speed. Failure of this engine would not have
+
+    caused the accid’ .t, as the aircraft at the time of
+
+    the engine failuse was capable of continuing to
+
+    climb on one engine and to make a subsequent
+
+    safe landing. The only ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8203.pdf_chunk_0025
+  report_id: AAR8203.pdf
+  section_name: ANALYSIS
+  score: 0.5638
+  text_preview: '2. ANALYSIS
+
+
+    The aircraft was maintained in accordance with prescribed regulations and
+
+    procedures. The flightcrew was qualified in accordance with prescribed regulations. The
+
+    aircraft''s maintenance and flight logs disclosed no discrepancies that would have indicated
+
+    a significant problem with the No. 3 engine. The evidence showed that the incident was precipitated by the uncontained
+
+    failure of the stage I low pressure turbine disk in the No.3 engine. Since the failure
+
+    occurred almost 40 KIAS bel...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR7505.pdf_chunk_0019
+  report_id: AAR7505.pdf
+  section_name: WRECKAGE
+  score: 0.5624
+  text_preview: 'The compressor blades were curted clockwise when viewed
+
+
+    from the rear. Because of recovery difficulties in the impact area, the No. 3
+
+    engine and propeller were not examined. The No, 1 propeller was attached to the engine except for one blade
+
+    which had broken off and was lying nearby. The blades, which were stilt
+
+    attached to the hub, were found at an angle of 84°. Later investigation
+
+    determined that the blades had feathered from negative torque sequencing
+
+
+    action,
+
+
+    The fuel shutoff valve on the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7026.pdf_chunk_0005
+  report_id: AAR7026.pdf
+  section_name: SYNOPSIS
+  score: 0.562
+  text_preview: 'Existing inspection procedures required no final check of
+
+    _ axial dirensions in I the affected arva.
+
+
+    - Protable Cause
+
+
+    . The Beant determines that the probable cause of this incident was
+
+    _ the in-flight separation of the second-stage turbine disk rit of the I
+
+    No. 3 engine, The separation” of the disk rim was the result of incorrect asserbly: of the high- “prescure turbine module.
+
+
+    . Reconnendations
+
+
+    - On August 21, 197 a, the National Transportation Safety “Board for-_
+
+    warned the following lett...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAB0402.pdf_chunk_0023
+  report_id: AAB0402.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5602
+  text_preview: "TESTS AND RESEARCH \n \nEngine and Fuel Control Unit Examinations \n \n \nEngine and fuel control unit teardown\
+    \ examinations were conducted at the Turbomeca \nEngine Company facility in Grand Prairie, Texas, from August 28 to 30,\
+    \ 2001, under Safety \nBoard supervision. \n \n \n19All references to position are looking forward from aft. NTSB/AAB-04/02\n\
+    \n22\nEngine Teardown \n \n \nExamination of the engine found indications of normal operation at impact, and no \nevidence\
+    \ of preimpact failure. No condition that w..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9406.pdf_chunk_0015
+  report_id: AAR9406.pdf
+  section_name: WRECKAGE AND IMPACT INFORMATION
+  score: 0.5581
+  text_preview: 'There was extensive and similar damage to the power turbine sections
+
+    3 of each engine. The third stage power turbine nozzle vanes exhibited moderate
+
+    trailing edge damage, with missing fragments and small cracks in most of the vanes.
+
+    : The blade tip shroud and 25 to 50 percent of the airfoil areas on all third stage
+
+    power turbine blades on both engines were missing. No damage was noted on the
+
+    third stage disks. The fourth stage power turbine nozzle vanes for both engines were
+
+    found in place but e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

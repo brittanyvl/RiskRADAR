@@ -1,0 +1,198 @@
+metadata:
+  query_id: CON-005
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: pilot fatigue circadian rhythm duty time regulations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%' AND lower(chunk_text) LIKE '%pilot%'
+  expected_report_ids:
+  - AAR0601.pdf
+  - AAR1402.pdf
+  - AAR9404.pdf
+  - AAR0801.pdf
+  - AAR1101.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - fatigue
+  - duty time
+  - rest
+  - sleep
+  - circadian
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR1402.pdf_chunk_0068
+  report_id: AAR1402.pdf
+  section_name: ANALYSIS
+  score: 0.7633
+  text_preview: "However, the accident occurred about 0447, and the flight \ncrewmembers were awake in opposition to their\
+    \ normal circadian rhythm. Humans naturally \nfollow a diurnal schedule, and the primary circadian trough is from about\
+    \ midnight to 0600, with \nthe window of circadian low generally occurring between 0300 and 0500. Implementing good \n\
+    sleep habits, taking a short nap before reporting for duty, strategically using caffeine, and getting \nregular exercise\
+    \ are just some of the strategies that pilots ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0601.pdf_chunk_0087
+  report_id: AAR0601.pdf
+  section_name: ANALYSIS
+  score: 0.7445
+  text_preview: 'Analysis
+
+    53
+
+    Aircraft Accident Report
+
+    the captain during the approach, he may also have been suffering from fatigue; his failure
+
+    to monitor and react to the captain’s deviations from nonprecision approach procedures
+
+    was consistent with the degrading effects (slowed reactions and/or tunnel vision) of
+
+    fatigue. The Safety Board concludes that, on the basis of the less than optimal overnight
+
+    rest time available, the early reporting time for duty, the length of the duty day, the number
+
+    of flight legs,...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR0601.pdf_chunk_0063
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.7384
+  text_preview: "Factual Information\n37\nAircraft Accident Report\nTable 4. British duty time regulations in hours (hrs)\
+    \ for flight crewmembers, in number of \nhours permitted. The Safety Board has issued numerous recommendations regarding\
+    \ length of duty\nissues, including Safety Recommendations I-89-02 and -0387 and A-95-113.88 However,\ndespite repeated\
+    \ efforts to revise and update the flight and duty time rules that began in the\nmid- to late-1970s, there have been no\
+    \ significant changes to the Federal flight and d..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR9404.pdf_chunk_0056
+  report_id: AAR9404.pdf
+  section_name: ANALYSIS
+  score: 0.7374
+  text_preview: 'Air Carriers, 1978 Through 1990" (NTSB/SS-94/01)
+
+
+    ee”
+
+    i oan
+
+
+    68
+
+
+    since awakening, time of day, time zone crossings, and changing work schedules. It
+
+    was found that the time since awakening for each pilot related to significant
+
+    differences in performance, in terms of the number and types of errors made by
+
+    pilots. As a result of this safety study, on February 3, 1994, the Safety Board
+
+    issued the following recommendation to the FAA:
+
+
+    A-94-5
+
+
+    Require U. S. air carriers operating under 14 CFR Part 121...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR1102.pdf_chunk_0105
+  report_id: AAR1102.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.7367
+  text_preview: "As the report adequately sets forth, this accident \noccurred during the window of circadian low at about\
+    \ 0437. Well-established scientific research \ndemonstrates that this time is associated with severe performance reductions,\
+    \ and increased \nerrors, incidents, and accidents. As a result, accidents involving pilot error that occur within this\
+    \ \nwindow of time should be thoroughly examined for fatigue. While mitigation strategies can be \nemployed to somewhat\
+    \ counter the performance impairments caus..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9404.pdf_chunk_0099
+  report_id: AAR9404.pdf
+  section_name: CONCLUSIONS
+  score: 0.7288
+  text_preview: 'Conclusions
+
+
+    Over the past 40 years, there has been tremendous progress in our scientific understanding of
+
+    sleep and circadian rhythms. Over the past 12 years, this information has been specifically applied
+
+    to the operational requirements of the aviation industry. The human need for sleep and the effects
+
+    of sleep loss and ciscadian disruption on waking performance are of particular importance in the
+
+    current aviation accident investigation. The subjective sleep/wake data provided by flight crewme...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR0802.pdf_chunk_0060
+  report_id: AAR0802.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.7258
+  text_preview: "Safety \nRecommendation A-06-11 asked the FAA to require Part 121 and 135 operators to incorporate fatigue-related\
+    \ \ninformation similar to that being developed by the Department of Transportation Operator Fatigue Management \nProgram\
+    \ into their initial and recurrent training programs; such training should address the detrimental effects \nof fatigue\
+    \ and include strategies for avoiding fatigue and countering its effects. For additional information, see \nNational Transportation\
+    \ Safety Board, Collisio..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1102.pdf_chunk_0079
+  report_id: AAR1102.pdf
+  section_name: INVESTIGATION
+  score: 0.7237
+  text_preview: "The circumstances of this accident reinforce the need for the actions recommended in Safety \nRecommendations\
+    \ A-09-24 and -25, and the NTSB encourages the FAA to take timely action in \nresponse to these recommendations. \n2.3.6\
+    \ Fatigue Considerations \nThe NTSB evaluated a number of criteria125 to determine the extent to which fatigue \nimpacted\
+    \ the flight crew’s performance during the accident sequence including circadian factors, \nsleep length, and time awake.\
+    \ The accident occurred about 0437, and..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR1402.pdf_chunk_0106
+  report_id: AAR1402.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.7206
+  text_preview: "As noted in the report, most operations occurring during a \ntime period of circadian low do not result in\
+    \ accidents. However in this accident scenario, we \nhave two pilots who, as the investigation documented, made very different\
+    \ choices – both in \nterms of their personal and professional lifestyle. The captain’s decisions with regard to his time\
+    \ \nat work and at home reflect an awareness and effort to mitigate the risk of being fatigued on the \njob. In other\
+    \ words, he employed countermeasures, s..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR0705.pdf_chunk_0147
+  report_id: AAR0705.pdf
+  section_name: ANALYSIS
+  score: 0.6816
+  text_preview: "Analysis\nNational Transportation Safety Board\nA I R C R A F T\nAccident Report\n84\ncircadian factors would\
+    \ tend to diminish alertness. Thus, the controller’s recent duty \ntimes and sleep patterns indicated that he would have\
+    \ been experiencing some fatigue \nat the time of the accident. However, a review of ATC tapes found that the controller’s\
+    \ \ncommunications throughout his shift (including those involving the SkyWest, American \nEagle, and Comair flights)\
+    \ were prompt and professional. The review al..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

@@ -1,0 +1,119 @@
+metadata:
+  query_id: CMP-006
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: training deficiencies identified after accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%training%' AND lower(section_name) IN ('analysis', 'probable cause')
+  expected_report_ids: []
+  relevance_signals:
+  - training
+  - proficiency
+  - inadequate
+  - deficient
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.07692307692307693
+  hit_at_10: false
+  precision_at_10: 0.0
+results:
+- rank: 1
+  chunk_id: AAR0904.pdf_chunk_0000
+  report_id: AAR0904.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 2
+  chunk_id: AAR1404.pdf_chunk_0000
+  report_id: AAR1404.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive '
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 3
+  chunk_id: AAR1006.pdf_chunk_0000
+  report_id: AAR1006.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 4
+  chunk_id: AAR1202.pdf_chunk_0000
+  report_id: AAR1202.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 5
+  chunk_id: AAR0901.pdf_chunk_0000
+  report_id: AAR0901.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 6
+  chunk_id: AAR1005.pdf_chunk_0000
+  report_id: AAR1005.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 7
+  chunk_id: AAR1301.pdf_chunk_0000
+  report_id: AAR1301.pdf
+  section_name: THE ACCIDENT
+  score: 0.4735
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 8
+  chunk_id: AAR1201.pdf_chunk_0006
+  report_id: AAR1201.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4556
+  text_preview: "Chairman Hersman and Members Sumwalt and Rosekind concurred with this statement. CORRECTED COPY\n\nNTSB \n\
+    Aircraft Incident Report \n30 \nMember Robert L. Sumwalt, concurring: \nI believe this investigation did a nice job of\
+    \ identifying two distinct mechanical \nconditions faced by this crew upon landing at Jackson Hole (JAC). The speedbrake\
+    \ malfunction \nwas elusive and not readily identifiable on the accident aircraft until it malfunctioned again - \nthree\
+    \ months after the JAC incident. Although the re..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0302.pdf_chunk_0055
+  report_id: AAR0302.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.444
+  text_preview: Other accidents are discussed later in this section.
+  judgment: 'false_positive '
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss training deficiencies.'
+- rank: 10
+  chunk_id: AAR1001.pdf_chunk_0081
+  report_id: AAR1001.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4075
+  text_preview: "NTSB \nAircraft Accident Report \n66 \nOn October 30, 2009, the FAA reported that 29 of the 82 Part 121 air\
+    \ carriers had \nremedial training programs in place. The 82 carriers included 27 regional air carriers, 6 of which \n\
+    had instituted such programs. The FAA did not provide the identities of those carriers with \nremedial training programs.\
+    \ On December 10, 2009, the FAA Administrator testified before the \nSubcommittee on Aviation, U.S. Senate Committee on\
+    \ Commerce, Science, and Transportation, \nand..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 2
+  needs_human_review: 8

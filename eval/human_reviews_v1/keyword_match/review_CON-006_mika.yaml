@@ -1,0 +1,284 @@
+metadata:
+  query_id: CON-006
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: metal fatigue crack propagation structural inspection
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%crack%' OR lower(chunk_text) LIKE '%crack%propagation%'
+  expected_report_ids:
+  - AAR0704.pdf
+  - AAR0201.pdf
+  - AAR1903.pdf
+  - AAR-90-06.pdf
+  - AAR8903.pdf
+  - AAR9606.pdf
+  relevance_signals:
+  - fatigue
+  - crack
+  - inspection
+  - propagation
+  - fracture
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AAR7218.pdf_chunk_0021
+  report_id: AAR7218.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.6143
+  text_preview: 'The combination of these two
+
+    conditions produces britse fractures ir. otherwise ductile materials, i) aluminum alloys the path of the fracture ls always
+
+    intergranular,
+
+
+    photographic enhancement consh!s esnsntially of a series of
+
+    precisely ce atrolied printing exposuies of & high lithographic
+
+    contrast film. Thess films are designed to transite @ conthwous
+
+    tone image into a black ani white image. For incipient creck detection, the ultrasonic and eddy current methods of nondestructive
+    inspection ar...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9306.pdf_chunk_0026
+  report_id: AAR9306.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5783
+  text_preview: 'Tests and Research
+
+    1.16.1 Metallurgical Examination
+
+
+    The two fatigue cracks that were found in the No. 2 engine pylon
+
+    Structure were subjected to metallurgical examinations. One of the fatigue cracks
+
+    was a lateral fracture about 2 inches long and was in the web of the py!on forward
+
+    firewall, just aft of the third transverse stiffener behind the forward engine mount
+
+    bulkhead. This fatigue crack was lateral to the web. Although most of the features
+
+    of this crack had been obliterated by rubbing, a ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0097
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5428
+  text_preview: 'Airplanes inspected per the previous releases of this service bulletin
+
+    require additional fatigue inspection. Airplanes on which lap joints were refastened per previous issues of
+
+    this bulletin or the methods detailed in Structural Repair Manual,
+
+    §3-30-1, Figure 5, require corrosion inspection only per this revision. All pages of this revision contain new, revised,
+    or reformated
+
+    -information, therefore the revision bars-in the left margin have been
+
+    omitted. REVISION HISTORY
+
+
+    Original Issue: July ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR-90-06.pdf_chunk_0033
+  report_id: AAR-90-06.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5354
+  text_preview: "The stabilized-alpha inclusion contained microcracks that were \ngenerally oriented parallel to the cavity\
+    \ surface. Also, microporosity was \nfound in the altered microstructure around the core of the inclusion. The mating\
+    \ fatigue regions on the pieces of the separated stage 1 \nfan disk were subjected to scanning electron microscope examinations.\
+    \ Some \nareas of fatigue striations were found just outboard of the stabilized-alpha \n7Alpha and beta are n~mes given\
+    \ to two differing microstructural phas..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR8903.pdf_chunk_0063
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.5344
+  text_preview: 'The effectiveness of these
+
+    -inspection programs as the airplane ages would be enhanced by the early
+
+    identification of areas where MSD does ‘occur and incorporation of the
+
+    necessary preventive design changes so that MSD is not a significant factor
+
+    during the airplane’s operating lifetime.
+
+
+    -The Safety Board is also concerned about other Boeing transports,
+
+    including some B-727 and early B-747 airplanes, that utilize the cold bond
+
+    construction. The Safety Board recognizes that the design of B-727 a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR8704S.pdf_chunk_0024
+  report_id: AAR8704S.pdf
+  section_name: PARAGRAPH_58
+  score: 0.5332
+  text_preview: 'The fatigue cracks initiatty propagated aft through the web thickness and away from
+
+    the fastener hole. The fatigue cracks propagated approximately 4 1/4 inches inboard and
+
+    up, and about 2 3/8 inches outboard and down from the fastener hole. (See figures 4 and'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8903.pdf_chunk_0107
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5325
+  text_preview: 'D.
+
+
+    132
+
+
+    BOEING SERVICE BULLETIN 737-53A1039
+
+
+    Repair fatigue cracks using a repair similar to that shown in 737
+
+    Structural Repair Manual Subject 53-30-3, Figure 16, and replace
+
+    all remaining upper row flush joint fasteners in that panel joint
+
+    with oversize protruding head solid fasteners per Part IV «
+
+    Repair Data. This in conjunction with Part III - Tear Strap
+
+    Inspection and Repair is terminating action for Part II
+
+    inspections for the affected panel. In skin panels where no fatigue cracks are fo...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR8903.pdf_chunk_0102
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5316
+  text_preview: 'There is no
+
+    - terminating action for Part I inspection. Part II fatigue damage inspection of the lap joints at Stringers
+
+    4, 10, 14, 19, 20, and 24 is to commence upon the accumulation of
+
+    30,000 flight cycles as indicated below. Two types of inspection are called for:
+
+
+    Type I - An external close visual inspection of the eritical
+
+    upper row of fastener holes for cracks at each lap
+
+    joint where the outer skin gage is less than 0.056
+
+    inch.
+
+
+    ) : Type II - A high frequency eddy current inspection (NDT) ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR8903.pdf_chunk_0168
+  report_id: AAR8903.pdf
+  section_name: FIRE
+  score: 0.5292
+  text_preview: 'They
+
+    believe MSD thresholds are beyond lives demonstrated by component and fuliscale tests. All critical parts have been subjected
+    to tests to show adequate.
+
+    life. It is expected that skin cracks will appear at the first rivet
+
+    attaching the fuselage skin to each frame on either side of each atringer,
+
+    before MSD becowes a problem. This was demonstrated on a component tes: of *
+
+    the crown skin and stringers. Since there ere thousands of these details in
+
+    the fuselage, Lockheed expects trat the costs...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR8903.pdf_chunk_0090
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5287
+  text_preview: 'D. Areas where no fatigue cracks are found should be
+
+    reinspected annually. Reinspection for fatigue cracks
+
+    may be terminated be replacing the existing upper row
+
+    of joint fasteners with standard protruding head solid
+
+    fasteners per Part Iv. However, a corrosion
+
+    inspection program should be maintained.
+
+
+    -
+
+
+    737-53-1039
+
+
+    Jul 19/72
+
+    21
+
+
+    REV. 2: Feb 8/74
+
+
+    104
+
+    APPENDIX C_
+
+
+    BOEING SERVICE BULLETIN NO. 737-53-1039
+
+
+    TYPICAL FATIGUE
+
+    CRACK LOCATION OYTER OR UPPER SKIN
+
+
+    ADHESIVE
+
+
+    STRINGER
+
+
+    INNER OR LOWER SKIN
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

@@ -1,0 +1,194 @@
+metadata:
+  query_id: CON-005
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: pilot fatigue circadian rhythm duty time regulations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%' AND lower(chunk_text) LIKE '%pilot%'
+  expected_report_ids:
+  - AAR0601.pdf
+  - AAR1402.pdf
+  - AAR9404.pdf
+  - AAR0801.pdf
+  - AAR1101.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - fatigue
+  - duty time
+  - rest
+  - sleep
+  - circadian
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR0601.pdf_chunk_0087
+  report_id: AAR0601.pdf
+  section_name: ANALYSIS
+  score: 0.6751
+  text_preview: 'Analysis
+
+    53
+
+    Aircraft Accident Report
+
+    the captain during the approach, he may also have been suffering from fatigue; his failure
+
+    to monitor and react to the captain’s deviations from nonprecision approach procedures
+
+    was consistent with the degrading effects (slowed reactions and/or tunnel vision) of
+
+    fatigue. The Safety Board concludes that, on the basis of the less than optimal overnight
+
+    rest time available, the early reporting time for duty, the length of the duty day, the number
+
+    of flight legs,...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0601.pdf_chunk_0063
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6544
+  text_preview: "Factual Information\n37\nAircraft Accident Report\nTable 4. British duty time regulations in hours (hrs)\
+    \ for flight crewmembers, in number of \nhours permitted. The Safety Board has issued numerous recommendations regarding\
+    \ length of duty\nissues, including Safety Recommendations I-89-02 and -0387 and A-95-113.88 However,\ndespite repeated\
+    \ efforts to revise and update the flight and duty time rules that began in the\nmid- to late-1970s, there have been no\
+    \ significant changes to the Federal flight and d..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AIR1801.pdf_chunk_0060
+  report_id: AIR1801.pdf
+  section_name: ANALYSIS
+  score: 0.6404
+  text_preview: "Generally, pilots \non long-call reserve can be on call for a 24-hour period but, when scheduled, are released\
+    \ from duty and put on rest \nfor a particular assignment. Pilots on short-call reserve are typically on reserve for a\
+    \ set amount of time each day and \ncan be required to report to work with short notice. \n112 Transport Canada’s “Guidance\
+    \ Material Concerning Flight Time and Flight Duty Time Limitations and Rest \nPeriods,” S740.21, “Flight Crew Members\
+    \ on Reserve,” indicated the following: “..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0102.pdf_chunk_0209
+  report_id: AAR0102.pdf
+  section_name: ANALYSIS
+  score: 0.6384
+  text_preview: 'Analysis
+
+    145
+
+    Aircraft Accident Report
+
+    complex behavior, responses to new situations, and decision-making);214 in this accident,
+
+    however, both automatic and controlled processes were affected during the flight. Further,
+
+    fatigue deteriorates performance on work-paced tasks that are characterized by time
+
+    pressure and task-dependent sequences of activities, as demonstrated by the flight crew’s
+
+    failure to properly perform routine tasks during the final approach phase of flight. Therefore, the Safety ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR1001.pdf_chunk_0076
+  report_id: AAR1001.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6356
+  text_preview: "Safety \nRecommendation A-94-194 asked the FAA to “revise the Federal Aviation Regulations contained in 14\
+    \ CFR Part \n135 to require that pilot flight time accumulated in all company flying conducted after revenue operations—such\
+    \ as \ntraining and check flights, ferry flights and repositioning flights—be included in the crewmember’s total flight\
+    \ time \naccrued during revenue operations.” Safety Recommendation A-95-113 asked the FAA to “finalize the review of \n\
+    current flight and duty time regulations..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0802.pdf_chunk_0084
+  report_id: AAR0802.pdf
+  section_name: ANALYSIS
+  score: 0.6344
+  text_preview: "Analysis\nNational Transportation Safety Board\nA I R C R A F T\nAccident Report\n48\nThe pilots’ schedule\
+    \ for the accident sequence was consistent with existing FAA \nflight and duty time regulations. The Safety Board has\
+    \ long urged the FAA to review and \nupdate the hours-of-service regulations based on current scientific evidence. For\
+    \ example, \nin 2006, the Board issued Safety Recommendation A-06-10, which recommended that \nthe FAA “modify and simplify\
+    \ the flight crew hours-of-service regulations to..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR1104.pdf_chunk_0051
+  report_id: AAR1104.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6286
+  text_preview: "Smith and others, “Characteristics \n, no. 1 (1978), pp. 5–15 and (b) H.S. Shanno\n 10\neen Organizational\
+    \ and Workplace Factors and Injury Rates,” Safety Science, vol. 26, no. 3 (1997), \npp. 201-217. NTSB \nAircraft Accident\
+    \ Report \n39 \n1.18.5 \nrt of runway 36 \nat Kirksville Regional Airport, Kirksville, Missouri.93 Safety Recommendation\
+    \ A-06-10, which \nortation Safety Improvements since 2006, \nasked the FAA to do the following: \nn a December 29, 2009,\
+    \ letter, the NTSB retained \nthe classification ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR0102.pdf_chunk_0147
+  report_id: AAR0102.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6266
+  text_preview: 'Factual Information
+
+    104
+
+    Aircraft Accident Report
+
+    A-99-45
+
+    In May 1999, the Safety Board adopted a safety report that evaluated the
+
+    U.S. Department of Transportation’s (DOT) efforts in the 1990s to address operator
+
+    fatigue.162 In its report, the Board noted that in 1989 it issued three recommendations to
+
+    the DOT addressing needed research, education, and revisions to hours-of-service
+
+    regulations.163 The Board stated that, even though the DOT and modal administrations had
+
+    responded positively to th...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0802.pdf_chunk_0060
+  report_id: AAR0802.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6256
+  text_preview: "Safety \nRecommendation A-06-11 asked the FAA to require Part 121 and 135 operators to incorporate fatigue-related\
+    \ \ninformation similar to that being developed by the Department of Transportation Operator Fatigue Management \nProgram\
+    \ into their initial and recurrent training programs; such training should address the detrimental effects \nof fatigue\
+    \ and include strategies for avoiding fatigue and countering its effects. For additional information, see \nNational Transportation\
+    \ Safety Board, Collisio..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR1301.pdf_chunk_0029
+  report_id: AAR1301.pdf
+  section_name: COMPANY INFORMATION
+  score: 0.6217
+  text_preview: "As a result, on October 7, 2009, the NTSB classified \nSafety Recommendation A-97-71 “Open―Unacceptable Response”\
+    \ pending the issuance of \nduty-time requirements. Because the Sundance inspector’s fatigue was caused, in part, by extended\
+    \ duty time, the \nNTSB continues to believe that establishing duty-time limitations is a key strategy to reducing \n\
+    the risk of fatigue-related errors in aviation maintenance.55 The NTSB notes that an even more \nrobust base of scientific\
+    \ knowledge and industry best p..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

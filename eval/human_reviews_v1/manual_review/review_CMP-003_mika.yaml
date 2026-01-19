@@ -1,0 +1,230 @@
+metadata:
+  query_id: CMP-003
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: recurring design defects in Boeing aircraft
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%boeing%' AND lower(chunk_text) LIKE '%design%'
+  expected_report_ids: []
+  relevance_signals:
+  - boeing
+  - design
+  - defect
+  - flaw
+  - modification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AIR2504.pdf_chunk_0063
+  report_id: AIR2504.pdf
+  section_name: ANALYSIS
+  score: 0.4282
+  text_preview: "2 Analysis \n2.1 Introduction \nThe airplane experienced an in-flight separation of the left MED plug and\
+    \ rapid \ndepressurization during climb about 6 minutes after takeoff from PDX. Alaska Airlines \nhad taken delivery of\
+    \ the newly manufactured airplane from Boeing about 3 months \nbefore the accident. The analysis first discusses the accident\
+    \ sequence and the airplane’s \nmanufacturing history related to the missing bolts. Specifically, we address the \nfollowing:\
+    \ \n• The accident sequence, including..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR8903.pdf_chunk_0168
+  report_id: AAR8903.pdf
+  section_name: FIRE
+  score: 0.4268
+  text_preview: 'They
+
+    believe MSD thresholds are beyond lives demonstrated by component and fuliscale tests. All critical parts have been subjected
+    to tests to show adequate.
+
+    life. It is expected that skin cracks will appear at the first rivet
+
+    attaching the fuselage skin to each frame on either side of each atringer,
+
+    before MSD becowes a problem. This was demonstrated on a component tes: of *
+
+    the crown skin and stringers. Since there ere thousands of these details in
+
+    the fuselage, Lockheed expects trat the costs...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0031
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4251
+  text_preview: 'The entry showed that the fuselage crown from S-4R to. S-4L had
+
+    been repaired at station BS 540. Also, corrosion of the forward section of
+
+    the skin joint on the left side from S-9L to S-4L resulted in repairs. After the N73711 accident, N73717 remained parked
+    for almost
+
+    6 months awaiting final disposition. It was then flown on a ferry permit to
+
+    an independent aircraft overhaul facility for refurbishment. During initial
+
+    inspection after paint stripping, fatigue cracking was found visually at
+
+    mult...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8903.pdf_chunk_0063
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.4142
+  text_preview: 'The effectiveness of these
+
+    -inspection programs as the airplane ages would be enhanced by the early
+
+    identification of areas where MSD does ‘occur and incorporation of the
+
+    necessary preventive design changes so that MSD is not a significant factor
+
+    during the airplane’s operating lifetime.
+
+
+    -The Safety Board is also concerned about other Boeing transports,
+
+    including some B-727 and early B-747 airplanes, that utilize the cold bond
+
+    construction. The Safety Board recognizes that the design of B-727 a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAB1302.pdf_chunk_0013
+  report_id: AAB1302.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4141
+  text_preview: "As an alternative, the operator could perform an internal \neddy current inspection of the lower lap joint\
+    \ fastener row. The ASB recommended that the \ninitial inspection occur before an airplane had 30,000 total flight cycles\
+    \ or within 20 days of the \noriginal issue date of the ASB, whichever occurred later. For airplanes with 30,000 to 34,999\
+    \ \ntotal flight cycles, the ASB recommended compliance within 20 days of the original issue date, \nand for airplanes\
+    \ that had 35,000 total flight cycles or m..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8903.pdf_chunk_0167
+  report_id: AAR8903.pdf
+  section_name: FIRE
+  score: 0.4107
+  text_preview: 'Bae 146 and BAC 4-11
+
+
+    The team met with Dr. John Bristow of the CAAUK to discuss the BAC 1-11 and
+
+    the BAe 146. Dr. Bristow stated that neither the BAC 1-11 nor the BAe 145
+
+
+    considered controlled decom pressio: of the structure as an obvious failure. Inspections of the structure are reqiired
+    to preclude catastrophic failure. The BAe 146 is a relatively new airplane and fatigue tests are still in
+
+    progress. The fatigue test articles will be cycled for at least two lifetines
+
+    of expected operational ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8903.pdf_chunk_0010
+  report_id: AAR8903.pdf
+  section_name: OTHER DAMAGE
+  score: 0.408
+  text_preview: 'At the time. of the accident, the N73711 had accumulated 35,496
+
+
+    Flight hours and 89,680 flight cycles. (landings), the second highest number
+
+
+    of cycles in the worldwide B-737 fleet. Due to the short distance between
+
+    destinations on some Aloha Airlines routes, the maximum pressure differential
+
+    of 7.5 psi was not reached on every flight. Therefore, the number of
+
+    equivalent full pressurization cycles on the accident airplane is
+
+    significantly less than the 89,680 cycles accumulated on the airplane....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8903.pdf_chunk_0033
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4038
+  text_preview: 'The cracks ranged from about 0.37 inch to 0.67 inch tip to
+
+    tip. At this point, Boeing engineers placed additional. straps on the test
+
+    article at BS 760 and BS 820. At the Safety Board public hearing, Boeing
+
+    indicated this step was taken to preserve the test-article in the event of a
+
+    catastrophic failure. Boeing further indicated that the added straps would
+
+    not alter the results of the fatigue testing. When additional cycles were applied, individual cracks joined to
+
+    form a large crack that grew t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR8903.pdf_chunk_0062
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.4019
+  text_preview: 'If an airline is either unable or unwilling to develop and
+
+    maintain an effective maintenance and inspection program, the current FAA
+
+    oversight philosophy will not prevent deficiencies from occurring, and it
+
+    will not verify that substantive and timely corrective actions have been
+
+    taken. Furthermore, the FAA did not intend to actually “inspect" Aloha
+
+    Airlines fleet to verify if the airplanes were, in fact, safe. The findings
+
+    of the Safety Board following the accident of N73711,. regarding the qual...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8903.pdf_chunk_0030
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4013
+  text_preview: '1.17 Additional Information
+
+    1.17.1 General Inspection of Other Aloha Airlines Airplanes
+
+
+    The Safety Board reviewed 2-year maintenance records of three other
+
+    high-cycle B-737s operated by Aloha Airlines--N73712, N73713, and N73717. All of the required A, B, C, and D checks had
+    been signed off at the
+
+    appropriate intervals. The supplemental structural inspections were
+
+    accounted for with the exception of SSID items pertaining to bulkheads and
+
+
+    33
+
+
+    door or hatch frames which also were not addressed i...'
+  judgment: 'semantic_match'
+  notes: 'This report discusses design flaws in Boeing 737 aircraft, specifically related to metal fatigue and structural integrity issues that led to accidents. It highlights the recurring nature of these defects across multiple aircraft in the fleet.'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

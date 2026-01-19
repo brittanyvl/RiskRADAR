@@ -1,0 +1,205 @@
+metadata:
+  query_id: CMP-007
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents involving regional airlines commuter operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%regional%' OR lower(chunk_text) LIKE '%commuter%'
+  expected_report_ids: []
+  relevance_signals:
+  - regional
+  - commuter
+  - part 135
+  - scheduled
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.0
+  hit_at_10: false
+  precision_at_10: 0.0
+results:
+- rank: 1
+  chunk_id: AAR0001.pdf_chunk_0204
+  report_id: AAR0001.pdf
+  section_name: ANALYSIS
+  score: 0.659
+  text_preview: 'A Review of Flightcrew-Involved Major Accidents of
+
+    U.S. Air Carriers, 1978 Through 1990. Safety Study NTSB/SS-94/01. Washington, DC, pp. 40-41.'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 2
+  chunk_id: AAR0803.pdf_chunk_0020
+  report_id: AAR0803.pdf
+  section_name: CONCLUSIONS
+  score: 0.6435
+  text_preview: 'Conclusions
+
+    National Transportation Safety Board
+
+    20
+
+    Aircraft Accident
+
+    Summary Report'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 3
+  chunk_id: AAR0001.pdf_chunk_0125
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6196
+  text_preview: 'The
+
+    Safety Board’s investigation determined that the accident airplane did not generate any
+
+    124 National Transportation Safety Board. 1990. USAir Flight 105, Boeing 737-200, N283AU, Kansas
+
+    City International Airport, Missouri, September 8, 1989. Aircraft Accident Report NTSB/AAR-90/04. Washington, DC.
+
+    125 National Transportation Safety Board, Controlled Collision With Terrain, Transportes Aereos
+
+    Ejecutivos, S.A. (TAESA), Learjet 25D, XA-BBA, Dulles International Airport, Chantilly, Virginia, Jun...'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 4
+  chunk_id: AAR0701.pdf_chunk_0118
+  report_id: AAR0701.pdf
+  section_name: CONCLUSIONS
+  score: 0.6125
+  text_preview: 'Conclusions
+
+    73
+
+    Aircraft Accident Report'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 5
+  chunk_id: AAR9901.pdf_chunk_0447
+  report_id: AAR9901.pdf
+  section_name: CONCLUSIONS
+  score: 0.6077
+  text_preview: 'Conclusions
+
+    292
+
+    Aircraft Accident Report'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 6
+  chunk_id: AAR8604.pdf_chunk_0003
+  report_id: AAR8604.pdf
+  section_name: INJURIES TO PERSONS
+  score: 0.6069
+  text_preview: '1.2 Injuries to Persons
+
+    injuries Crew Passengers Others Total
+
+
+    Fatal 2 il 0 13
+
+
+    Serious 0 Q 0 0
+
+
+    Minor/rione 0 8 0 0
+
+
+    Total 2 il ) 13
+
+
+    1.3 Damage to lane
+
+
+    The airplane was demolished LY Impae'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 7
+  chunk_id: AAR8807.pdf_chunk_0011
+  report_id: AAR8807.pdf
+  section_name: MEDICAL AND PATHOLOGICAL INFORMATION
+  score: 0.6067
+  text_preview: '1.13 Medical and Pathological information
+
+
+    The four passengers sustained minor injuries in the accident. The flightcrew sustained fatal
+
+    injuries. The cause of death was severe corporal trauma. Toxicological tests were negative for
+
+    alcohol, carbon monoxide, and drugs.'
+  judgment: ''
+  notes: ''
+- rank: 8
+  chunk_id: AAR8406.pdf_chunk_0003
+  report_id: AAR8406.pdf
+  section_name: INJURIES TO PERSONS
+  score: 0.5994
+  text_preview: '1.2 Injuries to Persons
+
+
+    Injuries I Passengers
+
+
+    Fatal
+
+    serious
+
+    Minor
+
+    None
+
+    TOTAL
+
+
+    Damage to Airplane
+
+
+    The airplane was destroyed.'
+  judgment: ''
+  notes: ''
+- rank: 9
+  chunk_id: AAR7306.pdf_chunk_0014
+  report_id: AAR7306.pdf
+  section_name: INJURIES TO PERSONS
+  score: 0.5982
+  text_preview: '1.2 injuries to Persons
+
+
+    Injuries. Passengers others
+
+
+    Fatal 0 22
+
+    Nonfatal 1 0 27
+
+    None 0
+
+
+    1.3 Damage to Aircraft,
+
+    the aircraft was destroyed by impact and subsequent fire.'
+  judgment: ''
+  notes: ''
+- rank: 10
+  chunk_id: AAR8502S.pdf_chunk_0005
+  report_id: AAR8502S.pdf
+  section_name: PARAGRAPH_8
+  score: 0.5969
+  text_preview: 'Aireraft Accident /Incident
+
+    I Summary Reports
+
+    NATIONAL TRANSPORTATION SAFETY BOARD 1984 - 198'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+summary:
+  auto_keyword_matches: 0
+  needs_human_review: 10

@@ -1,0 +1,209 @@
+metadata:
+  query_id: CON-007
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: automation mode confusion glass cockpit display
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%automation%' AND (lower(chunk_text) LIKE '%confusion%' OR lower(chunk_text)
+    LIKE '%mode%')
+  expected_report_ids:
+  - AAR0001.pdf
+  - AAR8801.pdf
+  - AAR0602.pdf
+  - AAR1401.pdf
+  - AAR2002.pdf
+  relevance_signals:
+  - automation
+  - autoflight
+  - mode
+  - display
+  - awareness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AAR0602.pdf_chunk_0082
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.5201
+  text_preview: 'Analysis
+
+    49
+
+    Aircraft Accident Report
+
+    wants to program the flight director in advance of the subsequent phase of flight. However, only one pilot station can
+    be coupled at a time, and a lack of pilot awareness
+
+    regarding which set of command cues is coupled to the autopilot can lead to automation
+
+    mode confusion.111
+
+    Two indications in the cockpit provide the pilot with direct feedback regarding the
+
+    flight director status: the FD1/2 button on the autopilot controller on the center pedestal
+
+    (see figur...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR2002.pdf_chunk_0063
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.5136
+  text_preview: "The investigations of many of these accidents concluded that the somatogravic illusion was \nincapacitating\
+    \ for the pilots and identified a variety of contributing factors, such as limited external \nvisual references, procedural\
+    \ noncompliance, stress, fatigue, distraction, low experience in the \nairplane type, conflicting control inputs, CRM\
+    \ deficiencies, and lack of understanding of the \nautomation. The accident investigations and various studies have resulted\
+    \ in safety recommendations \nintended..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR0602.pdf_chunk_0083
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.5109
+  text_preview: 'However, the
+
+    simultaneous presentation of command cues for both selected and unselected axes allows
+
+    for the possibility of pilot misinterpretation of the command cue for the unselected axis. Specifically, a pilot may be
+    unaware that a flight director mode has not been selected for
+
+    111 Automation mode confusion is a lack of awareness of the current mode of an automated system. It
+
+    can result from inadequate feedback about the automated system’s actions and intentions.
+
+    112 R. Parasuraman and V. Ril...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR1402.pdf_chunk_0019
+  report_id: AAR1402.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.4914
+  text_preview: "The navigational information selected by the \nflight crew is displayed on two NDs and two CDU displays.\
+    \ The two CDU displays are located \non each side of the pedestal in front of the throttle levers (see figure 9).38 \n\
+    (Source: Airbus A300 FCOM, section 1.03.12.) \nFigure 8. A300 mode control panel.39 \n \n38 For more information about\
+    \ the CDU, see Attachment 26: A300 Flight Management System of the \nOperations Group Chairman Factual Report in the public\
+    \ docket for this accident, which is available ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0602.pdf_chunk_0019
+  report_id: AAR0602.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4704
+  text_preview: 'Factual Information
+
+    12
+
+    Aircraft Accident Report
+
+    indicates “ON” when the autopilot and the flight director are coupled.31 The primary
+
+    method to decouple the autopilot and the flight director is by pushing the CPL button.32
+
+    Once decoupling occurs, the pilot is required to fly the helicopter manually. No aural
+
+    warning occurs when the autopilot and flight director become decoupled. During normal operations, the illumination, or
+    absence of illumination, of the CPL
+
+    button is the only direct annunciati...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0906.pdf_chunk_0016
+  report_id: AAR0906.pdf
+  section_name: OTHER DAMAGE
+  score: 0.4616
+  text_preview: "The Eveleth \ninvestigation showed that the selection of the autopilot instead of the yaw damper after a\
+    \ \n16\n\nNTSB \nAircraft Accident Report \n17 \nprevious takeoff resulted in an unanticipated control response (abrupt\
+    \ nose-down pitch), which \nmight have had dramatic consequences if the problem had gone unrecognized by the pilots.30\
+    \ \nThe ability to differentiate among controls has safety implications. As described in \nHuman Factors in Engineering\
+    \ and Design,31 “[a]lthough the correct identification..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR2002.pdf_chunk_0046
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.4588
+  text_preview: "In addition, the flight mode annunciator \nchanged to indicate go-around mode activation by illuminating\
+    \ “GA/GA/GA/CMD.” \n \n48 For a PF in the right seat wearing a watch on the left wrist (as the accident FO was shown to\
+    \ have done), the \nclearance beneath the go-around switch would be reduced, and the PF may not easily feel or notice\
+    \ inadvertent contact \nbetween the watch and the switch. However, it is not known if the FO was wearing a watch during\
+    \ the accident flight. NTSB \nAircraft Accident Rep..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR0602.pdf_chunk_0079
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.458
+  text_preview: 'Analysis
+
+    47
+
+    Aircraft Accident Report
+
+    they are overconfident in automation and may fail to exercise appropriate vigilance.107 As
+
+    a result, significant deviations in altitude or flightpath, if controlled by automation, may
+
+    develop without detection by the flight crew, especially when the flight crew is focused on
+
+    other tasks. The only reliable way for pilots to detect such deviations is through
+
+    continuous monitoring of cockpit instrumentation. Although the opportunity for
+
+    successful monitoring wou...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0102.pdf_chunk_0204
+  report_id: AAR0102.pdf
+  section_name: ANALYSIS
+  score: 0.4562
+  text_preview: 'Further, these
+
+    explicit, formalized cue recognition and decision aids minimize the potential for
+
+    thunderstorm penetrations resulting from impaired judgment and decision-making
+
+    because of situational stress or fatigue. In addition, as demonstrated in this accident, airborne weather radar does not
+
+    always facilitate a flight crew’s assessment of a thunderstorm regarding the storm’s
+
+    location and movement relative to the airport and its severity, including the potential for
+
+    microburst conditions. The...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses confusino and surprise in automations on board.'
+- rank: 10
+  chunk_id: AAR1401.pdf_chunk_0022
+  report_id: AAR1401.pdf
+  section_name: OTHER DAMAGE
+  score: 0.4557
+  text_preview: "Through the \nMCP, which is shown in figure 8, the flight crew arms or engages the AFDS and the A/T, makes\
+    \ \nmode selections, and sets target values. Four liquid crystal displays on the MCP show the target \nvalues for indicated\
+    \ airspeed, heading or track, vertical speed or flightpath angle, and altitude. NTSB \nAircraft Accident Report \n23 \n\
+    Figure 8. 777 mode control panel. \n1.6.3.1 Autopilot Flight Director System \nThe AFDS can provide A/P pitch, roll, and\
+    \ yaw commands to the airplane’s flight con..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

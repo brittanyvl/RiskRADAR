@@ -1,0 +1,237 @@
+metadata:
+  query_id: CON-002
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: ice contamination on wing leading edge aerodynamic degradation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%icing%' AND lower(chunk_text) LIKE '%wing%'
+  expected_report_ids:
+  - AAR0702.pdf
+  - AAR9302.pdf
+  - AAR9602.pdf
+  - AAR1102.pdf
+  - AAR1001.pdf
+  - AAR9601.pdf
+  relevance_signals:
+  - icing
+  - deicing
+  - leading edge
+  - lift
+  - stall
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR9109.pdf_chunk_0075
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.7339
+  text_preview: "BRUMBY\n\npresented to\n\n68TH AGARD FLUID DYNAMICS PANEL SPECIALISTS MEETING\nON EFFECTS OF ADVERSE WEATHER\
+    \ ON AERODYNAMICS\nToulouse, France\n\nAprit 29 - May 1, 1991\n\nDoug.as Aircraft Comnany\nMCDONNELL DOUGLAS\n\nITHE BEFECT\
+    \ OF WING ICE CONTAMINATION ON ESSENTIAL FLIGHT CHARACTERISTICS ©\nmo R. E. Brumby .\n~ Deputy Chief Design Engineer\n\
+    \ “ MD-80/DC.9 Program\n_ Douglas Alreraft Company\n3855 Lakewood Boulevard\nLong Beach, Catifornin 90846, USA\n\nSUMMARY\
+    \ ,\nContamination of critical werodynaniie surfaces by ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9302.pdf_chunk_0035
+  report_id: AAR9302.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.7051
+  text_preview: '1.16 Tests and Research
+
+
+    1.16.1 Effects of Airframe Contamination on Airplane Performance
+
+
+    A number of flight tests, simulator studies, and resultant publications
+
+    have addressed the significant effects on aerodynamic performance that may result
+
+    from icing on an airplane''s wing upper surface or leading edges during takeoff. Wind tunnel and flight tests have shown
+    that minute amounts of ice or other
+
+    contamination on the leading edges or upper surfaces can cause a significant
+
+    reduction in the stall...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR9302.pdf_chunk_0062
+  report_id: AAR9302.pdf
+  section_name: ANALYSIS
+  score: 0.6958
+  text_preview: 'Test results from this investigation have been used here to compare
+
+    the effects of leading edge and/or trailing edge flap deflection on the
+
+    aerodynamics of a contaminated wing section....The test results
+
+    clearly demonstrated that between slatted and non-slatted wing
+
+    configurations, there is no difference in aerodynamic degradation
+
+    due to hoar frost roughness. There is obviously a disagreement within the industry over the
+
+    percentage degradation of lift due to upper wing surface contamination betw...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR9109.pdf_chunk_0033
+  report_id: AAR9109.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6922
+  text_preview: 'The following paragraphs have been extracted from a technical paper
+
+    prepared by the Deputy Chief Design Engineer, DC-9 Program. The paper,
+
+    entitled, “The Effect of Wing Ice Contamination on Essential Flight
+
+    Characteristics," was presented in 1988 and 1991:
+
+
+    Contamination of critical aerodynamic surfaces by ice, frost,
+
+    and/or snow has been identified as the probable cause of a
+
+    significant number of aircraft accidents. In most cases, the
+
+    ice contamination has not been large ice accretions on the
+
+    l...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9302.pdf_chunk_0053
+  report_id: AAR9302.pdf
+  section_name: ANALYSIS
+  score: 0.6675
+  text_preview: 'The
+
+    bimonthly publication Flightcrew View provided reference material on many
+
+    subjects for the flightcrews and was part of their recurrent training program. The
+
+    September-October 1991 issue contained information on winterization procedures,
+
+    including AC 20-117. The USAir pilots were also given an examination that
+
+    included questions about the effects of frost and ice and pilot responsibilities during
+
+    their recurrent training. Additionally, an excellent perspective of the contamination
+
+    problem was...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9109.pdf_chunk_0072
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.6638
+  text_preview: 'While the
+
+    cause of the accident has not yet been firmly established, the facts are
+
+    disturbingiy similar to previous accidents which have been attributed to
+
+    airframe ice. While each of the previous accidents had its own unique situation, the common
+
+    thread is that ice, ice/snow mix, frost or some combination of these, was
+
+    present on the lifting surfaces at the start of the takeoff. Douglas has
+
+    published numerous letters, articles and advisories on the topic of airfrane
+
+    and airroil ice, its detecti...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9804_body.pdf_chunk_0116
+  report_id: AAR9804_body.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6455
+  text_preview: "According to a notice on the AC,\n“Recent accidents involving large transport and small general aviation\
+    \ aircraft have prompted the Federal Aviation\nAdministration to re-distribute AC 20-117.” There were no changes to the\
+    \ text of the AC.\n\n99\n Aircraft that are certificated for flight in icing conditions are equipped with ice\nprotection\
+    \ systems to reduce the adverse effects of ice formations, either by\npreventing the formation of ice (anti-icing) or\
+    \ by periodically removing ice\n(deicing)….Aircraft..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8809.pdf_chunk_0042
+  report_id: AAR8809.pdf
+  section_name: ANALYSIS
+  score: 0.6366
+  text_preview: 'He concluded that the DC-9-10 series and other airplanes,
+
+    with and without leading edge slats, would be affected to varying degrees by small amounts of
+
+    upper wing ice contamination. For example, granular ice of only 0.030 inch (similar to the roughness
+
+    of 30-40 grit sandpaper) would degrade. the maximum lifting capability of the DC-9 wing by about
+
+    20 percent. For a given increase in angle of attack, an ice contaminated wing would have a lesser
+
+    increase of lift than would an ice-free wing. The st...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9109.pdf_chunk_0073
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.62
+  text_preview: 'The angle of attack at the point of stall is reduced to below that of an
+
+    uncontaminated wing, and may cause the stall to occur before stal}
+
+    warning devices ectivate. A particularly hazardous situation results from a descent in which the
+
+    aircraft picks up a small amount of ice on the leading edge during the
+
+    approach. If the crew is not aware that ice is present after landing, the
+
+    aircraft may not be de-iced during a brief turnaround. When the ice
+
+    contaminated aircraft rotates on the next takeoff,...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9302.pdf_chunk_0037
+  report_id: AAR9302.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5856
+  text_preview: 'In general, reduced thrust procedures for taxeoff (assumed
+
+    temperature method) are acceptable when deicing/anti-icing
+
+    fluids are used - provided the runway is clean of snow or
+
+    slush. However, the airframe manufacturers may require
+
+    thrust margins for specific aircraft models. Airframe I manufacturers may = make additional
+
+    recommendations based on the fluid effects on specific
+
+    aircraft models. Effect of Wing Contamination on Takeoff Characteristics of the
+
+    F-28 Mk4000
+
+
+    At the request of the Safety ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

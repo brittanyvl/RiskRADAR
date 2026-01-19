@@ -1,0 +1,222 @@
+metadata:
+  query_id: CON-012
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: loss of control inflight upset recovery training
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%loss of control%' OR lower(chunk_text) LIKE '%upset%recovery%'
+  expected_report_ids:
+  - AAR0101.pdf
+  - AAR9602.pdf
+  - AAR9901.pdf
+  - AAR1401.pdf
+  - AAR0404.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - loss of control
+  - upset
+  - recovery
+  - stall
+  - unusual attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR0906.pdf_chunk_0045
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7382
+  text_preview: "The airplane upset recovery training aid indicates that there are myriad potential \nsituations that pilots\
+    \ can experience while flying and that pilots should first gain control of the \nairplane and then determine and eliminate\
+    \ the cause of the upset. Specifically, the aid indicates \nthat every upset recovery should include managing the energy\
+    \ (airspeed), arresting any flightpath \ndivergence, and recovering to a stabilized flightpath. The airplane upset recovery\
+    \ training aid \nalso states that the..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0404.pdf_chunk_0142
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6938
+  text_preview: 'Factual Information
+
+    96
+
+    Aircraft Accident Report
+
+    In public hearing testimony, the vice president of training for Airbus North
+
+    America customer services indicated that the manufacturers wanted upset training to be
+
+    developed as awareness training because of the infinite number of variables that could be
+
+    experienced. The Airbus vice president also stated that many of the carriers wanted to
+
+    develop upset training procedures that could be adapted to all of their fleets. The joint industry Airplane Ups...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR0906.pdf_chunk_0055
+  report_id: AAR0906.pdf
+  section_name: ANALYSIS
+  score: 0.6874
+  text_preview: "NTSB \nAircraft Accident Report \nThe NTSB recognized that although pilots receive unusual attitude and upset\
+    \ training \nduring all phases of basic pilot training, pilots would benefit from additional and recurrent \ntraining\
+    \ related to airplane attitudes and/or control system failures not normally associated with \nair carrier flight operations.\
+    \ Therefore, the NTSB concludes that pilots would benefit from training and readily \naccessible guidance indicating that,\
+    \ when confronted with abnormal flight..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR2002.pdf_chunk_0033
+  report_id: AAR2002.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.656
+  text_preview: "In all cases, however, successful recoveries were based on a distinct pattern of actions: \nrecognize, confirm,\
+    \ and recover. The FCOM emphasized that top priority should be given to early \nrecognition and rapid correction of attitude\
+    \ excursions, including transitioning to instrument \nreferences any time disorientation occurs or outside visual references\
+    \ become unreliable. During the recognition process, the attitude must be correctly interpreted by crosschecking \nother\
+    \ sources of information (for..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0404.pdf_chunk_0227
+  report_id: AAR0404.pdf
+  section_name: ANALYSIS
+  score: 0.6278
+  text_preview: 'Analysis
+
+    158
+
+    Aircraft Accident Report
+
+    members of the training community believe that advanced simulators should not be used
+
+    in upset training because the range of simulator fidelity is relatively narrow and the
+
+    portrayal of accelerations is not comparable with what could occur during an aggressive
+
+    upset.210 Therefore, the Safety Board concludes that the use of lower levels of automation,
+
+    such as simulators without motion or simple computer screen displays, may be more
+
+    appropriate to provide the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0701.pdf_chunk_0055
+  report_id: AAR0701.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6227
+  text_preview: 'Factual Information
+
+    29
+
+    Aircraft Accident Report
+
+    The subjects covered during this training included swept-wing design characteristics and
+
+    high altitude aerodynamics.68 Also, pilots received a copy of the Pinnacle Airlines Jet
+
+    Upset Student Guide. A Pinnacle Airlines simulator instructor stated that pilots received about
+
+    20 minutes of upset training in the simulator. The training consisted of Mach tuck and
+
+    Mach buffet demonstrations69 and unusual attitude recoveries. Also, the simulator
+
+    instructor...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9804_body.pdf_chunk_0098
+  report_id: AAR9804_body.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.6162
+  text_preview: 'At the time of the accident, unusual attitude
+
+    training was not required by the FAA, and Comair did not have a formal syllabus for this
+
+    training; however, Comair’s simulator instructors included unusual attitude training at the end of
+
+    most recurrent training sessions. The captain of flight 3272 taught unusual attitude recognition
+
+    and recovery in the CL-65 when he was a CL-65 instructor. As previously mentioned, the pilots
+
+    of Comair flight 3272 received CRM and EMB-120 unusual attitude training du...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9901.pdf_chunk_0106
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6083
+  text_preview: 'Factual Information
+
+    60
+
+    Aircraft Accident Report
+
+    Boeing’s M-CAB simulator was also used to conduct postaccident simulator
+
+    flights using the accident airplane’s FDR data, with a rudder hardover induced either
+
+    manually or electronically to represent the USAir flight 427 upset condition. During the
+
+    simulator exercise, the participants114 were briefed by Boeing personnel regarding the
+
+    circumstances of the USAir flight 427 accident, prepared for and expecting the upset event
+
+    when it occurred, and coac...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0404.pdf_chunk_0143
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5927
+  text_preview: 'Factual Information
+
+    97
+
+    Aircraft Accident Report
+
+    The joint industry Airplane Upset Recovery Training Aid was also distributed to
+
+    the participants at Airbus’ 10th Performance and Operations Conference,151 which was
+
+    held in San Francisco, California, from September 28 to October 2, 1998. At the
+
+    conference, the chief test pilot in Airbus’ flight division presented a paper on the Airplane
+
+    Upset Recovery Training Aid. The Airbus chief test pilot stated that, from the beginning
+
+    of the working group’s e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR0906.pdf_chunk_0044
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.576
+  text_preview: "On August 31, 1990, the FAA issued change 4 to its Handbook 8400.10, “Air \nTransportation Operations Inspector’s\
+    \ Handbook.” This change contained direction and guidance \nconcerning the check airman program for Part 121 and 135 operators,\
+    \ including the role and \npurpose of the check airman, the regulatory requirements, qualifications, functional \nresponsibilities,\
+    \ and the approval process and training requirements for check airmen. On \nAugust 1, 1991, based on these actions, the\
+    \ NTSB classified S..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

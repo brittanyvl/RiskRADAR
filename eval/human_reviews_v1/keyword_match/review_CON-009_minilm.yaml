@@ -1,0 +1,260 @@
+metadata:
+  query_id: CON-009
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: wake turbulence vortex encounter separation standards
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%wake%turbulence%' OR lower(chunk_text) LIKE '%vortex%'
+  expected_report_ids:
+  - AAR8809.pdf
+  - AAR8101.pdf
+  - AAR9901.pdf
+  - AAR7303.pdf
+  - AAR0404.pdf
+  relevance_signals:
+  - wake
+  - vortex
+  - turbulence
+  - separation
+  - heavy
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.9
+results:
+- rank: 1
+  chunk_id: AAR7303.pdf_chunk_0048
+  report_id: AAR7303.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.7087
+  text_preview: 'The majority of pilots listen to the ATIS broadcasts 50 to 80 miles from the station, At this paint
+
+    there is no knowledge whether a wake vortex encounter is likely. In addition, diminishing value is
+
+    likely by continuous repeating of the same information,
+
+
+    We believe the procedures for cautionary advisories as outlined in Handbook 7110,.8C and Order
+
+    7110.29 are a more effective means of providing a pilot with a realistic warning concerning wake turbulence. A pilut receives
+    this information when i...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR7303.pdf_chunk_0046
+  report_id: AAR7303.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6582
+  text_preview: 'During the Board’s public hearing, which was completed on August 24, 1972, testimony presented
+
+    by Federal Aviation Administration and industry personnel involved in the research and operational
+
+    aspects of vortex turbulence outlincd the extensive efforts that are in progress to establish a vortex
+
+    detection and avoidance system. However, implementation of such a system may not be possible for at
+
+    least 2 years, The Board commends the Federal Aviation Administration for this research and urges
+
+    conti...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR7303.pdf_chunk_0047
+  report_id: AAR7303.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6514
+  text_preview: 'Include wake turbulence warnings on the ATIS broadcasts whenever the meteorological conditions identified
+    in Recommendation 2, above, indicate that vortices will pose an unusual hazard
+
+    to other aircraft, I
+
+
+    4, Develop, on an expedited basis, new ATC separation standards which consider the relative span
+
+    loadings of the vortex enerating aircraft and the following aircraft under meteorological conditions defined as being
+    conducive to the persistence of trailing vortices,
+
+
+    5. Pending the development...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR7303.pdf_chunk_0044
+  report_id: AAR7303.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6477
+  text_preview: 'Reed THE ADMINISTRATOR
+
+    Chairman, National Transportation . Safety Board
+
+    Department of Transportation
+
+    Washington, D. C. 20591
+
+
+    Dear Mr. Chairman:
+
+
+    This is in response to your Safety Recommendations A-72-76 & 77,
+
+
+    PACMAN A NA ORE 1A AR tee the ate
+
+
+    No. 76. ATC procedures are constantly being reviewed and reevaluated to ensure that they are safe
+
+    and adequate. Present procedures for aircraft operating behind heavy jet aircraft require either five
+
+    miles radar separation or two minutes longitudinal se...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR9804_body.pdf_chunk_0154
+  report_id: AAR9804_body.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6094
+  text_preview: 'Small behind large—4 miles
+
+    2. Small behind a B757—5 miles
+
+    3. Small behind heavy—6 miles. According to the AIM (pages 7-3-1 through 7-3-3 discuss wake turbulence),
+
+    “vortices from larger…aircraft sink at a rate of several hundred feet per minute, slowing their
+
+    descent and diminishing in strength with time and distance behind the generating
+
+    aircraft….vertical separation of 1,000 feet may be considered safe.”
+
+    On July 16, 1996, the FAA issued Notice 7110.157, “Wake Turbulence,” which
+
+    stated that cont...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR7303.pdf_chunk_0032
+  report_id: AAR7303.pdf
+  section_name: ANALYSIS
+  score: 0.6066
+  text_preview: 'The Board, therefore, concludes that the pilot
+
+    of the DC-9 accepted the clearance for a visual
+
+    approach, and that in accordance with effective
+
+    directives, it was his responsibility to establish
+
+    separation or institute other vortex avoidance
+
+    measures. The controller’s responsibility was to
+
+    advise the pilot of the position of the heavy jet
+
+    and to issue a caution for wake turbulence. In addition, the Board concludes that the
+
+    responsibility for vortex avoidance should not
+
+    be placed solely with the p...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR8101.pdf_chunk_0018
+  report_id: AAR8101.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5884
+  text_preview: 'Tests with large aircraft have shown tuat the vortex flow field, in
+
+    a plane cutting through the wake at any poirt downstream, covers
+
+    an area about 2 wing spans in width and one wing span in depth. The vortices remain so spaced (about a wing span snoart)
+    even
+
+    drifting with the wind, at altitudes greater than Wing spaa f om
+
+    the ground. In view of this, if persistent vortex turbulenc: is
+
+    encountered, a slight change of altitude and lateral position
+
+    (preferably upwind) will provide a flight path cle...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR9901.pdf_chunk_0101
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5875
+  text_preview: 'They flow left, right, up and down, inside maybe a
+
+    15 foot diameter tube on a stable day. It is possible to quickly hit the same
+
+    wake twice, because the wake is not fixed in space. You could possibly get
+
+    a left roll and…[if] the wake vortex is actually on your left side at that
+
+    point…if you cross over, it means that you roll right back into the wake….
+
+    107 Data from the 150 wake encounters were examined to identify 737 flight characteristics during wake
+
+    vortex encounters; CVR sound signatures fro...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0404.pdf_chunk_0090
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5568
+  text_preview: 'Such an encounter could explain the two sets of
+
+    load factor excursions—the first occurring about 0915:35 at an altitude of 1,750 feet agl
+
+    and the second occurring about 0915:51 at an altitude of 2,430 feet agl—that were
+
+    recorded on flight 587’s FDR. NASA-Langley used flightpath and wind information for American Airlines
+
+    flight 587 and Japan Air Lines flight 47 provided by the Safety Board, as well as
+
+    atmospheric data for the day of the accident, as inputs to four wake prediction models.96
+
+    In a r...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR7303.pdf_chunk_0024
+  report_id: AAR7303.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5487
+  text_preview: 'As i. result of the system
+
+    output, spacing criteria will be established, or, if
+
+    the development of an unsafe situation is evident, a missed approach advisory will be issued
+
+    by the controller, A visual display to the pilot
+
+    can be automated as a function of the system
+
+    output. Prototype hardware has been developed and
+
+    tested at the FAA NAFEC facility, The results
+
+    of these tests have been classified as
+
+    “encouraging.” The initial schedule calls for the
+
+    following milestones: A warning subsystem to
+
+    be ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

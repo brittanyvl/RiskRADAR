@@ -1,0 +1,236 @@
+metadata:
+  query_id: CMP-001
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2026-01-18'
+  review_complete: true
+query:
+  text: accidents caused by inadequate maintenance procedures
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%maintenance%' AND lower(section_name) = 'probable cause'
+  expected_report_ids: []
+  relevance_signals:
+  - maintenance
+  - inspection
+  - oversight
+  - procedure
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.8
+results:
+- rank: 1
+  chunk_id: AAR0302.pdf_chunk_0118
+  report_id: AAR0302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6307
+  text_preview: 'This is clearly a maintenance accident, related to many operations of each of the
+
+    organizations involved. There is concern regarding the accuracy of company and aircraft
+
+    manufacturer manuals, poor quality of task documentation and job cards, and a lack of
+
+    sufficient detail to satisfactorily complete the tasks. Both the report and the public docket identify deficiencies that
+    are not unique. There are similar examples in the recent past contained within the NTSB accident
+
+    database. The Board has ma...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9204.pdf_chunk_0045
+  report_id: AAR9204.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6229
+  text_preview: 'Departures from approved procedures
+
+    included failures to solicit and give proper shift-change turnover reports, failures to
+
+    use maintenance work cards as approved, failures to complete required
+
+    maintenance/inspection shift turnover forms, and a breach in the integrity of the
+
+    quality control function by virtue of an inspector serving as a mechanic''s assistant
+
+    during the early stages of the repair work performed on the accident aircraft. Furthermore, Safety Board investigators
+    discovered two previ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0401.pdf_chunk_0168
+  report_id: AAR0401.pdf
+  section_name: ANALYSIS
+  score: 0.6135
+  text_preview: 'Analysis
+
+    115
+
+    Aircraft Accident Report
+
+    Maintenance procedures are developed and are expected to be followed to ensure
+
+    that maintenance work is properly performed. When a maintenance procedure contains
+
+    multiple steps that are not applicable to the airplane on which a mechanic is working,141 a
+
+    mechanic may decide to skip applicable steps. Although well-trained mechanics may be
+
+    more capable of distinguishing between steps that are and are not applicable to a particular
+
+    aircraft than mechanics with l...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8008.pdf_chunk_0024
+  report_id: AAR8008.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.599
+  text_preview: 'There
+
+    were no service tags available with which to trace the status of a part. The
+
+    company did not have a work order system until the week before the accident. Consequently, previous maintenance actions
+    could not be related to specific
+
+    discrepancies. There was no deferred maintenance discrepancy list kept on board the
+
+    aircraft, as required by the company''s operations manual. An "in-flight worksheet"
+
+    was used by the company pilots to keep a running list of all discrepancies. Maintenance personnel...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9406.pdf_chunk_0006
+  report_id: AAR9406.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.5905
+  text_preview: 'The master inspection records and
+
+    associated work cards were reviewed, and no discrepancies, trends, or problem
+
+    areas were noted. The records audit for the airplane indicated that maintenance was in
+
+    compliance with all outstanding FAA and Swedish Civil Aviation Authority (CAA)
+
+
+    airworthiness directives, as well as applicable Saab service bulletins. The operator''s maintenance management program
+    documents were
+
+    examined. They were found to have been authorized by the FAA, and all of the
+
+    maintenance...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9706.pdf_chunk_0080
+  report_id: AAR9706.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.5896
+  text_preview: 'This was in comparison to 44.48 maintenance
+
+    delays per week during January 1996. During the first 7 days of the program, ValuJet’s MELs
+
+    (deferred maintenance items) per day averaged 58.3, as compared to 12.03 in January of 1996. The report also stated that
+    of six airplanes that were inspected by the FAA immediately after
+
+    having undergone an N or A check, five were found to have discrepancies. According to the
+
+    report, “The most notable discrepancies were concerning flight attendant seats, loose o...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8403.pdf_chunk_0022
+  report_id: AAR8403.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5753
+  text_preview: 'The airplane manufacturer''s
+
+    maintenance inspec ion program, termed EMMA, consisted of 48 equalized checks
+
+    performed at 100-hvur intervals. The EMMA inspection schedule required a thorough
+
+    examination of the f:‘ght control rods at 800-hour intervals or once each year, whichever
+
+    came due first.
+
+
+    1.17.2.2 Recordkeeping
+
+
+    Federal regulations and company policy require maintenance, overhaul, and
+
+    alteration of certain critical items to be designated as "Required Inspection Items". A
+
+    failure or malfunct...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR0704.pdf_chunk_0088
+  report_id: AAR0704.pdf
+  section_name: CONCLUSIONS
+  score: 0.5673
+  text_preview: "Conclusions\n54\nAircraft Accident Report\n10. The establishment of repair thresholds in all maintenance\
+    \ programs would help \nensure that repeated occurrences of a specific discrepancy are sufficiently evaluated.\n11. On\
+    \ the basis of the repetitive nature of the fuel leaks on the accident airplane and the \nstructural damage that was found\
+    \ during the fuel leak inspection of another company \nairplane that led to the August 2005 replacement of that airplane’s\
+    \ lower right wing \nskin and stringers, Chalk..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7009.pdf_chunk_0021
+  report_id: AAR7009.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5646
+  text_preview: '3. RECOMMENDATIONS
+
+
+    The complex man-equipment-environment interfaces in this accident
+
+    sequence make it difficu’.t to convert each of the conditioning events
+
+    into an effective and practicable recommendation. The Board believes
+
+    that most of these events represent departures from accepted procedures,
+
+    standards, and practices which became critical only in the totel context
+
+    of the circumstances, In that respect, this accident is a dramatic
+
+    reminder of the fact that in aviation, every form of complace...'
+  judgment: 'semantic_match'
+  notes: 'This is a positive match and is related to maintenance. Although it does not specifically mention inadequate maintenance procedures, it discusses departures from accepted maintenance procedures which is relevant to the query.'
+- rank: 10
+  chunk_id: AAR0201.pdf_chunk_0255
+  report_id: AAR0201.pdf
+  section_name: ANALYSIS
+  score: 0.5633
+  text_preview: 'Analysis
+
+    174
+
+    Aircraft Accident Report
+
+    2.7.3 Summary
+
+    On the basis of the information in sections 2.7.2.1 and 2.7.2.2, the Safety Board
+
+    concludes that at the time of the flight 261 accident, Alaska Airlines’ maintenance
+
+    program had widespread systemic deficiencies. As previously discussed, two specific
+
+    maintenance-related deficiencies—insufficient lubrication of the accident jackscrew
+
+    assembly and extension of the end play check interval—were causal to the accident. The
+
+    Board could not establish w...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

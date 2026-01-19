@@ -1,0 +1,305 @@
+metadata:
+  query_id: CON-010
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: spatial disorientation vestibular illusion instrument flight
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%spatial disorientation%' OR lower(chunk_text) LIKE '%vestibular%'
+  expected_report_ids:
+  - AAR2101.pdf
+  - AAR0703.pdf
+  - AAR0301.pdf
+  - AAR2002.pdf
+  - AAR1403.pdf
+  relevance_signals:
+  - disorientation
+  - vestibular
+  - illusion
+  - instrument
+  - attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR0703.pdf_chunk_0043
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.7159
+  text_preview: 'Factual Information
+
+    25
+
+    Aircraft Accident Report
+
+    Reduced visibility conditions, such as IMC or dark night VMC, also greatly
+
+    increase the risk of spatial disorientation. One recent study of U.S. Army rotary-wing
+
+    operations found that sudden loss of visual cues preceded about 25 percent of helicopter
+
+    accidents attributed to spatial disorientation.60
+
+    1.18.2 Spatial Disorientation
+
+    Spatial disorientation occurs when a pilot develops an incorrect perception of
+
+    aircraft attitude, altitude, or motion rel...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAB0202.pdf_chunk_0027
+  report_id: AAB0202.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6786
+  text_preview: 'ADDITIONAL INFORMATION
+
+    Spatial Disorientation
+
+    One purpose for instrument training and maintaining instrument proficiency is to
+
+    prevent a pilot from being misled by several types of hazardous illusions that are peculiar
+
+    to flight. Under IFR conditions, an aircraft’s attitude can only be determined accurately by
+
+    observing and interpreting the flight instruments and rejecting the bodily sensations
+
+    associated with the aircraft’s movement, which can be exacerbated by head movements. Practice and expe...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9503.pdf_chunk_0060
+  report_id: AAR9503.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6491
+  text_preview: 'Report Number 8911007.
+
+
+    21 See Aircraft Accident Report--"Air Transport International, Inc., Flight 805, Douglas DC-8-63, N794AL,
+
+    Loss of Control and Crash, Swanton, Ohio, February 15, 1992" (NTSB/AAR-92/05)
+
+
+    69
+
+
+    bounce of a car or the motion of a swing, one can separate
+
+    yo perceptually the imposed motion from that of gravity. When the
+
+    \ imposed acceleration is sustained, however, such as the prolonged
+
+    I acceleration of an aircraft along its flightpath, the human perceptual
+
+    i mechanism is unable...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR2101.pdf_chunk_0055
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.6236
+  text_preview: "In addition to adverse weather avoidance, another important facet of preventing spatial \ndisorientation-related\
+    \ accidents involves training pilots to successfully maneuver the helicopter \nwhile referencing only the flight instruments\
+    \ following a VFR flight’s encounter with IMC. This \nincludes training pilots to reference the instruments and recover\
+    \ the helicopter from unusual \nattitudes, which can occur when a pilot becomes spatially disoriented. For civilian pilots,\
+    \ these \nskills are taught and..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR9301S.pdf_chunk_0023
+  report_id: AAR9301S.pdf
+  section_name: SAFETY RECOMMENDATIONS
+  score: 0.6187
+  text_preview: 'I probably should be wary of that.
+
+
+    what altitude am I good down to?
+
+
+    ah once your established inbound right
+
+    you’ re good to what? INTAA-COCKPIT COMMUNICATION AIR-GROUND COMMUNICATION
+
+
+    TIME &
+
+    SOURCE CONTENT CONTENT
+
+
+    2146:34
+
+    CAM ((sound of altitude alert chime) )
+
+
+    2146:35
+
+    INT+2 stop one thing at a time. you’re ina
+
+    bad situation so correct one thing first.
+
+
+    2146:39
+
+    INT—2 nope.
+
+
+    2146:40
+
+    INT-i whoa.
+
+
+    2146:42
+
+    INT~1 your aircraft?
+
+
+    2146:42
+
+    iINT-2 no take it.
+
+
+    2146:44
+
+    iNT-2 get the bank.
+
+
+    2146:45
+
+    INT—2...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0301.pdf_chunk_0050
+  report_id: AAR0301.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.605
+  text_preview: 'Factual Information
+
+    25
+
+    Aircraft Accident Report
+
+    and bank. Instead, a disoriented pilot relies on cues that are often misleading. The most
+
+    hazardous illusions that lead to spatial disorientation result from ambiguous information
+
+    received from motion sensing organs located in each inner ear. The sensory organs of the
+
+    inner ear detect angular accelerations in the pitch, yaw, and roll axes and gravity and linear
+
+    accelerations. During flight, the inner ear organs may be stimulated by motion of the
+
+    ai...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR0703.pdf_chunk_0044
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5979
+  text_preview: 'Army Rotary-wing Operations,” Aviation, Space, and Environmental Medicine, Vol. 69 (1998):
+
+    1031-1037.
+
+    61 (a) F.H. Previc, “Visual Illusions in Flight,” Spatial Disorientation in Aviation (2004): 283-323; and
+
+    (b) L.R. Young, “Spatial Orientation,” Human Factors in Aviation (2003).
+
+    62 F.R. Tormes and F.E. Guedry, “Disorientation Phenomena in Naval Helicopter Pilots,” Aviation,
+
+    Space, and Environmental Medicine, Vol. 46, No. 4 (1975): 387-393.'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR8213.pdf_chunk_0020
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.594
+  text_preview: 'This situation is worse at night than during the day, for your
+
+    eyes are furnishing less information. Under such conditions your
+
+    eyes can send false messages to the brain.
+
+
+    * * ¢
+
+
+    Letting your senses take over and putting your trust in them
+
+    may or may not cause an illusion. You may have absolutely no idea
+
+    what the attitude of the airplane is or its position in reference to
+
+    the ground. Trust your instruments.
+
+
+    *+ + *
+
+
+    Other sensing mectanisms located in the inner ear are called
+
+    otolith organs. ey ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9205.pdf_chunk_0040
+  report_id: AAR9205.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5596
+  text_preview: 'An aircraft deceleration will
+
+    result in the opposite effect, that is, a perceived nose-down attitude. Under the subheading "Somatogyral Illusion,” the
+    Canadian report
+
+
+    The simplest example of a somatogyral illusion is the inability of a
+
+    pilot to sense accurately, other than by visual cues, the angle of bank
+
+    during a prolonged coordinated tum. The pilot does have some
+
+    information about the bank angle as the aircraft enters the tum from
+
+    the semicircular canals which are stimulated by the angular r...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8213.pdf_chunk_0019
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5197
+  text_preview: '1.17 Additional Information
+
+
+    1.17.1 Instrument Approach Procedures
+
+
+    According to the chief pilot of Sun West Airlines, once the airplane reached
+
+    the MDA, the pilot of Flight 104 would have been flying the airplane at 120 KIAS, with
+
+    the landing gear extended and flaps set at the approach setting of 15° Once the runway
+
+    was in sight and the landing was assured, the pilot would have fully extended the flaps to
+
+    40° The chief pilot stated that company pilots were trained and directed not to use the
+
+    au...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

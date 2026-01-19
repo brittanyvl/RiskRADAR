@@ -1,0 +1,252 @@
+metadata:
+  query_id: CMP-004
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents during night visual flight rules operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%night%' AND lower(chunk_text) LIKE '%vfr%'
+  expected_report_ids: []
+  relevance_signals:
+  - night
+  - vfr
+  - visual
+  - darkness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AIR-24-03.pdf_chunk_0003
+  report_id: AIR-24-03.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4852
+  text_preview: "BY THE NATIONAL TRANSPORTATION SAFETY BOARD \nJENNIFER HOMENDY \nChair \nMICHAEL GRAHAM \nMember \nALVIN\
+    \ BROWN \nMember \nJ. TODD INMAN \nMember \nReport Date: July 24, 2024\n\nAviation Investigation Report \nAIR-24-03 \n\
+    \ \n48 \nAppendixes \nAppendix A: Referenced Accidents \nOperational Control and Flight-Locating Issues \nTable A1. Accidents\
+    \ involving operational control and flight-locating issues referenced in this report.1 \nOperational \ncontrol method\
+    \ or \nflight locating \nNTSB case \n(report) \nDate \nLocation \n..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0402.pdf_chunk_0091
+  report_id: AAR0402.pdf
+  section_name: ANALYSIS
+  score: 0.4809
+  text_preview: 'Analysis
+
+    58
+
+    Aircraft Accident Report
+
+    On July 23, the first officer flew an early morning trip that began about 0330 and
+
+    ended about 1100. Upon completion of this trip, he slept several hours during the day and
+
+    slept again that night. The first officer was off-duty the next day (July 24). He stated that
+
+    he awoke about 0930 to 1030 and went to sleep about 2100, sleeping for a few hours in
+
+    preparation for a trip that was scheduled to begin about 0230 on July 25. When he
+
+    completed the trip about 083...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8118.pdf_chunk_0015
+  report_id: AAR8118.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4768
+  text_preview: '1.17 Additional Information
+
+
+    1.17.1 Applicable Provisions of federsl Aviation Regulations Pert 9/67
+
+
+    Federal Aviation Regulations, subchapter F, Air Traffic anc General Operating
+
+    Rules, Part 91.67, Genera! Operating and Fiight Rules, outlines responsibilities to "see and
+
+    avoid" as follows.
+
+
+    (a) General. When weather conditions permit, regardless of whether
+
+    an cperation is conducted under Instrument Flight Rules or Visual
+
+    Flight Rules, viguance shall be maintained by each person
+
+    operating an aire...'
+  judgment: 'semantic_match'
+  notes: 'This report discusses the importance of visual scanning and the "see and avoid" concept in preventing mid-air collisions, particularly during night VFR operations. '
+- rank: 4
+  chunk_id: AAR8801.pdf_chunk_0052
+  report_id: AAR8801.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.474
+  text_preview: '3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the probable cause
+
+    of the accident was the failure of the radar controllers to detect the conflict and to issue
+
+    traffic advisories or a safety alert to the flightcrew of the U-21; deficiencies of the see
+
+    and avold concept as a primary means of collision avoidance; and the lack of automated
+
+    redundanvy in the alr traffic control system to provide conflict detection between
+
+    participating and nonparticipating aircraft.
+
+
+    4, ...'
+  judgment: 'semantic_match'
+  notes: 'This report discusses the importance of visual scanning and the "see and avoid" concept in preventing collisions.'
+- rank: 5
+  chunk_id: AAR8801.pdf_chunk_0041
+  report_id: AAR8801.pdf
+  section_name: ANALYSIS
+  score: 0.4722
+  text_preview: 'The AC was tssued before the conflict alert feature was
+
+    in widespread use in the U.S. ATC system. Although the Safety Board eoneurs with the
+
+    emphasis that the AC places on pilots scanning effectively to avoid midalr collisions, the
+
+    Safety Board belleves that AC 96-48C should be updated to alert pilots to the significant
+
+    additional safety benefits accruing from conflict alert when flight~following services are
+
+    provided to VFR pilots. In addition to the factors already discussed, the Safety Board ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0902.pdf_chunk_0033
+  report_id: AAR0902.pdf
+  section_name: ANALYSIS
+  score: 0.4708
+  text_preview: "2. Analysis \n2.1 \nGeneral \nThe pilots of the channel 3 and 15 helicopters were properly certificated and\
+    \ qualified in \naccordance with applicable Federal regulations. Both helicopters were properly certified, \nequipped,\
+    \ and maintained in accordance with Federal regulations. The recovered components \nshowed no evidence of any preimpact\
+    \ structural, engine, or system failures. Although the reported weather at the time of the accident indicated multiple\
+    \ broken cloud \nlayers in the vicinity of PHX, t..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9505.pdf_chunk_0035
+  report_id: AAR9505.pdf
+  section_name: COMMUNICATIONS
+  score: 0.47
+  text_preview: 'Additionally, the ground controller was working the clearance delivery position at the
+
+    time of the accident, which required that he intermittently have his head down to read and issue
+
+    clearances. This made it less likely that the ground controller would be able to effectively
+
+    visually monitor the Cessna 441. Concerning aircraft visibility, the STL ground and local controllers reported that
+
+    they did not observe any exterior lights illuminated on the Cessna 441. They stated that from
+
+    the time the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7510.pdf_chunk_0005
+  report_id: AAR7510.pdf
+  section_name: DAMAGE TO AIRCRAFT
+  score: 0.4673
+  text_preview: '1.3 Damage to Aircraft
+
+    Both aircraft were destroyed as the result of the in-fiight collision and impact into the water.
+
+    1.4 Qther Damage
+
+    None.
+
+    1.5 Crew and Controller Inforration
+
+
+    Tha pilots of both airereft and the GCA final controller were
+
+    qualified for the operations involved, The Cessna pilot was properly
+
+
+    . ye '' Aas
+
+    0 90 Pe i We, SE
+
+    os *
+
+
+    mek
+
+
+    eA ee
+
+    i:
+
+
+    ~ 5
+
+
+    certificated by the FAA, and the military crewmembers ard the GCA final
+
+    controller possessed the necessary military ratings. The Cessn...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0402.pdf_chunk_0107
+  report_id: AAR0402.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.467
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    the accident was the captain’s and first officer’s failure to establish and maintain a proper
+
+    glidepath during the night visual approach to landing. Contributing to the accident was a
+
+    combination of the captain’s and first officer’s fatigue, the captain’s and first officer’s
+
+    failure to adhere to company flight procedures, the captain’s and flight engineer’s failure
+
+    to monitor the approach, and the f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8705.pdf_chunk_0035
+  report_id: AAR8705.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4613
+  text_preview: 'The
+
+    ability to focus and judge distance in the daytime is enhanced significantly because of the
+
+    predominance of various texture gradients. As a result, it is much easier to determine
+
+    another airplane''s attitude and flightpath during the day than at night based upon visual
+
+    cues, Although lights make an object more conspicuous at night, point light sources do
+
+    not serve as a good stimulus for focus even if there are many lights such as in as city
+
+    background. Therefore, position lights on an aircraf...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 8
+  needs_human_review: 2

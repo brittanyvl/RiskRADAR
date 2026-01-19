@@ -1,0 +1,186 @@
+metadata:
+  query_id: CON-004
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: crew resource management breakdown communication failure
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%crew resource management%' OR lower(chunk_text) LIKE '%crm%'
+  expected_report_ids:
+  - AAR1002.pdf
+  - AAR1101.pdf
+  - AAR1102.pdf
+  - AAR9607.pdf
+  - AAR1802.pdf
+  - AAR0001.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - crm
+  - communication
+  - coordination
+  - cockpit
+  - assertiveness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.2
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR9404.pdf_chunk_0059
+  report_id: AAR9404.pdf
+  section_name: ANALYSIS
+  score: 0.5638
+  text_preview: 'Additionally, several air carriers also require a check ainman to accompany an
+
+    unqualified crew or captain into a special airport. Unlike AIA, several airlines that
+
+    had dispatch operations kept records of special airports qualifications and currency
+
+    for crewmembers.
+
+
+    72
+
+
+    2.7 Crew Resource Management (CRM)
+
+
+    The crew coordination issues were examined by the Safety Board
+
+    because of the events that occurred in the final minutes of the flight. The Safety
+
+    Board found that the lack of crew coordination...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR7319.pdf_chunk_0001
+  report_id: AAR7319.pdf
+  section_name: CREW INFORMATION
+  score: 0.5595
+  text_preview: Crew Information
+  judgment: 'false_positive'
+  notes: 'This result discusses crew information in a general context and does not specifically address crew resource management or communication failures.'
+- rank: 3
+  chunk_id: AAR7503.pdf_chunk_0003
+  report_id: AAR7503.pdf
+  section_name: CREW INFORMATION
+  score: 0.5595
+  text_preview: Crew Information
+  judgment: 'false_positive '
+  notes: 'This result discusses crew information in a general context and does not specifically address crew resource management or communication failures.'
+- rank: 4
+  chunk_id: AAR9602.pdf_chunk_0074
+  report_id: AAR9602.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5475
+  text_preview: 'Situation Awareness and Management :
+
+    How do you recognize a deteriorating situation? Once recognized,
+
+    how do you deal with the workload?
+
+    3. Communications :
+
+    Did everyone know the plan?
+
+    4. Teamwork :
+
+    Was the crew functioning as a team? The BEA will discuss the actions of the Flight 4184 flight crew in the
+
+    context of these “four critical areas”
+
+    in the Flight Crew Performance
+
+    section.
+
+    2. Advisory Circular No.
+
+    120-51A (NTSB Exhibit No. 2D) entitled Crew
+
+    Resource Management Training also provides gui...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9607.pdf_chunk_0051
+  report_id: AAR9607.pdf
+  section_name: FINDINGS
+  score: 0.5283
+  text_preview: "The pilots’ failure to communicate with and utilize some of the other\nresources available to them (such\
+    \ as the more detailed written procedural guidance located in the\naircraft operating manual, or in-flight maintenance\
+    \ advice through ValuJet system\noperations/dispatch in Atlanta or from contract maintenance personnel in Nashville) raises\n\
+    questions about the effectiveness of the crew resource management training provided.\n \n14. ValuJet’s pay schedule was\
+    \ fairly constant in the months preceding t..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR1902.pdf_chunk_0050
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.5277
+  text_preview: "On the accident flight, both \npilots exhibited performance problems that had previously occurred during\
+    \ their simulator training \ncourses. Thus, the NTSB concludes that the pilots’ performance on the accident flight included\
+    \ \ndeficiencies that were noted during their initial Trans-Pacific training, but the company did not \nmonitor the pilots’\
+    \ subsequent performance to identify and correct any continued deficiencies. Therefore, the NTSB recommends that the FAA\
+    \ require all 14 CFR Part 135 operator..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9701.pdf_chunk_0038
+  report_id: AAR9701.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5263
+  text_preview: "BRIEFING and COMMUNICATION\n\x01 Set an open tone.\n\x01 Fully brief operational/safety issues.\n\x01 Explicitly\
+    \ encourage participation.\n\x01 All are obligated to seek and give information.\n\x01 State how SOP deviations will be\
+    \ handled.\n\x01 Include cabin crew. LEADERSHIP and TEAMWORK\n\x01 Balance authority and assertiveness.\n\x01 Promote\
+    \ continual dialogue.\n\x01 Adapt to the personalities of others.\n\x01 Use all available resources.\n\x01 Must share\
+    \ doubts with others. SITUATIONAL AWARENESS\n\x01 Monitor developments (fuel, weather, ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AIR2401.pdf_chunk_0033
+  report_id: AIR2401.pdf
+  section_name: ANALYSIS
+  score: 0.52
+  text_preview: "The FAA’s most recent guidance on CRM training, \nAdvisory Circular (AC) 120-51E, outlines desired crew competencies\
+    \ in the areas of \n(a) communication processes and decision behavior, (b) team building and \nmaintenance, and (c) workload\
+    \ management situational awareness. Lacking a cockpit \nvoice recording, it was difficult for the NTSB to perform a detailed\
+    \ assessment of the \nAAL106 crew’s CRM during this incident. Any insights that can be identified had to be \ninferred\
+    \ from the fact that errors ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9901.pdf_chunk_0221
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5097
+  text_preview: "Factual Information\n145\n Aircraft Accident Report\nThe specialist stated that “the physical act of manipulating\
+    \ the controls of modern aircraft\nunder normal conditions does not usually require excessive muscular force…during\n\
+    emergency situations, increased muscular force may be needed….”\n1.16.8.1.3 Summary of Observations of NASA’s Ames Research\
+    \ Center \nSpecialist\nThe specialist from NASA’s Ames Research Center reviewed the USAir flight 427\nCVR, focusing on\
+    \ the flight crew’s task-related (routine..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR0502.pdf_chunk_0046
+  report_id: AAR0502.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5064
+  text_preview: "Factual Information\n27\nAircraft Accident Report\nfeature is not available in the ATR-42. During the simulations,\
+    \ investigators observed that\nthe flying pilot always positioned the condition levers to 100 percent before landing.\
+    \ \n1.17.1.2 Crew Resource Management\nThe Executive Airlines FAA-Approved Training Manual, chapter 1, section 2,\npage\
+    \ 24, outlined the curriculum for the 2.5-hour, stand-alone crew resource management\n(CRM) training segment, which all\
+    \ new-hire pilots were required to attend. ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 8
+  needs_human_review: 2

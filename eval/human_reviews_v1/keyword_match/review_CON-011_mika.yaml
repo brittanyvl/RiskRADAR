@@ -1,0 +1,217 @@
+metadata:
+  query_id: CON-011
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: fuel system contamination water ice crystals
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fuel%' AND (lower(chunk_text) LIKE '%contamination%' OR lower(chunk_text)
+    LIKE '%water%ice%')
+  expected_report_ids:
+  - AAR1105.pdf
+  - AAR1006.pdf
+  - AAR1904.pdf
+  - AAR8214.pdf
+  - AAR8508.pdf
+  relevance_signals:
+  - fuel
+  - contamination
+  - water
+  - ice
+  - filter
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AAR8214.pdf_chunk_0014
+  report_id: AAR8214.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4755
+  text_preview: 'There
+
+    samples were taken on the second day follow:ng the accident while the airplane was still
+
+    on the ice, in a left wing-down position. Ambient air temperature had not risen above
+
+    5° F (-15°C) since the accident occurred. Part of the sample from the right-engine fuel
+
+    filter was lost before it was collected in the container. Samples also were teken on the
+
+    day of the accident from the hydrant cart which was used to refuel Flight 69 tn
+
+    Anchorage. These samples were analyzed by an independent labor...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR1006.pdf_chunk_0134
+  report_id: AAR1006.pdf
+  section_name: ANALYSIS
+  score: 0.4663
+  text_preview: "However, contamination with dimensional characteristics larger than 40 microns was found \nwithin the left\
+    \ engine’s FCU, indicating that the contamination bypassed the 40-micron FCU \nfilter element. A possible explanation\
+    \ for how the contamination got into the FCU is that the \nmain filter’s bypass valve was not completely seated (sealed)\
+    \ and allowed an unknown quantity \nof fuel to bypass the filter during engine operation. According to the operator, the\
+    \ SH-3H did not \nhave any engine or FCU probl..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR7020.pdf_chunk_0017
+  report_id: AAR7020.pdf
+  section_name: COMMUNICATIONS
+  score: 0.4334
+  text_preview: 'Leading edges of the entire empennage were completely
+
+    covered by solid ice, similar in texture to that found on the left
+
+    wing. This ice was estimated to be three-eighths of an inch thick
+
+    at the leading edge and extended back equally on both sides of the
+
+    surface, a distance estimated as 6 to 8 inches. The contour pattern of the ice was compatible with ice that
+
+    is formed during flight. It was not compatible with the ice that
+
+    formed on the other aircraft surfaces during the ramp time at Sioux
+
+    City....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1006.pdf_chunk_0133
+  report_id: AAR1006.pdf
+  section_name: ANALYSIS
+  score: 0.4268
+  text_preview: "Further, the NTSB recommends \nthat the USFS modify its standard manifest form to provide a place to record\
+    \ basic weather \ninformation and require that this information be recorded for each flight. \n2.7.2 Fuel Contamination\
+    \ \nAlthough trace amounts of fiberglass and other contaminants were found in the PRVs of \nthe accident helicopter’s\
+    \ FCUs, no evidence exists that this contamination affected engine \nperformance. On the contrary, the evidence from the\
+    \ CVR sound spectrum indicates that the \nengine..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAB0603.pdf_chunk_0027
+  report_id: AAB0603.pdf
+  section_name: ANALYSIS
+  score: 0.4189
+  text_preview: "The presence of upper wing surface contamination is likely because the airplane was \nparked on the ground\
+    \ for about 40 to 45 minutes during freezing precipitation and it was not \ndeiced. A witness observation of upper wing\
+    \ surface contamination while the airplane was \nparked, as well as a passenger’s observation of slush sliding from the\
+    \ top of the fuselage before \ntakeoff, further confirm the presence of contamination. This type of contamination can\
+    \ easily \naccumulate while an airplane is parke..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8508.pdf_chunk_0022
+  report_id: AAR8508.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.4149
+  text_preview: 'Pee pan ner metan—ta Rw ee
+
+
+    The two samples froin the Mk IIE Trislander, N624BN, were taken by the FAA
+
+    Principal Maintenance Inspector about 1100 on the morning of the aecident and each was
+
+    about 1-quart in volume. Analytical testing indicated that the f!uid mixture consisted of
+
+    both fuel and fresh weter. Basocl on what was known at the time the fuel sample testing
+
+    was requested, the physical properties of the fresh water contaminated fuel were net
+
+    requested; the testing facility did not have th...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR8214.pdf_chunk_0019
+  report_id: AAR8214.pdf
+  section_name: ANALYSIS
+  score: 0.3977
+  text_preview: '2. ANALYSIS
+
+
+    2.1 General
+
+
+    The flighterew was properly certificated and qualified in accordance with
+
+    existing regulations. Weather was not a factor in this accident, with the exception of
+
+    extremely low temperatures at the airplane''s cruise altitude. The airplane was properly
+
+    equipped and maintained in accordance with the applicable regulations. There was no
+
+    evidence found to indicate prior existing discrepancies which would have contributed to
+
+    the accident.
+
+
+    2.2 Fuel Type
+
+
+    All the fuel sampies ta...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR1006.pdf_chunk_0088
+  report_id: AAR1006.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3663
+  text_preview: "Although the flight crew did not report a loss of engine power during \nthe event, the FCUs were removed\
+    \ from the helicopter’s engines for examination. Functional \ntesting of both FCUs conducted at Columbia Helicopters’\
+    \ facility under the direct supervision of \nNTSB investigators determined that each unit was capable of supplying sufficient\
+    \ fuel to its \nrespective engine. During testing, both PRVs functioned as designed and moved freely when \ncommanded.\
+    \ A fuel sample was obtained from one of the ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR8508.pdf_chunk_0036
+  report_id: AAR8508.pdf
+  section_name: THE ACCIDENT
+  score: 0.3656
+  text_preview: 'Although it was
+
+    difficult to establish the flight and duty times of the pilot because of Incomplete
+
+    information in the operations department, the Safety Board was able to determine that
+
+    the pilot had been given the prescribed off-duty time required for a pilot of either an
+
+    on-demand/charter or commuter alr carrier. With regard to fuel contamination, a small amount of fresh wator was found
+    in
+
+    the fuel feed line to the left engine of the accident airplane. The investigavion revealed
+
+    that (1) the a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR8412.pdf_chunk_0015
+  report_id: AAR8412.pdf
+  section_name: WRECKAGE AND IMPACT INFORMATION
+  score: 0.3588
+  text_preview: 'The fuel inlet pressure was zero during functional tests. The tests indicated
+
+    that the differential pressure switch functioned correctly. The engine cowl heat systems were checked for electrical continuity
+    up to the
+
+    connector at the cow! bulkhead. The electrical timers functioned correctly and electrical
+
+    power was available to the connector. An autofeather check was performed on both engines using the airplane''s
+
+    electrical (battery) power; the left and righi systems functioned properly. The oppo...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

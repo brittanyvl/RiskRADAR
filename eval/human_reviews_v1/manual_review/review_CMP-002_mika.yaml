@@ -1,0 +1,155 @@
+metadata:
+  query_id: CMP-002
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents where pilots failed to respond to warnings
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%warning%' AND lower(chunk_text) LIKE '%fail%'
+  expected_report_ids: []
+  relevance_signals:
+  - warning
+  - ignored
+  - response
+  - alert
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR1103.pdf_chunk_0085
+  report_id: AAR1103.pdf
+  section_name: FINDINGS
+  score: 0.6356
+  text_preview: "3.1 Findings \n1. The investigation determined that the pilot was certificated and qualified in accordance\
+    \ with \nFederal regulations. \n2. Examinations of the recovered engine, propeller, and airframe components revealed no\
+    \ \nevidence of any preimpact failures. \n3. The weather conditions forecasted for and observed in the area on the day\
+    \ of the accident did \nnot appear to be exceptional compared to the conditions that the pilot experienced on \nprevious\
+    \ flights. \n4. The airplane was in a climbing le..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AIR1801.pdf_chunk_0082
+  report_id: AIR1801.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6316
+  text_preview: "Weener, Ph.D. Concurring \n \nAs a longtime pilot and flight instructor, I understand that mistakes are inevitable\
+    \ for even the best \naviators. Thus, it is critical that safety systems are instilled with redundancy and multiple layers\
+    \ \nwhich work effectively to mitigate, correct, or prevent these errors. I agree with findings and \nconclusions but\
+    \ wonder if they go far enough. We have focused on what can be done in the future \nto preserve the cockpit voice recorder.\
+    \ An opportunity to review a voice..."
+  judgment: 'semantic_match'
+  notes: 'This report is an example of ignoring warnings without explicity using the word warning.'
+- rank: 3
+  chunk_id: AAR0502.pdf_chunk_0019
+  report_id: AAR0502.pdf
+  section_name: COMMUNICATIONS
+  score: 0.6135
+  text_preview: '1.9
+
+    Communications
+
+    No communications problems between the pilots and any of the air traffic
+
+    controllers who handled the accident flight were reported.'
+  judgment: 'false_positive'
+  notes: 'This report is an example of ignoring warnings without explicity using the word warning. However, the section itself does not contain any relevant information and a short snippet of a communications section.'
+- rank: 4
+  chunk_id: AAR0603.pdf_chunk_0025
+  report_id: AAR0603.pdf
+  section_name: COMMUNICATIONS
+  score: 0.6135
+  text_preview: '1.9
+
+    Communications
+
+    No communications problems between the pilots and any of the air traffic
+
+    controllers who handled the accident flight were reported.'
+  judgment: 'false_positive'
+  notes: 'this report is an example of ignoring warnings without explicity using the word warning. However, the section itself does not contain any relevant information and a short snippet of a communications section.'
+- rank: 5
+  chunk_id: AAR0706.pdf_chunk_0022
+  report_id: AAR0706.pdf
+  section_name: COMMUNICATIONS
+  score: 0.6089
+  text_preview: "Communications\n1.9 \nNo communications problems between the pilots and any of the air traffic \ncontrollers\
+    \ who handled the accident flight were reported."
+  judgment: 'false_positive'
+  notes: 'This report is an example of ignoring warnings without explicity using the word warning. However, the section itself does not contain any relevant information and a short snippet of a communications section.'
+- rank: 6
+  chunk_id: AAR0707.pdf_chunk_0024
+  report_id: AAR0707.pdf
+  section_name: COMMUNICATIONS
+  score: 0.6077
+  text_preview: "Communications\n1.9 \nNo communications difficulties between the pilots and any of the air traffic \ncontrollers\
+    \ who handled the accident flight were reported."
+  judgment: 'false_positive'
+  notes: 'This report is an example of ignoring warnings without explicity using the word warning. However, the section itself does not contain any relevant information and a short snippet of a communications section.'
+- rank: 7
+  chunk_id: AAR8707.pdf_chunk_0053
+  report_id: AAR8707.pdf
+  section_name: THE ACCIDENT
+  score: 0.6007
+  text_preview: 'The failure of the controller observe the radar return of the Piper and, thus, to
+
+    provide a timely traffic advisory to flight 498 placed that flightcrew in the same position
+
+    as all other VFR pilots flying in visual meteorological conditions (VMC); their ability to
+
+    see and avoid other airplanes depended on their alertness, the quality of their scanning
+
+    procedures, and the conspicuity of the targets they were seeking to acquire. The Safety Board cannot state with certainty
+    that this collision woul...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7108.pdf_chunk_0031
+  report_id: AAR7108.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6001
+  text_preview: 'Chairman:
+
+
+    This is in reply to your letter of 10 September 1970 containing a suggestion that the item
+
+    “Warn Passengers” be inserted on the emergency ditching checklists of all air carriers. We agree that while the emergency
+    procedures sections of the major air carriers’ operations manuals are comprehensive in regard to in anticipated ditching,
+    a preimpact warning to the passengers is not among the items on the checklist. We will, therefore, initiate a bulletin
+    to our principal operations inspect...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0903.pdf_chunk_0022
+  report_id: AAR0903.pdf
+  section_name: COMMUNICATIONS
+  score: 0.5965
+  text_preview: "1.9 Communications \nNo technical communications difficulties between the pilots and any of the air traffic\
+    \ \ncontrollers who handled the accident flight were reported."
+  judgment: 'false_positive'
+  notes: 'This report is an example of ignoring warnings without explicity using the word warning. However, the section itself does not contain any relevant information and a short snippet of a communications section.'
+- rank: 10
+  chunk_id: AAR1402.pdf_chunk_0094
+  report_id: AAR1402.pdf
+  section_name: FINDINGS
+  score: 0.5916
+  text_preview: "The captain’s belief that they were high on the approach and his distraction from his pilot \nflying duties\
+    \ by looking out the window likely contributed to his failure to adequately \nmonitor the approach. \n12. For the captain,\
+    \ fatigue due to circadian factors may have been present at the time of the \naccident. \n13. The captain’s poor performance\
+    \ during the accident flight was consistent with past \nperformance deficiencies in flying nonprecision approaches noted\
+    \ during training; the errors \nthat t..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 4
+  needs_human_review: 6

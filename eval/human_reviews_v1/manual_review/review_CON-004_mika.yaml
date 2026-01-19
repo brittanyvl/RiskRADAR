@@ -1,0 +1,166 @@
+metadata:
+  query_id: CON-004
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: crew resource management breakdown communication failure
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%crew resource management%' OR lower(chunk_text) LIKE '%crm%'
+  expected_report_ids:
+  - AAR1002.pdf
+  - AAR1101.pdf
+  - AAR1102.pdf
+  - AAR9607.pdf
+  - AAR1802.pdf
+  - AAR0001.pdf
+  - AAR1001.pdf
+  relevance_signals:
+  - crm
+  - communication
+  - coordination
+  - cockpit
+  - assertiveness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9404.pdf_chunk_0059
+  report_id: AAR9404.pdf
+  section_name: ANALYSIS
+  score: 0.4977
+  text_preview: 'Additionally, several air carriers also require a check ainman to accompany an
+
+    unqualified crew or captain into a special airport. Unlike AIA, several airlines that
+
+    had dispatch operations kept records of special airports qualifications and currency
+
+    for crewmembers.
+
+
+    72
+
+
+    2.7 Crew Resource Management (CRM)
+
+
+    The crew coordination issues were examined by the Safety Board
+
+    because of the events that occurred in the final minutes of the flight. The Safety
+
+    Board found that the lack of crew coordination...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0604.pdf_chunk_0072
+  report_id: AAR0604.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4851
+  text_preview: 'For additional information, see FAA AC 120-51E,
+
+    “Crew Resource Management Training.”'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1002.pdf_chunk_0076
+  report_id: AAR1002.pdf
+  section_name: ANALYSIS
+  score: 0.446
+  text_preview: "Just before initiating the takeoff roll, the captain asked the first officer to request a \nwind check. However,\
+    \ the captain repeated the winds back to the first officer incorrectly, and the \nfirst officer agreed; thus, neither\
+    \ the captain nor the first officer was effectively listening to each \nother or the controller. The captain’s next statement\
+    \ that the winds were “pretty much straight \ndown” the runway was also incorrect, and the first officer did not correct\
+    \ that error. Although \nnone of th..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR7517.pdf_chunk_0008
+  report_id: AAR7517.pdf
+  section_name: COMMUNICATIONS
+  score: 0.4302
+  text_preview: 'Communications
+
+
+    No communication difficulties were reported.'
+  judgment: 'false_positive'
+  notes: 'This result discusses communication difficulties in a different context and does not relate to crew resource management or communication failures. This is a short snippet that does not provide relevant information to the query.'
+- rank: 5
+  chunk_id: AAR7503.pdf_chunk_0003
+  report_id: AAR7503.pdf
+  section_name: CREW INFORMATION
+  score: 0.4148
+  text_preview: Crew Information
+  judgment: 'false_positive'
+  notes: 'This result discusses crew information in a general context and does not specifically address crew resource management or communication failures.'
+- rank: 6
+  chunk_id: AAR7319.pdf_chunk_0001
+  report_id: AAR7319.pdf
+  section_name: CREW INFORMATION
+  score: 0.4148
+  text_preview: Crew Information
+  judgment: 'false_positive'
+  notes: 'This result discusses crew information in a general context and does not specifically address crew resource management or communication failures.'
+- rank: 7
+  chunk_id: AAR9803.pdf_chunk_0020
+  report_id: AAR9803.pdf
+  section_name: COMMUNICATIONS
+  score: 0.41
+  text_preview: '1.9
+
+    Communications
+
+    No communications difficulties were reported.
+
+
+    20'
+  judgment: 'false_positive'
+  notes: 'This result discusses communication difficulties in a different context and does not relate to crew resource management or communication failures. This is a short snippet that does not provide relevant information to the query.'
+- rank: 8
+  chunk_id: AAR1001.pdf_chunk_0052
+  report_id: AAR1001.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.4058
+  text_preview: "Colgan stated that the program \nhad specific criteria and processes for entry into and exit from the program\
+    \ and that the flight \noperations department has been reviewing and revising the program’s operation. The Colgan director\
+    \ of flight standards stated that he had not tracked the accident captain \nin terms of his performance. The company chief\
+    \ pilot stated that he was aware that the captain \nhad failed his initial Saab 340 upgrade training proficiency check\
+    \ and had to be retrained and \nperfor..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR1902.pdf_chunk_0050
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.3996
+  text_preview: "On the accident flight, both \npilots exhibited performance problems that had previously occurred during\
+    \ their simulator training \ncourses. Thus, the NTSB concludes that the pilots’ performance on the accident flight included\
+    \ \ndeficiencies that were noted during their initial Trans-Pacific training, but the company did not \nmonitor the pilots’\
+    \ subsequent performance to identify and correct any continued deficiencies. Therefore, the NTSB recommends that the FAA\
+    \ require all 14 CFR Part 135 operator..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR1101.pdf_chunk_0113
+  report_id: AAR1101.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.3992
+  text_preview: "Hart, concurring in part and dissenting in part: \nConcurrence. The discussion in the report about Crew Resource\
+    \ Management (CRM) is \nfine as far as it goes, but I don’t believe it goes far enough. This accident involves a PIC and\
+    \ an \nSIC with very disparate experience levels – the PIC had about 3,600 hours of total flight time, \nwith almost 1,200\
+    \ hours in type, while the SIC had less than 1,500 hours of total flight time, with \nless than 300 hours in type. Query\
+    \ whether the concept of CRM is fun..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

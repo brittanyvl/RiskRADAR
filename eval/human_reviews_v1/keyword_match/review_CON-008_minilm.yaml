@@ -1,0 +1,256 @@
+metadata:
+  query_id: CON-008
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: turbine engine uncontained failure blade separation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncontained%' OR (lower(chunk_text) LIKE '%turbine%' AND lower(chunk_text)
+    LIKE '%blade%fail%')
+  expected_report_ids:
+  - AAR8701.pdf
+  - AAR-90-06.pdf
+  - AAR1801.pdf
+  - AAR9801.pdf
+  - AAR7107.pdf
+  relevance_signals:
+  - uncontained
+  - blade
+  - turbine
+  - disk
+  - fan
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.2
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR7209.pdf_chunk_0016
+  report_id: AAR7209.pdf
+  section_name: WRECKAGE
+  score: 0.6039
+  text_preview: 'Phe case
+
+    was uniformly circumferentially bulged outward
+
+    from rotational contact of first-stage turbine
+
+    blades at the rear flange of the turbine front
+
+    case,
+
+
+    Nine first-stage turbine blades (P/N 564901)?
+
+    were broken off at the blade inner platform. The
+
+    remaining blades were broken 1 to 2 inches
+
+    above the inner platform. The first-stage outer
+
+    air scal had a 12-inch piece broken out. The
+
+    inside diameter of the aiz seal was heavily
+
+    rubbed, Eigh + percent of the antirotation lugs
+
+    were beoken or worn ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9406.pdf_chunk_0015
+  report_id: AAR9406.pdf
+  section_name: WRECKAGE AND IMPACT INFORMATION
+  score: 0.5746
+  text_preview: 'There was extensive and similar damage to the power turbine sections
+
+    3 of each engine. The third stage power turbine nozzle vanes exhibited moderate
+
+    trailing edge damage, with missing fragments and small cracks in most of the vanes.
+
+    : The blade tip shroud and 25 to 50 percent of the airfoil areas on all third stage
+
+    power turbine blades on both engines were missing. No damage was noted on the
+
+    third stage disks. The fourth stage power turbine nozzle vanes for both engines were
+
+    found in place but e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8203.pdf_chunk_0032
+  report_id: AAR8203.pdf
+  section_name: FINDINGS
+  score: 0.5715
+  text_preview: '3.1 Findings
+
+
+    1. The engine failure oeeurred below V1 speed. The flighterew''s decision to
+
+    reject the takeoff was correct.
+
+
+    te The stage 1 low pressure turbine rotor disk on the No.3 engine
+
+    fragmented and separa‘ed from the low pressure turbine rotor assembly. The fragments penetrated the engine causing damage
+    to the leading edge
+
+    of the right wing, and rendered aircraft systems and components
+
+    inoperable.
+
+
+    3. There was no evidence of preexisting fatigue or cracking on any of the
+
+    roter nuts and bol...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR7712.pdf_chunk_0015
+  report_id: AAR7712.pdf
+  section_name: FLIGHT RECORDERS
+  score: 0.5668
+  text_preview: 'The outer shrovds around the turbine blades and the outer
+
+    seals in the turbine cases were heavily rubbed. The reduction gears,
+
+    gds geuerator turbines, and compressors were undamaged.
+
+
+    -~19-
+
+
+    On the left-propelier, the spring retainer pilot was broken at
+
+    the forward end. ‘The three blades had dents around the pilot holes on
+
+    the butt ends of the blades. When the dents on one of the blades were
+
+    aligned with a matching mark on the vropeller hub, the blade was at an
+
+    angle of 41°. The three blades of ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR7107.pdf_chunk_0005
+  report_id: AAR7107.pdf
+  section_name: SYNOPSIS
+  score: 0.5629
+  text_preview: 'Detailed laboratory examination of seven P/N 674331 first-stage
+
+    turbine blades disclosed transverse fractures through the airfoil sections
+
+    approximately 1 inch above the blade root platforms. Thirty additional
+
+    P/N 674331 first-stage blades exhibited cracks in the leading edges at
+
+    Yoeations similar to those found in the fractured blades (Photograph No. 5). The complete fractures, as well as the fractures
+    seen through the cracks,
+
+    exhibited oxide discolorated dendritic surfaces, There was no eviden...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR7107.pdf_chunk_0008
+  report_id: AAR7107.pdf
+  section_name: ANALYSIS AND CONCLUSIONS
+  score: 0.5609
+  text_preview: 'These were not designed to withstand the nearly 4.1 increase
+
+    in vibratory loads which occurred when the initial failure of the firststage blades occurred,
+
+
+    The fatigue failures of these inner shroud near vane feet allcwed
+
+    the second-stage turbine stator shroud assembly to shift rearward and
+
+    rub against the front web surface of the second-stage turbine hub. This
+
+    continued rubbing caused grooves to be worn into the disk portion of the
+
+    front turbine hub. Finally, the front turbine hub fractured cir...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR1006.pdf_chunk_0058
+  report_id: AAR1006.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5479
+  text_preview: "Several of the second-stage gas generator turbine wheel \nblades had dents on the leading edge tips. The\
+    \ hub and blade assembly of the power turbine \nwheel appeared to be undamaged. The first-stage gas generator turbine\
+    \ wheels from both engines were further examined at \nthe NTSB’s materials laboratory. Examination of the fractured blades\
+    \ on the No. 1 engine’s \nfirst-stage turbine wheel revealed similar features on all blades. The fracture surfaces appeared\
+    \ \ntypical of high-temperature stress rupt..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8203.pdf_chunk_0026
+  report_id: AAR8203.pdf
+  section_name: ANALYSIS
+  score: 0.5418
+  text_preview: 'Consequently, the Safety
+
+    Board concludes that the faiture of the stage 1 low pressure turbine rotor disk was caused
+
+    by the foreign material in the engine. The five frrngments of M-50 alloy steel found inside the low pressure turbine
+
+    module were severely oxidized and battered indicating that they had been exposed to heat
+
+    and impact damage for a considerable period. The main engine bearings of the CF6
+
+    engine fleet are made with M~50 alloy steel; however, all the main bearings forward of
+
+    the low pr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9601.pdf_chunk_0059
+  report_id: AAR9601.pdf
+  section_name: WRECKAGE AND IMPACT INFORMATION
+  score: 0.5415
+  text_preview: 'Examination of the
+
+    first stage power turbine blades revealed evidence of circumferential rubbing with
+
+    corresponding smears due to radial contact with the shroud. The second stage power
+
+    turbine blades were deformed and fractured in a direction opposite to normal rotation. The remaining internal components
+    of both engines also revealed
+
+    evidence of rotational smearing, rubbing and blade fractures in a direction opposite to
+
+    their normal rotation. The damage sustained by these components indicated th...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8203.pdf_chunk_0033
+  report_id: AAR8203.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.5391
+  text_preview: '3.2 Probable Cause
+
+
+    The National Transportation Safety Board uecermines that the probable cause
+
+    of this accident was the failure of quality control inspections to detect the presence of
+
+    foreign material in the low pressure turbine cavity during the reassemb’y of the low
+
+    pressure turbine module after installation of the stage 1 low pressure turbine rotor disk. The foreign material in the
+    low pressure turbine cavity damaged the bolts holding the
+
+    stage 1 low pressure turbine rotor disk and stage 2 ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

@@ -1,0 +1,262 @@
+metadata:
+  query_id: CON-006
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: metal fatigue crack propagation structural inspection
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%crack%' OR lower(chunk_text) LIKE '%crack%propagation%'
+  expected_report_ids:
+  - AAR0704.pdf
+  - AAR0201.pdf
+  - AAR1903.pdf
+  - AAR-90-06.pdf
+  - AAR8903.pdf
+  - AAR9606.pdf
+  relevance_signals:
+  - fatigue
+  - crack
+  - inspection
+  - propagation
+  - fracture
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR9308.pdf_chunk_0070
+  report_id: AAR9308.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5924
+  text_preview: 'The
+
+    FAA''s National Resource Specialist for nondestructive
+
+    inspection (NDI) has reviewed and concurred with the inspection
+
+    procedures. As a result of the inspections required by the AD, one hub arn
+
+    crack indication has been found to date. The Safety Board was
+
+    notified and an investigation was started to verify the crack
+
+    indication utilizing several NDI processes, including magnetic
+
+    particle, eddy current, dye penetrant, and ultrasonic. An
+
+    effort is underway in coordination with the Safety Board''s...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR7218.pdf_chunk_0021
+  report_id: AAR7218.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.5707
+  text_preview: 'The combination of these two
+
+    conditions produces britse fractures ir. otherwise ductile materials, i) aluminum alloys the path of the fracture ls always
+
+    intergranular,
+
+
+    photographic enhancement consh!s esnsntially of a series of
+
+    precisely ce atrolied printing exposuies of & high lithographic
+
+    contrast film. Thess films are designed to transite @ conthwous
+
+    tone image into a black ani white image. For incipient creck detection, the ultrasonic and eddy current methods of nondestructive
+    inspection ar...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0102
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5458
+  text_preview: 'There is no
+
+    - terminating action for Part I inspection. Part II fatigue damage inspection of the lap joints at Stringers
+
+    4, 10, 14, 19, 20, and 24 is to commence upon the accumulation of
+
+    30,000 flight cycles as indicated below. Two types of inspection are called for:
+
+
+    Type I - An external close visual inspection of the eritical
+
+    upper row of fastener holes for cracks at each lap
+
+    joint where the outer skin gage is less than 0.056
+
+    inch.
+
+
+    ) : Type II - A high frequency eddy current inspection (NDT) ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR7613.pdf_chunk_0012
+  report_id: AAR7613.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5317
+  text_preview: '1.16 Tests and Research
+
+
+    The failed propeller shank and propeller shank clamp were
+
+    examined at the National Transportation Safety Board''s Metallurgical
+
+    Laboratory,
+
+
+    Metallurgical tests showed that the blade failed as a result
+
+    of a fatigue crack that began in the hub fillet on the leading edge side
+
+    of the blade and progressed across 90 percent of the shank cross section.
+
+    (See Appendix D.) Numerous smali secondary fatigue cracks were also
+
+    founu in or near the hub fillet. A visual examination of th...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR1801.pdf_chunk_0071
+  report_id: AAR1801.pdf
+  section_name: ANALYSIS
+  score: 0.5244
+  text_preview: "Thus, crack 3 could have initiated between \n0 and 9,584 cycles since new, crack 4 could have initiated between\
+    \ 0 and 9,784 cycles since new, and crack 5 could \nhave initiated between 0 and 7,784 cycles since new. NTSB \nAircraft\
+    \ Accident Report \n71 \nthe billet and forging manufacturing stages. Ultrasonic inspections could be appropriate for\
+    \ inservice maintenance because they would provide maintenance personnel with a method to detect \ncracks emanating from\
+    \ internal material anomalies below a mate..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR6907.pdf_chunk_0022
+  report_id: AAR6907.pdf
+  section_name: ANALYSIS AND CONCLUSIONS
+  score: 0.5201
+  text_preview: '2. ANALYSIS AND CONCLUSIONS
+
+
+    <.l Analysis
+
+
+    Examination of the wreckage early in the investigation
+
+    revealed that a fatigue fracture in the shank of the yellow
+
+    blade spindle resulted in separation of the yellow main rotor
+
+    blade, and caused loss of control of the aircraft. It was
+
+    subsequently determined that no other factors related to the
+
+    operation of the flight were involved. Consequently, the
+
+    main thrust of the investigation focused on the circumstances
+
+    surrounding the cause of the fatigue crack...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9801.pdf_chunk_0026
+  report_id: AAR9801.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5184
+  text_preview: '1.16
+
+    Tests and Research
+
+    1.16.1
+
+    Metallurgical Examination
+
+    The fractured components of the accident fan hub were examined in the Safety
+
+    Board’s materials laboratory. The fan hub had fractured radially in two places (see figure 9a). One of the radial fractures
+    contained a fatigue crack that originated at two locations on the
+
+    inboard side of a tierod hole (see figure 9b). The two origins were located within the tierod hole
+
+    at distances of 0.307 inch and 0.553 inch from the aft edge of the hole. Fati...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8704S.pdf_chunk_0049
+  report_id: AAR8704S.pdf
+  section_name: PARAGRAPH_96
+  score: 0.5163
+  text_preview: 'Revise the approved inspection programs for Lockheed L-1011 airplanes
+
+    as necessary to establish inspection thresh lds, intervals, and methods
+
+    which are adequate to detect fatigue cracking of primary wing structure.
+
+    (Class Ii, Priority Action) (A-86-129)'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR8903.pdf_chunk_0029
+  report_id: AAR8903.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5162
+  text_preview: 'Light to
+
+    moderate corrosion was present on the previously bonded surfaces. At the request of the Safety Board, Boeing performed
+    a striation
+
+    count on several of the larger fatigue cracks from the skin along S-4R and
+
+    S-10L to determine age and crack propagation rate. Although data could not
+
+    be obtained from al] the cracks examined, Table 2 provides the estimated
+
+    number of cycles of crack growth found on the seven crack samples that
+
+    provided suitable data. Table 2.--Striation counts on selected cra...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR9308.pdf_chunk_0024
+  report_id: AAR9308.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5112
+  text_preview: 'Initial fatigue cracking from these
+
+    reinitiation areas was relatively clean (not discolored); however, after a short
+
+    distance, the fracture was again discolored in thin rings, after which the fatigue
+
+
+    AS
+
+
+    Ratchet marks are small vertical steps in the fracture that usually separate individual fatigue
+
+    initiation sites on slightly offset planes.
+
+
+    34
+
+
+    crack fronts appeared to merge to a single crack front. The remaining fatigue
+
+    fracture outside these rings contained lesser amounts of discoloration w...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

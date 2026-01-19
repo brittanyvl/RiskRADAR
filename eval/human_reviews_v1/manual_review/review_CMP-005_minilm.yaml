@@ -1,0 +1,206 @@
+metadata:
+  query_id: CMP-005
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: regulatory failures that contributed to accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%faa%' AND lower(chunk_text) LIKE '%oversight%'
+  expected_report_ids: []
+  relevance_signals:
+  - faa
+  - regulatory
+  - oversight
+  - certification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.1
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR9103.pdf_chunk_0049
+  report_id: AAR9103.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.7025
+  text_preview: 'It does not seem to me to be reasonable to cite the FAA as causal in
+
+
+    44
+
+
+    this accident for failure of the north Joca) controller to exercise proper
+
+    judgement which led to this incursion accident. Changing procedures or overlying additional procedures in
+
+    anticipation of human performance failures are of little value if they are
+
+    not adhered to. As we know in this case the procedures that already exist
+
+    were not adhered to. When the north local controller took the pilots of
+
+    FA 111] out of the loop ...'
+  judgment: false_positive
+  notes: 'This was auto-matched on keyword but it is a false positive because the discussion is about a human error from a passenger and how that is NOT related to regulatory FAA failure. '
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0705.pdf_chunk_0188
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6463
+  text_preview: 'As with the flight crew, these factors raise
+
+    the question of how “outside the norm” this controller’s behavior was on the
+
+    morning of the accident. Many of these issues were discussed during the board meeting and are explored in the
+
+    report. However, I find it worthwhile to enumerate them in this statement because I
+
+    believe they should not be completely overshadowed by the simpler conclusion that this
+
+    accident was caused by pilot error. If we focus only on the actions of the people directly
+
+    involv...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses systemic issues and human factors but does not directly address regulatory failures.'
+- rank: 3
+  chunk_id: AAR0705.pdf_chunk_0189
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6371
+  text_preview: 'ICAO’s Manual of Aircraft Accident and Incident Investigation (Doc 9756) adopted in
+
+    2003, provides guidance for member states, including the United States. With respect to
+
+    determining causes, the manual states in section 3.2.2.: “Seen together, the causes should
+
+    present a picture of all of the reasons wAy the accident occurred. The list of causes
+
+    should include the immediate causes and the deeper or systemic causes... The causes
+
+    should be formulated with preventative action in mind and linked to...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses systemic issues and human factors but does not directly address regulatory failures.'
+- rank: 4
+  chunk_id: AAR0707.pdf_chunk_0057
+  report_id: AAR0707.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6337
+  text_preview: "The Safety \nBoard determined that one of the probable causes of the accident was the FAA’s failure to \n\
+    50  National Transportation Safety Board, In-Flight Fire, McDonnell Douglas DC-9-83, N569AA, Nashville, \nTennessee, February\
+    \ 3, 1988, Hazardous Materials Report NTSB/HZM-88/02 (Washington, DC: NTSB, \n1997)."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9104.pdf_chunk_0080
+  report_id: AAR9104.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6214
+  text_preview: '3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the
+
+    probable cause of this accident was the failure of the flightcrew to
+
+    adequately manage the airplane’s fuel load, and their failure to communicate
+
+    an emergency fuel situation to air traffic contro] before fuel exhaustion
+
+    occurred. Contributing to the accident was the flightcrew’s failure to use
+
+    an airline operational control dispatch system to assist them during the
+
+    international flight into a high-density airport in...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0403.pdf_chunk_0082
+  report_id: AAR0403.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.614
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    this accident was the in-flight failure of the right engine and the pilot’s failure to
+
+    adequately manage the airplane’s performance after the engine failed. The right engine
+
+    failure resulted from inadequate maintenance that was performed by Air Sunshine’s
+
+    maintenance personnel during undocumented maintenance. Contributing to the passenger
+
+    fatalities was the pilot’s failure to provide an emergency br...'
+  judgment: 'semantic_match'
+  notes: 'While this result discusses maintenance and pilot errors, it does not directly address regulatory failures by the FAA or oversight issues. However, the report does discuss how regulatory oversight could have potentially prevented the maintenance errors.'
+- rank: 7
+  chunk_id: AAR0901.pdf_chunk_0024
+  report_id: AAR0901.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6125
+  text_preview: "4.2 \nProbable Cause \nThe National Transportation Safety Board determines that the probable causes of this\
+    \ \naccident were the actions and decisions by National Association for Stock Car Auto Racing’s \ncorporate aviation division’s\
+    \ management and maintenance personnel to allow the accident \nairplane to be released for flight with a known and unresolved\
+    \ discrepancy, and the accident \npilots’ decision to operate the airplane with that known discrepancy, a discrepancy\
+    \ that likely \nresulted in an in-f..."
+  judgment: 'false_positive'
+  notes: 'This result discusses maintenance and pilot errors but does not directly address regulatory failures by the FAA or oversight issues.'
+- rank: 8
+  chunk_id: AAB0701.pdf_chunk_0024
+  report_id: AAB0701.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6062
+  text_preview: "PROBABLE CAUSE \nThe National Transportation Safety Board determines that the probable cause of the \naccident\
+    \ was the pilot’s decision to continue flight into adverse weather conditions, which \nresulted in a loss of control due\
+    \ to an encounter with a microburst. Contributing to the accident \nwas inadequate Federal Aviation Administration surveillance\
+    \ of Special Federal Aviation \nRegulation 71 operating restrictions. Contributing to the loss of life in the accident\
+    \ was the lack \nof helicopter flot..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses systemic issues and human factors as well as FAA oversight failures that contributed to the accident.'
+- rank: 9
+  chunk_id: AIR2302.pdf_chunk_0002
+  report_id: AIR2302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6061
+  text_preview: "Specification No. 1, \nSpecification for Pilot’s Operating Handbook. Washington, DC: GAMA. Aviation Investigation\
+    \ Report \nAIR-23-02 \n \n7 \n \nThe NTSB is an independent federal agency charged by Congress with investigating every\
+    \ \ncivil aviation accident in the United States and significant events in the other modes of transportation—\nrailroad,\
+    \ transit, highway, marine, pipeline, and commercial space. We determine the probable causes \nof the accidents and events\
+    \ we investigate and issue safety recom..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9108.pdf_chunk_0074
+  report_id: AAR9108.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6024
+  text_preview: '3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the
+
+    probable cause of the accident was the failure of the Los Angeles Air Traffic
+
+    Facility Management to implement procedures that provided redundancy
+
+    comparable to the requirements contained in the National Operational Position
+
+    Standards and the failure of the FAA Air Traffic Service to provide adequate
+
+    policy direction and oversight to its air traffic control facility managers. These failures created an environment in...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 5
+  needs_human_review: 5

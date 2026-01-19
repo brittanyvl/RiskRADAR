@@ -1,0 +1,167 @@
+metadata:
+  query_id: CMP-006
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: training deficiencies identified after accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%training%' AND lower(section_name) IN ('analysis', 'probable cause')
+  expected_report_ids: []
+  relevance_signals:
+  - training
+  - proficiency
+  - inadequate
+  - deficient
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR2002.pdf_chunk_0079
+  report_id: AAR2002.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.65
+  text_preview: "As a former Naval \ninstructor pilot and training officer of a Fleet Replacement Squadron, I had the unpleasant\
+    \ job of \ninforming a few pilots their career was over because of a lack of airmanship skills, unsafe acts, \npoor judgement,\
+    \ or a constant lack of situational awareness. Each time it pained me, but it was \nrequired to protect the pilot and\
+    \ the operation. The FO demonstrated a lack of basic airmanship \nskills by failing to complete initial training at CommutAir\
+    \ and AirWisconsin, registerin..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0801.pdf_chunk_0099
+  report_id: AAR0801.pdf
+  section_name: ANALYSIS
+  score: 0.6094
+  text_preview: "The training guide was included as an appendix to \nthe FAA’s Flight Standards Information Bulletin for Air\
+    \ Transportation 01-12. The FAA \nindicated that the training guide and the FAA bulletin “explicitly promote an orientation\
+    \ \nto a proactive go-around” through recommended flight crew training. The FAA bulletin \nstated, “the unwillingness\
+    \ of pilots to execute a go-around and missed approach when \nnecessary was the cause, at least in part, of some approach\
+    \ and landing accidents. This \nunwillingn..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1002.pdf_chunk_0073
+  report_id: AAR1002.pdf
+  section_name: ANALYSIS
+  score: 0.6056
+  text_preview: "NTSB \nAircraft Accident Report \nshow that, like the accident captain, many other pilots have misinterpreted\
+    \ tire anomalies and \nresponded by initiating an unnecessary RTO after V1. According to an FSI instructor, the training\
+    \ curriculum provided to the captain and the \nfirst officer did not include any scenarios in which a tire failure occurred.\
+    \ Training materials \nprovided to flight crews about RTOs focus primarily on engine failures at or around V1. There \n\
+    was no indication that wheel and tire..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1401.pdf_chunk_0109
+  report_id: AAR1401.pdf
+  section_name: ANALYSIS
+  score: 0.6027
+  text_preview: "Even though the PF was demonstrating poor \nawareness of altitude and airspeed, the PM did not intervene\
+    \ or otherwise ensure that needed \ncorrections were made to the airplane’s vertical path. NTSB \nAircraft Accident Report\
+    \ \n101 \nAsiana 777 IP training included ground school, simulator instructor panel operation \ntraining, flight instructor\
+    \ training while operating in the right seat, and OE; examinations or \nchecks were also performed for each of these phases\
+    \ of training. A review of the PM’s tra..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0907.pdf_chunk_0065
+  report_id: AAR0907.pdf
+  section_name: ANALYSIS
+  score: 0.5994
+  text_preview: "The NTSB notes that MSP Aviation Command has made postaccident changes in its \ntraining program including\
+    \ adding requirements for pilots to conduct ―one instrument approach \nin VMC per month on the return leg of a mission‖\
+    \ and ―one instrument approach flight per \nmonth with another check pilot.‖ However, the NTSB is concerned that no requirements\
+    \ have \nbeen added for the performance of nonprecision approaches or for the performance of instrument \napproaches at\
+    \ night. If the accident pilot had re..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR1902.pdf_chunk_0050
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.5993
+  text_preview: "On the accident flight, both \npilots exhibited performance problems that had previously occurred during\
+    \ their simulator training \ncourses. Thus, the NTSB concludes that the pilots’ performance on the accident flight included\
+    \ \ndeficiencies that were noted during their initial Trans-Pacific training, but the company did not \nmonitor the pilots’\
+    \ subsequent performance to identify and correct any continued deficiencies. Therefore, the NTSB recommends that the FAA\
+    \ require all 14 CFR Part 135 operator..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0601.pdf_chunk_0050
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.596
+  text_preview: 'Factual Information
+
+    28
+
+    Aircraft Accident Report
+
+    balance; checklist philosophy; crew resource management (CRM);59 stabilized, precision,
+
+    and nonprecision approaches; CFIT;60 cockpit flows and instrument panel scans (practiced
+
+    in a cockpit procedures trainer); and airplane systems (1 week of sessions). Corporate
+
+    Airlines representatives indicated that they did not provide (nor were they required to
+
+    provide) company pilots with formal fatigue-related training. Eighty-five percent of a new pilot’s f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7216.pdf_chunk_0008
+  report_id: AAR7216.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5844
+  text_preview: 'The student pilot who was flying the Cessna, cited in our carlicr letter, was in his Sth hour
+
+    of flight training and was engaged in a local training Might of the type associated with basic
+
+    visual and instrument flying techniques. He would not have been conducting any instrument
+
+    training activitics associated with en route or terminal instrument training procedures, and he
+
+    did -at have to be cn the approach paths to a major terminal area to practice the specific
+
+    mancuvers he was engaged in atthe ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR1001.pdf_chunk_0142
+  report_id: AAR1001.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5838
+  text_preview: "The administrator also stated that, for those carriers \nwithout such systems, additional FAA oversight of\
+    \ their training and qualification programs \nwould be conducted. The FAA’s January 27, 2010, fact sheet regarding its\
+    \ “Call to Action” \nreport stated that all air carriers (including the 14 carriers that had advanced qualification \n\
+    programs) had developed remedial training programs for pilots that were consistent with the \nguidance in SAFO 06015.\
+    \ The NTSB concludes that remedial training and a..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR0001.pdf_chunk_0094
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5813
+  text_preview: "Factual Information\n60\nAircraft Accident Report\n•\nBeginning in November 1998, training modules on risk\
+    \ and error management\nand recovery training for CFIT awareness, GPWS and windshear warnings,\nslippery runways, and\
+    \ crosswind and icing conditions were added to the\nrecurrent proficiency training curriculum for all airplane types.\
+    \ \n•\nIn January 1999, a policy of training to proficiency in the recurrent training and\nchecking system was implemented.\
+    \ Crewmembers are to be given three\nopportunities d..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

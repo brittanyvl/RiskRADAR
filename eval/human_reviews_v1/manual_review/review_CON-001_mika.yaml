@@ -1,0 +1,234 @@
+metadata:
+  query_id: CON-001
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: uncommanded flight control surface movement
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncommanded%' AND (lower(chunk_text) LIKE '%rudder%' OR lower(chunk_text)
+    LIKE '%aileron%' OR lower(chunk_text) LIKE '%elevator%')
+  expected_report_ids:
+  - AAR0101.pdf
+  - AAR9602.pdf
+  - AAR9901.pdf
+  - AAR0404.pdf
+  - AAR9601.pdf
+  relevance_signals:
+  - uncommanded
+  - hardover
+  - runaway
+  - control surface
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR0201.pdf_chunk_0104
+  report_id: AAR0201.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4771
+  text_preview: 'The flight control
+
+    surface positions required to match the FDR angular and position data are then calculated using
+
+    aerodynamic data for the airplane that have been provided by the manufacturer.'
+  judgment: 'semantic_match'
+  notes: 'This flight report does discuss flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 2
+  chunk_id: AAR0101.pdf_chunk_0124
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4549
+  text_preview: 'Factual Information
+
+    86
+
+    Aircraft Accident Report
+
+    time histories. Further, kinematics techniques magnified the noise59 that was inherent in
+
+    the accident airplane’s FDR data, so smoothing techniques were needed to reduce this
+
+    noise and minimize the potential for erratic signatures in the extracted control surface time
+
+    histories. Safety Board investigators used the Board’s workstation-based flight simulation
+
+    computer program60 for the 737-200 and -300 to perform simulations of the flights of
+
+    USAir f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR0201.pdf_chunk_0203
+  report_id: AAR0201.pdf
+  section_name: ANALYSIS
+  score: 0.4512
+  text_preview: 'I don’t think
+
+    we should…if it can fly.” These statements suggest that the captain may have been
+
+    indicating his intention to retry the primary trim system after reducing aerodynamic forces
+
+    on the horizontal stabilizer. However, after the first officer’s statement at 1619:14, “I think
+
+    if it’s controllable, we oughta just try to land it,” the captain abandoned his plan and
+
+    responded, “ok let’s head for LA.”
+
+    229 The Safety Board also notes that the captain’s disconnection of the autopilot when he wa...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 4
+  chunk_id: AAR0201.pdf_chunk_0202
+  report_id: AAR0201.pdf
+  section_name: ANALYSIS
+  score: 0.4449
+  text_preview: 'Analysis
+
+    138
+
+    Aircraft Accident Report
+
+    the Safety Board concludes that the flight crew’s use of the autopilot while the horizontal
+
+    stabilizer was jammed was not appropriate.229
+
+    2.2.5.3 Configuration Changes
+
+    At 1615:56, after recovery from the initial dive, the captain told the air traffic
+
+    controller that he wanted to “change my configuration, make sure I can control the jet and
+
+    I’d like to do that out here over the bay if I may.” As previously mentioned, the captain
+
+    then ordered extension of the ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 5
+  chunk_id: AAR1102.pdf_chunk_0067
+  report_id: AAR1102.pdf
+  section_name: ANALYSIS
+  score: 0.4302
+  text_preview: "NTSB \nAircraft Accident Report \nplace the cockpit flap control lever in the position nearest to the actual\
+    \ position of the flaps and \nnext perform a reduced-flaps landing procedure (in this case, a no-flaps landing). The no-flaps\
+    \ \nlanding procedure included briefing the no-flaps approach procedure and resetting the airspeed \nbugs. The NTSB acknowledges\
+    \ that recognizing the cockpit warning indicators, identifying the \nnature of any problems, and choosing a response procedure\
+    \ requires considerable..."
+  judgment: 'semantic_match'
+  notes: 'This report does discuss flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 6
+  chunk_id: AAR8603.pdf_chunk_0045
+  report_id: AAR8603.pdf
+  section_name: ANALYSIS
+  score: 0.4291
+  text_preview: 'With regard to heading, over the period between 1011:09 to about 1014:00, the
+
+    heading increased about 4°, a change so slight as to be almost imperceptible. Thus, except
+
+    for airspeed, which concerned the captain greatly, the only thing in the cockpit that would
+
+    have depicted the worsening control situation was the control wheel''s increasing leftwing-down deflection. However, this
+    was an area which was not included in the captain''s
+
+    regular instrument scan pattern, and since he was rot "hands on," ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+- rank: 7
+  chunk_id: AAR0501.pdf_chunk_0080
+  report_id: AAR0501.pdf
+  section_name: ANALYSIS
+  score: 0.4261
+  text_preview: 'Although it may have
+
+    been difficult for the captain, as the nonflying pilot, to immediately recognize that the first
+
+    officer had neutralized her flight control inputs, the Board’s flight simulation sessions
+
+    showed that as the airplane’s drift to the right continued uncorrected, the drift became
+
+    markedly notable from both pilots’ seats as the airplane descended through about 60 feet. The Safety Board understands
+    that a line check airman must balance the need to
+
+    keep the flight safe with the poten...'
+  judgment: 'false_positive'
+  notes: 'As far as I can tell this report does not include any discussion of uncommanded flight control surface movement. It focuses on pilot actions and flight control inputs rather than uncommanded movements of the flight control surfaces themselves.'
+- rank: 8
+  chunk_id: AAR9304.pdf_chunk_0046
+  report_id: AAR9304.pdf
+  section_name: THE ACCIDENT
+  score: 0.4248
+  text_preview: 'The feeling that the airplane "didn''t seem to want to fly" and the
+
+    “sinking” feeling described by the cockpit occupants was most likely due either to
+
+    the first officer''s relaxing the control yoke back pressure or his pushing the yoke
+
+    forward in the “natural” reaction to the stall warming. It is possible that the
+
+
+    Impression of an aerodynamic stall related by the cockpit occupants was reinforced
+
+    by the activation of the stall waming stickshaker. That sensory input. coupled with
+
+    the “sinking” sens...'
+  judgment: 'false_positive'
+  notes: 'This result discusses how the pilot was most likely responsible, not an uncommanded flight control surface movement.'
+- rank: 9
+  chunk_id: AAR9901.pdf_chunk_0035
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4206
+  text_preview: 'Factual Information
+
+    20
+
+    Aircraft Accident Report
+
+    Figure 3. Three axes of motion. Figure 4. Boeing 737 flight control surface locations. Angle of Airflow Sensors
+
+    Leading Edge Flaps
+
+    Leading Edge Slats
+
+    Flight Spoilers
+
+    Trailing Edge Flaps
+
+    Ailerons
+
+    Stabilizer
+
+    Balance Tabs
+
+    Elevator
+
+    Rudder
+
+    Ground Spoilers'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AIR2402.pdf_chunk_0064
+  report_id: AIR2402.pdf
+  section_name: FINDINGS
+  score: 0.4198
+  text_preview: "The implementation of a flight deck alerting system on air carrier aircraft would \nfurther improve safety\
+    \ at (1) airports without surface detection equipment and \n(2) airports with surface detection equipment if a controller\
+    \ were to \ninadequately respond to an alert in the tower. \n11. Even though the Southwest Airlines flight crewmembers\
+    \ were not required to \ninform the controller about their plan to stop the airplane once on the active \nrunway, it would\
+    \ have been prudent for them to do so given..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses flight control surfaces in relation to uncommanded movements, specifically how flight control surface positions are calculated to match flight data recorder information. Therefore, it is relevant to the query about uncommanded flight control surface movement.'
+summary:
+  auto_keyword_matches: 2
+  needs_human_review: 8

@@ -1,0 +1,219 @@
+metadata:
+  query_id: CON-007
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: automation mode confusion glass cockpit display
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%automation%' AND (lower(chunk_text) LIKE '%confusion%' OR lower(chunk_text)
+    LIKE '%mode%')
+  expected_report_ids:
+  - AAR0001.pdf
+  - AAR8801.pdf
+  - AAR0602.pdf
+  - AAR1401.pdf
+  - AAR2002.pdf
+  relevance_signals:
+  - automation
+  - autoflight
+  - mode
+  - display
+  - awareness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR0602.pdf_chunk_0083
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.5513
+  text_preview: 'However, the
+
+    simultaneous presentation of command cues for both selected and unselected axes allows
+
+    for the possibility of pilot misinterpretation of the command cue for the unselected axis. Specifically, a pilot may be
+    unaware that a flight director mode has not been selected for
+
+    111 Automation mode confusion is a lack of awareness of the current mode of an automated system. It
+
+    can result from inadequate feedback about the automated system’s actions and intentions.
+
+    112 R. Parasuraman and V. Ril...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR7804.pdf_chunk_0021
+  report_id: AAR7804.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4425
+  text_preview: 'The computer
+
+    contains monitor circuits which continuensly access the validity
+
+    of the computed roll and pitch commands. When the monitors
+
+    detect a fault in the roll or pitch command circuits, the
+
+    vertical and horizontal ccmmand bars are automatically retracted
+
+    from sight. The mode selector switch has six positions. the approach
+
+    <APP) mode is selected for flying a front course ILS approach. The mode selector panel also contains an altitude hold
+    switch
+
+    (ALT) which places the 2-14 flight director sy...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1402.pdf_chunk_0020
+  report_id: AAR1402.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.4207
+  text_preview: "NTSB \nAircraft Accident Report \n23 \nThe flight mode annunciator at the top of each PFD provides annunciation\
+    \ of the various \nautoflight system modes. The flight mode annunciator is divided into as many as five sections \ndepending\
+    \ on the operational mode of the autoflight systems. Modes displayed in green are \nactive, and modes displayed in blue\
+    \ are armed.43 The flight mode annunciator is the primary \nsource of information to the crew regarding the status of\
+    \ the autoflight system, including the \n..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR2002.pdf_chunk_0039
+  report_id: AAR2002.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4199
+  text_preview: "1.10 Additional Information \n1.10.1 FAA Initiatives to Reduce Flight Crew Mode Confusion Errors \nMode awareness\
+    \ is a pilot’s ability to track and anticipate the behavior of an automated \nsystem (Sarter and Woods 1995). When mode\
+    \ awareness breaks down, pilot expectations of \nsystem performance are disrupted, and pilots may make mode confusion\
+    \ errors, including actions \nor omissions that are not appropriate for the currently active modes, and experience automation\
+    \ \nsurprises. Mode confusion errors..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR0602.pdf_chunk_0082
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.4172
+  text_preview: 'Analysis
+
+    49
+
+    Aircraft Accident Report
+
+    wants to program the flight director in advance of the subsequent phase of flight. However, only one pilot station can
+    be coupled at a time, and a lack of pilot awareness
+
+    regarding which set of command cues is coupled to the autopilot can lead to automation
+
+    mode confusion.111
+
+    Two indications in the cockpit provide the pilot with direct feedback regarding the
+
+    flight director status: the FD1/2 button on the autopilot controller on the center pedestal
+
+    (see figur...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR8415.pdf_chunk_0036
+  report_id: AAR8415.pdf
+  section_name: THE ACCIDENT
+  score: 0.3948
+  text_preview: 'The papar recognizes the problem as "normal," human-engineering
+
+    wise but a problem that has to be solved by giving the pilot strong
+
+    incentives to interface himself with the functions of the
+
+    automatics and to subordinate himself to the requirements of
+
+    tedious monitoring routines and stringent flight deck procedures
+
+    which he may feel as superfluous in view of the normaily excellent
+
+    performance of the automatic systems.
+
+
+    337 Lauber, JK., Cockpit Resource Management in New Technology Aircraft, prese...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR2002.pdf_chunk_0046
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.3847
+  text_preview: "In addition, the flight mode annunciator \nchanged to indicate go-around mode activation by illuminating\
+    \ “GA/GA/GA/CMD.” \n \n48 For a PF in the right seat wearing a watch on the left wrist (as the accident FO was shown to\
+    \ have done), the \nclearance beneath the go-around switch would be reduced, and the PF may not easily feel or notice\
+    \ inadvertent contact \nbetween the watch and the switch. However, it is not known if the FO was wearing a watch during\
+    \ the accident flight. NTSB \nAircraft Accident Rep..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR1401.pdf_chunk_0143
+  report_id: AAR1401.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.3832
+  text_preview: "Ideally, the pilot should have let the instructor know about his unease regarding the \napproach, but he\
+    \ did not; better training of the instructor, such as training with an \ninstructor-observer to observe and counsel the\
+    \ instructor, may have enhanced the instructor’s \nability to recognize the pilot’s unease even without the pilot admitting\
+    \ it. Hence, we issued our\n\nNTSB \nAircraft Accident Report \n135 \nrecommendation to Asiana, to revise their flight\
+    \ instructor operating experience qualification ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0301.pdf_chunk_0053
+  report_id: AAR0301.pdf
+  section_name: ANALYSIS
+  score: 0.3819
+  text_preview: 'Analysis
+
+    28
+
+    Aircraft Accident Report
+
+    the left side of the cockpit, the airspeed indicator and the turn and slip indicator would
+
+    have been operational; on the right side of the cockpit, the airspeed indicator, turn and slip
+
+    indicator, altimeter, and attitude indicator would have been operational. Despite the loss of
+
+    the airplane’s primary flight instruments, the pilot made no radio transmissions to the
+
+    controller after mode C information was lost.41 (Between 1 minute 33 seconds and
+
+    1 minute 36 se...'
+  judgment: 'semantic_match'
+  notes: 'This result does discuss the cockpit display and the loss of primary flight instruments, which could contribute to automation mode confusion. However, it does not explicitly discuss mode confusion itself.'
+- rank: 10
+  chunk_id: AAR7314.pdf_chunk_0014
+  report_id: AAR7314.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.3815
+  text_preview: 'One set is designated the ''''A" system
+
+    and the other the "B" system. The "A" system relates to autopilot "A" and to the flight director
+
+    on the captain''s side; the "B" system relates to autopilot ''"B" and to
+
+    the flight director on the first officer''s side. Each pitch and roll computer has a dual channel with a self-monitoring
+    capability. Both autopilots cannot be operated simultaneously, except in the autuland mode.
+
+    rhe function and operation of the autopilot are displayed on the captain''s
+
+    and the...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

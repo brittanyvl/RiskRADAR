@@ -760,11 +760,11 @@ def generate_report(minilm_path: Optional[Path] = None, mika_path: Optional[Path
     mika_data = None
 
     if minilm_path and minilm_path.exists():
-        with open(minilm_path) as f:
+        with open(minilm_path, encoding='utf-8') as f:
             minilm_data = json.load(f)
 
     if mika_path and mika_path.exists():
-        with open(mika_path) as f:
+        with open(mika_path, encoding='utf-8') as f:
             mika_data = json.load(f)
 
     if not minilm_data and not mika_data:
@@ -1001,10 +1001,43 @@ def _build_report_markdown(minilm_data: Optional[Dict], mika_data: Optional[Dict
 # =============================================================================
 
 HUMAN_REVIEW_DIR = EVAL_DIR / "human_reviews"
+KEYWORD_MATCH_DIR = HUMAN_REVIEW_DIR / "keyword_match"
+MANUAL_REVIEW_DIR = HUMAN_REVIEW_DIR / "manual_review"
 SEMANTIC_CATEGORIES = ["conceptual_queries", "comparative_queries"]
 
 # Path to chunks data for loading text
 CHUNKS_PARQUET = Path(__file__).parent.parent / "analytics" / "data" / "chunks.parquet"
+
+
+def find_review_files(model_name: str = None, pattern: str = None) -> List[Path]:
+    """
+    Find all review files across HUMAN_REVIEW_DIR and its subdirectories.
+
+    Args:
+        model_name: If provided, filter to files matching this model (e.g., 'minilm', 'mika')
+        pattern: Custom glob pattern. If not provided, uses default review_*.yaml
+
+    Returns:
+        List of Path objects for all matching review files
+    """
+    if pattern is None:
+        if model_name:
+            pattern = f"review_*_{model_name}.yaml"
+        else:
+            pattern = "review_*.yaml"
+
+    all_files = []
+
+    # Check root directory
+    all_files.extend(HUMAN_REVIEW_DIR.glob(pattern))
+
+    # Check subdirectories
+    if KEYWORD_MATCH_DIR.exists():
+        all_files.extend(KEYWORD_MATCH_DIR.glob(pattern))
+    if MANUAL_REVIEW_DIR.exists():
+        all_files.extend(MANUAL_REVIEW_DIR.glob(pattern))
+
+    return list(all_files)
 
 
 def _check_keyword_match(chunk_text: str, verification_sql: str, relevance_signals: List[str]) -> bool:
@@ -1045,15 +1078,21 @@ def export_for_human_review(model_name: str, fetch_text: bool = True) -> List[Pa
     Creates one file per query that needs human evaluation (conceptual + comparative).
     Auto-fills KEYWORD_MATCH judgments based on SQL ground truth.
     Human only needs to judge non-keyword results as SEMANTIC_MATCH or FALSE_POSITIVE.
+
+    Files are organized into subdirectories:
+    - keyword_match/: All results auto-filled, no human review needed
+    - manual_review/: At least one result needs human judgment
     """
     HUMAN_REVIEW_DIR.mkdir(exist_ok=True)
+    KEYWORD_MATCH_DIR.mkdir(exist_ok=True)
+    MANUAL_REVIEW_DIR.mkdir(exist_ok=True)
 
     # Find most recent benchmark results
     result_files = sorted(RESULTS_DIR.glob(f"benchmark_{model_name}_*.json"), reverse=True)
     if not result_files:
         raise FileNotFoundError(f"No benchmark results found for {model_name}. Run 'benchmark run' first.")
 
-    with open(result_files[0]) as f:
+    with open(result_files[0], encoding='utf-8') as f:
         benchmark_data = json.load(f)
 
     # Load gold queries for SQL ground truth reference
@@ -1173,9 +1212,13 @@ def export_for_human_review(model_name: str, fetch_text: bool = True) -> List[Pa
         review_doc["summary"]["needs_human_review"] = 10 - auto_keyword_count
         total_auto_filled += auto_keyword_count
 
-        # Save to file
+        # Save to appropriate subdirectory based on review needs
         filename = f"review_{query_id}_{model_name}.yaml"
-        filepath = HUMAN_REVIEW_DIR / filename
+        needs_review = review_doc["summary"]["needs_human_review"]
+        if needs_review > 0:
+            filepath = MANUAL_REVIEW_DIR / filename
+        else:
+            filepath = KEYWORD_MATCH_DIR / filename
 
         with open(filepath, "w", encoding="utf-8") as f:
             yaml.dump(review_doc, f, default_flow_style=False, allow_unicode=True, sort_keys=False, width=120)
@@ -1192,10 +1235,10 @@ def import_human_reviews(model_name: str) -> Dict:
 
     Returns aggregated human evaluation metrics.
     """
-    review_files = list(HUMAN_REVIEW_DIR.glob(f"review_*_{model_name}.yaml"))
+    review_files = find_review_files(model_name=model_name)
 
     if not review_files:
-        raise FileNotFoundError(f"No human review files found for {model_name} in {HUMAN_REVIEW_DIR}")
+        raise FileNotFoundError(f"No human review files found for {model_name} in {HUMAN_REVIEW_DIR} or subdirectories")
 
     results = {
         "model": model_name,
@@ -1264,6 +1307,64 @@ def import_human_reviews(model_name: str) -> Dict:
         }
 
     return results
+
+
+def organize_reviews() -> Dict[str, int]:
+    """
+    Organize existing review files into subdirectories based on review needs.
+
+    Moves files to:
+    - keyword_match/: All results auto-filled, no human review needed
+    - manual_review/: At least one result needs human judgment
+
+    Returns dict with counts of files moved.
+    """
+    import shutil
+
+    KEYWORD_MATCH_DIR.mkdir(exist_ok=True)
+    MANUAL_REVIEW_DIR.mkdir(exist_ok=True)
+
+    stats = {
+        "moved_to_keyword_match": 0,
+        "moved_to_manual_review": 0,
+        "already_organized": 0,
+        "errors": 0,
+    }
+
+    # Find all review files in root directory (not in subdirectories)
+    root_files = list(HUMAN_REVIEW_DIR.glob("review_*.yaml"))
+    # Filter out files already in subdirectories
+    root_files = [f for f in root_files if f.parent == HUMAN_REVIEW_DIR]
+
+    for filepath in root_files:
+        try:
+            with open(filepath, encoding='utf-8') as f:
+                review = yaml.safe_load(f)
+
+            needs_review = review.get("summary", {}).get("needs_human_review", 0)
+
+            if needs_review > 0:
+                dest = MANUAL_REVIEW_DIR / filepath.name
+                shutil.move(str(filepath), str(dest))
+                stats["moved_to_manual_review"] += 1
+                logger.info(f"Moved to manual_review/: {filepath.name}")
+            else:
+                dest = KEYWORD_MATCH_DIR / filepath.name
+                shutil.move(str(filepath), str(dest))
+                stats["moved_to_keyword_match"] += 1
+                logger.info(f"Moved to keyword_match/: {filepath.name}")
+
+        except Exception as e:
+            logger.error(f"Error processing {filepath.name}: {e}")
+            stats["errors"] += 1
+
+    # Count already organized files
+    stats["already_organized"] = (
+        len(list(KEYWORD_MATCH_DIR.glob("review_*.yaml"))) +
+        len(list(MANUAL_REVIEW_DIR.glob("review_*.yaml")))
+    )
+
+    return stats
 
 
 def compute_combined_metrics(minilm_auto: Dict, mika_auto: Dict,
@@ -1481,7 +1582,7 @@ def export_streamlit_data(combined: Dict, minilm_auto: Dict, mika_auto: Dict) ->
     for model_name, human_key in [("MiniLM", "minilm"), ("MIKA", "mika")]:
         human_path = RESULTS_DIR / f"human_review_{human_key}.json"
         if human_path.exists():
-            with open(human_path) as f:
+            with open(human_path, encoding='utf-8') as f:
                 human_data = json.load(f)
             for pq in human_data.get("per_query", []):
                 human_review_rows.append({
@@ -1793,7 +1894,7 @@ def cmd_export_review(args):
             model_auto = 0
             model_needs = 0
             for f in exported:
-                with open(f) as rf:
+                with open(f, encoding='utf-8') as rf:
                     review = yaml.safe_load(rf)
                     summary = review.get("summary", {})
                     model_auto += summary.get("auto_keyword_matches", 0)
@@ -1884,6 +1985,29 @@ def cmd_import_review(args):
     return 0
 
 
+def cmd_organize_reviews(args):
+    """Organize review files into subdirectories based on review needs."""
+    setup_logging(args.verbose)
+
+    print("Organizing review files...")
+    print(f"  keyword_match/ : Files where all results auto-filled (no review needed)")
+    print(f"  manual_review/ : Files with results needing human judgment")
+    print()
+
+    stats = organize_reviews()
+
+    print(f"Results:")
+    print(f"  Moved to keyword_match/: {stats['moved_to_keyword_match']}")
+    print(f"  Moved to manual_review/: {stats['moved_to_manual_review']}")
+    print(f"  Already in subdirectories: {stats['already_organized']}")
+    if stats['errors'] > 0:
+        print(f"  Errors: {stats['errors']}")
+
+    print(f"\nYou can now focus on files in: eval/human_reviews/manual_review/")
+
+    return 0
+
+
 def cmd_final_report(args):
     """Generate final report combining automated and human metrics."""
     setup_logging(args.verbose)
@@ -1898,12 +2022,12 @@ def cmd_final_report(args):
     mika_auto_files = sorted(RESULTS_DIR.glob("benchmark_mika_*.json"), reverse=True)
 
     if minilm_auto_files:
-        with open(minilm_auto_files[0]) as f:
+        with open(minilm_auto_files[0], encoding='utf-8') as f:
             minilm_auto = json.load(f)
         print(f"Loaded automated results: {minilm_auto_files[0].name}")
 
     if mika_auto_files:
-        with open(mika_auto_files[0]) as f:
+        with open(mika_auto_files[0], encoding='utf-8') as f:
             mika_auto = json.load(f)
         print(f"Loaded automated results: {mika_auto_files[0].name}")
 
@@ -1915,14 +2039,14 @@ def cmd_final_report(args):
     mika_human_path = RESULTS_DIR / "human_review_mika.json"
 
     if minilm_human_path.exists():
-        with open(minilm_human_path) as f:
+        with open(minilm_human_path, encoding='utf-8') as f:
             minilm_human = json.load(f)
         print(f"Loaded human review: {minilm_human_path.name}")
     else:
         print("WARNING: No human review found for MiniLM")
 
     if mika_human_path.exists():
-        with open(mika_human_path) as f:
+        with open(mika_human_path, encoding='utf-8') as f:
             mika_human = json.load(f)
         print(f"Loaded human review: {mika_human_path.name}")
     else:
@@ -1976,7 +2100,7 @@ def cmd_status(args):
     for model in ["minilm", "mika"]:
         files = sorted(RESULTS_DIR.glob(f"benchmark_{model}_*.json"), reverse=True)
         if files:
-            with open(files[0]) as f:
+            with open(files[0], encoding='utf-8') as f:
                 data = json.load(f)
             print(f"  {model.upper()}: {files[0].name}")
             print(f"    MRR: {data['aggregate_metrics']['mean_mrr']:.3f}")
@@ -1989,15 +2113,24 @@ def cmd_status(args):
     print("-" * 40)
 
     for model in ["minilm", "mika"]:
-        review_files = list(HUMAN_REVIEW_DIR.glob(f"review_*_{model}.yaml"))
+        review_files = find_review_files(model_name=model)
         if review_files:
             complete = 0
+            in_manual = 0
+            in_keyword = 0
             for f in review_files:
-                with open(f) as rf:
+                with open(f, encoding='utf-8') as rf:
                     review = yaml.safe_load(rf)
                     if review.get("metadata", {}).get("review_complete"):
                         complete += 1
+                # Count by directory
+                if MANUAL_REVIEW_DIR in f.parents or f.parent == MANUAL_REVIEW_DIR:
+                    in_manual += 1
+                elif KEYWORD_MATCH_DIR in f.parents or f.parent == KEYWORD_MATCH_DIR:
+                    in_keyword += 1
             print(f"  {model.upper()}: {complete}/{len(review_files)} reviews complete")
+            print(f"    - In manual_review/: {in_manual} (need attention)")
+            print(f"    - In keyword_match/: {in_keyword} (auto-filled)")
         else:
             print(f"  {model.upper()}: No review files (run 'export-review' first)")
 
@@ -2008,7 +2141,7 @@ def cmd_status(args):
     for model in ["minilm", "mika"]:
         human_path = RESULTS_DIR / f"human_review_{model}.json"
         if human_path.exists():
-            with open(human_path) as f:
+            with open(human_path, encoding='utf-8') as f:
                 data = json.load(f)
             if "aggregate" in data:
                 print(f"  {model.upper()}: Semantic Lift = {data['aggregate']['semantic_lift']:.1%}")
@@ -2027,7 +2160,7 @@ def cmd_status(args):
     if final_report.exists():
         print(f"  Report: {final_report}")
         if combined_metrics.exists():
-            with open(combined_metrics) as f:
+            with open(combined_metrics, encoding='utf-8') as f:
                 data = json.load(f)
             print(f"  Recommendation: {data.get('recommendation', 'N/A')}")
     else:
@@ -2045,15 +2178,16 @@ def cmd_status(args):
     if not minilm_results or not mika_results:
         steps.append("1. Run automated benchmark: python -m eval.benchmark run")
 
-    review_files = list(HUMAN_REVIEW_DIR.glob("review_*.yaml"))
+    review_files = find_review_files()
     if not review_files:
         steps.append("2. Export for human review: python -m eval.benchmark export-review")
     else:
-        # Check if any are incomplete
-        incomplete = sum(1 for f in review_files
-                        if not yaml.safe_load(open(f)).get("metadata", {}).get("review_complete"))
+        # Check if any are incomplete in manual_review directory
+        manual_files = [f for f in review_files if MANUAL_REVIEW_DIR in f.parents or f.parent == MANUAL_REVIEW_DIR]
+        incomplete = sum(1 for f in manual_files
+                        if not yaml.safe_load(open(f, encoding='utf-8')).get("metadata", {}).get("review_complete"))
         if incomplete > 0:
-            steps.append(f"2. Complete {incomplete} human reviews in eval/human_reviews/")
+            steps.append(f"2. Complete {incomplete} human reviews in eval/human_reviews/manual_review/")
 
     minilm_human = RESULTS_DIR / "human_review_minilm.json"
     mika_human = RESULTS_DIR / "human_review_mika.json"
@@ -2117,6 +2251,11 @@ Individual Commands:
     import_parser.add_argument("-m", "--model", choices=["minilm", "mika", "both"], default="both")
     import_parser.add_argument("-v", "--verbose", action="store_true")
     import_parser.set_defaults(func=cmd_import_review)
+
+    # Organize reviews into subdirectories
+    organize_parser = subparsers.add_parser("organize-reviews", help="Organize review files into keyword_match/ and manual_review/ subdirectories")
+    organize_parser.add_argument("-v", "--verbose", action="store_true")
+    organize_parser.set_defaults(func=cmd_organize_reviews)
 
     # Final report with combined metrics
     final_parser = subparsers.add_parser("final-report", help="Generate final report with human metrics")

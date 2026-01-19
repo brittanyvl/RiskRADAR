@@ -1,0 +1,190 @@
+metadata:
+  query_id: CMP-001
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2026-01-18'
+  review_complete: true
+query:
+  text: accidents caused by inadequate maintenance procedures
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%maintenance%' AND lower(section_name) = 'probable cause'
+  expected_report_ids: []
+  relevance_signals:
+  - maintenance
+  - inspection
+  - oversight
+  - procedure
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR0302.pdf_chunk_0118
+  report_id: AAR0302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5345
+  text_preview: 'This is clearly a maintenance accident, related to many operations of each of the
+
+    organizations involved. There is concern regarding the accuracy of company and aircraft
+
+    manufacturer manuals, poor quality of task documentation and job cards, and a lack of
+
+    sufficient detail to satisfactorily complete the tasks. Both the report and the public docket identify deficiencies that
+    are not unique. There are similar examples in the recent past contained within the NTSB accident
+
+    database. The Board has ma...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0401.pdf_chunk_0168
+  report_id: AAR0401.pdf
+  section_name: ANALYSIS
+  score: 0.5272
+  text_preview: 'Analysis
+
+    115
+
+    Aircraft Accident Report
+
+    Maintenance procedures are developed and are expected to be followed to ensure
+
+    that maintenance work is properly performed. When a maintenance procedure contains
+
+    multiple steps that are not applicable to the airplane on which a mechanic is working,141 a
+
+    mechanic may decide to skip applicable steps. Although well-trained mechanics may be
+
+    more capable of distinguishing between steps that are and are not applicable to a particular
+
+    aircraft than mechanics with l...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0302.pdf_chunk_0055
+  report_id: AAR0302.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5174
+  text_preview: Other accidents are discussed later in this section.
+  judgment: false_positive
+  notes: 'The report retrieved is a match for the query but this specific chunk is only 9 tokens and is a false positive as its a transistion sentence without helpful detail.'
+- rank: 4
+  chunk_id: AAR9204.pdf_chunk_0038
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.5144
+  text_preview: 'The Safety Board does not believe that the maintenance issues were
+
+    related solely to the actions of individual employees who were in the hangar the
+
+    night before the accident. There was no indication. of drug problems, unusual
+
+    background, or behavioral issues related to individuals. The failure to follow
+
+    proper turnover procedures--the most dramatic failure in the accident--involved
+
+    mechanics, supervisors, and inspectors from two shifts and noncompliance with
+
+    GMM procedures. Other problems noted ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0201.pdf_chunk_0273
+  report_id: AAR0201.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4645
+  text_preview: 'There
+
+    were no specific procedures to do so, and no one thought enough to ask for one. The
+
+    aircraft was arguably, that is technically, legal, and it was probably safe, if it was carefully
+
+    greased. It was not, we know that without question. And the lengthened inspection
+
+    intervals were such that it was not to be looked at again, until it was in our laboratory. When it finally failed, ground
+    support from Alaska Airlines seemed to encourage the crew
+
+    to proceed with a broken plane on to their schedule...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0201.pdf_chunk_0181
+  report_id: AAR0201.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.451
+  text_preview: 'Factual Information
+
+    124
+
+    Aircraft Accident Report
+
+    maintenance/operations coordination, major repairs and modifications, and safety
+
+    oversight. The report added, “special emphasis was also placed upon analyzing how the
+
+    various major certification processes in the airplane’s life cycle relate to each other, and
+
+    evaluating the relationship between these certification processes and the maintenance and
+
+    operating processes being applied in service.”
+
+    The airplane certification process study report’s find...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR7909.pdf_chunk_0038
+  report_id: AAR7909.pdf
+  section_name: ANALYSIS
+  score: 0.4481
+  text_preview: 'As a result, company perscrnmel looked to the President for
+
+
+    -~ 32 -
+
+
+    guidance on the operational and maintenance functions rather than to the
+
+    applicable regulations, and key managers themselves violated company
+
+    procedures and Feiaral regulations in order to meet operational requirements. The President encouraged an attitude among
+    pilots and mechanics
+
+    that regulations end approved coupany procedures could be disregarded if
+
+    an operational need arose. This attitude was evident by the falsification...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR0901.pdf_chunk_0000
+  report_id: AAR0901.pdf
+  section_name: THE ACCIDENT
+  score: 0.4388
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'The report retrieved is a match for the query but this specific chunk is only 4 tokens and is a false positive as its a transistion sentence without helpful detail.'
+- rank: 9
+  chunk_id: AAR1202.pdf_chunk_0000
+  report_id: AAR1202.pdf
+  section_name: THE ACCIDENT
+  score: 0.4388
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'The report retrieved is a match for the query but this specific chunk is only 4 tokens and is a false positive as its a transistion sentence without helpful detail.'
+- rank: 10
+  chunk_id: AAR0904.pdf_chunk_0000
+  report_id: AAR0904.pdf
+  section_name: THE ACCIDENT
+  score: 0.4388
+  text_preview: 1. The Accident
+  judgment: 'false_positive'
+  notes: 'The report retrieved is a match for the query but this specific chunk is only 4 tokens and is a false positive as its a transistion sentence without helpful detail.'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

@@ -1,0 +1,229 @@
+metadata:
+  query_id: CON-002
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: ice contamination on wing leading edge aerodynamic degradation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%icing%' AND lower(chunk_text) LIKE '%wing%'
+  expected_report_ids:
+  - AAR0702.pdf
+  - AAR9302.pdf
+  - AAR9602.pdf
+  - AAR1102.pdf
+  - AAR1001.pdf
+  - AAR9601.pdf
+  relevance_signals:
+  - icing
+  - deicing
+  - leading edge
+  - lift
+  - stall
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR9109.pdf_chunk_0033
+  report_id: AAR9109.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7796
+  text_preview: 'The following paragraphs have been extracted from a technical paper
+
+    prepared by the Deputy Chief Design Engineer, DC-9 Program. The paper,
+
+    entitled, “The Effect of Wing Ice Contamination on Essential Flight
+
+    Characteristics," was presented in 1988 and 1991:
+
+
+    Contamination of critical aerodynamic surfaces by ice, frost,
+
+    and/or snow has been identified as the probable cause of a
+
+    significant number of aircraft accidents. In most cases, the
+
+    ice contamination has not been large ice accretions on the
+
+    l...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9302.pdf_chunk_0035
+  report_id: AAR9302.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.7291
+  text_preview: '1.16 Tests and Research
+
+
+    1.16.1 Effects of Airframe Contamination on Airplane Performance
+
+
+    A number of flight tests, simulator studies, and resultant publications
+
+    have addressed the significant effects on aerodynamic performance that may result
+
+    from icing on an airplane''s wing upper surface or leading edges during takeoff. Wind tunnel and flight tests have shown
+    that minute amounts of ice or other
+
+    contamination on the leading edges or upper surfaces can cause a significant
+
+    reduction in the stall...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR9109.pdf_chunk_0075
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.7136
+  text_preview: "BRUMBY\n\npresented to\n\n68TH AGARD FLUID DYNAMICS PANEL SPECIALISTS MEETING\nON EFFECTS OF ADVERSE WEATHER\
+    \ ON AERODYNAMICS\nToulouse, France\n\nAprit 29 - May 1, 1991\n\nDoug.as Aircraft Comnany\nMCDONNELL DOUGLAS\n\nITHE BEFECT\
+    \ OF WING ICE CONTAMINATION ON ESSENTIAL FLIGHT CHARACTERISTICS ©\nmo R. E. Brumby .\n~ Deputy Chief Design Engineer\n\
+    \ “ MD-80/DC.9 Program\n_ Douglas Alreraft Company\n3855 Lakewood Boulevard\nLong Beach, Catifornin 90846, USA\n\nSUMMARY\
+    \ ,\nContamination of critical werodynaniie surfaces by ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9804_body.pdf_chunk_0164
+  report_id: AAR9804_body.pdf
+  section_name: ANALYSIS
+  score: 0.688
+  text_preview: 'Data from research
+
+    conducted in the 1940s and 1950s indicate that an airfoil’s performance can be significantly
+
+    affected by even a relatively small amount of ice accumulated on the leading edge area, if that
+
+    accumulation has a rough, sandpaper-type surface. Consistent with these data, NASA’s drag calculations indicated that
+    the thin,
+
+    rough layer of sandpaper-type ice accumulation resulted in significant drag and lift degradation
+
+    on the EMB-120 wing section. Further, the thin rough ice accumulati...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9109.pdf_chunk_0072
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.6877
+  text_preview: 'While the
+
+    cause of the accident has not yet been firmly established, the facts are
+
+    disturbingiy similar to previous accidents which have been attributed to
+
+    airframe ice. While each of the previous accidents had its own unique situation, the common
+
+    thread is that ice, ice/snow mix, frost or some combination of these, was
+
+    present on the lifting surfaces at the start of the takeoff. Douglas has
+
+    published numerous letters, articles and advisories on the topic of airfrane
+
+    and airroil ice, its detecti...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9804_body.pdf_chunk_0112
+  report_id: AAR9804_body.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6793
+  text_preview: "1.18\nAdditional Information\n \n 1.18.1\nAerodynamic Effects of Rough Ice Accumulations on Airplanes’ Flight\n\
+    Handling Characteristics\n \n The adverse aerodynamic effects of surface roughness have been known to\naerodynamicists\
+    \ and engineers since the late 1930s/early 1940s, when NACA conducted research\n(and began to publish reports based on\
+    \ its research) related to the lift and drag characteristics of\nairfoils and the effects of surface roughness and ice\
+    \ accumulation. For example, in 1933, NACA\npubli..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9804_body.pdf_chunk_0087
+  report_id: AAR9804_body.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6697
+  text_preview: 'Tests conducted at 5o airfoil
+
+    AOA with smaller droplet sizes (20, 40, and 70 microns) resulted in smaller amounts of rough
+
+    ice that extended aft of the deicing boot coverage on the lower airfoil surface,103 a small ridgetype accretion along
+    the leading edge, and multiple lines of feather-type accretions along deicing
+
+    boot surfaces located between the individual tubes on the upper airfoil surface. In general, tests conducted at lower
+    airfoil AOA resulted in ice accumulating
+
+    farther aft on the upp...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9402SUM.pdf_chunk_0008
+  report_id: AAR9402SUM.pdf
+  section_name: ANALYSIS
+  score: 0.664
+  text_preview: 'When examined in the engineering simulator, it was evident that the
+
+    reduction in climb performance resulting from the sideslip drag was less than that
+
+    encountered on the accident flight. Furthermore, because of the short time of the
+
+    sideslip condition, the Safety Board believes that the out-of-trim condition was not
+
+    a factor in the loss of control. Effect of Ice Accretion
+
+
+    The meteorological data and the observation of other pilots indicate that the
+
+    conditions present at the time of the accident...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7113.pdf_chunk_0019
+  report_id: AAR7113.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6458
+  text_preview: '1.45 Tests and Research
+
+
+    In view of the abnormal performance characteristics of the aircraft: following lift-off, as
+
+    described by the surviving copilot, passengers,
+
+    and ground witnesses, the investigation included
+
+    a review of several stn ‘cs pertaining to the
+
+    aerodynamic effects of airtoil icing. Among the studies reviewed were those conducted by the National Advisory Committee
+    on
+
+    Acronautics (NACA) relating to wind tunnel
+
+
+    testing of airfoils under varying conditions of ice
+
+    and trast formations...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9804_body.pdf_chunk_0090
+  report_id: AAR9804_body.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6429
+  text_preview: "The accuracy of\nthe lift and drag degradations calculated is unknown since NPARC has not been validated\
+    \ for the\nspecific ice shapes examined during this study. Also the NASA experts feel that the ice shapes\nmeasured in\
+    \ the IRT are only “representative” because of the uncertainty of the flight and\nmeteorological conditions used for this\
+    \ study.\n \n 1.16.2.2\nFAA/UIUC Wind Tunnel Test Results\n \n As previously mentioned, the UIUC performed the wind tunnel\
+    \ tests using a 1/3\nscale model section of NACA ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

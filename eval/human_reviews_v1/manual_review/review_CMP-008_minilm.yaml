@@ -1,0 +1,153 @@
+metadata:
+  query_id: CMP-008
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: post-accident safety improvements and industry changes
+  sql_ground_truth: WHERE lower(section_name) = 'recommendations'
+  expected_report_ids: []
+  relevance_signals:
+  - recommendation
+  - improvement
+  - require
+  - mandate
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.1111111111111111
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR8502S.pdf_chunk_0324
+  report_id: AAR8502S.pdf
+  section_name: PARAGRAPH_491
+  score: 0.6454
+  text_preview: The attached Brief of Accident contains the Safety
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 2
+  chunk_id: AAR0302.pdf_chunk_0055
+  report_id: AAR0302.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.638
+  text_preview: Other accidents are discussed later in this section.
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 3
+  chunk_id: AAR0803.pdf_chunk_0020
+  report_id: AAR0803.pdf
+  section_name: CONCLUSIONS
+  score: 0.6144
+  text_preview: 'Conclusions
+
+    National Transportation Safety Board
+
+    20
+
+    Aircraft Accident
+
+    Summary Report'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 4
+  chunk_id: AAR0707.pdf_chunk_0074
+  report_id: AAR0707.pdf
+  section_name: ANALYSIS
+  score: 0.6092
+  text_preview: 'Analysis
+
+    National Transportation Safety Board
+
+    A I R C R A F T
+
+    Accident Report'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 5
+  chunk_id: AAR8704S.pdf_chunk_0004
+  report_id: AAR8704S.pdf
+  section_name: PARAGRAPH_18
+  score: 0.6027
+  text_preview: 'National Transportation Safety Board
+
+    Bureau of Accident Investigation'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 6
+  chunk_id: AAR8502S.pdf_chunk_0234
+  report_id: AAR8502S.pdf
+  section_name: PARAGRAPH_353
+  score: 0.5978
+  text_preview: 'As a result of its investigation of this accident, the National Transportation Safety
+
+    Board recommended that:'
+  judgment: 'semantic_match'
+  notes: 'This result discusses recommendations made by the National Transportation Safety Board, which aligns with the query about post-accident safety improvements and industry changes.'
+- rank: 7
+  chunk_id: AAR9204.pdf_chunk_0038
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.597
+  text_preview: 'The Safety Board does not believe that the maintenance issues were
+
+    related solely to the actions of individual employees who were in the hangar the
+
+    night before the accident. There was no indication. of drug problems, unusual
+
+    background, or behavioral issues related to individuals. The failure to follow
+
+    proper turnover procedures--the most dramatic failure in the accident--involved
+
+    mechanics, supervisors, and inspectors from two shifts and noncompliance with
+
+    GMM procedures. Other problems noted ...'
+  judgment: 'semantic'
+  notes: 'This result discusses recommendations made by the National Transportation Safety Board, which aligns with the query about post-accident safety improvements and industry changes.'
+- rank: 8
+  chunk_id: AAR1302.pdf_chunk_0049
+  report_id: AAR1302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5798
+  text_preview: "Finally, \nthe accident provides yet another reminder of the need for data recording devices, albeit the\
+    \ need \nwas well documented through previous Board actions. Recording devices on aircraft have a \nproven track record\
+    \ for improving safety, a fundamental goal of the Board, although not seen as \ninteresting as PEDs. The Board’s ability\
+    \ to enhance transportation safety rests solely on its credibility, \ncredibility based on independent and objective analyses.\
+    \ It has a responsibility to ensure the ..."
+  judgment: 'semantic'
+  notes: 'This result discusses recommendations made by the National Transportation Safety Board, which aligns with the query about post-accident safety improvements and industry changes.'
+- rank: 9
+  chunk_id: AAR2105.pdf_chunk_0101
+  report_id: AAR2105.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5786
+  text_preview: "Aviation Accident Report \nNTSB/AAR-21-05 \n \n109 \n \nAppendix B: Consolidated Recommendation Information\
+    \ \nTitle 49 United States Code (USC) 1117(b) requires the following information \non the recommendations in this report.\
+    \ For each recommendation— \n(1) a brief summary of the Board’s collection and analysis of the specific \naccident investigation\
+    \ information most relevant to the recommendation; \n(2) a description of the Board’s use of external information, including\
+    \ studies, \nreports, and experts, ..."
+  judgment: false_positive
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss post-accident safety improvements or industry changes.'
+- rank: 10
+  chunk_id: AAR1802.pdf_chunk_0061
+  report_id: AAR1802.pdf
+  section_name: ANALYSIS
+  score: 0.577
+  text_preview: "The Hageland vice president of safety at the time of the accident described the \ncompany’s safety culture\
+    \ as “still in a reactive phase” but “moving towards a proactive phase and \nthe employees are actively participating\
+    \ in the safety program.” Interviews with Hageland \npersonnel revealed no evidence of any pressures to take unnecessary\
+    \ risks or other concerns about \nsafety. This investigation identified no deficiencies in Hageland’s safety programs\
+    \ that were \ndirectly related to the accident; h..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 2
+  needs_human_review: 8

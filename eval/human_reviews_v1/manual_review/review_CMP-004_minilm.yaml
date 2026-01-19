@@ -1,0 +1,188 @@
+metadata:
+  query_id: CMP-004
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents during night visual flight rules operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%night%' AND lower(chunk_text) LIKE '%vfr%'
+  expected_report_ids: []
+  relevance_signals:
+  - night
+  - vfr
+  - visual
+  - darkness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR0001.pdf_chunk_0168
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.7127
+  text_preview: 'Night visual conditions prevailed around the airport
+
+    at the time of the accident. All four airplane occupants were killed, and the airplane was
+
+    destroyed. The investigation into this accident was being conducted by the Department of
+
+    Civil Aviation of the Government of Malaysia with the assistance of the Safety Board.'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9202.pdf_chunk_0020
+  report_id: AAR9202.pdf
+  section_name: METEOROLOGICAL INFORMATION
+  score: 0.654
+  text_preview: '1.7 Meteorological Information
+
+
+    The accident occurred in night visual meteorological conditions. No
+
+    adverse weather was experienced, although the flight did have to deviate around
+
+    thunderstorms during the descent.'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1104.pdf_chunk_0072
+  report_id: AAR1104.pdf
+  section_name: ANALYSIS
+  score: 0.6535
+  text_preview: "Driskell and E. Salas, eds., Stress and Human Performance (Mahwah, New Jersey: Lawrence Erlbaum, 1996), \n\
+    pp. 1–46. \n120 Night vision goggles would provide the wearer with visual images with increased levels of illumination\
+    \ in \nlow ambient light conditions (such as moonless nights), which might have allowed the pilot to better maintain \n\
+    outsi\nvisual references during the accident flight. However, the benefits of the night vision goggles would have \nbeen\n\
+    de \n reduced by the precipitation at the ti..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0402.pdf_chunk_0107
+  report_id: AAR0402.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6475
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    the accident was the captain’s and first officer’s failure to establish and maintain a proper
+
+    glidepath during the night visual approach to landing. Contributing to the accident was a
+
+    combination of the captain’s and first officer’s fatigue, the captain’s and first officer’s
+
+    failure to adhere to company flight procedures, the captain’s and flight engineer’s failure
+
+    to monitor the approach, and the f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0601.pdf_chunk_0094
+  report_id: AAR0601.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6356
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    the accident was the pilots’ failure to follow established procedures and properly conduct
+
+    a nonprecision instrument approach at night in instrument meteorological conditions,
+
+    including their descent below the minimum descent altitude (MDA) before required visual
+
+    cues were available (which continued unmoderated until the airplane struck the trees) and
+
+    their failure to adhere to the established divis...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AIR2209.pdf_chunk_0001
+  report_id: AIR2209.pdf
+  section_name: FINDINGS
+  score: 0.631
+  text_preview: "Findings \nThe actions taken by the Federal Aviation Administration to date to \nimprove air tour airplane\
+    \ safety in the Ketchikan area have not effectively \nmitigated the risks associated with conducting visual flight rules\
+    \ flight in \nthe area’s surrounding mountainous terrain and weather conditions. The distinct operational hazards unique\
+    \ to air tour airplane flights in the \nKetchikan area warrant additional actions by the Federal Aviation \nAdministration\
+    \ and operators to ensure the safety of ai..."
+  judgment: 'semantic_match'
+  notes: 'This report discusses the importance of visual scanning and the "see and avoid" concept in preventing mid-air collisions, particularly during night VFR operations.'
+- rank: 7
+  chunk_id: AAR2104.pdf_chunk_0000
+  report_id: AAR2104.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6219
+  text_preview: "Probable Cause \nThe National Transportation Safety Board determines that the probable cause of this \naccident\
+    \ was the inherent limitations of the see-and-avoid concept, which prevented the two pilots \nfrom seeing the other airplane\
+    \ before the collision, and the absence of visual and aural alerts from \nboth airplanes’ traffic display systems, while\
+    \ operating in a geographic area with a high \nconcentration of air tour activity. Contributing to the accident were (1)\
+    \ the Federal Aviation \nAdministra..."
+  judgment: ''
+  notes: 'This report discusses the importance of visual scanning and the "see and avoid" concept in preventing collisions.'
+- rank: 8
+  chunk_id: AAR0705.pdf_chunk_0129
+  report_id: AAR0705.pdf
+  section_name: ANALYSIS
+  score: 0.6217
+  text_preview: "Analysis\nNational Transportation Safety Board\nA I R C R A F T\nAccident Report\n74\nhad only to follow\
+    \ those signs and the taxiway centerline to the runway holding position \nsign for runway 22. Although this task is more\
+    \ difficult during night conditions, when \nsurrounding features in the environment and horizon as well as other cues\
+    \ are not easily \ndetectable, the critical features along the navigation route were internally lit or were \nilluminated\
+    \ by the airplane’s external lighting system. Both ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9901.pdf_chunk_0380
+  report_id: AAR9901.pdf
+  section_name: ANALYSIS
+  score: 0.6056
+  text_preview: 'Analysis
+
+    254
+
+    Aircraft Accident Report
+
+    upset and loss of control indicated that both pilots were surprised by the event and did not
+
+    understand its nature or cause. Further, the Safety Board carefully examined aspects of
+
+    the pilots’ personal and professional lives and found both pilots to be stable. Moreover,
+
+    analysis of the communications and sounds recorded by the CVR indicated that the pilots
+
+    expended extraordinary effort in their attempts to recover from the upset throughout the
+
+    accident seque...'
+  judgment: 'semantic_match'
+  notes: 'This accident is ultimately related to VFR weather conditions and the pilots inability to see and avoid an accident situation.'
+- rank: 10
+  chunk_id: AAR1802.pdf_chunk_0076
+  report_id: AAR1802.pdf
+  section_name: FINDINGS
+  score: 0.6051
+  text_preview: "3.1 Findings \n1. None of the following were factors in the accident: (1) flight crew qualifications in \n\
+    accordance with federal regulations, (2) flight crew medical conditions or impairment by \nalcohol or other drugs, or\
+    \ (3) airplane mechanical condition. \n2. Based on the available weather information that indicated the likelihood of\
+    \ decreased \nvisibility due to precipitation and/or clouds in the accident area and the observation from \na company\
+    \ flight crew that clouds obscured the accident site..."
+  judgment: 'semantic_match'
+  notes: 'This accident was ruled in part to be caused by the pilots continuing under VFR into IMC conditions, leading to spatial disorientation and loss of control.'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-01-18T22:00:07.051150",
+  "automated_categories": [
+    "incident_lookup",
+    "section_queries",
+    "aircraft_queries",
+    "phase_queries"
+  ],
+  "human_reviewed_categories": [
+    "conceptual_queries",
+    "comparative_queries"
+  ],
+  "minilm": {
+    "automated": {
+      "mean_mrr": 0.6690883190883191,
+      "mean_hit_at_10": 0.9487179487179487
+    },
+    "human_reviewed": {
+      "semantic_precision": 0.7545454545454545,
+      "semantic_lift": 0.13636363636363635,
+      "false_positive_rate": 0.16363636363636364
+    }
+  },
+  "mika": {
+    "automated": {
+      "mean_mrr": 0.7884914231068078,
+      "mean_hit_at_10": 0.9487179487179487
+    },
+    "human_reviewed": {
+      "semantic_precision": 0.6,
+      "semantic_lift": 0.13636363636363635,
+      "false_positive_rate": 0.34545454545454546
+    }
+  },
+  "comparison": {
+    "automated_mrr_difference": 0.11940310401848864,
+    "semantic_lift_difference": 0.0,
+    "mika_auto_advantage": true,
+    "mika_semantic_advantage": false
+  },
+  "recommendation": "MIKA - Better automated metrics"
+}

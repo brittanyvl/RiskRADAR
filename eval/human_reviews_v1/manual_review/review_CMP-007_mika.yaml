@@ -1,0 +1,256 @@
+metadata:
+  query_id: CMP-007
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260113_231228.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents involving regional airlines commuter operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%regional%' OR lower(chunk_text) LIKE '%commuter%'
+  expected_report_ids: []
+  relevance_signals:
+  - regional
+  - commuter
+  - part 135
+  - scheduled
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR9303.pdf_chunk_0045
+  report_id: AAR9303.pdf
+  section_name: ANALYSIS
+  score: 0.5633
+  text_preview: 'Finally, when faced with an operational need to
+
+    provide a crew for a scheduled flight, management abandoned an earlier plan to
+
+    have the regional chief pilot fly with a newly hired captain and instead, paired the
+
+    new captain with a low-time first officer, even though neither pilot had previously
+
+    flown these routes, and it was the captain''s first unsupervised revenue flight. The Safety Board has addressed the issue
+    of the pairing of
+
+    inexperienced crewmembers on previous occasions. As a result of i...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0001.pdf_chunk_0204
+  report_id: AAR0001.pdf
+  section_name: ANALYSIS
+  score: 0.5511
+  text_preview: 'A Review of Flightcrew-Involved Major Accidents of
+
+    U.S. Air Carriers, 1978 Through 1990. Safety Study NTSB/SS-94/01. Washington, DC, pp. 40-41.'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 3
+  chunk_id: AAR7113.pdf_chunk_0000
+  report_id: AAR7113.pdf
+  section_name: SYNOPSIS
+  score: 0.5483
+  text_preview: 'SYNOPSIS
+
+
+    Commuter Airlines, Inc., Flight 502,
+
+    N497DM, a Beech C-45H, Dumod Conversion
+
+    (Infinite 11) crashed after a rejected takeoff from
+
+    Runway 16 at the Broome County Airport,
+
+    Binghainton, New Yorl., on March 22, 1970, at
+
+    approximately 1611 e.s.t. There were nine passengers and tv-o flightcrew members on board the aircraft. The captain
+
+    and two passengers were fatally injured, The
+
+    aircraft was substantially damaged by impact
+
+    and subsequent ground fire. Commuter Flight 502 was being operated as...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8502S.pdf_chunk_0007
+  report_id: AAR8502S.pdf
+  section_name: PARAGRAPH_11
+  score: 0.5346
+  text_preview: 'This publieaticn is a compilation of the reports of six separate aircraft
+
+    accidents investigated oy the National Transportation Safety Board. ‘The accident locations'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 5
+  chunk_id: AAR0802.pdf_chunk_0043
+  report_id: AAR0802.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5346
+  text_preview: "Factual Information\nNational Transportation Safety Board\nA I R C R A F T\nAccident Report\n21\nthe flight\
+    \ and cabin crewmembers and emergency response personnel indicated that the \npassengers deplaned in an orderly manner\
+    \ and were shuttled to the airport terminal in \npolice cars and ambulances."
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 6
+  chunk_id: AAR0603.pdf_chunk_0025
+  report_id: AAR0603.pdf
+  section_name: COMMUNICATIONS
+  score: 0.5337
+  text_preview: '1.9
+
+    Communications
+
+    No communications problems between the pilots and any of the air traffic
+
+    controllers who handled the accident flight were reported.'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 7
+  chunk_id: AAR0502.pdf_chunk_0019
+  report_id: AAR0502.pdf
+  section_name: COMMUNICATIONS
+  score: 0.5337
+  text_preview: '1.9
+
+    Communications
+
+    No communications problems between the pilots and any of the air traffic
+
+    controllers who handled the accident flight were reported.'
+  judgment: 'false_positive'
+  notes: 'This result contains a short text block with only a section heading and no meaningful information. It does not discuss regional airline commuter operations.'
+- rank: 8
+  chunk_id: AAR8303.pdf_chunk_0023
+  report_id: AAR8303.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5324
+  text_preview: 'CIVIL AVIATION
+
+
+    Air Carrier
+
+    Air Carrier
+
+
+    W+~9290000000000000~9000~000
+
+
+    1557-3983
+
+
+    Number of Accidents by
+
+    r Carrier
+
+    Gen. Aviation
+
+
+    woce-cocee-vouunsosccnncee I
+
+
+    ts of Aviation
+
+    rir Carrier ton en. Avtation—
+
+
+    Militery
+
+
+    vigaaac0000 CO~SB8OO~GQOQOTAIS89O°ON-—
+
+
+    Gen. Aviation
+
+
+    awe
+
+    YO at HO HH NOO AUN WRN NMONWN &
+
+
+    NATIONAL TRANSPORTATION SAFETY BCARt
+
+    Washington, 0.C. 20594
+
+    January 26, 1923
+
+
+    : Bu-- “=> } 7”,
+
+    ad — 4 *
+
+    Siem So Ln +7
+
+    yo.
+
+
+    a rn > DEE rte pam a
+
+
+    APPENINX E
+
+
+    PREVIOUS SAFETY BOARD
+
+    MIDAIR COLLI...'
+  judgment: ''
+  notes: ''
+- rank: 9
+  chunk_id: AAR0601.pdf_chunk_0060
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5323
+  text_preview: 'The
+
+    Board concluded that “these conversations were distractive and reflected a casual mood
+
+    78 For additional information, see National Transportation Safety Board, Texas International Airlines,
+
+    Inc., Convair 600, N94230, Mena, Arkansas, September 27, 1973, Aircraft Accident Report
+
+    NTSB/AAR-74-4 (Washington, DC: NTSB, 1974). In its recommendations related to this report, the Safety
+
+    Board cited several other airline accidents that involved pilot performance issues, the Board report numbers
+
+    for whi...'
+  judgment: ''
+  notes: ''
+- rank: 10
+  chunk_id: AAR0701.pdf_chunk_0100
+  report_id: AAR0701.pdf
+  section_name: ANALYSIS
+  score: 0.525
+  text_preview: 'Analysis
+
+    60
+
+    Aircraft Accident Report
+
+    procedures and the company’s failure to instill in their pilots professionalism that is
+
+    consistent with the highest levels of safety.127
+
+    The circumstances of the Pinnacle Airlines and the GP Express Airlines accidents
+
+    and the statements of a management pilot from another company with a CRJ fleet
+
+    demonstrate the opportunity for pilots to behave unprofessionally during Part 91
+
+    operations that are conducted without passengers or other crewmembers. Even when
+
+    prot...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 3
+  needs_human_review: 7

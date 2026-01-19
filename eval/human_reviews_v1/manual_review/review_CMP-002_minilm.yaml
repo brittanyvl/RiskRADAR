@@ -1,0 +1,229 @@
+metadata:
+  query_id: CMP-002
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260113_231218.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-18'
+  review_complete: true
+query:
+  text: accidents where pilots failed to respond to warnings
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%warning%' AND lower(chunk_text) LIKE '%fail%'
+  expected_report_ids: []
+  relevance_signals:
+  - warning
+  - ignored
+  - response
+  - alert
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR0601.pdf_chunk_0094
+  report_id: AAR0601.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6683
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    the accident was the pilots’ failure to follow established procedures and properly conduct
+
+    a nonprecision instrument approach at night in instrument meteorological conditions,
+
+    including their descent below the minimum descent altitude (MDA) before required visual
+
+    cues were available (which continued unmoderated until the airplane struck the trees) and
+
+    their failure to adhere to the established divis...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0102.pdf_chunk_0135
+  report_id: AAR0102.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6577
+  text_preview: "Factual Information\n95\nAircraft Accident Report\npilots were more likely to penetrate convective weather\
+    \ when they were following\nanother aircraft, behind schedule by more than 15 minutes, or flying after dark. According\
+    \ to public hearing testimony by the primary author of this study, there were no\ndiscernible differences among air carriers\
+    \ regarding the propensity to penetrate or deviate\naround thunderstorms or among jet versus turboprop airplanes.\n1.18.3\
+    \ Studies on Flight Crew Decision-Making \n..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0705.pdf_chunk_0183
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6454
+  text_preview: 'In interview after interview, their fellow pilots described them as
+
+    professionals who followed the rules, “flew by the book.” For reasons unknown, they
+
+    behaved in a too-casual manner during their flight on August 27, 2006, and our probable
+
+    cause cites their failures that led to this fatal accident. Much of our investigation
+
+    involved the search for an explanation of why the pilots behaved as they did, but those
+
+    answers remained elusive. Because we will never know why the pilots failed to observe
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0001.pdf_chunk_0134
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.639
+  text_preview: 'Factual Information
+
+    89
+
+    Aircraft Accident Report
+
+    The Safety Board’s evaluation and classification of Safety Recommendation
+
+    A-95-120 are discussed in section 2.6.2. Inspections and Tests of MSAW Speakers and the Standard Terminal
+
+    Automation Replacement System Program (A-97-22 Through A-97-27)
+
+    On October 2, 1996, a Piper PA-32-300, N2881W, crashed in a heavily wooded
+
+    area in Brandywine, Maryland, while on approach to Washington Executive/Hyde Field
+
+    Airport in Clinton, Maryland.131 The pilot and two...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR1101.pdf_chunk_0107
+  report_id: AAR1101.pdf
+  section_name: FINDINGS
+  score: 0.6348
+  text_preview: "3.1 Findings \n1. The investigation found that the pilots were properly certificated and qualified under\
+    \ federal \nregulations. \n2. The investigation found that the accident airplane was properly certificated, equipped,\
+    \ and \nmaintained in accordance with federal regulations. Examinations of the recovered \ncomponents revealed no evidence\
+    \ of any preimpact structural, engine, or system failures. The \nairplane was within normal weight and balance limitations.\
+    \ \n3. The accident was not survivable. \n4. T..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0001.pdf_chunk_0262
+  report_id: AAR0001.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6331
+  text_preview: '3.2
+
+    Probable Cause
+
+    The National Transportation Safety Board determines that the probable cause of
+
+    this accident was the captain’s failure to adequately brief and execute the nonprecision
+
+    approach and the first officer’s and flight engineer’s failure to effectively monitor and
+
+    cross-check the captain’s execution of the approach. Contributing to these failures were
+
+    the captain’s fatigue and Korean Air’s inadequate flight crew training. Contributing to the accident was the Federal Aviation
+    Administ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8507.pdf_chunk_0048
+  report_id: AAR8507.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6331
+  text_preview: '3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the probable cause
+
+    of this accident was the failura of the pilots of both aircraft to fallow the recommended
+
+    communications and traffie advisory practices for uncontrolled airports contained in the
+
+    Airman''’s Information Manual to alert each other to their presence and to enhance the
+
+    controller''s ability to provide timely traffic advisories. Underlying the aecident were the physiological limitations
+    of human vision and
+
+    r...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9503.pdf_chunk_0094
+  report_id: AAR9503.pdf
+  section_name: ANALYSIS
+  score: 0.6321
+  text_preview: 'S. Air Carriers, 1978
+
+    through 1990” (NTSB/SS-94/01)
+
+
+    111
+
+
+    found that six of the eight takeoff accidents studied involved
+
+    procedural checklist failures on the part of the flightcrews during
+
+    the taxi phase of operation. The Safety Board, in its study of flightcrew-involved major accidents,
+
+    made the following conclusions that are also relevant to the accident involving
+
+    flight 1016:
+
+
+    Procedural, tactical decision, and monitoring/challenging errors
+
+    were the most common types of errors identified in t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR2101.pdf_chunk_0002
+  report_id: AAR2101.pdf
+  section_name: FINDINGS
+  score: 0.6313
+  text_preview: "Findings \n• None of the following safety issues were identified for the accident flight: (1) pilot \nqualification\
+    \ deficiencies or impairment due to medical condition, alcohol, other drugs, or \nfatigue; (2) helicopter malfunction\
+    \ or failure; or (3) pressure on the pilot from Island \nExpress Helicopters Inc., the air charter broker, or the client\
+    \ to complete the flight. \n• Although the air traffic controller’s failure to report the loss of radar contact and radio\
+    \ \ncommunication with the accident f..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR0601.pdf_chunk_0058
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6312
+  text_preview: 'Factual Information
+
+    33
+
+    Aircraft Accident Report
+
+    engaging in non-essential conversations within the cockpit and non-essential
+
+    communications between cabin and cockpit crews, and reading publications not
+
+    related to the proper conduct of the flight are not required for the safe operation of
+
+    the aircraft. At times, the pilots’ conversation after the airplane descended below 10,000 feet
+
+    msl (about 1921:24) was not consistent with these sterile cockpit procedures. For
+
+    example, about 1922:17, the capta...'
+  judgment: 'semantic_match'
+  notes: 'This may not directly use any of our keywords but ultimately it is about a pilot failing to follow sterile cockpit procedures despite training and warnings to do so.'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1
