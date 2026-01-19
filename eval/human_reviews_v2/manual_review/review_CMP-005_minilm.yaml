@@ -1,0 +1,231 @@
+metadata:
+  query_id: CMP-005
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true 
+query:
+  text: regulatory failures that contributed to accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%faa%' AND lower(chunk_text) LIKE '%oversight%'
+  expected_report_ids: []
+  relevance_signals:
+  - faa
+  - regulatory
+  - oversight
+  - certification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.16666666666666666
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR9103.pdf_chunk_0048
+  report_id: AAR9103.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.7016
+  text_preview: '[RECOMMENDATIONS] Changing procedures or overlying additional procedures in
+
+    anticipation of human performance failures are of little value if they are
+
+    not adhered to. As we know in this case the procedures that already exist
+
+    were not adhered to. When the north local controller took the pilots of
+
+    FA 111] out of the loop he removed an important redundancy. This was a
+
+    serious error and the primary cause of the accident. I believe that the probable cause as originally drafted and adopted
+
+    reflected t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0705.pdf_chunk_0138
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6554
+  text_preview: '[RECOMMENDATIONS] The facts of the Comair 5191 accident will not allow us to ignore the fact that the two
+
+    pilots taxied to the wrong runway, even though other crews that morning and during the
+
+    previous week accomplished the same task under similar circumstances. However, it is
+
+    also significant that other errors by other people and entities (“pinholes” in the system)
+
+    tended to strip away defenses or safety redundancies that may have prevented this
+
+    tragedy. We should always endeavor to check, and ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses regulatory failures and contributing factors related to the Comair 5191 accident, which is directly related to the query about regulatory failures that contributed to accidents.'
+- rank: 3
+  chunk_id: AAR0705.pdf_chunk_0140
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6359
+  text_preview: '[RECOMMENDATIONS] Our aviation system failed Comair 5191 that morning. Two of its most critical
+
+    components — the flight crew and the air traffic controller — missed opportunities to
+
+    ensure that the airplane was on the correct runway. I do not dispute the probable cause
+
+    that was determined for this accident because it states the most likely and primary reason
+
+    for this accident. The failures of the flight crew and the air traffic controller, however,
+
+    meet the definition of “contributing factors” a...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses failures of air traffic control; thus, it is relevant to regulatory failures that contributed to accidents.'
+- rank: 4
+  chunk_id: AAR0906.pdf_chunk_0070
+  report_id: AAR0906.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.6228
+  text_preview: "[CONCLUSIONS > FINDINGS] Upon \nreceipt of such information, inspectors should increase their oversight of\
+    \ operators who appear to \nbe in financial distress. \n60\n\nNTSB \nAircraft Accident Report \n3. Conclusions 3.1 Findings\
+    \ \n1. The captain and first officer were properly certificated and qualified under federal \nregulations to act in their\
+    \ respective roles during the accident flight. There was no evidence \nof any medical conditions that might have adversely\
+    \ affected the pilots’ performance during ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0705.pdf_chunk_0130
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6224
+  text_preview: '[RECOMMENDATIONS] AIRCRAFT
+
+    Accident Report
+
+
+    BOARD MEMBER STATEMENTS
+
+
+    Member Hersman, Concurring:
+
+
+    It was clear in the Safety Board’s deliberation of probable cause of this accident that
+
+    some of the board members believed it crucial to maintain a sharp focus on the pilots’
+
+    behavior as the cause of this accident, and that to cite too many other factors in this tragic
+
+    event would undermine that focus. While I share a desire to emphasize pilot behavior as
+
+    the chief component of causation in this acc...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses failures of air traffic control and airports as a whole; thus, it is relevant to regulatory failures that contributed to accidents.'
+- rank: 6
+  chunk_id: AAR9406.pdf_chunk_0024
+  report_id: AAR9406.pdf
+  section_name: THE ACCIDENT
+  score: 0.6157
+  text_preview: '[THE ACCIDENT] Although the FAA stated at that time that it
+
+    would consider the need for regulatory changes, it failed to promulgate rulemaking. If the FAA had acted on A-88-105 by
+    promulgating rulemaking to
+
+    positively prevent beta operation in flight for airplanes in which such operation was
+
+    prohibited, this accident would have been prevented. The FAA''s conclusions
+
+    relative to the lack or a need for rulemaking action proved to be wrong, and
+
+    accidents involving in-flight beta operation continued....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0705.pdf_chunk_0137
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6103
+  text_preview: '[RECOMMENDATIONS] In most of these accidents, the people who made mistakes will not make
+
+    those same mistakes again, because they have already paid too high a price for their error. Therefore, we should also
+    look at the system in which they were operating, to spot latent
+
+
+    115
+
+
+    National Transportation Safety Board
+
+
+    AIRCRAFT
+
+    Board Member Statements Accident Report
+
+
+    failures that effectively removed the safety net and permitted the crew’s active failure to
+
+    occur unchecked. Toward that end, it is imp...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses systemic failures and the operating environment; thus, it is relevant to regulatory failures that contributed to accidents.'
+- rank: 8
+  chunk_id: AAR9204.pdf_chunk_0039
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.608
+  text_preview: '[ANALYSIS] The FAA responded to these two safety recommendations in a letter
+
+    dated May 15, 1992, indicating its agreement with the needs expressed in the
+
+    recommendations. The Safety Board''s response to this letter, as well as to other
+
+    FAA letters that address open safety recommendations about FAA surveillance of
+
+    air Carrier operations and maintenance practices, is attached as Appendix I. 3.1
+
+
+    Findings
+
+
+    1. All crewmembers and air traffic controllers were properly
+
+    certified to perform their duties...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7013.pdf_chunk_0015
+  report_id: AAR7013.pdf
+  section_name: (a) FINDINGS
+  score: 0.5992
+  text_preview: '[(a) FINDINGS] These hazai’. 1s
+
+    situations should then be eliminated by implementing suitable corrective
+
+
+    . action, or at least the potential danger could be reduced by establishment
+
+    ] of vigorous programs to educate controllers and pilots alike to the problem.
+
+    / Obviously, the constantly changing environment of the system dictates that
+
+    periodic updating of the analysis would be required. ‘The Board acknowledges
+
+    that such an analysis of the air traffic system represents a major chailenge,
+
+    and if...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AIR2503.pdf_chunk_0001
+  report_id: AIR2503.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5985
+  text_preview: "[RECOMMENDATIONS] HOMENDY \nMICHAEL GRAHAM \nChairwoman \nMember \n \nTHOMAS CHAPMAN \n \nMember \n \nJ.\
+    \ TODD INMAN \n \nMember \nReport Date: June 18, 2025\n\n11 \nThe NTSB is an independent federal agency charged by Congress\
+    \ with investigating every \ncivil aviation accident in the United States and significant events in the other modes of\
+    \ transportation—\nrailroad, transit, highway, marine, pipeline, and commercial space. We determine the probable causes\
+    \ \nof the accidents and events we investigate and issue s..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

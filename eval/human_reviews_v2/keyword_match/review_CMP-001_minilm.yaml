@@ -1,0 +1,237 @@
+metadata:
+  query_id: CMP-001
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: accidents caused by inadequate maintenance procedures
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%maintenance%' AND lower(section_name) = 'probable cause'
+  expected_report_ids: []
+  relevance_signals:
+  - maintenance
+  - inspection
+  - oversight
+  - procedure
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 1.0
+results:
+- rank: 1
+  chunk_id: AAR0401.pdf_chunk_0125
+  report_id: AAR0401.pdf
+  section_name: ANALYSIS
+  score: 0.6039
+  text_preview: '[ANALYSIS] Analysis
+
+    115
+
+    Aircraft Accident Report
+
+    Maintenance procedures are developed and are expected to be followed to ensure
+
+    that maintenance work is properly performed. When a maintenance procedure contains
+
+    multiple steps that are not applicable to the airplane on which a mechanic is working,141 a
+
+    mechanic may decide to skip applicable steps. Although well-trained mechanics may be
+
+    more capable of distinguishing between steps that are and are not applicable to a particular
+
+    aircraft than mecha...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR8403.pdf_chunk_0030
+  report_id: AAR8403.pdf
+  section_name: FINDINGS
+  score: 0.5971
+  text_preview: '[FINDINGS] The company''s management personnel failed to insure the division of
+
+    maintenance and inspection functions required by the company''s FAAapproved maintenance program. The FAA''s surveillance
+    of the company''s maintenance and inspection
+
+    departments was deficient in that it did not detect the commingling of
+
+    maintenance and inspection duties and responsibilities within the
+
+    company''s maintenance department. The accident was survivable. Despite the fact that the fuselage maintained its structur...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9204.pdf_chunk_0031
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.5899
+  text_preview: '[ANALYSIS] Because the -
+
+    flightcrew was unaware of the previous night''s work on the airplane, the possibility
+
+    of having another set of eyes observe the work was eliminated. The Safety Board believes that the FAA should require airlines
+    to
+
+    establish procedures to inform pilots of all significant maintenance on airplanes
+
+    before flight. Such information would allow pilots to be more alert to potential
+
+    unsafe conditions when they conduct preflight inspections. The redundancy
+
+    provided by such a requi...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR7916.pdf_chunk_0021
+  report_id: AAR7916.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5781
+  text_preview: '[ADDITIONAL INFORMATION] The principal shortcoming was the lack of
+
+    proper recordkeeping, which in turn disrupted the correction of deficiencies and
+
+    ultimately the airworthiness of the aircraft. During the Safety Boards investigation, there was evidence, however, that
+    the revised AAIP and the reeommendations which resulted from the January 1979 surveillance by the FAA were
+
+    improving the maintenance effort.
+
+
+    “—~
+
+
+    Another principal deficiency of the maintenance program was the
+
+    improper use of aircr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR8808.pdf_chunk_0040
+  report_id: AAR8808.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5734
+  text_preview: '[ADDITIONAL INFORMATION] The in-depth review of maintenance and operations procedures revealed that
+
+    published procedures were not being fallowed, partly due to improper guidance and training and
+
+    partly due to recordkeaping problems created by the computer record system newly instituted by
+
+    the carrier. The COPE letter to the carrier stated, in part:
+
+
+    While Fischer Bros. appears to operate safely flight equipment and are cognizant
+
+    of importance of safety in air transportation, accomplishment with ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0302.pdf_chunk_0091
+  report_id: AAR0302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5733
+  text_preview: '[RECOMMENDATIONS] Goglia’s Statement
+
+    I concur with the findings and probable cause of the accident; but I would like to
+
+    emphasize the significance of information contained in the public docket for this accident
+
+    that is not included in the report. This is clearly a maintenance accident, related to many operations of each of the
+
+    organizations involved. There is concern regarding the accuracy of company and aircraft
+
+    manufacturer manuals, poor quality of task documentation and job cards, and a lack ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0201.pdf_chunk_0191
+  report_id: AAR0201.pdf
+  section_name: ANALYSIS
+  score: 0.5698
+  text_preview: '[ANALYSIS] Failure to Fill Required Senior Positions
+
+    As noted in the FAA special inspection report, three required positions—the
+
+    director of maintenance, the director of operations, and the director of safety—were not
+
+    filled at the time of the special inspection.279 Although the duties of the director of
+
+    maintenance were being performed by two people, the division of duties and
+
+    responsibilities was not clearly defined. The report noted, “consequently there is
+
+    confusion as to who is responsible f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8404.pdf_chunk_0057
+  report_id: AAR8404.pdf
+  section_name: FINDINGS
+  score: 0.5686
+  text_preview: '[FINDINGS] Most passengers found the
+
+    instructions and procedures for donning tne life vests were difficult to
+
+    follow.
+
+
+    2%. The 9 or 10 minutes passengers spent in the brace position was excessive,
+
+    and caused problems with the passengers.
+
+
+    28. The anxiety of the passengers magnified their perceived problems in
+
+    preparing to ditch.
+
+
+    29. Flight attendants provided assistance to passengers on a direct, as
+
+    needed basis.
+
+
+    30. The U.S. Coast Guard''s and the U.S. Air Force''s response to the possible
+
+    ditc...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0102.pdf_chunk_0018
+  report_id: AAR0102.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5647
+  text_preview: '[FACTUAL INFORMATION] No discrepancies were noted after
+
+    these replacements. All but one of the replacements were nonroutine discrepancies
+
+    generated from Periodic Service inspections; the No. 1 left nose gear tire and wheel
+
+    assembly replacement resulted from a pilot report of excessive nose wheel vibration at
+
+    liftoff. Discrepancies recorded in American Airlines airplane maintenance logbooks are
+
+    entered into the company’s Field Maintenance Reliability System. Entries from May 15,
+
+    1998, to June 1, ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR1301.pdf_chunk_0026
+  report_id: AAR1301.pdf
+  section_name: COMPANY INFORMATION
+  score: 0.5603
+  text_preview: "[COMPANY INFORMATION] The refresher courses provide \ninformation directly related to aircraft maintenance,\
+    \ inspection, repairs, and alterations, as well as some nontechnical \nsubjects. \n36 Aviation Maintenance Alerts are\
+    \ published monthly and provide the aviation community with an economical \nmeans to exchange service experiences and\
+    \ to assist the FAA in improving aeronautical product durability, \nreliability, and safety. NTSB \nAircraft Accident\
+    \ Report \n25 \n3.2.1 Maintenance Personnel Fatigue \nB..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

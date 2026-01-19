@@ -1,0 +1,225 @@
+metadata:
+  query_id: CMP-002
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: accidents where pilots failed to respond to warnings
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%warning%' AND lower(chunk_text) LIKE '%fail%'
+  expected_report_ids: []
+  relevance_signals:
+  - warning
+  - ignored
+  - response
+  - alert
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR1103.pdf_chunk_0084
+  report_id: AAR1103.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.6417
+  text_preview: "[CONCLUSIONS > FINDINGS] 3.1 Findings \n1. The investigation determined that the pilot was certificated and\
+    \ qualified in accordance with \nFederal regulations. \n2. Examinations of the recovered engine, propeller, and airframe\
+    \ components revealed no \nevidence of any preimpact failures. \n3. The weather conditions forecasted for and observed\
+    \ in the area on the day of the accident did \nnot appear to be exceptional compared to the conditions that the pilot\
+    \ experienced on \nprevious flights. \n4. The airp..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0402.pdf_chunk_0076
+  report_id: AAR0402.pdf
+  section_name: ANALYSIS
+  score: 0.6084
+  text_preview: '[ANALYSIS] Simulator research supports this, showing that
+
+    121 See (a) A. Mack, “Inattentional Blindness,” Current Directions in Psychological Science Vol. 12,
+
+    No. 5 (2003): 180-184. (b) F.W. Hawkins, Human Factors in Flight (Aldershot, England: Ashgate
+
+    Publishing Limited, 1997) 116. (c) R.F. Haines, “A Breakdown in Simultaneous Information Processing. In
+
+    G. Obrecht & L.W. Stark (Eds.),” Presbyopia Research (New York: Plenum Press, 1991) 171-175.
+
+    122 See (a) National Transportation Safety Board, ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses inattentional blindness and pilot attention, which is relevant to the query about pilots failing to respond to warnings. It is of note that this is pulling from a footnote about human crew potentially missing or ignoring warnings, and not directly related to the content of the accident report itself; however, I would consider it a semantic match in the contexxt that the report is properly identified. '
+- rank: 3
+  chunk_id: AIR1801.pdf_chunk_0072
+  report_id: AIR1801.pdf
+  section_name: ANALYSIS
+  score: 0.6056
+  text_preview: "[ANALYSIS] Such a system would further \nimprove safety, especially at airports with parallel runways (which,\
+    \ according to the FAA’s wrong \nsurface landing video, account for 75% of wrong surface landings), and provide a longer\
+    \ term and \nmore robust solution to wrong surface landings. Therefore, the NTSB recommends that the FAA \n(1) collaborate\
+    \ with aircraft and avionics manufacturers and software developers to develop the \ntechnology for a cockpit system that\
+    \ provides an alert to pilots when an ..."
+  judgment: 'semantic_match'
+  notes: 'This section may not specifically be about ignoring warnings but the report does discuss notification and comprehension of the notification to airmen as a cause of the accident.'
+- rank: 4
+  chunk_id: AAR0102.pdf_chunk_0105
+  report_id: AAR0102.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5925
+  text_preview: "[FACTUAL INFORMATION] Also, high TSA\ncrews made significantly more procedural and tactical decision errors\
+    \ than low TSA\ncrews. According to the study report, these results suggested that the degraded\nperformance by high TSA\
+    \ crews tended to involve ineffective decision-making and\nprocedural slips rather than a deterioration of aircraft handling\
+    \ skill. \n153 National Transportation Safety Board. 1994. A Review of Flightcrew-Involved Major Accidents \nof U.S. Air\
+    \ Carriers, 1978 Through 1990. Safety S..."
+  judgment: 'semantic_match'
+  notes: 'This result is a discussion of crew member negligence to respond to or understand warnings which would indicate a semantic match to the query about pilots failing to respond to warnings.'
+- rank: 5
+  chunk_id: AAR1104.pdf_chunk_0015
+  report_id: AAR1104.pdf
+  section_name: DAMAGE TO AIRCRAFT
+  score: 0.5905
+  text_preview: "[DAMAGE TO AIRCRAFT] The aviation section’s fixed-wing \nt also said that the accident pilot could be assertive.\
+    \ However, he stated that the accident pilot \nwas a “very heroic type person” who disliked turning down missions. The\
+    \ fixed-wing pilot \nrecalled hearing the accident pilot tell his supervisor that the aviation section would no longer\
+    \ be \nturning down missions without going up to “take a look”; however, he stated that the accident \npilot had not pressured\
+    \ him when he subsequently turned d..."
+  judgment: 'semantic_match'
+  notes: 'This is a borderline result as it is not directly about warnings, but it does discuss pilot decision-making and negligence in responding to situations which could be interpreted as a semantic match to the query about pilots failing to respond to warnings.'
+- rank: 6
+  chunk_id: HZM8802.pdf_chunk_0032
+  report_id: HZM8802.pdf
+  section_name: ANALYSIS
+  score: 0.5888
+  text_preview: '[ANALYSIS] In
+
+    responses to this recommendation, on November 2, 19&4, anc March 7,1986, the FAA advised that it
+
+    believed that current rules and quidance did not warrant further action. As a result, on
+
+    May 12, 1986, the Safety Board classified Safety Recommendation A-84-76 “Ciosed--Unacceptable
+
+    Action.”
+
+
+    Subsequent to the Safety Board closing the recommendation, the FAA developed two proposed
+
+    advisory circulars that addressed cabin safety training for crevemembers and improved coordination
+
+    and com...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0102.pdf_chunk_0156
+  report_id: AAR0102.pdf
+  section_name: ANALYSIS
+  score: 0.5854
+  text_preview: '[ANALYSIS] In
+
+    addition, the manual states, “stopping distances are provided for guidance information only to assist
+
+    in the selection of the most desirable setting.” Analysis
+
+    140
+
+    Aircraft Accident Report
+
+    2.2.3 Human Factors
+
+    During the accident flight, both crewmembers made basic errors in flight
+
+    management and the completion of routine tasks, including required callouts.207 In
+
+    addition, the flight crew did not appear to be effectively evaluating the weather cues that
+
+    were available or considering...'
+  judgment: 'semantic_match'
+  notes: 'This result is about ignoring weather cues which we would interpret as ignoring warnings, thus making it a semantic match to the query about pilots failing to respond to warnings.'
+- rank: 8
+  chunk_id: AAR8904.pdf_chunk_0096
+  report_id: AAR8904.pdf
+  section_name: THE ACCIDENT
+  score: 0.5818
+  text_preview: '[THE ACCIDENT] This recommendation has
+
+    been classified as “Closed--Acceptable Action."
+
+
+    3. CONCLUSIONS 4
+
+
+    3.1 Findings :
+
+    ‘4. The flightcrew was properly certificated and qualified for 3
+
+    the flight. e .
+
+
+    2. The airplane was certificated, equipped, and maintained in
+
+    accordance with Federal reguletions and approved procedures.
+
+
+    3, The flightcrew deviated from Delta''s policies and procedures EB
+
+    with respect to checklist execution, cockpit discipline, and e
+
+    required callouts. or
+
+
+    4, Extensive non-dut...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7620.pdf_chunk_0028
+  report_id: AAR7620.pdf
+  section_name: FINDINGS
+  score: 0.5804
+  text_preview: '[FINDINGS] Braking action on runway 11 was adequate for stopping
+
+    the aircraft before it reached the departure end of
+
+    the runway. Before the accident the FAA had not determined
+
+    adequately the airport''s firefighting capabilities. Postaccident hearing tests conducted on the captain
+
+    indicated a medically disqualifying hearing loss;
+
+    however, the evidence was inadequate to conclude
+
+    that this condition had any bearing on the accident. 3.2 Probable Cause
+
+
+    The National Transportation Safety Board determi...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses an accident caused by pilot error wherein they acted inappropriately and ignored common cues or rules for landing, which we would interpret as ignoring warnings. Thus, it is a semantic match to the query about pilots failing to respond to warnings.'
+- rank: 10
+  chunk_id: AAR7514.pdf_chunk_0012
+  report_id: AAR7514.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5792
+  text_preview: '[TESTS AND RESEARCH] Thus, during the first minute ot the 2-minute pericd under analysis,
+
+    it would have been difficult if rot impossible to see the Cessna against
+
+    the backdrop of the setting sun,
+
+
+    Second, abyut 1 minute i5 seconds before tha collision, the controller advised GIN 261 cf heiicopcer traffic directly
+    in front of them and
+
+    climbing past the altitudes thirovgh which they were des.ending. The controller also told then he would point out tle
+    traffic again when it was
+
+    closer, and asked th...'
+  judgment: 'false_positive'
+  notes: 'This accident was mostly attributed to failure to see another aircraft due to sun glare, not failure to respond to warnings. Thus, it is a false positive for the query about pilots failing to respond to warnings.'
+summary:
+  auto_keyword_matches: 3
+  needs_human_review: 7

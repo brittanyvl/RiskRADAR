@@ -1,0 +1,187 @@
+metadata:
+  query_id: CMP-006
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: training deficiencies identified after accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%training%' AND lower(section_name) IN ('analysis', 'probable cause')
+  expected_report_ids: []
+  relevance_signals:
+  - training
+  - proficiency
+  - inadequate
+  - deficient
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.16666666666666666
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR1201.pdf_chunk_0005
+  report_id: AAR1201.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4224
+  text_preview: "[RECOMMENDATIONS] While I supported issuance of those recommendations in 2009, I note they were issued in\
+    \ \nresponse to an inflight emergency where the crew faced multiple abnormalities and emergency \nconditions. I believe\
+    \ the key difference between that event and this event is the element of time. For most emergency and abnormal situations\
+    \ that occur inflight, there is often time for \nthe crew to sort-out the situation and decide the best way to deal with\
+    \ the problem. For those \nsituations, reco..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0903.pdf_chunk_0043
+  report_id: AAR0903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4115
+  text_preview: "[ADDITIONAL INFORMATION] In addition, the FAA stated the following: \nMultiple, unrelated emergencies strung\
+    \ together as a training event are unrealistic \ntraining scenarios. In pursuit of realistic line-oriented training, airlines\
+    \ create \n…LOE scenarios from actual line experiences…[that] are operationally relevant, \nbelievable, and a test of\
+    \ the flight crew’s skills and capabilities. Complex events \nhave ongoing consequences that must be dealt with in flight\
+    \ and cannot be solved \nby simply sele..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0402.pdf_chunk_0043
+  report_id: AAR0402.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4069
+  text_preview: '[FACTUAL INFORMATION] Mertens and N.J. Milburn, “Performance of Color-Dependent Air Traffic Control Tasks
+    as
+
+    a Function of Color Vision Deficiency,” Aviation, Space, and Environmental Medicine Vol. 67, No. 10
+
+    (1996): 919-927.
+
+    73 See D.A. Atchison, C.A. Pedersen, S.J. Dain, and J.M. Wood, “Traffic Signal Color Recognition is a
+
+    Problem for Both Protan and Deutan Dolor-Vision Deficients” Human Factors Vol. 45, No. 3 (2003):
+
+    495-503.
+
+    74 A post-mishap ophthalmological evaluation indicated that the pi...'
+  judgment: 'semantic_match'
+  notes: 'This result is regarding an accidet that was partially attributed to a failure to adhere to training protocols, making it relevant to the query about training deficiencies identified after accidents.'
+- rank: 4
+  chunk_id: AAR0001.pdf_chunk_0124
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4002
+  text_preview: '[FACTUAL INFORMATION] The FAA indicated that, as
+
+    soon as this project was completed, it would revise AC 120-51B to include guidance on Factual Information
+
+    113
+
+    Aircraft Accident Report
+
+    training flight crews in cue recognition. On April 11, 1997, the Safety Board stated that it
+
+    was waiting to evaluate the FAA’s revised version of AC 120-51B. On August 3, 1998, the FAA stated that the results of
+    its research project were
+
+    outlined in a report, titled Guidelines for Situation Awareness Training, whic...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9504.pdf_chunk_0032
+  report_id: AAR9504.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3998
+  text_preview: '[ADDITIONAL INFORMATION] In the academic phase (classroom) of training, CRM was taught as a
+
+    particular aircraft system was covered. The instructors introduced representative
+
+    scenarios in the coverage of both normal and emergency procedures. The
+
+    instructors created situations in which the students participated in class, discussing
+
+    workload, task sharing, and other CRM issues. The CRM portion was not
+
+    specifically written into the classroom training syllabus. The training was blended
+
+    in the classro...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR1001.pdf_chunk_0154
+  report_id: AAR1001.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.3965
+  text_preview: "[RECOMMENDATIONS] The NTSB determined that the probable cause of the \naccident was the inadequate visual\
+    \ lookout and inadequate crew coordination of the Dassault DA-50 flight crew \nwhile taxiing, which resulted in a ground\
+    \ collision with the taxiing Saab 340B.) Additional information about this \naccident, \nNTSB \ncase \nnumber \nNYC03LA114A,\
+    \ \nis \navailable \non \nthe \nNTSB’s \nwebsite \nat \n<http://www.ntsb.gov/ntsb/query.asp>.\n\nNTSB \nAircraft Accident\
+    \ Report \n120 \nstated that the second check was cond..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR2002.pdf_chunk_0054
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.3961
+  text_preview: "[ANALYSIS] Thus, the NTSB concludes that Atlas’ HR personnel’s reliance on DAs to review pilot \nbackground\
+    \ records and flag significant items of concern was inappropriate and resulted in the \ncompany’s failure to evaluate\
+    \ the FO’s unsuccessful attempt to upgrade to captain at his previous \nemployer. After the accident, Atlas made several\
+    \ improvements to its pilot-hiring process, including \nhaving a member of the flight operations team review each applicant’s\
+    \ background records to \nprovide an add..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: ASR1604.pdf_chunk_0000
+  report_id: ASR1604.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.3957
+  text_preview: "[RECOMMENDATIONS] 9 \nRecommendations \nTo the Federal Aviation Administration: \nDevelop, in collaboration\
+    \ with your internal offices that investigate aviation \naccidents and incidents and also organizations familiar with\
+    \ the challenges facing \npilots confronting an emergency situation, and require recurrent national training \nfor air\
+    \ traffic controllers, including scenario-based training, to instruct them on \nidentifying and responding to emergency\
+    \ situations to include the following: \n(1) recogn..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR1001.pdf_chunk_0083
+  report_id: AAR1001.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3942
+  text_preview: "[ADDITIONAL INFORMATION] On April 23, 2009, the FAA issued Notice 8900.71, which discussed verification of\
+    \ \nremedial training for Part 121 carriers. The purpose of the notice was to provide guidance to \nPOIs about a required\
+    \ inspection to determine whether their Part 121 carriers were voluntarily \ncomplying with SAFO 06015. The notice also\
+    \ instructed the POIs to make a Program Tracking \nand Reporting Subsystem entry within 90 days of the date of the notice\
+    \ for those air carriers that \nhad in pla..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9901.pdf_chunk_0222
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.3925
+  text_preview: '[FACTUAL INFORMATION] Factual Information
+
+    198
+
+    Aircraft Accident Report
+
+    In a January 16, 1997, letter to the Safety Board, the FAA stated that it was
+
+    considering an NPRM proposing to require that air carriers conduct training that will
+
+    emphasize recognition, prevention, and recovery from aircraft attitudes that are normally
+
+    not associated with air carrier flight operations. In its July 15, 1997, response, the Safety
+
+    Board stated that it was not aware of any training programs that specifically add...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

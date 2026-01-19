@@ -1,0 +1,196 @@
+metadata:
+  query_id: CON-012
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: loss of control inflight upset recovery training
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%loss of control%' OR lower(chunk_text) LIKE '%upset%recovery%'
+  expected_report_ids:
+  - AAR9602.pdf
+  - AAR0404.pdf
+  - AAR1001.pdf
+  - AAR1401.pdf
+  - AAR9901.pdf
+  - AAR0101.pdf
+  relevance_signals:
+  - loss of control
+  - upset
+  - recovery
+  - stall
+  - unusual attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR9901.pdf_chunk_0222
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6609
+  text_preview: '[FACTUAL INFORMATION] Factual Information
+
+    198
+
+    Aircraft Accident Report
+
+    In a January 16, 1997, letter to the Safety Board, the FAA stated that it was
+
+    considering an NPRM proposing to require that air carriers conduct training that will
+
+    emphasize recognition, prevention, and recovery from aircraft attitudes that are normally
+
+    not associated with air carrier flight operations. In its July 15, 1997, response, the Safety
+
+    Board stated that it was not aware of any training programs that specifically add...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0906.pdf_chunk_0042
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6106
+  text_preview: "[ADDITIONAL INFORMATION] The airplane upset recovery training aid indicates that there are myriad potential\
+    \ \nsituations that pilots can experience while flying and that pilots should first gain control of the \nairplane and\
+    \ then determine and eliminate the cause of the upset. Specifically, the aid indicates \nthat every upset recovery should\
+    \ include managing the energy (airspeed), arresting any flightpath \ndivergence, and recovering to a stabilized flightpath.\
+    \ The airplane upset recovery training ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR2002.pdf_chunk_0031
+  report_id: AAR2002.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.6081
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] Regardless of how the \nupset was recognized, the pilot must\
+    \ verify that an upset occurred by comparing control and \nperformance instrument indications before initiating the recovery\
+    \ on the attitude display. Such \ncomparison was meant to prevent aggravating the upset as a result of making control\
+    \ movements \nbased on erroneous instrument indications. According to Atlas’ upset recovery training aid: \nIn most cases,\
+    \ effective situational awareness will avo..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0404.pdf_chunk_0104
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6066
+  text_preview: '[FACTUAL INFORMATION] The working group consisted
+
+    of representatives from airplane manufacturers (Boeing, Airbus, and McDonnell
+
+    Douglas), airlines (including American Airlines, United Airlines, and Delta Air Lines,
+
+    which were already using upset recovery programs in simulator training), the FAA, and
+
+    pilots’ unions. The effort was the first time that the three airplane manufacturers worked
+
+    together on technical, noncommercial issues. Factual Information
+
+    96
+
+    Aircraft Accident Report
+
+    In public heari...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR9901.pdf_chunk_0291
+  report_id: AAR9901.pdf
+  section_name: ANALYSIS
+  score: 0.5515
+  text_preview: "[ANALYSIS] These factors\ncombined to produce a flight situation and control problems that the pilots of\
+    \ USAir flight\n427 had never before encountered in flight or training, including during stickshaker/stall\nrecovery training.\
+    \ With this series of problems in the course of a few seconds, it is\nunderstandable that the crew was no longer responding\
+    \ in a manner that might have\nallowed recovery.328 \nDuring postaccident simulator tests,329 test subjects were able\
+    \ to recover from the\nUSAir flight 427 u..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0906.pdf_chunk_0041
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.551
+  text_preview: "[ADDITIONAL INFORMATION] On August 31, 1990, the FAA issued change 4 to its Handbook 8400.10, “Air \nTransportation\
+    \ Operations Inspector’s Handbook.” This change contained direction and guidance \nconcerning the check airman program\
+    \ for Part 121 and 135 operators, including the role and \npurpose of the check airman, the regulatory requirements, qualifications,\
+    \ functional \nresponsibilities, and the approval process and training requirements for check airmen. On \nAugust 1, 1991,\
+    \ based on these actio..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR1001.pdf_chunk_0169
+  report_id: AAR1001.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.527
+  text_preview: "[RECOMMENDATIONS] Flight crew training on full stalls and recoveries had not previously been included in\
+    \ \nsimulator training partly because of industry concerns about the lack of simulator aerodynamic \nmodel fidelity in\
+    \ the post-stall flight regime. However, the NTSB believes that advances in \ntechnology can allow post-stall aircraft\
+    \ behavior to be modeled in simulators. In the late 1990s, a government/industry commercial aviation safety team found\
+    \ that loss \nof control was among the top three c..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR0404.pdf_chunk_0105
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5269
+  text_preview: '[FACTUAL INFORMATION] For example, the
+
+    Airbus vice president indicated that the manufacturers were concerned about the AAMP’s
+
+    emphasis on rudder and utilization of simulation. Airbus did not initially favor the use of
+
+    simulators for upset recovery training because the forces that a pilot would experience in
+
+    terms of increased weight or G loading, both vertically and laterally, could not be
+
+    duplicated in a simulator. Also, Airbus was concerned about simulator fidelity and the
+
+    “high possibility” o...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0404.pdf_chunk_0176
+  report_id: AAR0404.pdf
+  section_name: ANALYSIS
+  score: 0.4991
+  text_preview: '[ANALYSIS] The explanation of design maneuvering speed in
+
+    AC 61-23C, “Pilot’s Handbook of Aeronautical Knowledge,” may be even more
+
+    misleading, stating that, “any combination of flight control usage, including full deflection
+
+    of the controls, or gust loads created by turbulence should not create an excessive air load
+
+    if the airplane is operated below maneuvering speed.” This statement strongly—and
+
+    incorrectly—suggests that, if multiple control inputs were made below maneuvering
+
+    speed, the airpla...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR9402.pdf_chunk_0024
+  report_id: AAR9402.pdf
+  section_name: ANALYSIS
+  score: 0.4984
+  text_preview: "[ANALYSIS] The Safety Board believes that it would be difficult for a piIot to avoid \nstalling the airplane\
+    \ by applying small control inputs consistent with light conrrol \nforces while trying to recover from the roll upset.\
+    \ In addition, the Safety Board \nbelieves that pilots !.lust receive hands-on training to experience the light control\
+    \ \nforces consistent with a high altitude. high speed loss of control. Written and verbal \nwarnings are not sufficient.\
+    \ \nin the accidenr involving China Eastern ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

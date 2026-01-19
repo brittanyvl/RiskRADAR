@@ -1,0 +1,260 @@
+metadata:
+  query_id: CMP-007
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: accidents involving regional airlines commuter operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%regional%' OR lower(chunk_text) LIKE '%commuter%'
+  expected_report_ids: []
+  relevance_signals:
+  - regional
+  - commuter
+  - part 135
+  - scheduled
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR7502.pdf_chunk_0049
+  report_id: AAR7502.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6198
+  text_preview: '[AIRCRAFT INFORMATION] C, 20591
+
+
+    Dear Mr, Chairman:
+
+
+    AFPENDIX E
+
+
+    Ree 2 3 eg es ED ee ee ee
+
+
+    WASHINGTON, N.C, 20590
+
+
+    OFFICE OF
+
+    THE ADMINISTRATOR
+
+
+    Ditetuw 12300
+
+
+    I have reviewed Safety Recormnendation A=74-18 concerning the
+
+    Board''s investigation of National Airlines! [C10 accident near
+
+    Albuquerque, New Mexico, on November 3, 1973,
+
+
+    We essentially agree on the need for prosedures to assist air
+
+    carrier flight crews to assess inflight damage to the aircraft
+
+    and will tssue an appropriate bulletin on t...'
+  judgment: 'false_positive'
+  notes: 'This report did not idscuss any accidents involving regional airlines or commuter operations; thus, it is a false positive for the query about accidents involving regional airlines commuter operations.'
+- rank: 2
+  chunk_id: AAR8809.pdf_chunk_0046
+  report_id: AAR8809.pdf
+  section_name: ANALYSIS
+  score: 0.6071
+  text_preview: '[ANALYSIS] In summary, the Safety Board believes that the pairing of pilots with limited experience in their
+
+    respective positions can, when combined with other factors, such as adverse weather, be unsafe and
+
+    is not acceptable. The Safety Board believes that although the pilots of flight 1713 had previously
+
+    demonstrated competence in their duties, compromises in the decision-making process occurred as a
+
+    result of inexperience in their respective positions. Subsequently, their pairing on the same ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8105.pdf_chunk_0011
+  report_id: AAR8105.pdf
+  section_name: ANALYSIS
+  score: 0.5885
+  text_preview: '[ANALYSIS] Florida Commuter Airlines was one of about 95 Part 135 operations
+
+    monitored by G..J30 No. 5. Four principal operations inspectors accomplished this
+
+    monitoring, in addition to other duties, such as giving general aviation flight tests
+
+    end proficiency checks. One of the principal operations inspectors visited Florida
+
+    Commuter Airlines and its predecessor about once every 3 months. 2. ANALYSIS
+
+
+    Hecause of the lack of conclusive evidence, the Board did not make a
+
+    determination whether the...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR6908.pdf_chunk_0024
+  report_id: AAR6908.pdf
+  section_name: INVESTIGATION
+  score: 0.5816
+  text_preview: '[INVESTIGATION] BORING 7OT-321C, NGA
+
+
+    SLMENDORF AIR FORCE BA:
+
+    ANCHORAGE, ALASKA
+
+    DECEMBER 76, 1968
+
+
+    Adopted: May °.
+
+
+    NALTTIOIAL ‘TRAGOVORPARION SAPATY POARD
+
+
+    HASHING AW, 6. 8G
+
+
+    AIRCRAFT ACCIDENT SPECIAL, REPORT
+
+    PAN AMERICAN WORLD AIRWAYS, INC. BOEING 707-321C, NT99OPA
+
+    ELMENDORF AIR FORCE BASE
+
+    ANCHORAGE, ALASKA
+
+    DECEMBER 26, 1968
+
+
+    FOREWORD
+
+    Tunis report has been prepared from information obtained during thie
+
+    investigation of an accident involving a Pan American World Airways,
+
+    Liles, B-707-321C, N799...'
+  judgment: 'false_positive'
+  notes: 'This result is regarding a cargo plane accident and not a regioal commuter operation; thus, it is a false positive for the query about accidents involving regional airlines commuter operations.'
+- rank: 5
+  chunk_id: AAR9303.pdf_chunk_0039
+  report_id: AAR9303.pdf
+  section_name: ANALYSIS
+  score: 0.5803
+  text_preview: '[ANALYSIS] Finally, when faced with an operational need to
+
+    provide a crew for a scheduled flight, management abandoned an earlier plan to
+
+    have the regional chief pilot fly with a newly hired captain and instead, paired the
+
+    new captain with a low-time first officer, even though neither pilot had previously
+
+    flown these routes, and it was the captain''s first unsupervised revenue flight. The Safety Board has addressed the issue
+    of the pairing of
+
+    inexperienced crewmembers on previous occasions. As a ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAB0603.pdf_chunk_0032
+  report_id: AAB0603.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5784
+  text_preview: "[RECOMMENDATIONS] Their equipment is expertly maintained, and their crews \nare trained. NTSB data show that\
+    \ corporate jets flown by professional crews under part 91 (.28 \naccidents per 100,000 hours in 2004) have accident rates\
+    \ that are comparable to scheduled air \ncarriers (.16 accidents per 100,000 hours in 2004). Some, however, operate jets\
+    \ on a shoestring \nbudget with inadequately experienced or trained crews and/or flimsy maintenance practices. These type\
+    \ of operations, especially when oper..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0705.pdf_chunk_0061
+  report_id: AAR0705.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5776
+  text_preview: "[FACTUAL INFORMATION] Factual Information\nNational Transportation Safety Board\nA I R C R A F T\nAccident\
+    \ Report\n50\ntraining at “a percentage of” the highest-error-rate terminal and en route facilities \nand CRM training\
+    \ for initial hires in the FAA Academy and college training initiative \nprograms. The FAA further stated that it would\
+    \ develop plans to train additional \ncontrollers on an initial and a recurrent basis. The Safety Board’s analysis of\
+    \ the FAA’s actions in response to Safety \nRecommend..."
+  judgment: 'semantic_match'
+  notes: 'This result is regarding a regional jetline and is therefore relevant to the query about accidents involving regional airlines commuter operations.'
+- rank: 8
+  chunk_id: AAR8008.pdf_chunk_0022
+  report_id: AAR8008.pdf
+  section_name: ANALYSIS > THE ACCIDENT
+  score: 0.5763
+  text_preview: '[ANALYSIS > THE ACCIDENT] The Safety Board believes that COMAIR emphasized maintaining its
+
+    current commuter schedule over its need for thoroughly trained and experienced
+
+    pilots. It is doubtful that the director of flight operations received the kind of
+
+    guidance and support necessary to meet this need. Management''s lack of expertise
+
+    and the lack of stringent regulations regarding pilot qualifications and training
+
+
+    resulted in the captain''s being hired with limited multiengine experience and being...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9204.pdf_chunk_0037
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.5708
+  text_preview: '[ANALYSIS] Consequently, the lax attitude of personnel in the hangar suggests that
+
+    management did not establish an effective safety orientation for its employees. In
+
+    fact, the failure of management to ensure compliance with air carrier policy must
+
+    be considered a factor in the cause of the accident. I
+
+
+    2.7 ; Regulatory Oversight
+
+
+    FAA oversight of the airline failed to find safety problems, such as
+
+    those found during the Safety Board''s investigation. This oversight included
+
+    routine monitoring by ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9305.pdf_chunk_0001
+  report_id: AAR9305.pdf
+  section_name: FINDINGS
+  score: 0.5703
+  text_preview: '[FINDINGS] Contributing to the cause of the accident was the failure
+
+    of the MU-2 pilot to use all of the air traffic control services available by not
+
+    activating his instrument flight rules flight plan before takeoff. Also contributing to
+
+    the caase of the accident was the failure of both pilots to follow recommended
+
+    traffic pattem procedures, as recommended in the Airman’s Information Manual, for
+
+    airport arrivals and departures. The major safety issues addressed by the report are the continuing
+
+    ...'
+  judgment: 'semantic_match'
+  notes: 'This result does not include the words regional or commuter but it was smaller planes being used to connect between two smaller airports and thus is relevant to the query about accidents involving regional airlines commuter operations.'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

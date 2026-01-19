@@ -1,0 +1,199 @@
+metadata:
+  query_id: CON-003
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: controlled flight into terrain warning system GPWS TAWS
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%gpws%' OR lower(chunk_text) LIKE '%ground proximity%' OR lower(chunk_text)
+    LIKE '%terrain%warning%'
+  expected_report_ids:
+  - AAR1802.pdf
+  - AAR1003.pdf
+  - AAR1402.pdf
+  - AAR9701.pdf
+  - AAR0001.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - gpws
+  - taws
+  - terrain
+  - cfit
+  - warning
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR0602.pdf_chunk_0037
+  report_id: AAR0602.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6967
+  text_preview: '[FACTUAL INFORMATION] A Flight Safety Foundation study indicated that about 75 percent of all CFIT
+
+    accidents in commercial aircraft occurred in those that were not equipped with a
+
+    82 These aircraft were an FAA Boeing 727, an FAA Convair, a Piper Aztec from the Department of
+
+    Transportation’s Volpe National Transportation Systems Center, and a PHI helicopter.
+
+    83 E.L. Weiner, “Controlled Flight Into Terrain: System Induced Accidents,” Human Factors Journal
+
+    Vol. 19 (1977).
+
+    84 Boeing Commercial Airpl...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR1702.pdf_chunk_0012
+  report_id: AAR1702.pdf
+  section_name: PILOT INFORMATION
+  score: 0.6824
+  text_preview: "[PILOT INFORMATION] Class C TAWS equipment is intended for voluntary installations on \nairplanes not covered\
+    \ by TAWS requirements. All classes of TAWS share certain basic functions, and the TSO \nspecifies different criteria\
+    \ for certain functions, features, and alerting for each class. NTSB \nAircraft Accident Report \n13 \n• Forward-looking\
+    \ terrain awareness: A warning function that uses a terrain database and \nan obstruction database to alert the pilot\
+    \ to hazardous terrain or obstructions in front..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1802.pdf_chunk_0010
+  report_id: AAR1802.pdf
+  section_name: FACTUAL INFORMATION > HISTORY OF THE FLIGHT
+  score: 0.6634
+  text_preview: "[FACTUAL INFORMATION > HISTORY OF THE FLIGHT] The GMX 200 features faster \nprocessing times and improved\
+    \ screen quality.) \n1.3.3 Terrain Awareness and Warning System \nThe airplane was equipped with a Bendix/King (Honeywell)\
+    \ KGP 560 GA-EGPWS that \nprovided the Class B terrain TAWS capabilities required for the accident airplane.12 The \n\
+    GA-EGPWS used an internal GPS receiver and terrain database to determine the possibility of \nterrain conflicts; among\
+    \ its capabilities was a forward looking terrai..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR0001.pdf_chunk_0051
+  report_id: AAR0001.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.651
+  text_preview: '[TESTS AND RESEARCH] 1.16 Tests and Research
+
+    1.16.1 Enhanced Ground Proximity Warning System Simulation
+
+    Because of advances in computer technology and terrain mapping capabilities,
+
+    GPWS manufacturers have developed improved terrain avoidance systems. In 1997, the
+
+    FAA certified a new terrain awareness and warning system (TAWS), also known as
+
+    enhanced GPWS. (See section 1.18.2.2 for general information about enhanced GPWS.)
+
+    This system was not installed or required on the accident airplane.75
+
+    An e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR0001.pdf_chunk_0101
+  report_id: AAR0001.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6367
+  text_preview: "[FACTUAL INFORMATION] The radio altimeter\ndoes not require an accurate barometric pressure setting; rather,\
+    \ it displays the height above the ground by\nusing time-varying frequency and measuring the differences in the frequency\
+    \ of received waves,\nproportional to time and height. Factual Information\n94\nAircraft Accident Report\nadvisories generated\
+    \ by GPWS are the aircraft’s altitude above the ground as calculated by\nthe radio altimeter. \n1.18.2.2 Enhanced Ground\
+    \ Proximity Warning System\nEnhanced G..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR1402.pdf_chunk_0020
+  report_id: AAR1402.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.6309
+  text_preview: "[AIRCRAFT INFORMATION] The primary method of \nmaking mode selections is using the associated mode control\
+    \ panel mode pushbutton switch. \n1.6.2.4 Autopilot/Autothrottle Operation \nAccording to the UPS A300 AOM, when disengaging\
+    \ the autopilot or autothrottles, the \nPF must verbally state that the autopilot/autothrottles are being disengaged to\
+    \ ensure that both \npilots are aware of the autoflight system status. It further stated, if the autopilot is not providing\
+    \ \nprecise airplane control or mainta..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR8106.pdf_chunk_0017
+  report_id: AAR8106.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6142
+  text_preview: '[PROBABLE CAUSE] Sirce
+
+
+    AO
+
+
+    there was enough time for the captain and first officer to try
+
+
+    to analyze the cause of the terrain warning, there was also more
+
+    than adequate time for the captnin to stop the descent, alter
+
+
+    the aircraft''s flightpath, end silence the terrain warning in
+
+    accordance with the company''s procedures. Had he taken this
+
+    action in the timely manner called for by the procedure— "positive action to alter the flightpath and stop the warning
+    should
+
+    be initiated immediately"— the f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR0602.pdf_chunk_0053
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.6138
+  text_preview: "[ANALYSIS] One such system is TAWS, which\nalerts flight crews to a potential collision with terrain or water.\
+    \ Helicopters are not\ncurrently required to be equipped with TAWS; this issue is discussed and analyzed in\nsection 2.3.1.\n\
+    2.3\n Cockpit Systems\n2.3.1 Terrain Awareness and Warning System\nTAWS has the ability to look ahead of an aircraft to\
+    \ detect the terrain or other\nobstructions along a flightpath. However, none of the S-76A helicopters in Era Aviation’s\n\
+    fleet were equipped with a TAWS or ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR1103.pdf_chunk_0023
+  report_id: AAR1103.pdf
+  section_name: OTHER DAMAGE
+  score: 0.5933
+  text_preview: "[OTHER DAMAGE] The “DH” lamp remains \nilluminated until the airplane either climbs to about 20 feet above\
+    \ the selected DH or descends \nbelow about 20 feet agl. The left side of the panel also included a Garmin GNS 530 global\
+    \ positioning system \n(GPS) with a Class-B TAWS feature.40 Maintenance records indicated that the GNS 530 \nreceived\
+    \ a software update to version 6.04 on May 12, 2010. The GNS 530’s TAWS features use \nterrain and obstacle databases\
+    \ referenced to feet msl and include premature d..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR0602.pdf_chunk_0038
+  report_id: AAR0602.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5878
+  text_preview: '[FACTUAL INFORMATION] In addition, TAWS for helicopters can include aural alert modes 1 through 6,
+
+    which are excessive descent rate, excessive terrain closure rate, descent after takeoff,
+
+    terrain clearance, deviation below glideslope, and autorotation and altitude,89 respectively. The accident helicopter
+    was not equipped with a TAWS and was not required by
+
+    Federal regulations to so be equipped.90 Specifically, a March 23, 2000, final rule issued
+
+    by the FAA required all U.S.-registered turbine-po...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

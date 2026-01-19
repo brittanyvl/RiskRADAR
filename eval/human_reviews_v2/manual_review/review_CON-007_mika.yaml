@@ -1,0 +1,202 @@
+metadata:
+  query_id: CON-007
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: automation mode confusion glass cockpit display
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%automation%' AND (lower(chunk_text) LIKE '%confusion%' OR lower(chunk_text)
+    LIKE '%mode%')
+  expected_report_ids:
+  - AAR1401.pdf
+  - AAR2002.pdf
+  - AAR8801.pdf
+  - AAR0001.pdf
+  - AAR0602.pdf
+  relevance_signals:
+  - automation
+  - autoflight
+  - mode
+  - display
+  - awareness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR7804.pdf_chunk_0017
+  report_id: AAR7804.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4366
+  text_preview: '[ADDITIONAL INFORMATION] Inflight use requires that the aircraft to be mareuvexed to che
+
+    required pitchup or pitch-down attitude. Tue horfzontal
+
+    flight director bar is then set to center on the red dot of
+
+    the miniature sicplane symbol. The aircraft pitch attitude
+
+    can now be held by keeping the bar centered on the red dot.
+
+    (The horizonta’ command bar will then display pitch deviations
+
+    relative to the miniature airplane symbol.)
+
+
+    The horizon flight director indicator contains a minfmum a
+
+    descent a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR1401.pdf_chunk_0111
+  report_id: AAR1401.pdf
+  section_name: ANALYSIS
+  score: 0.4299
+  text_preview: "[ANALYSIS] Pilot training could be improved across airplane types to support better pilot \nunderstanding\
+    \ of automated systems for flightpath management and their use in operational \n \n100 In addition, most pilots surveyed\
+    \ thought autoflight system training could be improved through more \nattention to automation surprises (57%) and hands-on\
+    \ use of automation in operational situations (52%). A third \n(33%) thought training could be improved through greater\
+    \ attention to transitions between modes, a..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR0602.pdf_chunk_0056
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.4184
+  text_preview: '[ANALYSIS] The ability to engage only one or two axes, instead of all three, can be
+
+    beneficial in certain circumstances, such as search and rescue, when a pilot may engage a
+
+    roll function on the flight director mode selector (such as heading) but need to make pitch
+
+    control inputs to maintain a certain height above varying terrain. However, the
+
+    simultaneous presentation of command cues for both selected and unselected axes allows
+
+    for the possibility of pilot misinterpretation of the command cue f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR1402.pdf_chunk_0019
+  report_id: AAR1402.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.4177
+  text_preview: "[AIRCRAFT INFORMATION] One PFD/ND pair is \nlocated on each side of the cockpit for the captain and first\
+    \ officer (see figure 10). \n (Source: Airbus A300 FCOM, sections 1.10.20 and 1.15.24.) \nFigure 10. PFD (top screen)\
+    \ and ND (bottom screen). \n \n42 The profile mode’s status is stored in the FMC nonvolatile memory as a logical state\
+    \ (a bit) when the profile \nmode is armed. NTSB \nAircraft Accident Report \n23 \nThe flight mode annunciator at the\
+    \ top of each PFD provides annunciation of the various \n..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0602.pdf_chunk_0055
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.4174
+  text_preview: '[ANALYSIS] In such systems, only one set of commands guides
+
+    flight director command cues, which are presented simultaneously for both pilot stations. Analysis
+
+    49
+
+    Aircraft Accident Report
+
+    wants to program the flight director in advance of the subsequent phase of flight. However, only one pilot station can
+    be coupled at a time, and a lack of pilot awareness
+
+    regarding which set of command cues is coupled to the autopilot can lead to automation
+
+    mode confusion.111
+
+    Two indications in the cockpit provi...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9407.pdf_chunk_0051
+  report_id: AAR9407.pdf
+  section_name: ANALYSIS
+  score: 0.4166
+  text_preview: '[ANALYSIS] Further, to include autopilotcoupled approaches as an item on the ACA pilot proficiency check
+    form would
+
+    ensure that pilot knowledge and use of the autopilot during coupled approaches was
+
+
+    reviewed. The Safety Board believes that experience gained as a first officer with
+
+    an airline, prior to upgrading to captain, is important. Contract training instructors
+
+    may possess considerable air carrier line operating experience; however, the airline
+
+    should be the final determining factor in pil...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0602.pdf_chunk_0052
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.4056
+  text_preview: "[ANALYSIS] Research on the use of automated flight systems in transport-category aircraft\nfound that the\
+    \ reprogramming of automated flight control systems is prone to human error\nbecause reprogramming involves multiple,\
+    \ complex steps.105 \nThe accident pilots might not have chosen to use the coupling feature when\nchanging destinations\
+    \ and instead might have chosen to rely on their ability to manually\nmaintain the appropriate flightpath. The helicopter’s\
+    \ ATT mode provides stability to the\nhelicopt..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR8603.pdf_chunk_0023
+  report_id: AAR8603.pdf
+  section_name: FIRE
+  score: 0.4049
+  text_preview: '[FIRE] Behavioral Faetors: Automation.--The automatic flight systems of the Boeing
+
+    147 SP were such that the airplane could be programmed for and was capable of fully
+
+    automatic flight throughout the entire route. Once the airplane was so programmed, all
+
+    that was required of the flighterew was to monitor the progress of the airplane and from
+
+    time to time update the information required by the airplane’s cormputers. Thus, the
+
+    flightcrew had been reilegated to the role of monitors and had been serv...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0903.pdf_chunk_0058
+  report_id: AAR0903.pdf
+  section_name: ANALYSIS
+  score: 0.3929
+  text_preview: "[ANALYSIS] For example, as noted \npreviously, the pilots did not complete several checklists, most likely\
+    \ because they were focused \non flying the airplane and communicating with ATC and because of the workload and stress\
+    \ \nassociated with addressing the emergency situation. However, the NTSB notes that, after the go-\n \n64 During normal\
+    \ operations, pilots have been observed trading assigned duties, such as radio communications, \nto prevent the pilot\
+    \ not flying from being interrupted during high-p..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses crew resource management and communication failures, which are directly relevant to the query about crew resource management breakdown communication failure.'
+- rank: 10
+  chunk_id: AAR2002.pdf_chunk_0037
+  report_id: AAR2002.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.3927
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] Atlas’ director of training said that both the DA and Atlas’\
+    \ HR \ndepartment would flag substantial issues in the training records for his attention. PRIA background records for\
+    \ the captain were obtained by a DA on September 22, 2015, \nand included information from the FAA, NDR, and the captain’s\
+    \ three previous employers. According to the HR director, the captain’s background records did not disclose any issues\
+    \ of \nconcern. PRIA background records for t..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

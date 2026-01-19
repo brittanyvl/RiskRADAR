@@ -1,0 +1,228 @@
+metadata:
+  query_id: CON-002
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: ice contamination on wing leading edge aerodynamic degradation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%icing%' AND lower(chunk_text) LIKE '%wing%'
+  expected_report_ids:
+  - AAR0702.pdf
+  - AAR1001.pdf
+  - AAR9302.pdf
+  - AAR9602.pdf
+  - AAR9601.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - icing
+  - deicing
+  - leading edge
+  - lift
+  - stall
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9804_body.pdf_chunk_0121
+  report_id: AAR9804_body.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7622
+  text_preview: "[ADDITIONAL INFORMATION] The technical paper stated the following, in part:\n \n Contamination of critical\
+    \ aerodynamic surfaces by ice, frost, and/or snow has\nbeen identified as the probable cause of a significant number of\
+    \ aircraft\naccidents. In most cases, the ice contamination has not been large ice\naccretions on the leading edges or\
+    \ thick layers of adhering snow on the top of\nthe wings. Rather, dangerous reduction in stall margins and handling qualities\n\
+    can occur because of ice-related roughne..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9109.pdf_chunk_0069
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.7332
+  text_preview: "[INVESTIGATION] E. BRUMBY\n\npresented to\n\n68TH AGARD FLUID DYNAMICS PANEL SPECIALISTS MEETING\nON EFFECTS\
+    \ OF ADVERSE WEATHER ON AERODYNAMICS\nToulouse, France\n\nAprit 29 - May 1, 1991\n\nDoug.as Aircraft Comnany\nMCDONNELL\
+    \ DOUGLAS\n\nITHE BEFECT OF WING ICE CONTAMINATION ON ESSENTIAL FLIGHT CHARACTERISTICS ©\nmo R. E. Brumby .\n~ Deputy\
+    \ Chief Design Engineer\n “ MD-80/DC.9 Program\n_ Douglas Alreraft Company\n3855 Lakewood Boulevard\nLong Beach, Catifornin\
+    \ 90846, USA\n\nSUMMARY ,\nContamination of critical werody..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9302.pdf_chunk_0034
+  report_id: AAR9302.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.7005
+  text_preview: '[TESTS AND RESEARCH] Ljungstrom: “Wind Tunnel Investigation of Simulated Hoar Frost on a
+
+    Two-Dimensional Wing Section With and Without High Life Devices.” FFA-AU-902, April 1972, Wingtips
+
+    magazine No, 84, December 1989.
+
+
+    roll as the stall develops unevenly across the wing. Upper wing surface
+
+    contamination reduces boundary layer control and induces separation and disruption
+
+    of airflow over the wing, thereby reducing lift. It was siated in a paper published by Douglas Aircraft Company "The
+
+    Effect ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR9302.pdf_chunk_0063
+  report_id: AAR9302.pdf
+  section_name: ANALYSIS
+  score: 0.6832
+  text_preview: '[ANALYSIS] There is obviously a disagreement within the industry over the
+
+    percentage degradation of lift due to upper wing surface contamination between
+
+    slatted and nonslatted wings. However, there are no state-of-the-art wind tunnel
+
+    results available to resolve this question. The Safety Board believes that the FAA,
+
+    in conjunction with the National Aeronautics and Space Administration (NASA),
+
+    should establish a wind tunnel and/or flight test program to study the aerodynamic
+
+    degradation of both n...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR7113.pdf_chunk_0010
+  report_id: AAR7113.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.683
+  text_preview: '[TESTS AND RESEARCH] The reduction of boundary layer kinetic energy
+
+    will cause incipient stalling of the wing, i.e.,
+
+    separation will occur at angles of attack and lift
+
+    coefficients lower than for the clean, smooth
+
+    wing, While the reduction in Ci.,, (coefficient
+
+    of life) due to frost formation erdinarily is not
+
+    as ureat as that due to ice formation, it is usually
+
+    unexpected because it may be thought that large
+
+
+    * Vernon H. Grav and Uwe HL von Glahn: Effect of Ice and Frost
+
+    Formations on Drag of N...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9109.pdf_chunk_0066
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.671
+  text_preview: '[INVESTIGATION] While the
+
+    cause of the accident has not yet been firmly established, the facts are
+
+    disturbingiy similar to previous accidents which have been attributed to
+
+    airframe ice. While each of the previous accidents had its own unique situation, the common
+
+    thread is that ice, ice/snow mix, frost or some combination of these, was
+
+    present on the lifting surfaces at the start of the takeoff. Douglas has
+
+    published numerous letters, articles and advisories on the topic of airfrane
+
+    and airroil ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9804_body.pdf_chunk_0176
+  report_id: AAR9804_body.pdf
+  section_name: ANALYSIS
+  score: 0.6686
+  text_preview: '[ANALYSIS] The NASA-Lewis and FAA/UIUC tests indicated that thin, rough ice accretions
+
+    located on the leading edge and lower surface of the airfoil primarily resulted in increases in
+
+    drag, whereas thin, rough ice accretions located on the leading edge and upper wing surface had
+
+    an adverse effect on both lift and drag; this is consistent with information that has been obtained
+
+    during NACA/NASA icing research conducted since the late 1930s. Data from research
+
+    conducted in the 1940s and 1950s indic...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9804_body.pdf_chunk_0097
+  report_id: AAR9804_body.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6339
+  text_preview: "[TESTS AND RESEARCH] Additionally, a three-dimensional wing develops vortices that shed from the wing tips.\
+    \ These\nvortices alter the airflow over the entire wing, although the most pronounced effect is near the\nwing tip; they\
+    \ produce a spanwise airflow and alter the local AOAs along the wing. Data\nprovided by Embraer indicated that with an\
+    \ airplane body AOA of 9o, the local AOA near the\n \n 114 B.F. Goodrich Ice Protection Systems (deicing boot manufacturer)\
+    \ personnel defined ice\nbridging as foll..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR8809.pdf_chunk_0028
+  report_id: AAR8809.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6303
+  text_preview: '[ADDITIONAL INFORMATION] According to the ATC
+
+    recorded radar data, the actual number of flights was 29 from 1 hour before the accident to the time
+
+    of the accident.
+
+
+    1.17.3 Effects of Airframe Contamination on Airplane Performance
+
+
+    Several articles published by McDonnell-Douglas and testimony taken during the Safety Board''s
+
+    public hearing concerning this accident indicated that small accumulations of ice on the top or
+
+    leading edges of wings can seriously degrade the lifting capability of the wing...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9602.pdf_chunk_0114
+  report_id: AAR9602.pdf
+  section_name: CONCLUSIONS
+  score: 0.6285
+  text_preview: '[CONCLUSIONS] These
+
+    differences resulted in ice accretion patterns with both large spanwise and
+
+    chordwise extents on the wing airfoil and with limited protruding ridge
+
+    height. Although such shapes cannot be accurately characterized, the BEA
+
+    believes that their nature may not be very different from one of the Edwards
+
+    tanker test cases, with the wing de-icer boots inoperative (test n°23)
+
+    exhibited. In this respect :
+
+    a) both the Edwards tanker test (N°23, Flap 15 degrees) and the subsequent
+
+    corresp...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

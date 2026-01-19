@@ -1,0 +1,256 @@
+metadata:
+  query_id: CMP-001
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: accidents caused by inadequate maintenance procedures
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%maintenance%' AND lower(section_name) = 'probable cause'
+  expected_report_ids: []
+  relevance_signals:
+  - maintenance
+  - inspection
+  - oversight
+  - procedure
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.9
+results:
+- rank: 1
+  chunk_id: AAR0401.pdf_chunk_0125
+  report_id: AAR0401.pdf
+  section_name: ANALYSIS
+  score: 0.5219
+  text_preview: '[ANALYSIS] Analysis
+
+    115
+
+    Aircraft Accident Report
+
+    Maintenance procedures are developed and are expected to be followed to ensure
+
+    that maintenance work is properly performed. When a maintenance procedure contains
+
+    multiple steps that are not applicable to the airplane on which a mechanic is working,141 a
+
+    mechanic may decide to skip applicable steps. Although well-trained mechanics may be
+
+    more capable of distinguishing between steps that are and are not applicable to a particular
+
+    aircraft than mecha...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR7916.pdf_chunk_0021
+  report_id: AAR7916.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4864
+  text_preview: '[ADDITIONAL INFORMATION] The principal shortcoming was the lack of
+
+    proper recordkeeping, which in turn disrupted the correction of deficiencies and
+
+    ultimately the airworthiness of the aircraft. During the Safety Boards investigation, there was evidence, however, that
+    the revised AAIP and the reeommendations which resulted from the January 1979 surveillance by the FAA were
+
+    improving the maintenance effort.
+
+
+    “—~
+
+
+    Another principal deficiency of the maintenance program was the
+
+    improper use of aircr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9204.pdf_chunk_0031
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.4514
+  text_preview: '[ANALYSIS] Because the -
+
+    flightcrew was unaware of the previous night''s work on the airplane, the possibility
+
+    of having another set of eyes observe the work was eliminated. The Safety Board believes that the FAA should require airlines
+    to
+
+    establish procedures to inform pilots of all significant maintenance on airplanes
+
+    before flight. Such information would allow pilots to be more alert to potential
+
+    unsafe conditions when they conduct preflight inspections. The redundancy
+
+    provided by such a requi...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9204.pdf_chunk_0036
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.4403
+  text_preview: '[ANALYSIS] Other problems noted include the definition of work on the
+
+    horizontal stabilizer leading edge as a non-RII, and the failure to follow
+
+    manufacturer-published procedures for an elevator balance and an engine
+
+    overtorque event not associated with the accident. These items suggest a general
+
+    disregard for following established procedures on the part of maintenance
+
+    department personnel. Two safety specialists at the Boeing Commercial Airplane Company
+
+    have recently reported on a survey that e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0201.pdf_chunk_0133
+  report_id: AAR0201.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.434
+  text_preview: '[FACTUAL INFORMATION] Factual Information
+
+    124
+
+    Aircraft Accident Report
+
+    maintenance/operations coordination, major repairs and modifications, and safety
+
+    oversight. The report added, “special emphasis was also placed upon analyzing how the
+
+    various major certification processes in the airplane’s life cycle relate to each other, and
+
+    evaluating the relationship between these certification processes and the maintenance and
+
+    operating processes being applied in service.”
+
+    The airplane certification proce...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9204.pdf_chunk_0041
+  report_id: AAR9204.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4335
+  text_preview: '[RECOMMENDATIONS] The FAA responded to these two recommendations in a letter dated
+
+    May 15, 1992. The Safety Board''s response to that letter, and to other letters from
+
+    the FAA about open safety recommendations on FAA surveillance of air carrier
+
+    operations and maintenance practices, is attached as Appendix I. BY THE NATIONAL TRANSPORTATION SAFETY BOARD
+
+
+    li
+
+    Vice Chairman
+
+
+    John K. Lauber
+
+
+    Member
+
+    Christopher A. Hart
+
+    Member ,
+
+
+    hmi
+
+    Member
+
+
+    Chairman Vogt did not participate. John K. Lauber, Member, file...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR7909.pdf_chunk_0040
+  report_id: AAR7909.pdf
+  section_name: ANALYSIS
+  score: 0.4227
+  text_preview: '[ANALYSIS] The aircraft broke up after touchdown with full power on
+
+    the right engine; the left wing float struck the water
+
+    causing the aircraft to cartwheel. Company policy and decisions were made by the President,
+
+    who violated or condoned violation of the regulations
+
+    in the interest of company objectives. Key company managers, supervisors, and licensed employees
+
+    were aware of falsification of records and vlolations
+
+    of aporoved maintenance »rocedures and Federal regulations. N7777V was flown a.o...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9801.pdf_chunk_0072
+  report_id: AAR9801.pdf
+  section_name: ANALYSIS
+  score: 0.4194
+  text_preview: '[ANALYSIS] However, the
+
+    flightcrew’s decision was later supported by Delta management. This suggests that Delta
+
+    management does not agree that fluid drops on the bullet nose or two missing rivets constitute
+
+    maintenance irregularities. Thus, the Safety Board concludes that there is a lack of clarity in written guidance
+
+    in the FOM to Delta flightcrews on what constitutes maintenance “discrepancies” and
+
+    “irregularities” and when to contact maintenance personnel and to log anomalies. Therefore, the
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR8404.pdf_chunk_0049
+  report_id: AAR8404.pdf
+  section_name: THE ACCIDENT
+  score: 0.4174
+  text_preview: '[THE ACCIDENT] On the
+
+    previous day, the general foreinun, who was responsible to implement the workeard,
+
+    stated that he was not aware that any new procedures were being developed. Moreover,
+
+    the general foreman had not closely checked to see that the mechanics who worked on
+
+    N334EA were given the training required by STP 49-81 regarding; work card 7204, which
+
+    they denied having received. The general foreman''s zesponse was that the riaterial was
+
+    posted and that all mechanics were expected to comply...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8606.pdf_chunk_0066
+  report_id: AAR8606.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.4174
+  text_preview: '[PROBABLE CAUSE] The maintenance bulletin should provide
+
+    guidance with respect to the human engineering principles which are
+
+    desirable in achieving cockpit standardization and which would tend to
+
+    eliminate pilot errors in the interpretation of cockpit Instruments and
+
+    the operation of equipment.'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

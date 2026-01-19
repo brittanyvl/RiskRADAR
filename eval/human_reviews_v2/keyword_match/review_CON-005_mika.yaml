@@ -1,0 +1,184 @@
+metadata:
+  query_id: CON-005
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: pilot fatigue circadian rhythm duty time regulations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%' AND lower(chunk_text) LIKE '%pilot%'
+  expected_report_ids:
+  - AAR1101.pdf
+  - AAR0601.pdf
+  - AAR1001.pdf
+  - AAR0801.pdf
+  - AAR1402.pdf
+  - AAR9404.pdf
+  relevance_signals:
+  - fatigue
+  - duty time
+  - rest
+  - sleep
+  - circadian
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR9404.pdf_chunk_0053
+  report_id: AAR9404.pdf
+  section_name: ANALYSIS
+  score: 0.6967
+  text_preview: '[ANALYSIS] Several former AIA
+
+    ptlots expressed to the Safety Board their concerns ibout the scheduling practices at
+
+    the airline. One pilot stated that he was with a crew that refused to fly a Part 9f
+
+    ferry flight at the end of a long duty and that he felt the crew was subjected to
+
+    intimidation by the company. In reviewing this evidence, the Safety Board was unable to determine
+
+    the actual company reactions to pilots who refused trips because of fatigue. At the
+
+    same time, the Safety Board did .eco...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR1104.pdf_chunk_0049
+  report_id: AAR1104.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6761
+  text_preview: "[ADDITIONAL INFORMATION] The NTSB’s November 15, 2010, response to the \nNPRM noted that the proposed rule\
+    \ takes into consideration length of duty day, starting time, \nworkload, and time-zone changes and, if adopted, would\
+    \ likely meet the intent of Safety \nRecommendation A-06-10. \nairport because both the captain and first officer fell\
+    \ asleep during the flight, the \nPreviously Issued Safety Recommendations \n1.18.5.1 Pilot Flight and Duty Time and Rest\
+    \ Period Limitations \nOn February 7, 2006, the ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AIR1801.pdf_chunk_0067
+  report_id: AIR1801.pdf
+  section_name: ANALYSIS
+  score: 0.674
+  text_preview: "[ANALYSIS] When that flight crew member is \ncontacted and required to report for duty during the period\
+    \ of reserve duty, the flight crew member is no longer \nconsidered to be on reserve but on duty…. This means that at\
+    \ anytime during the reserve period, a flight crew member \ncan be required to start a 14 hour duty period (or longer\
+    \ depending on the applicability of those sections of 700.16 and \n720.16 which permit extended flight duty times). A\
+    \ flight crew member therefore must remain rested whi..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0601.pdf_chunk_0059
+  report_id: AAR0601.pdf
+  section_name: ANALYSIS
+  score: 0.6711
+  text_preview: '[ANALYSIS] Analysis
+
+    53
+
+    Aircraft Accident Report
+
+    the captain during the approach, he may also have been suffering from fatigue; his failure
+
+    to monitor and react to the captain’s deviations from nonprecision approach procedures
+
+    was consistent with the degrading effects (slowed reactions and/or tunnel vision) of
+
+    fatigue. The Safety Board concludes that, on the basis of the less than optimal overnight
+
+    rest time available, the early reporting time for duty, the length of the duty day, the number
+
+    of f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR0102.pdf_chunk_0115
+  report_id: AAR0102.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6586
+  text_preview: "[FACTUAL INFORMATION] One recent aviation\nfatigue-related recommendation is detailed below. \n160 National\
+    \ Transportation Safety Board. 2000. Controlled Flight Into Terrain. Korean Air Flight 801, \nBoeing 747-300, HL7468,\
+    \ Nimitz Hill, Guam, August 6, 1997. Aircraft Accident Report\nNTSB/AAR-2000/01. Washington, DC.\n161 The captain’s wife\
+    \ indicated that, on August 5, 1997, he woke up about 0600 and took a \nnap between 1100 and 1340 (Seoul local time).\
+    \ Factual Information\n104\nAircraft Accident Repor..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0601.pdf_chunk_0040
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6556
+  text_preview: "[FACTUAL INFORMATION] CAP 371, Section B (2004): 9. Factual Information\n37\nAircraft Accident Report\nTable\
+    \ 4. British duty time regulations in hours (hrs) for flight crewmembers, in number of \nhours permitted. The Safety Board\
+    \ has issued numerous recommendations regarding length of duty\nissues, including Safety Recommendations I-89-02 and -0387\
+    \ and A-95-113.88 However,\ndespite repeated efforts to revise and update the flight and duty time rules that began in\
+    \ the\nmid- to late-1970s, there have bee..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AIR1801.pdf_chunk_0037
+  report_id: AIR1801.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6423
+  text_preview: "[TESTS AND RESEARCH] The captain’s and the first officer’s CRM skills were highly rated by other pilots who\
+    \ had \nflown with them. Although a check airman expressed concern about the first officer’s situational \nawareness (as\
+    \ indicated in section 1.2.2), the check airman described the first officer’s overall \nCRM as “good.” \n1.6.3 Fatigue\
+    \ Information \nAir Canada’s Flight Operations Manual provided information regarding the development \nof fatigue and\
+    \ fatigue management. Section 4.12.3, “Circadian..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1101.pdf_chunk_0103
+  report_id: AAR1101.pdf
+  section_name: ANALYSIS
+  score: 0.6347
+  text_preview: "[ANALYSIS] The NTSB notes that the FAA has also addressed some aspects of fatigue through its \nissuance\
+    \ of the NPRM titled, “14 CFR Parts 117 and 121: Flightcrew Member Duty and Rest \nRequirements.” The NPRM proposes to\
+    \ amend Part 121 and establish Part 117 to create a single \nset of flight time limitations, duty-period limits, and rest\
+    \ requirements for pilots in Part 121 \noperations. The NTSB notes that, at the time of the accident, the pilots had logged\
+    \ about 3 hours \nof flight time and were l..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR0601.pdf_chunk_0043
+  report_id: AAR0601.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6312
+  text_preview: '[FACTUAL INFORMATION] The research reported that there was a
+
+    “discernable pattern of increased probability of an accident the greater the hours of duty
+
+    time for commercial aircraft pilots in the United States.” Figure 8 shows data from
+
+    55 human factors-related accidents involving U.S. air carriers between 1978 and 1999, as
+
+    well as exposure data on pilot work patterns obtained from 10 airlines. About 1 percent of
+
+    the schedules reviewed involved 13 or more hours of duty time; however, pilots flyin...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR0802.pdf_chunk_0039
+  report_id: AAR0802.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6288
+  text_preview: "[FACTUAL INFORMATION] The Board’s \n1994 study of flight-crew-related major aviation accidents51 found that\
+    \ captains who had \nbeen awake for more than about 12 hours made significantly more errors than those who \nhad been\
+    \ awake for fewer than 12 hours. Such errors included failing to recognize and \ndiscontinue a flawed approach; pilots\
+    \ often exhibited a tendency to continue the approach \ndespite increasing evidence that it should be discontinued. Additionally,\
+    \ accident \ndata showed that pilots fl..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

@@ -1,0 +1,239 @@
+metadata:
+  query_id: CON-002
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: ice contamination on wing leading edge aerodynamic degradation
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%icing%' AND lower(chunk_text) LIKE '%wing%'
+  expected_report_ids:
+  - AAR0702.pdf
+  - AAR1001.pdf
+  - AAR9302.pdf
+  - AAR9602.pdf
+  - AAR9601.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - icing
+  - deicing
+  - leading edge
+  - lift
+  - stall
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9109.pdf_chunk_0069
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.74
+  text_preview: "[INVESTIGATION] E. BRUMBY\n\npresented to\n\n68TH AGARD FLUID DYNAMICS PANEL SPECIALISTS MEETING\nON EFFECTS\
+    \ OF ADVERSE WEATHER ON AERODYNAMICS\nToulouse, France\n\nAprit 29 - May 1, 1991\n\nDoug.as Aircraft Comnany\nMCDONNELL\
+    \ DOUGLAS\n\nITHE BEFECT OF WING ICE CONTAMINATION ON ESSENTIAL FLIGHT CHARACTERISTICS ©\nmo R. E. Brumby .\n~ Deputy\
+    \ Chief Design Engineer\n “ MD-80/DC.9 Program\n_ Douglas Alreraft Company\n3855 Lakewood Boulevard\nLong Beach, Catifornin\
+    \ 90846, USA\n\nSUMMARY ,\nContamination of critical werody..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9302.pdf_chunk_0034
+  report_id: AAR9302.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6869
+  text_preview: '[TESTS AND RESEARCH] Ljungstrom: “Wind Tunnel Investigation of Simulated Hoar Frost on a
+
+    Two-Dimensional Wing Section With and Without High Life Devices.” FFA-AU-902, April 1972, Wingtips
+
+    magazine No, 84, December 1989.
+
+
+    roll as the stall develops unevenly across the wing. Upper wing surface
+
+    contamination reduces boundary layer control and induces separation and disruption
+
+    of airflow over the wing, thereby reducing lift. It was siated in a paper published by Douglas Aircraft Company "The
+
+    Effect ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR9804_body.pdf_chunk_0121
+  report_id: AAR9804_body.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6707
+  text_preview: "[ADDITIONAL INFORMATION] The technical paper stated the following, in part:\n \n Contamination of critical\
+    \ aerodynamic surfaces by ice, frost, and/or snow has\nbeen identified as the probable cause of a significant number of\
+    \ aircraft\naccidents. In most cases, the ice contamination has not been large ice\naccretions on the leading edges or\
+    \ thick layers of adhering snow on the top of\nthe wings. Rather, dangerous reduction in stall margins and handling qualities\n\
+    can occur because of ice-related roughne..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9109.pdf_chunk_0066
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.6693
+  text_preview: '[INVESTIGATION] While the
+
+    cause of the accident has not yet been firmly established, the facts are
+
+    disturbingiy similar to previous accidents which have been attributed to
+
+    airframe ice. While each of the previous accidents had its own unique situation, the common
+
+    thread is that ice, ice/snow mix, frost or some combination of these, was
+
+    present on the lifting surfaces at the start of the takeoff. Douglas has
+
+    published numerous letters, articles and advisories on the topic of airfrane
+
+    and airroil ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9109.pdf_chunk_0071
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.6597
+  text_preview: '[INVESTIGATION] The captain succeeded in leveling the ancrate
+
+
+    before U hil tie pround about I LO feet beyond the end of Ue run
+
+    _ way and skidded into & grove of trees Where iL came 10 rest, as
+
+
+    showts iit he figure. Table SHists a sum’ ot of wing-related accidents. While 1 is
+
+    by Ho ogags inclusive, it does Mlustrate that ice con lanpination js
+
+    quite democtatic, advetsely affecting straight-wing aircraft such
+
+    as the Nord 262 and numstous generat as satin aireralt: sinatl
+
+    fubojet auceaft wath con...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9109.pdf_chunk_0067
+  report_id: AAR9109.pdf
+  section_name: INVESTIGATION
+  score: 0.6369
+  text_preview: '[INVESTIGATION] A particularly hazardous situation results from a descent in which the
+
+    aircraft picks up a small amount of ice on the leading edge during the
+
+    approach. If the crew is not aware that ice is present after landing, the
+
+    aircraft may not be de-iced during a brief turnaround. When the ice
+
+    contaminated aircraft rotates on the next takeoff, it will not come off the
+
+    ground at the expected pitch attitude and rotation will continue at an
+
+    increasing rate until liftoff is finally achieved. Of...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9302.pdf_chunk_0063
+  report_id: AAR9302.pdf
+  section_name: ANALYSIS
+  score: 0.6222
+  text_preview: '[ANALYSIS] There is obviously a disagreement within the industry over the
+
+    percentage degradation of lift due to upper wing surface contamination between
+
+    slatted and nonslatted wings. However, there are no state-of-the-art wind tunnel
+
+    results available to resolve this question. The Safety Board believes that the FAA,
+
+    in conjunction with the National Aeronautics and Space Administration (NASA),
+
+    should establish a wind tunnel and/or flight test program to study the aerodynamic
+
+    degradation of both n...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR8809.pdf_chunk_0040
+  report_id: AAR8809.pdf
+  section_name: ANALYSIS
+  score: 0.6208
+  text_preview: '[ANALYSIS] At the Safety Board’s public
+
+    hearing on this accident, a representative from McDonnell-Douglas stated that small amounts of
+
+    upper wing ice may severely degrade the lifting capability of the wing and lead to loss of roll and
+
+    pitch control on DC-9-10 series airplanes. He concluded that the DC-9-10 series and other airplanes,
+
+    with and without leading edge slats, would be affected to varying degrees by small amounts of
+
+    upper wing ice contamination. For example, granular ice of only 0.030 ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9302.pdf_chunk_0068
+  report_id: AAR9302.pdf
+  section_name: FINDINGS
+  score: 0.6204
+  text_preview: '[FINDINGS] The captain did not use a USAir-approved V, speed.
+
+
+    75
+
+
+    The first officer called Vp L1 knots early, and the captain rotated
+
+    about 5 knots early. His rotation rate was about 2.5 degrees per
+
+    second. The airplane accelerated normally during the takeoff roll. After
+
+    liftoff and before transitioning to the initial climb, the wing
+
+    stalled before the stall warning system activated. Lateral instability was caused by an irregular stall progression
+
+    across the wing that led to an abrupt left roll...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR7020.pdf_chunk_0014
+  report_id: AAR7020.pdf
+  section_name: COMMUNICATIONS
+  score: 0.6173
+  text_preview: '[COMMUNICATIONS] The horizontal etabilizer trim was
+
+    found to be in agreement with the cockpit setting and compatible
+
+    with the c.g. The separated left wingtip contained abrasive scraping,
+
+    resulting from contact with the runway,
+
+
+    » 16 -
+
+
+    Both engines were intact with visible damage Limited to cowling distortion, and tree, brush, and snow ingestion, Examination
+
+    confirmed that the difficulty in securing the left engine was a
+
+    result of binding of the engine control linkage caused by fuselage
+
+    damage,
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

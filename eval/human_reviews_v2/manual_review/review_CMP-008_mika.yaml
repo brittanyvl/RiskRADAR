@@ -1,0 +1,187 @@
+metadata:
+  query_id: CMP-008
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: post-accident safety improvements and industry changes
+  sql_ground_truth: WHERE lower(section_name) = 'recommendations'
+  expected_report_ids: []
+  relevance_signals:
+  - recommendation
+  - improvement
+  - require
+  - mandate
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR1701.pdf_chunk_0053
+  report_id: AAR1701.pdf
+  section_name: ANALYSIS
+  score: 0.4707
+  text_preview: "[ANALYSIS] NTSB \nAircraft Accident Report \n43 \n \ncrashworthiness in the 1980s and issued safety recommendations\
+    \ to the FAA, but the amendments \nto Part 27 and 29 airworthiness standards to require a CRFS for newly certificated\
+    \ rotorcraft did \nnot become effective until late 1994.88 \nIn addition, guidelines aimed at increasing awareness about\
+    \ available helicopter \ncrashworthiness systems could increase inquiries to manufacturers regarding the availability\
+    \ of \nthese systems. Manufacturers would th..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9503.pdf_chunk_0101
+  report_id: AAR9503.pdf
+  section_name: ANALYSIS
+  score: 0.4682
+  text_preview: '[ANALYSIS] Therefore, the
+
+    Safety Board concludes that the actions previously recommended by A-94-001 and
+
+    A-94-003 are also applicable to USAir. Additionally, the Safety Board is aware that the aforementioned safety
+
+    issues, as well as others discussed in this repcrt, are being addressed as the result of
+
+    the recent FAA-spensored aviation safety conference held i: Washington, D.C., on
+
+    January 9 and 10, 1995. The Safety Board has examined the Aviation Safety Action
+
+    Plan issued on February 9, 1995, t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0201.pdf_chunk_0133
+  report_id: AAR0201.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4643
+  text_preview: '[FACTUAL INFORMATION] Factual Information
+
+    124
+
+    Aircraft Accident Report
+
+    maintenance/operations coordination, major repairs and modifications, and safety
+
+    oversight. The report added, “special emphasis was also placed upon analyzing how the
+
+    various major certification processes in the airplane’s life cycle relate to each other, and
+
+    evaluating the relationship between these certification processes and the maintenance and
+
+    operating processes being applied in service.”
+
+    The airplane certification proce...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1401.pdf_chunk_0081
+  report_id: AAR1401.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4592
+  text_preview: "[ADDITIONAL INFORMATION] A review of 140 entries in the FAA’s program tracking and reporting subsystem \n\
+    regarding Asiana since October 2011 showed that most entries were related to ramp inspections \nor operations specifications\
+    \ revisions. A total of 118 ramp inspections were conducted at 11 US \nairports served by Asiana. One possible flight\
+    \ violation was noted, which was referred to and \nresolved by Asiana Airlines.92 1.18 Additional Information \n1.18.1\
+    \ Postaccident Safety Action \n1.18.1.1 Asian..."
+  judgment: 'semantic_match'
+  notes: 'This result is about changes to industry and regulations made after the Asiana Airlines accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 5
+  chunk_id: AAR0706.pdf_chunk_0046
+  report_id: AAR0706.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4575
+  text_preview: "[FACTUAL INFORMATION] The issue of RSA improvements was discussed at the Safety Board’s June 2006 \npublic\
+    \ hearing that was held for the accident involving SWA flight 1248. In response \nto questioning during this hearing,\
+    \ FAA personnel indicated that, under current FAA \npolicy, it is possible that some RSAs will not meet the dimensional\
+    \ standards or have \narrester beds installed even after the FAA considers its improvement projects successfully \ncompleted.\
+    \ In a July 7, 2006, letter, the FAA indic..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8607.pdf_chunk_0064
+  report_id: AAR8607.pdf
+  section_name: ANALYSIS
+  score: 0.4558
+  text_preview: '[ANALYSIS] The elements of the flight
+
+    standards system, which received critical appraisal, included regulations, directives, work
+
+    programs, program management information, industry safety findings, evaluation
+
+    programs, budget, resources, position descriptions, classifications, hiring practices, career
+
+    development, training, and supervisory evaluation. Deficiencies identified by project
+
+    SAFE have been addressed in an implementation plan with a blueprint for short-term and
+
+    long-range changes. The ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses the elements of the flight standards system and how deficiencies were addressed, which is relevant to post-accident safety improvements.  '
+- rank: 7
+  chunk_id: AAR1904.pdf_chunk_0124
+  report_id: AAR1904.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4545
+  text_preview: "[RECOMMENDATIONS] NIH (National Institutes of Health). National Institute on Alcohol Abuse and Alcoholism.\
+    \ \n1995. Alcohol Alert No. 28 PH356. April. Accessed August 15, 2019. \nhttps://pubs.niaaa.nih.gov/publications/aa28.htm.\
+    \ NHTSA (National Highway Traffic Safety Administration). 2001. “Alcohol and Highway \nSafety \nKnowledge.” \none.nhtsa.gov.\
+    \ Accessed \nAugust \n15, \n2019. \nhttps://one.nhtsa.gov/people/injury/research/AlcoholHighway/2__overview.htm. NTSB\
+    \ (National Transportation Safety Board). 19..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses an accident that led to multiple recommendations for safety to be implemented; thus, it is relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 8
+  chunk_id: AAR9204.pdf_chunk_0036
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.4536
+  text_preview: '[ANALYSIS] Other problems noted include the definition of work on the
+
+    horizontal stabilizer leading edge as a non-RII, and the failure to follow
+
+    manufacturer-published procedures for an elevator balance and an engine
+
+    overtorque event not associated with the accident. These items suggest a general
+
+    disregard for following established procedures on the part of maintenance
+
+    department personnel. Two safety specialists at the Boeing Commercial Airplane Company
+
+    have recently reported on a survey that e...'
+  judgment: 'semantic_match'
+  notes: 'This result is regarding a report with multiple safety recommendations made after an accident, making it relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 9
+  chunk_id: AAR1603.pdf_chunk_0093
+  report_id: AAR1603.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.453
+  text_preview: "[RECOMMENDATIONS] Conversely, following procedures has a positive effect on safety. A Boeing study \nanalyzed\
+    \ 138 airline accidents that claimed 5,686 lives over a ten-year period. The study \nanalyzed factors that could have\
+    \ prevented each accident. The most highly ranked accident \n \n2 NTSB. (1994). Safety study: A review of flightcrew-involved,\
+    \ major accidents of U.S. air carriers, 1978 through \n1990. (NTSB Report No. NTSB/SS/94-01). Washington, DC: Author.\
+    \ \n3 Khatwa, R. & Helmreich, R. (1999). ..."
+  judgment: 'semantic_match'
+  notes: 'This result does discuss safety improvements and recommendations made after accidents, making it relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 10
+  chunk_id: AAR1701.pdf_chunk_0072
+  report_id: AAR1701.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4524
+  text_preview: "[RECOMMENDATIONS] NTSB \nAircraft Accident Report \n61 \n \nHowever, while an operator is the most important\
+    \ safety feature in any mode of \ntransportation, no human being is perfect. Along with the employment of checklists and\
+    \ training \nto best practices, the NTSB also supports the use of effective technology that can assist operators \nin\
+    \ safely performing their duties. In this case, we have recommended a hardware design \nimprovement, specifically, the\
+    \ incorporation of a visible and audible alert th..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 5
+  needs_human_review: 5

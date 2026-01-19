@@ -1,6 +1,6 @@
 # RiskRADAR Final Benchmark Report
 
-**Generated:** 2026-01-19 15:40
+**Generated:** 2026-01-18 22:00
 
 This report combines automated benchmark metrics with human evaluation of semantic search quality.
 
@@ -8,7 +8,7 @@ This report combines automated benchmark metrics with human evaluation of semant
 
 ## Executive Summary
 
-**Recommendation: MIKA - Higher semantic lift means better domain understanding**
+**Recommendation: MIKA - Better automated metrics**
 
 ---
 
@@ -18,10 +18,10 @@ Categories: Incident Lookup, Section Queries, Aircraft Queries, Phase Queries
 
 | Model | Mean MRR | Hit@10 |
 |-------|----------|--------|
-| MiniLM | 0.704 | 100.0% |
-| MIKA | 0.816 | 100.0% |
+| MiniLM | 0.669 | 94.9% |
+| MIKA | 0.788 | 94.9% |
 
-**Difference (MIKA - MiniLM):** +0.111 MRR
+**Difference (MIKA - MiniLM):** +0.119 MRR
 
 ---
 
@@ -31,25 +31,23 @@ Categories: Conceptual Queries, Comparative Queries
 
 | Model | Semantic Precision | Semantic Lift | False Positive Rate |
 |-------|-------------------|---------------|---------------------|
-| MiniLM | 92.7% | 28.2% | 7.3% |
-| MIKA | 97.1% | 38.6% | 2.9% |
+| MiniLM | 75.5% | 13.6% | 16.4% |
+| MIKA | 60.0% | 13.6% | 34.5% |
 
 **Key Metrics Explained:**
 - **Semantic Precision:** Fraction of results that are relevant (keyword + semantic matches)
 - **Semantic Lift:** Fraction of results that are relevant but wouldn't match keywords (the VALUE of semantic search)
 - **False Positive Rate:** Fraction of results that are not relevant
 
-**Semantic Lift Difference (MIKA - MiniLM):** +10.4%
+**Semantic Lift Difference (MIKA - MiniLM):** +0.0%
 
 ---
 
 ## Interpretation
 
-MIKA shows **significantly higher semantic lift**, meaning it finds more relevant content
-that keyword search would miss. This is the primary value of a domain-specific embedding model.
-
-Even if automated metrics are similar, MIKA's ability to surface semantically relevant
-content makes it the better choice for aviation safety research.
+MIKA shows better automated metrics but similar semantic lift to MiniLM.
+The domain-specific training helps with keyword-matchable content but doesn't
+provide significant advantage for pure semantic understanding.
 
 ---
 

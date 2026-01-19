@@ -1,0 +1,266 @@
+metadata:
+  query_id: CMP-005
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: regulatory failures that contributed to accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%faa%' AND lower(chunk_text) LIKE '%oversight%'
+  expected_report_ids: []
+  relevance_signals:
+  - faa
+  - regulatory
+  - oversight
+  - certification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9103.pdf_chunk_0048
+  report_id: AAR9103.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4818
+  text_preview: '[RECOMMENDATIONS] Changing procedures or overlying additional procedures in
+
+    anticipation of human performance failures are of little value if they are
+
+    not adhered to. As we know in this case the procedures that already exist
+
+    were not adhered to. When the north local controller took the pilots of
+
+    FA 111] out of the loop he removed an important redundancy. This was a
+
+    serious error and the primary cause of the accident. I believe that the probable cause as originally drafted and adopted
+
+    reflected t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0705.pdf_chunk_0140
+  report_id: AAR0705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4813
+  text_preview: '[RECOMMENDATIONS] Our aviation system failed Comair 5191 that morning. Two of its most critical
+
+    components — the flight crew and the air traffic controller — missed opportunities to
+
+    ensure that the airplane was on the correct runway. I do not dispute the probable cause
+
+    that was determined for this accident because it states the most likely and primary reason
+
+    for this accident. The failures of the flight crew and the air traffic controller, however,
+
+    meet the definition of “contributing factors” a...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses regulatory failures and contributing factors related to the Comair 5191 accident, which is directly related to the query about regulatory failures that contributed to accidents.'
+- rank: 3
+  chunk_id: AAR8008.pdf_chunk_0022
+  report_id: AAR8008.pdf
+  section_name: ANALYSIS > THE ACCIDENT
+  score: 0.4803
+  text_preview: '[ANALYSIS > THE ACCIDENT] The Safety Board believes that COMAIR emphasized maintaining its
+
+    current commuter schedule over its need for thoroughly trained and experienced
+
+    pilots. It is doubtful that the director of flight operations received the kind of
+
+    guidance and support necessary to meet this need. Management''s lack of expertise
+
+    and the lack of stringent regulations regarding pilot qualifications and training
+
+
+    resulted in the captain''s being hired with limited multiengine experience and being...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1603.pdf_chunk_0093
+  report_id: AAR1603.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4668
+  text_preview: "[RECOMMENDATIONS] Conversely, following procedures has a positive effect on safety. A Boeing study \nanalyzed\
+    \ 138 airline accidents that claimed 5,686 lives over a ten-year period. The study \nanalyzed factors that could have\
+    \ prevented each accident. The most highly ranked accident \n \n2 NTSB. (1994). Safety study: A review of flightcrew-involved,\
+    \ major accidents of U.S. air carriers, 1978 through \n1990. (NTSB Report No. NTSB/SS/94-01). Washington, DC: Author.\
+    \ \n3 Khatwa, R. & Helmreich, R. (1999). ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR7805.pdf_chunk_0022
+  report_id: AAR7805.pdf
+  section_name: SAFETY RECOMMENDATIONS
+  score: 0.4663
+  text_preview: '[SAFETY RECOMMENDATIONS] The FAA''s surveillance of
+
+    these areas was also inadequate. 3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the
+
+    probable cause of the accident was the failure of the flightcrew to use
+
+    proper navigational procedures for the route to be flown, especially
+
+    their failure to use the available backup means of navigation to verify
+
+    the position and the progress of the flight. 4. SAFETY RECOMMENDATIONS
+
+
+    As a result of this accident, the National Transpo...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9503.pdf_chunk_0100
+  report_id: AAR9503.pdf
+  section_name: ANALYSIS
+  score: 0.4636
+  text_preview: '[ANALYSIS] S. Air Carriers, 1978
+
+    through 1990” (NTSB/SS-94/01)
+
+
+    111
+
+
+    found that six of the eight takeoff accidents studied involved
+
+    procedural checklist failures on the part of the flightcrews during
+
+    the taxi phase of operation. The Safety Board, in its study of flightcrew-involved major accidents,
+
+    made the following conclusions that are also relevant to the accident involving
+
+    flight 1016:
+
+
+    Procedural, tactical decision, and monitoring/challenging errors
+
+    were the most common types of errors iden...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9601.pdf_chunk_0158
+  report_id: AAR9601.pdf
+  section_name: ANALYSIS
+  score: 0.4588
+  text_preview: '[ANALYSIS] Following the 1991 Ryan Air and Air Mauritius incidents, neither ATR
+
+    nor DGAC provided the FAA with copies of ATR''s analyses of these incidents. Although some FAA staff may have been aware
+    of these incidents and the 1992 ATR
+
+    All Weather Operations brochure, the FAA may still not have had sufficient
+
+    information to recognize that the ATR 42''s susceptibility to aileron hinge moment
+
+    reversal required further action by ATR. Following the 1993 Newark, New Jersey, and the 1994 Burlington,
+
+    Ma...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR9104.pdf_chunk_0080
+  report_id: AAR9104.pdf
+  section_name: FINDINGS
+  score: 0.4528
+  text_preview: '[FINDINGS] The Federal Aviation Administration traffic management
+
+    programs failed to manage the traffic volume at JFK
+
+    effectively, leading to excessive delays and airborne
+
+    holdings, including more than 1 hour for AVA052. The Federal Aviation Administration’s traffic management
+
+    programs for JFK did not adequately account for overseas
+
+    arrivals and missed approaches at JFK. Cabin crewmembers and passengers were not warned of the
+
+    impending crash landing, which may have contributed to the
+
+    severity of...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7917.pdf_chunk_0071
+  report_id: AAR7917.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4481
+  text_preview: '[TESTS AND RESEARCH] In view
+
+    of this interpretation, the Board concludes that there is a serious deficiency in the
+
+
+    reporting requirements which should be corrected.
+
+
+    '' Therefore, the Safety Board concludes that neither the air carrier nor
+
+    the manufacturer interpreted the regulation to require further investigation of the
+
+
+    damages or to report the damage to.the FAA. However, the Safety Board views
+
+
+    i
+
+    the omission of such requirements as a serious deficiency in the Pegulations. The ‘Safety Board ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9104.pdf_chunk_0082
+  report_id: AAR9104.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4473
+  text_preview: '[RECOMMENDATIONS] On June 22, 1990, the Safety Board Classified Safety
+
+    Recommendations A-90-9 through “11 as "Closed--Acceptable Action."
+
+
+    BY THE NATIONAL TRANSPORTATION SAFETY BOARD
+
+
+    /s/ James L. Kolstad
+
+    Chairman
+
+
+    /s/ Susan Coughlin
+
+    Vice Chairman
+
+
+    /s/ Jim Burnett
+
+    Member
+
+
+    /s/ John K. Lauber
+
+    Member
+
+
+    /s/ Christopher A. Hart
+
+    Member
+
+
+    Jim Burnett, Member, filed the following dissenting statement:
+
+
+    Although I support the probable cause and recommendations as
+
+    adopted, I have voted against the adoption ...'
+  judgment: 'semantic_match'
+  notes: 'This result relates to the failure of the FAA to manage traffic volume effectively; thus, it is relevant to regulatory failures that contributed to accidents.'
+summary:
+  auto_keyword_matches: 8
+  needs_human_review: 2

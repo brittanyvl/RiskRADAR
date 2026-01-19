@@ -1,0 +1,176 @@
+metadata:
+  query_id: CON-004
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: crew resource management breakdown communication failure
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%crew resource management%' OR lower(chunk_text) LIKE '%crm%'
+  expected_report_ids:
+  - AAR1101.pdf
+  - AAR1001.pdf
+  - AAR9607.pdf
+  - AAR0001.pdf
+  - AAR1802.pdf
+  - AAR1002.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - crm
+  - communication
+  - coordination
+  - cockpit
+  - assertiveness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR1802.pdf_chunk_0019
+  report_id: AAR1802.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.5397
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] At the investigative hearing, when asked about pilot flying (PF)/pilot\
+    \ monitoring (PM) roles and \nduties at Hageland, the chief pilot cited no training manuals or other documentation that\
+    \ addressed \nthis topic. Three excerpts from the Hageland CRM CBT described the following about \ncommunication: \nCrewmembers\
+    \ are encouraged to speak up and state their information with \nappropriate persistence until there is some clear resolution.\
+    \ Crewmembers are encour..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR9404.pdf_chunk_0052
+  report_id: AAR9404.pdf
+  section_name: ANALYSIS
+  score: 0.5346
+  text_preview: '[ANALYSIS] In summary, the three
+
+    a “experienced” crewmembers, especitlly the captain, failed to respond appropriately
+
+    and effectively to a situation that deteriorated to the level of a) stall during the
+
+    approach, which, although demanding, coula have been performed successfully
+
+    provided the proper techniques and procedures were employed. The academic
+
+    studies and scientific data are consistent’ with the fightcrew statements and
+
+    testimony describing their reduced alertness and) decision-maxing Imp...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses crew resource management and communication failures, which are directly relevant to the query about crew resource management breakdown communication failure.'
+- rank: 3
+  chunk_id: AAR1902.pdf_chunk_0056
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.5304
+  text_preview: "[ANALYSIS] Trans-Pacific’s CRM training, which was approved by the FAA and \npresented to company pilots,\
+    \ including the PIC and SIC involved in this accident, consisted of a \ncomputer-based, 27-slide presentation used for\
+    \ both initial and recurrent training. These materials \nreferenced all required topics to some extent. However, the training\
+    \ materials did not explicitly \nstate the importance of adhering to SOPs to facilitate effective teamwork, which was\
+    \ a major \ndeficiency observed in this crew..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1401.pdf_chunk_0147
+  report_id: AAR1401.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.5192
+  text_preview: "[SURVIVAL ASPECTS] Communication problems at the scene of a mass casualty event are common and, in fact,\
+    \ \nshould be anticipated and planned for. That is one of the main purposes of the annual disaster \ndrills and monthly\
+    \ RedCap drills conducted at SFO. While SFO did include mutual aid in at least \nsome of its planning drills, the NTSB\
+    \ is nonetheless concerned that the problems discussed \nabove were not identified and addressed before the accident.\
+    \ It is possible that the disaster drills \nat SFO ..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses communication problems at the scene of a mass casualty event, which is directly relevant to the query about crew resource management breakdown communication failure.'
+- rank: 5
+  chunk_id: AAR1101.pdf_chunk_0085
+  report_id: AAR1101.pdf
+  section_name: ANALYSIS
+  score: 0.5174
+  text_preview: "[ANALYSIS] Therefore, the NTSB recommends that the FAA require 14 CFR \nPart 135 and 91 subpart K operators\
+    \ to establish, and ensure that their pilots adhere to, SOPs. \n2.3.1 Crew Resource Management \nAs noted, the important\
+    \ concept of CRM is typically addressed by SOPs. The pilots \nexhibited poor CRM during the last 30 minutes of the flight\
+    \ as evidenced by their inadequate \n \n118 For more information, see On-Demand Operators Have Less Stringent Safety Requirements\
+    \ and Oversight \nThan Large Comme..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR1101.pdf_chunk_0114
+  report_id: AAR1101.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.511
+  text_preview: "[CONCLUSIONS > FINDINGS] If, as a 14 Code of Federal Regulations Part 135 operator, East Coast Jets had been\
+    \ required \nto develop standard operating procedures and its pilots had been required to adhere to them, \nmany of the\
+    \ deficiencies demonstrated by the pilots during the accident flight (for example, \n87\n\nNTSB \nAircraft Accident Report\
+    \ \ninadequate checklist discipline and failure to conduct an approach briefing) might have been \ncorrected by the resultant\
+    \ stricter cockpit discipline. \n11. Th..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR1902.pdf_chunk_0055
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.5105
+  text_preview: "[ANALYSIS] However, Trans-Pacific did not oversee the pilots’ performance \nafter their additional initial\
+    \ training to determine whether the noted performance deficiencies were \nfully resolved or were continuing and necessitated\
+    \ further training. On the accident flight, both \npilots exhibited performance problems that had previously occurred\
+    \ during their simulator training \ncourses. Thus, the NTSB concludes that the pilots’ performance on the accident flight\
+    \ included \ndeficiencies that were noted..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1102.pdf_chunk_0040
+  report_id: AAR1102.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.5068
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] Lauber, “Resource Management in the Cockpit,” Air Line Pilot,\
+    \ vol. 53 (1984), pp. 20-23. \n54 J.A. Cannon-Bowers Volpe and others, “Defining Team Competencies and Establishing Team\
+    \ Training \nRequirements,” in R. Guzzo, E. Salas, & Associates, eds., Team Effectiveness and Decision Making in \nOrganizations\
+    \ (San Francisco: Jossey-Bass, 1995), pp. 333-380. NTSB \nAircraft Accident Report \n35 \nand coordinating effectively.\
+    \ FlightSafety provided CRM training t..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR9506.pdf_chunk_0051
+  report_id: AAR9506.pdf
+  section_name: ANALYSIS
+  score: 0.4937
+  text_preview: '[ANALYSIS] Several areas of performance degradation
+
+    exhibited by the crew are characteristic of fatigue, such as the crew''s difficulties in
+
+    setting proper priorities and their continuation of the takeoff attempt despite
+
+    disagreement and confusion on important issues. -
+
+
+    The crew could not legally have flown a revenue trip at the time of the
+
+    accident. The Safety Board believes, however, that the fact that the flight was legal
+
+    under the terms of the Part 91 ferry flight provisions does not reduce ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses crew resource management and communication failures, which are directly relevant to the query about crew resource management breakdown communication failure.'
+- rank: 10
+  chunk_id: AAR1101.pdf_chunk_0054
+  report_id: AAR1101.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.493
+  text_preview: "[ADDITIONAL INFORMATION] In April 2004, the FAA indicated that an ARC had been tasked to revise Part 135\
+    \ \nrequirements, including a requirement for CRM training for Part 135 operators of airplanes with \ntwo pilots. The\
+    \ NTSB classified Safety Recommendation A-03-52 “Open—Acceptable \nResponse” pending completion of the revisions to Part\
+    \ 135. However, in its final report on the \nMay 2, 2006, accident in which a Canadair, Ltd., CL-600-2A12 crashed during\
+    \ takeoff in icing \nconditions in Montrose, Col..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 7
+  needs_human_review: 3

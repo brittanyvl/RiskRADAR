@@ -1,0 +1,218 @@
+metadata:
+  query_id: CON-006
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: metal fatigue crack propagation structural inspection
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%crack%' OR lower(chunk_text) LIKE '%crack%propagation%'
+  expected_report_ids:
+  - AAR0201.pdf
+  - AAR0704.pdf
+  - AAR1903.pdf
+  - AAR9606.pdf
+  - AAR-90-06.pdf
+  - AAR8903.pdf
+  relevance_signals:
+  - fatigue
+  - crack
+  - inspection
+  - propagation
+  - fracture
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.2
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AAR9308.pdf_chunk_0072
+  report_id: AAR9308.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5883
+  text_preview: '[RECOMMENDATIONS] An
+
+    effort is underway in coordination with the Safety Board''s
+
+    specialists to nondestructively characterize the suspected
+
+    crack''s location, length, depth, and orientation with
+
+    ultrasonic and eddy current techniques. Radiographic
+
+    procedures are also being explored. The objective is to
+
+    correlate the NDI results with the forthcoming destruct ve
+
+    tests to determine the viability of using NDI techniques for
+
+    future inspections. Hartzell has retained an NDI specialist who has over 20 ye...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9801.pdf_chunk_0052
+  report_id: AAR9801.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5669
+  text_preview: '[ADDITIONAL INFORMATION] The review team concluded “that the random approach of inspections of
+
+    opportunity is not adequate, and can no longer be justified.” The TRCRT stated that this
+
+    conclusion was based on the “frequency of occurrence of titanium metallurgical defects, the
+
+    difficulty of detecting defects in titanium,…the many sources of defects, errors and damage,
+
+    recent developments in the engineering science of fracture mechanics (crack propagation)
+
+    analysis” and developments in reliability ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR7016.pdf_chunk_0029
+  report_id: AAR7016.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.5532
+  text_preview: '[AIRCRAFT INFORMATION] Tiere was evidence in the metallurgical studies of the fatigue
+
+    cracks near WS 197 of the right wing that there might have been sone
+
+    recent (relative to the accident time) tearing of the metal vhich
+
+    occurred at a more rapid rate than normally occurs in fatigue crack
+
+    ‘propagation. While this condition cannot be pinpointed exactly in time
+
+    relative to the accident, it might have been the result of an encounter
+
+    with turbulence prior to the separation of the wing. The aircraft w...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9801.pdf_chunk_0070
+  report_id: AAR9801.pdf
+  section_name: ANALYSIS
+  score: 0.5402
+  text_preview: '[ANALYSIS] The Safety Board concludes that manufacturing and in-service inspection
+
+    processes currently being used do not provide sufficient redundancy to guarantee that newly
+
+    manufactured critical rotating titanium engine parts will be put into service defect-free and will
+
+    remain crack-free through the service life of the part. The Safety Board agrees with the TRCRT
+
+    conclusion that
+
+    [based on the] frequency of occurrence of titanium metallurgical defects,
+
+    the difficulty of detecting defects in ti...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR-90-06.pdf_chunk_0103
+  report_id: AAR-90-06.pdf
+  section_name: ANALYSIS
+  score: 0.5365
+  text_preview: "[ANALYSIS] Based on this \nevaluation, issue an Airworthiness Directive to require \ninspections of the critical\
+    \ components at intervals \nbased upon by the crack size detectable by the approved \ninspection method used, the stress\
+    \ level at various \n1 ocat ions in the component, and the crack propagation \ncharacteristic of the component materi\
+    \ a 1 . \n(Cl ass II I, \nLonger Term Action) \n(A-90~89) \nAmend 14 CFR part 33 to require that turbine engines \n·certificated\
+    \ under this rule are evaluated to ide..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9801.pdf_chunk_0058
+  report_id: AAR9801.pdf
+  section_name: ANALYSIS
+  score: 0.5278
+  text_preview: '[ANALYSIS] The Safety Board notes that Delta’s current practice of using
+
+    borescopes to accomplish these visual inspections is an improvement that should increase the
+
+    probability of detection during visual inspections. On October 27, 1995, Delta’s maintenance facility in Atlanta, Georgia,
+    performed
+
+    an FPI on the accident hub. This inspection, conducted 1,142 cycles before the accident, was
+
+    part of overhaul work recommended in Pratt & Whitney’s engine shop manual for hubs
+
+    disassembled from engines...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR1903.pdf_chunk_0059
+  report_id: AAR1903.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5218
+  text_preview: "[TESTS AND RESEARCH] None of the intact \nblades had an ultrasonic signal response that exceeded CFM’s crack\
+    \ indication threshold (which was established to \nprovide sufficient reliability for detecting a crack and minimize false-positive\
+    \ indications). Blade No. 20 had one of \nthe highest signal responses (about one-half of the threshold level), so that\
+    \ blade was selected for SEM examination \nto determine whether it had any evidence of crack features. Isolated microcrack\
+    \ features were observed. (A..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR9603.pdf_chunk_0015
+  report_id: AAR9603.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5161
+  text_preview: '[TESTS AND RESEARCH] The striation spacing in the granular type
+
+    fracture regions near the origin were possibly unresolvable or nonexistent. Striation spacings
+
+    outside of the granular fracture regions and smearing for the outboard fatigue crack from SR hole
+
+    “1” averaged about 2 microns (0.002 mm) from about 3 mm to the terminus at 22.25 mm. This
+
+    indicated that at least 9,500 striations (19 mm/0.002 mm per striation) were present along this
+
+    fatigue region. Fatigue cracking was also evident radiati...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR7914.pdf_chunk_0013
+  report_id: AAR7914.pdf
+  section_name: ANALYSIS
+  score: 0.5152
+  text_preview: '[ANALYSIS] Initially, the spar crack may have propagated as a result of lower frequency
+
+    stress cycles, such as startup/shutdown loads, or when the blade was exposed te
+
+    higher stresses during maneuvers. In this case, the amount of flight time for total
+
+    crack extension would be significantly more than 2 hours,
+
+
+    The provisions of the various Service Bulletins had been adhered to, and al! of
+
+    the required inspections had been made and documented by New York Airways, Inc. However, since the section of...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9308.pdf_chunk_0022
+  report_id: AAR9308.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5144
+  text_preview: '[TESTS AND RESEARCH] The fatigue cracking propagated through about
+
+    45 percent of the hub arm cross section before final fracture occurred. The origin area contained a large number of ratchet
+    marks,” indicative
+
+    of fatigue crack initiation from a large number of individual initiation sites. The
+
+    approximate width of the origin area was 0.33 inch. A portion of the fracture adjacent to the fatigue origin area contained
+    a
+
+    distinct, semicircular, darkly discolored area that extended over a width of 0.7...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

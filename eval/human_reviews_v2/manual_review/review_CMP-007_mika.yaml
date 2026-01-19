@@ -1,0 +1,193 @@
+metadata:
+  query_id: CMP-007
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: accidents involving regional airlines commuter operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%regional%' OR lower(chunk_text) LIKE '%commuter%'
+  expected_report_ids: []
+  relevance_signals:
+  - regional
+  - commuter
+  - part 135
+  - scheduled
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR0701.pdf_chunk_0062
+  report_id: AAR0701.pdf
+  section_name: ANALYSIS
+  score: 0.5625
+  text_preview: '[ANALYSIS] The Safety Board is concerned about the willful misconduct demonstrated by the
+
+    pilots during the accident flight. The Board has investigated other recent accidents in
+
+    which pilots did not adhere to standard operating procedures and demonstrated a lack of
+
+    cockpit discipline. Section 2.4 discusses this problem and the need for broad industry
+
+    action involving pilots, operators, and the FAA to address the problem.
+
+    115 J.T. Reason, Human Error (New York: Cambridge University Press, 1990).
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9303.pdf_chunk_0039
+  report_id: AAR9303.pdf
+  section_name: ANALYSIS
+  score: 0.56
+  text_preview: '[ANALYSIS] Finally, when faced with an operational need to
+
+    provide a crew for a scheduled flight, management abandoned an earlier plan to
+
+    have the regional chief pilot fly with a newly hired captain and instead, paired the
+
+    new captain with a low-time first officer, even though neither pilot had previously
+
+    flown these routes, and it was the captain''s first unsupervised revenue flight. The Safety Board has addressed the issue
+    of the pairing of
+
+    inexperienced crewmembers on previous occasions. As a ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR7113.pdf_chunk_0000
+  report_id: AAR7113.pdf
+  section_name: SYNOPSIS
+  score: 0.5445
+  text_preview: '[SYNOPSIS] SYNOPSIS
+
+
+    Commuter Airlines, Inc., Flight 502,
+
+    N497DM, a Beech C-45H, Dumod Conversion
+
+    (Infinite 11) crashed after a rejected takeoff from
+
+    Runway 16 at the Broome County Airport,
+
+    Binghainton, New Yorl., on March 22, 1970, at
+
+    approximately 1611 e.s.t. There were nine passengers and tv-o flightcrew members on board the aircraft. The captain
+
+    and two passengers were fatally injured, The
+
+    aircraft was substantially damaged by impact
+
+    and subsequent ground fire. Commuter Flight 502 was being ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1602.pdf_chunk_0141
+  report_id: AAR1602.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5314
+  text_preview: "[RECOMMENDATIONS] Louis, Missouri, September 28, 2007. Aircraft Accident Report NTSB AAR09/03, Washington,\
+    \ DC: National Transportation Safety Board, 2009. \n—. Runway Overrun and Collision, Southwest Airlines Flight 1248, Boeing\
+    \ 737-7H4, N471WN, \nChicago Midway International Airport, Chicago, Illinois, December 8, 2005. Aircraft \nAccident Report\
+    \ NTSB/AAR-07/06, Washington, DC: National Transportation Safety \nBoard, 2007. \n—. Runway Overrun During Landing, American\
+    \ Airlines Flight 1420, McDonnell ..."
+  judgment: 'semantic_match'
+  notes: 'This result relates to a regional flight and thus may be an appropriate match to the query about accidents involving regional airlines commuter operations.'
+- rank: 5
+  chunk_id: AAR7805.pdf_chunk_0022
+  report_id: AAR7805.pdf
+  section_name: SAFETY RECOMMENDATIONS
+  score: 0.53
+  text_preview: '[SAFETY RECOMMENDATIONS] The FAA''s surveillance of
+
+    these areas was also inadequate. 3.2 Probable Cause
+
+
+    The National Transportation Safety Board determines that the
+
+    probable cause of the accident was the failure of the flightcrew to use
+
+    proper navigational procedures for the route to be flown, especially
+
+    their failure to use the available backup means of navigation to verify
+
+    the position and the progress of the flight. 4. SAFETY RECOMMENDATIONS
+
+
+    As a result of this accident, the National Transpo...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR1001.pdf_chunk_0213
+  report_id: AAR1001.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5257
+  text_preview: "[RECOMMENDATIONS] When the FAA convened the fatigue \n                                                           \n\
+    21 National Transportation Safety Board, Aircraft Accident Report: Runway Overrun During Landing Shuttle \nAmerica, Inc.\
+    \ Doing Business as Delta Connection Flight 6448 Embraer ERJ-170, N862RW Cleveland, Ohio \nFebruary 18, 2007. AAR-08-01 \n\
+    22 National Transportation Safety Board, Aircraft Accident Report: Runway Overrun During Landing Pinnacle \nAirlines Flight\
+    \ 4712 Bombardier/Canadair R..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR1302.pdf_chunk_0057
+  report_id: AAR1302.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5137
+  text_preview: "[RECOMMENDATIONS] Aircraft Accident Report \nAAR-07/05. Washington, \nDC: \nNTSB. \nhttp://www.ntsb.gov/doclib/reports/2007/AAR0705.pdf.\
+    \ \n----. 2006a. Controlled Flight Into Terrain, Era Aviation, Sikorsky S-76A++, N579EH, Gulf of \nMexico, About 70 Nautical\
+    \ Miles South-Southeast of Scholes International Airport, \nGalveston, Texas, March 23, 2004. Aircraft Accident Report\
+    \ AAR-06/02. Washington, \nDC: NTSB. http://www.ntsb.gov/doclib/reports/2006/AAR0602.pdf. \n----. 2006b. Controlled Flight\
+    \ Into Terrai..."
+  judgment: 'false_positive'
+  notes: 'This accident is attributed to fuel issues and personnel issues and not to regional airlines or commuter operations; however, it was regional in the sense that it was a helicopter making regioanl commutes. Thus, it is a false positive for the query about accidents involving regional airlines commuter operations.'
+- rank: 8
+  chunk_id: AAR9704.pdf_chunk_0039
+  report_id: AAR9704.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5085
+  text_preview: "[ADDITIONAL INFORMATION] Also, using the same timeframe, the accident rate per 100,000 \noperations for towered\
+    \ airports indicated a downward trend. The report stated that an accident \n38For more detailed information on AOPA's\
+    \ actions since the accident, see the February \n1997 issue of AOPA Pilot. \n39See Aircraft Accident Report, \"Midair\
+    \ Collision, Mitsubishi MU-2B-60, N74FB , and \nPiper PA-32-301, N82419, Greenwood Municipal Airport, Greenwood, Indiana,\
+    \ September 11 , I 992\" \n(NTSB/ AAR-93/05)\n\n..."
+  judgment: 'semantic_match'
+  notes: 'This result is a report that does include multiple accidents, one of which was a regional commuter plane. Thus, it is relevant to the query about accidents involving regional airlines commuter operations.'
+- rank: 9
+  chunk_id: AIR-24-03.pdf_chunk_0023
+  report_id: AIR-24-03.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4999
+  text_preview: "[RECOMMENDATIONS] Activity-Data Task Report. June 15, 2001. \n—— 2002. Activity-Data Task Report. August\
+    \ 12, 2002. National Transportation Safety Board (NTSB). 1972. Air Taxi Safety Study. AAS-72-9. \nWashington, DC: NTSB.\
+    \ Aviation Investigation Report \nAIR-24-03 \n \n69 \n—— 1980. Air Taxi Safety in Alaska. AAS-80/03. Washington, DC: NTSB.\
+    \ \n—— 1995. Aviation Safety in Alaska. SS-95/03. Washington, DC: NTSB. \n—— 2006. Special Investigation Report on Emergency\
+    \ Medical Services Operations. SIR-06/01. W..."
+  judgment: 'semantic_match'
+  notes: 'This result is a compilation report on multiple accidents that did include a review of some regional commuter guidance; thus, it is relevant to the query about accidents involving regional airlines commuter operations.'
+- rank: 10
+  chunk_id: AIR-24-03.pdf_chunk_0009
+  report_id: AIR-24-03.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.4997
+  text_preview: "[RECOMMENDATIONS] Aviation Investigation Report \nAIR-24-03 \n \n56 \nNTSB case \n(report) \nDate \nLocation\
+    \ \nAccident circumstances \nInjuries \nRelated findings \n• Lack of conservative weather minimums for local tour \noperators\
+    \ such that operators willing to take the most \nweather-related risks were able to fly more revenue \npassengers. \n\
+    • Local tour operators that fly tours as cruise line shore \nexcursions may face schedule pressures to return \npassengers\
+    \ to the ship on time. \n• Operator lacked SMS. A..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

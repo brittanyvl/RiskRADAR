@@ -43,7 +43,28 @@ logger = logging.getLogger(__name__)
 # Paths
 EVAL_DIR = Path(__file__).parent
 GOLD_QUERIES_PATH = EVAL_DIR / "gold_queries.yaml"
-RESULTS_DIR = EVAL_DIR / "results"
+
+# Default version for benchmarking
+DEFAULT_VERSION = "v2"
+
+def get_results_dir(version: str = DEFAULT_VERSION) -> Path:
+    """Get versioned results directory."""
+    return EVAL_DIR / f"results_{version}"
+
+def get_human_reviews_dir(version: str = DEFAULT_VERSION) -> Path:
+    """Get versioned human reviews directory."""
+    return EVAL_DIR / f"human_reviews_{version}"
+
+def get_report_path(version: str = DEFAULT_VERSION) -> Path:
+    """Get versioned benchmark report path."""
+    return EVAL_DIR / f"benchmark_report_{version}.md"
+
+def get_final_report_path(version: str = DEFAULT_VERSION) -> Path:
+    """Get versioned final report path."""
+    return EVAL_DIR / f"final_report_{version}.md"
+
+# Legacy compatibility - defaults to current version
+RESULTS_DIR = get_results_dir(DEFAULT_VERSION)
 
 
 # =============================================================================
@@ -597,12 +618,13 @@ def _compute_aggregates(run: BenchmarkRun):
 # OUTPUT FUNCTIONS
 # =============================================================================
 
-def save_results(run: BenchmarkRun) -> Tuple[Path, Path]:
+def save_results(run: BenchmarkRun, version: str = DEFAULT_VERSION) -> Tuple[Path, Path]:
     """Save benchmark results to JSON and Parquet."""
-    RESULTS_DIR.mkdir(exist_ok=True)
+    results_dir = get_results_dir(version)
+    results_dir.mkdir(exist_ok=True)
 
     # Save detailed JSON
-    json_path = RESULTS_DIR / f"benchmark_{run.run_id}.json"
+    json_path = results_dir / f"benchmark_{run.run_id}.json"
 
     run_dict = {
         "run_id": run.run_id,
@@ -635,7 +657,7 @@ def save_results(run: BenchmarkRun) -> Tuple[Path, Path]:
         json.dump(run_dict, f, indent=2, default=str)
 
     # Save Parquet for Streamlit (flattened query results)
-    parquet_path = RESULTS_DIR / f"benchmark_{run.run_id}.parquet"
+    parquet_path = results_dir / f"benchmark_{run.run_id}.parquet"
 
     df_rows = []
     for r in run.query_results:
@@ -742,17 +764,18 @@ def compute_statistical_comparison(minilm_run: BenchmarkRun, mika_run: Benchmark
     }
 
 
-def generate_report(minilm_path: Optional[Path] = None, mika_path: Optional[Path] = None) -> Path:
+def generate_report(minilm_path: Optional[Path] = None, mika_path: Optional[Path] = None, version: str = DEFAULT_VERSION) -> Path:
     """Generate comprehensive markdown report comparing models."""
-    RESULTS_DIR.mkdir(exist_ok=True)
+    results_dir = get_results_dir(version)
+    results_dir.mkdir(exist_ok=True)
 
     # Find most recent results
     if minilm_path is None:
-        minilm_files = sorted(RESULTS_DIR.glob("benchmark_minilm_*.json"), reverse=True)
+        minilm_files = sorted(results_dir.glob("benchmark_minilm_*.json"), reverse=True)
         minilm_path = minilm_files[0] if minilm_files else None
 
     if mika_path is None:
-        mika_files = sorted(RESULTS_DIR.glob("benchmark_mika_*.json"), reverse=True)
+        mika_files = sorted(results_dir.glob("benchmark_mika_*.json"), reverse=True)
         mika_path = mika_files[0] if mika_files else None
 
     # Load results
@@ -773,7 +796,7 @@ def generate_report(minilm_path: Optional[Path] = None, mika_path: Optional[Path
     # Generate report
     report_lines = _build_report_markdown(minilm_data, mika_data)
 
-    report_path = EVAL_DIR / "benchmark_report.md"
+    report_path = get_report_path(version)
     with open(report_path, "w", encoding="utf-8") as f:
         f.write("\n".join(report_lines))
 
@@ -1000,7 +1023,7 @@ def _build_report_markdown(minilm_data: Optional[Dict], mika_data: Optional[Dict
 # HUMAN REVIEW EXPORT/IMPORT
 # =============================================================================
 
-HUMAN_REVIEW_DIR = EVAL_DIR / "human_reviews"
+HUMAN_REVIEW_DIR = get_human_reviews_dir(DEFAULT_VERSION)
 KEYWORD_MATCH_DIR = HUMAN_REVIEW_DIR / "keyword_match"
 MANUAL_REVIEW_DIR = HUMAN_REVIEW_DIR / "manual_review"
 SEMANTIC_CATEGORIES = ["conceptual_queries", "comparative_queries"]
@@ -1741,7 +1764,12 @@ def setup_logging(verbose: bool = False):
 
 def cmd_run(args):
     """Run benchmark command."""
+    global RESULTS_DIR, HUMAN_REVIEW_DIR
+    RESULTS_DIR = get_results_dir(args.version)
+    HUMAN_REVIEW_DIR = get_human_reviews_dir(args.version)
     setup_logging(args.verbose)
+    print(f"Running benchmark for version: {args.version}")
+    print(f"Results will be saved to: {RESULTS_DIR}")
 
     models = [args.model] if args.model != "both" else ["minilm", "mika"]
     runs = {}
@@ -1752,7 +1780,7 @@ def cmd_run(args):
         print(f"{'='*60}\n")
 
         run = run_benchmark(model_name)
-        json_path, parquet_path = save_results(run)
+        json_path, parquet_path = save_results(run, version=args.version)
         runs[model_name] = run
 
         # Print summary
@@ -1772,7 +1800,7 @@ def cmd_run(args):
         print("GENERATING COMPARISON REPORT")
         print(f"{'='*60}\n")
 
-        report_path = generate_report()
+        report_path = generate_report(version=args.version)
         print(f"Report: {report_path}")
 
         # Statistical comparison (using bootstrap CI and win/loss/tie per documentation)
@@ -1806,7 +1834,7 @@ def cmd_report(args):
     setup_logging(args.verbose)
 
     try:
-        report_path = generate_report()
+        report_path = generate_report(version=args.version)
         print(f"Report generated: {report_path}")
         return 0
     except FileNotFoundError as e:
@@ -1816,6 +1844,9 @@ def cmd_report(args):
 
 def cmd_validate(args):
     """Validate gold queries ground truth."""
+    global RESULTS_DIR, HUMAN_REVIEW_DIR
+    RESULTS_DIR = get_results_dir(args.version)
+    HUMAN_REVIEW_DIR = get_human_reviews_dir(args.version)
     setup_logging(args.verbose)
 
     print("Validating gold queries ground truth...\n")
@@ -1923,7 +1954,7 @@ def cmd_export_review(args):
     print("NEXT STEPS")
     print("="*60)
     print("""
-1. Open each YAML file in eval/human_reviews/
+1. Open each YAML file in eval/human_reviews_{version}/
 
 2. KEYWORD_MATCH judgments are already filled in automatically
    - Review these to confirm they're correct (can override if wrong)
@@ -2003,7 +2034,7 @@ def cmd_organize_reviews(args):
     if stats['errors'] > 0:
         print(f"  Errors: {stats['errors']}")
 
-    print(f"\nYou can now focus on files in: eval/human_reviews/manual_review/")
+    print(f"\nYou can now focus on files in: eval/human_reviews_{version}/manual_review/")
 
     return 0
 
@@ -2087,7 +2118,12 @@ def cmd_final_report(args):
 
 def cmd_status(args):
     """Show current benchmark status and next steps."""
+    global RESULTS_DIR, HUMAN_REVIEW_DIR
+    RESULTS_DIR = get_results_dir(args.version)
+    HUMAN_REVIEW_DIR = get_human_reviews_dir(args.version)
     setup_logging(args.verbose)
+    print(f"Checking status for version: {args.version}")
+    print(f"Results directory: {RESULTS_DIR}")
 
     print("="*60)
     print("RISKRADAR BENCHMARK STATUS")
@@ -2187,7 +2223,7 @@ def cmd_status(args):
         incomplete = sum(1 for f in manual_files
                         if not yaml.safe_load(open(f, encoding='utf-8')).get("metadata", {}).get("review_complete"))
         if incomplete > 0:
-            steps.append(f"2. Complete {incomplete} human reviews in eval/human_reviews/manual_review/")
+            steps.append(f"2. Complete {incomplete} human reviews in eval/human_reviews_{version}/manual_review/")
 
     minilm_human = RESULTS_DIR / "human_review_minilm.json"
     mika_human = RESULTS_DIR / "human_review_mika.json"
@@ -2207,6 +2243,250 @@ def cmd_status(args):
     return 0
 
 
+def cmd_version_compare(args):
+    """Compare benchmark results across all versions."""
+    setup_logging(args.verbose)
+
+    print("=" * 70)
+    print("CROSS-VERSION BENCHMARK COMPARISON")
+    print("=" * 70)
+    print()
+
+    # Find all version directories
+    versions = []
+    for d in EVAL_DIR.iterdir():
+        if d.is_dir() and d.name.startswith("results_"):
+            version = d.name.replace("results_", "")
+            versions.append(version)
+
+    versions = sorted(versions)  # Sort: v1, v2, v3, etc.
+
+    if not versions:
+        print("No benchmark results found. Run benchmarks first.")
+        return 1
+
+    print(f"Found versions: {', '.join(versions)}")
+    print()
+
+    # Collect data for each version
+    version_data = {}
+
+    for version in versions:
+        results_dir = get_results_dir(version)
+        version_data[version] = {
+            "minilm": {"automated": None, "human": None},
+            "mika": {"automated": None, "human": None},
+            "combined_metrics": None,
+            "has_human_review": False,
+        }
+
+        # Load latest automated results for each model
+        for model in ["minilm", "mika"]:
+            pattern = f"benchmark_{model}_*.json"
+            result_files = sorted(results_dir.glob(pattern))
+            if result_files:
+                latest = result_files[-1]
+                try:
+                    with open(latest, encoding='utf-8') as f:
+                        data = json.load(f)
+                        version_data[version][model]["automated"] = {
+                            "mrr": data.get("aggregate_metrics", {}).get("mean_mrr", 0),
+                            "hit_at_10": data.get("aggregate_metrics", {}).get("mean_hit_at_10", 0),
+                            "ndcg_at_10": data.get("aggregate_metrics", {}).get("mean_ndcg_at_10", 0),
+                            "timestamp": data.get("timestamp", ""),
+                            "total_queries": data.get("total_queries", 0),
+                        }
+                except Exception as e:
+                    logger.warning(f"Could not load {latest}: {e}")
+
+        # Check for combined metrics (after human review)
+        combined_path = results_dir / "combined_metrics.json"
+        if combined_path.exists():
+            try:
+                with open(combined_path, encoding='utf-8') as f:
+                    version_data[version]["combined_metrics"] = json.load(f)
+                    version_data[version]["has_human_review"] = True
+            except Exception as e:
+                logger.warning(f"Could not load {combined_path}: {e}")
+
+    # Generate comparison report
+    report_lines = []
+    report_lines.append("# RiskRADAR Cross-Version Benchmark Comparison")
+    report_lines.append("")
+    report_lines.append(f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report_lines.append(f"**Versions Compared:** {', '.join(versions)}")
+    report_lines.append("")
+    report_lines.append("---")
+    report_lines.append("")
+
+    # Executive Summary Table
+    report_lines.append("## Executive Summary")
+    report_lines.append("")
+    report_lines.append("### Automated Metrics (All Queries)")
+    report_lines.append("")
+
+    # Build table header
+    header = "| Version | Model | MRR | Hit@10 | nDCG@10 | Human Review |"
+    separator = "|---------|-------|-----|--------|---------|--------------|"
+    report_lines.append(header)
+    report_lines.append(separator)
+
+    best_mrr = 0
+    best_version_model = None
+
+    for version in versions:
+        vd = version_data[version]
+        for model in ["minilm", "mika"]:
+            auto = vd[model]["automated"]
+            if auto:
+                mrr = auto["mrr"]
+                hit10 = auto["hit_at_10"] * 100
+                ndcg = auto["ndcg_at_10"]
+                human = "Yes" if vd["has_human_review"] else "No"
+
+                if mrr > best_mrr:
+                    best_mrr = mrr
+                    best_version_model = (version, model)
+
+                report_lines.append(f"| {version} | {model.upper()} | {mrr:.3f} | {hit10:.1f}% | {ndcg:.3f} | {human} |")
+
+    report_lines.append("")
+
+    # Highlight best
+    if best_version_model:
+        report_lines.append(f"**Best Automated Performance:** {best_version_model[0]} {best_version_model[1].upper()} (MRR: {best_mrr:.3f})")
+    report_lines.append("")
+
+    # Human-reviewed metrics (if available)
+    has_any_human = any(vd["has_human_review"] for vd in version_data.values())
+
+    if has_any_human:
+        report_lines.append("---")
+        report_lines.append("")
+        report_lines.append("### Human-Reviewed Metrics")
+        report_lines.append("")
+        report_lines.append("| Version | Model | Semantic Precision | Semantic Lift | False Positive Rate |")
+        report_lines.append("|---------|-------|-------------------|---------------|---------------------|")
+
+        best_semantic_precision = 0
+        best_semantic_version_model = None
+
+        for version in versions:
+            vd = version_data[version]
+            if vd["combined_metrics"]:
+                cm = vd["combined_metrics"]
+                for model in ["minilm", "mika"]:
+                    if model in cm:
+                        hr = cm[model].get("human_reviewed", {})
+                        sp = hr.get("semantic_precision", 0)
+                        sl = hr.get("semantic_lift", 0)
+                        fpr = hr.get("false_positive_rate", 0)
+
+                        if sp > best_semantic_precision:
+                            best_semantic_precision = sp
+                            best_semantic_version_model = (version, model)
+
+                        report_lines.append(f"| {version} | {model.upper()} | {sp*100:.1f}% | {sl*100:.1f}% | {fpr*100:.1f}% |")
+
+        report_lines.append("")
+        if best_semantic_version_model:
+            report_lines.append(f"**Best Semantic Precision:** {best_semantic_version_model[0]} {best_semantic_version_model[1].upper()} ({best_semantic_precision*100:.1f}%)")
+        report_lines.append("")
+
+    # Version-specific details
+    report_lines.append("---")
+    report_lines.append("")
+    report_lines.append("## Version Details")
+    report_lines.append("")
+
+    for version in versions:
+        vd = version_data[version]
+        report_lines.append(f"### {version.upper()}")
+        report_lines.append("")
+
+        for model in ["minilm", "mika"]:
+            auto = vd[model]["automated"]
+            if auto:
+                report_lines.append(f"**{model.upper()}:** MRR {auto['mrr']:.3f}, Hit@10 {auto['hit_at_10']*100:.1f}%, nDCG {auto['ndcg_at_10']:.3f}")
+                report_lines.append(f"  - Queries: {auto['total_queries']}")
+                if auto['timestamp']:
+                    report_lines.append(f"  - Run: {auto['timestamp'][:16]}")
+            else:
+                report_lines.append(f"**{model.upper()}:** No benchmark data")
+            report_lines.append("")
+
+        if vd["has_human_review"]:
+            report_lines.append("**Human Review:** Complete")
+            if vd["combined_metrics"]:
+                rec = vd["combined_metrics"].get("recommendation", "N/A")
+                report_lines.append(f"**Recommendation:** {rec}")
+        else:
+            report_lines.append("**Human Review:** Pending")
+
+        report_lines.append("")
+
+    # Recommendations
+    report_lines.append("---")
+    report_lines.append("")
+    report_lines.append("## Recommendations")
+    report_lines.append("")
+
+    # Overall recommendation logic
+    if best_version_model:
+        report_lines.append(f"Based on automated metrics, **{best_version_model[0]} with {best_version_model[1].upper()}** shows the best performance.")
+        report_lines.append("")
+
+    if has_any_human and best_semantic_version_model:
+        report_lines.append(f"Based on human-reviewed semantic precision, **{best_semantic_version_model[0]} with {best_semantic_version_model[1].upper()}** shows the best quality.")
+        report_lines.append("")
+
+    # Guidance
+    versions_without_human = [v for v in versions if not version_data[v]["has_human_review"]]
+    if versions_without_human:
+        report_lines.append("### Next Steps")
+        report_lines.append("")
+        report_lines.append("Complete human review for the following versions to get full comparison:")
+        for v in versions_without_human:
+            report_lines.append(f"- `python -m eval.benchmark export-review -V {v}`")
+            report_lines.append(f"- Review files in `eval/human_reviews_{v}/`")
+            report_lines.append(f"- `python -m eval.benchmark import-review -V {v}`")
+            report_lines.append(f"- `python -m eval.benchmark final-report -V {v}`")
+            report_lines.append("")
+
+    report_lines.append("---")
+    report_lines.append("")
+    report_lines.append("*Report generated by `eval/benchmark.py version-compare`*")
+
+    # Write report
+    report_path = EVAL_DIR / "version_comparison.md"
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(report_lines))
+
+    print(f"Report written to: {report_path}")
+    print()
+
+    # Also print summary to console
+    print("=" * 70)
+    print("SUMMARY")
+    print("=" * 70)
+    print()
+
+    print("Automated Metrics (MRR):")
+    for version in versions:
+        vd = version_data[version]
+        minilm_mrr = vd["minilm"]["automated"]["mrr"] if vd["minilm"]["automated"] else 0
+        mika_mrr = vd["mika"]["automated"]["mrr"] if vd["mika"]["automated"] else 0
+        human_status = "[Human Review]" if vd["has_human_review"] else "[Automated Only]"
+        print(f"  {version}: MiniLM {minilm_mrr:.3f} | MIKA {mika_mrr:.3f} | {human_status}")
+
+    print()
+
+    if best_version_model:
+        print(f"Best: {best_version_model[0]} {best_version_model[1].upper()} (MRR: {best_mrr:.3f})")
+
+    return 0
+
+
 def main():
     """CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -2216,7 +2496,7 @@ def main():
 Complete Workflow:
   1. python -m eval.benchmark run              # Run automated benchmark
   2. python -m eval.benchmark export-review    # Export for human review
-  3. [Complete human reviews in eval/human_reviews/]
+  3. [Complete human reviews in versioned human_reviews directory]
   4. python -m eval.benchmark import-review    # Import human judgments
   5. python -m eval.benchmark final-report     # Generate combined report
 
@@ -2232,45 +2512,58 @@ Individual Commands:
     # Status command
     status_parser = subparsers.add_parser("status", help="Show benchmark status and next steps")
     status_parser.add_argument("-v", "--verbose", action="store_true")
+    status_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     status_parser.set_defaults(func=cmd_status)
 
     # Run command
     run_parser = subparsers.add_parser("run", help="Run automated benchmark")
     run_parser.add_argument("-m", "--model", choices=["minilm", "mika", "both"], default="both")
     run_parser.add_argument("-v", "--verbose", action="store_true")
+    run_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     run_parser.set_defaults(func=cmd_run)
 
     # Export for human review
     export_parser = subparsers.add_parser("export-review", help="Export results for human review")
     export_parser.add_argument("-m", "--model", choices=["minilm", "mika", "both"], default="both")
     export_parser.add_argument("-v", "--verbose", action="store_true")
+    export_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     export_parser.set_defaults(func=cmd_export_review)
 
     # Import human reviews
     import_parser = subparsers.add_parser("import-review", help="Import completed human reviews")
     import_parser.add_argument("-m", "--model", choices=["minilm", "mika", "both"], default="both")
     import_parser.add_argument("-v", "--verbose", action="store_true")
+    import_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     import_parser.set_defaults(func=cmd_import_review)
 
     # Organize reviews into subdirectories
     organize_parser = subparsers.add_parser("organize-reviews", help="Organize review files into keyword_match/ and manual_review/ subdirectories")
     organize_parser.add_argument("-v", "--verbose", action="store_true")
+    organize_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     organize_parser.set_defaults(func=cmd_organize_reviews)
 
     # Final report with combined metrics
     final_parser = subparsers.add_parser("final-report", help="Generate final report with human metrics")
     final_parser.add_argument("-v", "--verbose", action="store_true")
+    final_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     final_parser.set_defaults(func=cmd_final_report)
 
     # Report command (automated only)
     report_parser = subparsers.add_parser("report", help="Generate automated-only report")
     report_parser.add_argument("-v", "--verbose", action="store_true")
+    report_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     report_parser.set_defaults(func=cmd_report)
 
     # Validate command
     validate_parser = subparsers.add_parser("validate", help="Validate query definitions")
     validate_parser.add_argument("-v", "--verbose", action="store_true")
+    validate_parser.add_argument("-V", "--version", default="v2", help="Data version (v1, v2, etc.)")
     validate_parser.set_defaults(func=cmd_validate)
+
+    # Version compare command
+    compare_parser = subparsers.add_parser("version-compare", help="Compare benchmark results across all versions")
+    compare_parser.add_argument("-v", "--verbose", action="store_true")
+    compare_parser.set_defaults(func=cmd_version_compare)
 
     args = parser.parse_args()
 

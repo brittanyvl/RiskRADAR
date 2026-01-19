@@ -1,0 +1,214 @@
+metadata:
+  query_id: CMP-003
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: recurring design defects in Boeing aircraft
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%boeing%' AND lower(chunk_text) LIKE '%design%'
+  expected_report_ids: []
+  relevance_signals:
+  - boeing
+  - design
+  - defect
+  - flaw
+  - modification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.6
+results:
+- rank: 1
+  chunk_id: AAR8903.pdf_chunk_0043
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.534
+  text_preview: '[ADDITIONAL INFORMATION] The final rule was
+
+    published as AD 89-09-03 and became effective May 8, 1989. As a result of an FAA sponsored "Conference On Older Airplanes"
+
+    held in June 1988, an airline industry task force led by the Airline
+
+    Transport Association, has recommended to the FAA a modification or
+
+    replacement program to assure the airworthiness of older aircraft. The task
+
+    force involved some 150 international experts representing the airlines,
+
+    airframe manufacturers, regulatory agencies, Na...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR8903.pdf_chunk_0144
+  report_id: AAR8903.pdf
+  section_name: FIRE
+  score: 0.5083
+  text_preview: '[FIRE] SUMMARY OF SERVICE DIFFICULTY REPORT INFORMATION
+
+
+    1. General
+
+
+    The Federal Aviation Administration’s (FAA) Service Difficulty Report
+
+    (SDR) data base was queried for information pertaining to the Boeing 737
+
+    fuselage. It was found that 3,387 records existed from the beginning of the
+
+    current data base (January, 1983) to February 7, 1989. This number was reduced
+
+    to 2,082 records by eliminating all models of the 737 that were not produced
+
+    as part of the first 291 airplanes. Between January, 198...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0029
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5073
+  text_preview: '[ADDITIONAL INFORMATION] No defects were reported during
+
+    that inspection. On April 9, 1988, with an accumulated 33,676 hours and
+
+    90,051 cycles, the airplane was hangared for heavy maintenance. It was the
+
+    highest cycle B-737 in the world fleet. Following the N73711 accident, the
+
+    N73712 airplane received a thorough corrosion/fatigue inspection and
+
+    evaluation of the structure. It was determined that the airplane was beyond
+
+    economical repair. It was dismantled on the site and sold for parts and
+
+
+    scr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1903.pdf_chunk_0099
+  report_id: AAR1903.pdf
+  section_name: ANALYSIS
+  score: 0.5018
+  text_preview: "[ANALYSIS] These analyses, which included finite element models, were performed using the \nstate-of-the-art\
+    \ analytical modeling tools that were available at the time. Boeing used the available \ntest data (which included test\
+    \ damage documentation) and the results of the subsequent analyses \nto design the airplane structure to withstand an\
+    \ initial fan blade release and subsequent damage as \na result of an FBO event and ensure that the airplane would be\
+    \ capable of safe flight and landing. Boeing’s ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR8903.pdf_chunk_0030
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4927
+  text_preview: '[ADDITIONAL INFORMATION] At the time
+
+    the B-737 was certificated in 1967, Federal Air Regulations required that the
+
+    airplane’s structure be capable of sustaining 80 percent of limit load''> with
+
+    any complete or obvious partial failure of any single structural element. However, the B-737 was designed to sustain full-limit
+    load to account for
+
+    dynamic effects. The fail-safe design criteria for the B-737 established by
+
+    the manufacturer required that the fuselage be able to withstand a 40-inch
+
+    crack wi...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8903.pdf_chunk_0033
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4867
+  text_preview: '[ADDITIONAL INFORMATION] This. concern ultimately led to a requirement for a structural
+
+    reassessment or audit and the development of a continuing structural
+
+    integrity program for older transport airplanes. The air transport airframe
+
+    manufacturers developed the required programs, utilizing different concepts,
+
+    to achieve continued airworthiness of their aging airplanes. The structural
+
+    integrity programs have resulted in directed inspections of SSIs (any detail,
+
+    element, or assembly that contribute...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9701.pdf_chunk_0052
+  report_id: AAR9701.pdf
+  section_name: ANALYSIS
+  score: 0.4833
+  text_preview: "[ANALYSIS] The 1995 NASIP findings appeared to show that COA had corrected deficiencies\nidentified after\
+    \ the previous accidents and FAA inspections. However, only 6 months later, the\nflightcrew of the accident airplane consistently\
+    \ deviated from standard operating procedures,\nincluding failing to properly perform checklists and engaging in nonessential\
+    \ conversation below\n10,000 feet. In addition, the day after this accident, a COA B-737 overran the runway on landing\n\
+    \ \n47 See Special Investigatio..."
+  judgment: 'semantic_match'
+  notes: 'This result is for a report that discusses a Boeing aircraft with partial failure of the braking mechanisms. This is related to recurring design defects in Boeing aircraft, thus making it a semantic match to the query about recurring design defects in Boeing aircraft.'
+- rank: 8
+  chunk_id: AAR7917.pdf_chunk_0031
+  report_id: AAR7917.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4827
+  text_preview: '[TESTS AND RESEARCH] This principle; contemplates that, .while
+
+    each critical component of a system is required to perform functions within the
+
+    design envelope of the aircraft, its failure will nevertheless. be assumed. Accordingly, appropriate analyses and tests
+    are required to insure that sufficient
+
+    redundancy exists so that after a single failure of any '' component or element its
+
+    functions. will be distributed to other components capable of assuming them safely. The criteria: for. the certific...'
+  judgment: false_positive
+  notes: 'This result is for a non-boeing aircraft (McDonnell Douglas DC-9) and does not discuss recurring design defects in Boeing aircraft. Thus, it is a false positive for the query about recurring design defects in Boeing aircraft.'
+- rank: 9
+  chunk_id: AAR-90-06.pdf_chunk_0096
+  report_id: AAR-90-06.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.4803
+  text_preview: "[SURVIVAL ASPECTS] They recommended that \nthe FAA require operators to incorporate a damage tolerance philosophy\
+    \ into \nthe maintenance of engine components that, if the components fracture and \nseparate, could pose a significant\
+    \ threat to the structure or systems of \nairplanes on which they are or could be installed. \n(See section 4). \nUnder\
+    \ a damage tolerance philosophy, it is assumed that the \ncomponent material in critically stressed areas contains flaws\
+    \ of a size just \nbelow the flaw size de..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8903.pdf_chunk_0068
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.4779
+  text_preview: '[ANALYSIS] Because
+
+    Boeing defined the fuselage skin as "damage obvious or malfuction evident" if
+
+    it cracks, the fuselage skin was excluded from directed supplemental
+
+    inspection. Other manufacturers use different criteria and include primary
+
+    fuselage structure and skin in the structural inspection program. Boeing believes that their current FAA approved inspection
+    program
+
+    is adequate for detecting lead cracks resulting from MSD before the damage
+
+    becomes critical. However, the Aloha Airlines accid...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 9
+  needs_human_review: 1

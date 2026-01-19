@@ -1,0 +1,224 @@
+metadata:
+  query_id: CMP-004
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: accidents during night visual flight rules operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%night%' AND lower(chunk_text) LIKE '%vfr%'
+  expected_report_ids: []
+  relevance_signals:
+  - night
+  - vfr
+  - visual
+  - darkness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.16666666666666666
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR0902.pdf_chunk_0023
+  report_id: AAR0902.pdf
+  section_name: ANALYSIS
+  score: 0.6377
+  text_preview: "[ANALYSIS] Thus, weather was not a factor in this accident, and sun glare would not have interfered with\
+    \ the \npilots‟ ability to detect and track other helicopters over the pursuit scene. The channel 15 pilot had received\
+    \ a statement of demonstrated ability for his color vision \ndeficiency. Communications recorded during the accident flight\
+    \ indicated that he did not have \ndifficulty discerning objects in the air or on the ground. Also, movement is primarily\
+    \ detected \nthrough the use of periphera..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR2104.pdf_chunk_0000
+  report_id: AAR2104.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.6203
+  text_preview: "[PROBABLE CAUSE] Probable Cause \nThe National Transportation Safety Board determines that the probable cause\
+    \ of this \naccident was the inherent limitations of the see-and-avoid concept, which prevented the two pilots \nfrom\
+    \ seeing the other airplane before the collision, and the absence of visual and aural alerts from \nboth airplanes’ traffic\
+    \ display systems, while operating in a geographic area with a high \nconcentration of air tour activity. Contributing\
+    \ to the accident were (1) the Federal Avi..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses a visual flight rules (VFR) accident involving two aircraft in a geographic area with a high concentration of air tour activity, which is directly related to the query about accidents during night visual flight rules operations.'
+- rank: 3
+  chunk_id: AAR1403.pdf_chunk_0083
+  report_id: AAR1403.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6182
+  text_preview: "[RECOMMENDATIONS] Also \ncausal was the Alaska Department of Public Safety’s punitive culture and inadequate\
+    \ safety \nmanagement, which prevented the organization from identifying and correcting latent \ndeficiencies in risk\
+    \ management and pilot training. Contributing to the accident was the pilot’s \nexceptionally high motivation to complete\
+    \ search and rescue missions, which increased his risk \ntolerance and adversely affected his decision-making. NTSB \n\
+    Aircraft Accident Report \n72 4. Recommendatio..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9703.pdf_chunk_0100
+  report_id: AAR9703.pdf
+  section_name: INVESTIGATION
+  score: 0.6027
+  text_preview: "[INVESTIGATION] Obviously, it would be desirable to\ncertify many of these aviators if it could be done so\n\
+    with safety. Before this can be done, however, some\nmethod of reliably assessing the. risks to be expected, if\nany,\
+    \ must be provided. Relevant information can be found in the analysis of\naircraft accident statistics. Data abstracted\
+    \ for us by\nDr. Stanley \n from the Federal Aviation Administration files indicates that during the last five years no\n\
+    one-eyed pilot has been involved in a flight ..."
+  judgment: 'semantic_match'
+  notes: 'This result is regarding an accident with probable cause related to low light conditions and pilots visual deficiencies, which is relevant to accidents during night visual flight rules operations.'
+- rank: 5
+  chunk_id: AAR9901.pdf_chunk_0287
+  report_id: AAR9901.pdf
+  section_name: ANALYSIS
+  score: 0.6024
+  text_preview: '[ANALYSIS] Analysis
+
+    254
+
+    Aircraft Accident Report
+
+    upset and loss of control indicated that both pilots were surprised by the event and did not
+
+    understand its nature or cause. Further, the Safety Board carefully examined aspects of
+
+    the pilots’ personal and professional lives and found both pilots to be stable. Moreover,
+
+    analysis of the communications and sounds recorded by the CVR indicated that the pilots
+
+    expended extraordinary effort in their attempts to recover from the upset throughout the
+
+    acc...'
+  judgment: 'false_positive'
+  notes: 'This result is related to rudder failure and not due to visual flight rules operations at night. Thus, it is a false positive for the query about accidents during night visual flight rules operations.'
+- rank: 6
+  chunk_id: AAR7413.pdf_chunk_0003
+  report_id: AAR7413.pdf
+  section_name: HISTORY OF THE FLIGHT
+  score: 0.6003
+  text_preview: '[HISTORY OF THE FLIGHT] The accident occurred at night and at latitude 35°02''30"''N and
+
+    longitude 85°12''02"W, The elevation at initial impact was 686, 39 feet. 1.2 Injuries to Persons
+
+
+    Injuries Crew. Passengers Other
+
+
+    Fatal t)
+
+    Nonfatal 38
+
+    None 36 1.3. Damage to Aircraft
+
+
+    The aircraft was destroyed. Other Damage
+
+
+    The approach light system and a flood-contich dike were damaged. 1.5 Crew Information
+
+
+    The captain, first officer, and flight attendants were trained and
+
+    certificated according to current...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0703.pdf_chunk_0025
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5982
+  text_preview: '[FACTUAL INFORMATION] Hart, “Helicopter Human Factors,” Human Factors in Aviation (1988): 591-638.
+
+    58 National Transportation Safety Board, Risk Factors Associated with Weather-Related General
+
+    Aviation Accidents, Safety Study NTSB/SS-05/01 (Washington, DC: NTSB, 2005).
+
+    59 In 2004, there were 103 general aviation accidents that occurred in IMC, resulting in 143 deaths. Factual Information
+
+    25
+
+    Aircraft Accident Report
+
+    Reduced visibility conditions, such as IMC or dark night VMC, also greatly
+
+    increa...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1702.pdf_chunk_0072
+  report_id: AAR1702.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.5981
+  text_preview: "[CONCLUSIONS > FINDINGS] NTSB \nAircraft Accident Report \n68 \n20. The establishment of a more conservative\
+    \ set of weather minimums that are tailored to the \ntypes of air tour operations that occur in Ketchikan and are applied\
+    \ to all area air tour \noperators would help balance competing goals of production and safety and remove the \nincentive\
+    \ of individual operators to adopt the lowest possible weather minimums to stay \ncompetitive. \n21. Automatic dependent\
+    \ surveillance-broadcast information from ..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses a visual flight rules (VFR) accident involving two aircraft in a geographic area with a high concentration of air tour activity, which is directly related to the query about accidents during night visual flight rules operations.'
+- rank: 9
+  chunk_id: AAR7712.pdf_chunk_0003
+  report_id: AAR7712.pdf
+  section_name: HISTORY OF FLIGHT
+  score: 0.5956
+  text_preview: '[HISTORY OF FLIGHT] At that time, he could see the runway lights along the full length of
+
+    runway 19, and he estimated that the visibility was about 1 mile. About
+
+    zO0 minutes later, while he was near the crash site directing a U.S. Coast Guard helicopter to the site, he noticed that
+    the fog had dissipated
+
+    and that the visibility had improved considerably. The accident occurredé at night at an elevation of about 6
+
+    ft, and at latitude 39° 01°’ N. and longitude 74° 54’ W. 1.2 Injuries to Persons
+
+
+    In...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR7501.pdf_chunk_0016
+  report_id: AAR7501.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5954
+  text_preview: '[RECOMMENDATIONS] The rezsor why the flightcrew did
+
+    mot maintain a safe distance from hazardous terrain during night visual
+
+    flight conditions could not oe established, 3. RECOMMENDATIONS
+
+    As a result of this accident, the Safety Board on Novxsmber 5, 1974,
+
+    submitted recommendations A-74.92 through 94 to the Administrator of
+
+    the Federal Aviation Administration. BY THE NATIONAL TRANSPORTATION SAFETY BOARD
+
+
+    /s/ JOUN H, REED
+
+    Chairman
+
+
+    /s/ FRANCIS H, McADAMS
+
+    Member
+
+
+    /s/ LOUIS M, THAYER
+
+    Member
+
+
+    ISABEL ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 6
+  needs_human_review: 4

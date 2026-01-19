@@ -1,0 +1,199 @@
+metadata:
+  query_id: CMP-006
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: training deficiencies identified after accidents
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%training%' AND lower(section_name) IN ('analysis', 'probable cause')
+  expected_report_ids: []
+  relevance_signals:
+  - training
+  - proficiency
+  - inadequate
+  - deficient
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR1103.pdf_chunk_0017
+  report_id: AAR1103.pdf
+  section_name: OTHER DAMAGE
+  score: 0.6517
+  text_preview: "[OTHER DAMAGE] Company training records indicated that, between May 28, 2008, and March 28, 2010, \nthe accident\
+    \ pilot completed a number of training modules, including three Boeing 737 recurrent \ntraining sessions and three Boeing\
+    \ 737 proficiency checks (in June 2008, November 2009, and \nMarch 2010) in a flight simulator. Company crewmember activity\
+    \ records indicated that, \nbetween June 28, 2008, and April 27, 2010, the accident pilot flew 93.3 hours as PIC during\
+    \ \n59 flights in Boeing 737 airpl..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR2002.pdf_chunk_0080
+  report_id: AAR2002.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6446
+  text_preview: "[RECOMMENDATIONS] As a former Naval \ninstructor pilot and training officer of a Fleet Replacement Squadron,\
+    \ I had the unpleasant job of \ninforming a few pilots their career was over because of a lack of airmanship skills, unsafe\
+    \ acts, \npoor judgement, or a constant lack of situational awareness. Each time it pained me, but it was \nrequired to\
+    \ protect the pilot and the operation. The FO demonstrated a lack of basic airmanship \nskills by failing to complete\
+    \ initial training at CommutAir and AirWis..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8501.pdf_chunk_0055
+  report_id: AAR8501.pdf
+  section_name: ANALYSIS
+  score: 0.6179
+  text_preview: '[ANALYSIS] It is apparent, in retrospect, that the
+
+    evaluations by USAir training instructors were accurate in assessing the degraded ability
+
+    of the captain to perform in certain complex and dynamic flight situations. While
+
+    company management personnel acted on the information provided by the training
+
+
+    instructors, it was deficient in its management responsibilities by not identifying his
+
+    specific problems and by not following through in monitoring his performance. Instead,
+
+    the captain underwent ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR9407.pdf_chunk_0058
+  report_id: AAR9407.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.6148
+  text_preview: '[RECOMMENDATIONS] Additionally, for the following two factors, Chairman Hall
+
+    and Member Lauber concluded that they were causal to the accident, while
+
+    Members Vogt and Hammerschmidt concluded that they were contributory to the
+
+    accident:
+
+
+    (5) The company’s failure to provide adequate crew resource
+
+    management training, and the FAA’s failure to require such training;
+
+    and
+
+
+    (6) The unavailability of suitable training simulators that precluded
+
+    fully effective flightcrew training.
+
+
+    74 4. RECOMMENDATIONS...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0903.pdf_chunk_0064
+  report_id: AAR0903.pdf
+  section_name: ANALYSIS
+  score: 0.6147
+  text_preview: "[ANALYSIS] Boeing \nand the FAA have both indicated that such training could be “negative” because it might\
+    \ \noverload a student. They further argue that training to student failure or saturation should be \navoided, especially\
+    \ if the multiple system failures faced by the student seem artificial. However, \nthe NTSB notes that, if the system\
+    \ failures are layered in such a way that they would be linked \nnormally to inaction or collateral damage, such training\
+    \ may not be problematic. Additionally, \nus..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR0501.pdf_chunk_0056
+  report_id: AAR0501.pdf
+  section_name: ANALYSIS
+  score: 0.6119
+  text_preview: '[ANALYSIS] On the basis of the value of using information regarding a pilot’s past performance
+
+    to assess that pilot’s current and future performance and overall abilities, the Safety Board
+
+    concludes that a proactive program, similar in concept to FedEx’s EOP, in which flight
+
+    crewmembers who have demonstrated performance deficiencies or experienced training
+
+    failures are identified and given additional oversight and training would be beneficial to
+
+    flight safety. Therefore, the Safety Board believe...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8805.pdf_chunk_0088
+  report_id: AAR8805.pdf
+  section_name: THE ACCIDENT
+  score: 0.6041
+  text_preview: '[THE ACCIDENT] While the Safety Board believes there are benefits to be derived frorn any meaningful
+
+    discussion on CRN, it also believes there is evidence that would indicate CRM training given solety in
+
+    a quasi-classroom environment with diminished frequency will not provide to flightcrews the
+
+    appropriate emphasis and hence the long-term follow through that is intended. Republic Airlines began training crews for
+    CRM in the fall of 1983. It was presented in the
+
+    recurrent ground school and was fo...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1002.pdf_chunk_0076
+  report_id: AAR1002.pdf
+  section_name: ANALYSIS
+  score: 0.6006
+  text_preview: "[ANALYSIS] The accidents and incidents \n \n85 NTSB SIR-90-02. NTSB \nAircraft Accident Report \nshow that,\
+    \ like the accident captain, many other pilots have misinterpreted tire anomalies and \nresponded by initiating an unnecessary\
+    \ RTO after V1. \nAccording to an FSI instructor, the training curriculum provided to the captain and the \nfirst officer\
+    \ did not include any scenarios in which a tire failure occurred. Training materials \nprovided to flight crews about\
+    \ RTOs focus primarily on engine failures..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0903.pdf_chunk_0043
+  report_id: AAR0903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5995
+  text_preview: "[ADDITIONAL INFORMATION] In addition, the FAA stated the following: \nMultiple, unrelated emergencies strung\
+    \ together as a training event are unrealistic \ntraining scenarios. In pursuit of realistic line-oriented training, airlines\
+    \ create \n…LOE scenarios from actual line experiences…[that] are operationally relevant, \nbelievable, and a test of\
+    \ the flight crew’s skills and capabilities. Complex events \nhave ongoing consequences that must be dealt with in flight\
+    \ and cannot be solved \nby simply sele..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9503.pdf_chunk_0059
+  report_id: AAR9503.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5987
+  text_preview: '[ADDITIONAL INFORMATION] The report summarized the findings of the inspection and identified
+
+    deficiencics in the various aspects of the company operation. The NASIP identified
+
+    issues in the area of "Operations," and the following are a summary of those
+
+    findings:
+
+
+    The training (Section 1.3) contained seven findings. Several of
+
+    these relate to inter/intradepartmental lack of communication, such
+
+    as a lack of understanding of what is contained in the approved
+
+    training program. Five additional findin...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

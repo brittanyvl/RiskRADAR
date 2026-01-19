@@ -1,0 +1,208 @@
+metadata:
+  query_id: CMP-008
+  model: minilm
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: post-accident safety improvements and industry changes
+  sql_ground_truth: WHERE lower(section_name) = 'recommendations'
+  expected_report_ids: []
+  relevance_signals:
+  - recommendation
+  - improvement
+  - require
+  - mandate
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9204.pdf_chunk_0036
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.5841
+  text_preview: '[ANALYSIS] Other problems noted include the definition of work on the
+
+    horizontal stabilizer leading edge as a non-RII, and the failure to follow
+
+    manufacturer-published procedures for an elevator balance and an engine
+
+    overtorque event not associated with the accident. These items suggest a general
+
+    disregard for following established procedures on the part of maintenance
+
+    department personnel. Two safety specialists at the Boeing Commercial Airplane Company
+
+    have recently reported on a survey that e...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 2
+  chunk_id: AAR0401.pdf_chunk_0126
+  report_id: AAR0401.pdf
+  section_name: ANALYSIS
+  score: 0.5826
+  text_preview: '[ANALYSIS] However, Safety Recommendation A-03-31
+
+    focused only on the role of the air carrier in revising work cards and did not consider the
+
+    safety benefit of involving the aircraft manufacturer in the process of reviewing and
+
+    revising maintenance procedures. Placing this responsibility solely on air carriers raises
+
+    the possibility that individual carriers could identify deficiencies in flight-critical
+
+    141 Three steps in section 27-30-02 were not applicable to the accident airplane. Two steps p...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR1104.pdf_chunk_0074
+  report_id: AAR1104.pdf
+  section_name: ANALYSIS
+  score: 0.573
+  text_preview: "[ANALYSIS] Smith and others, “Characteristics of Successful Safety Programs,” Journal of Safety Research,\
+    \ vol. 10, \nno. 1 (1978), pp. 5–15. \n123 H.S. Shannon, J. Mayr, and T. Haines, “Overview of the Relationship Between\
+    \ Organizational and \nWorkplace Factors and Injury Rates,” Safety S\n\nNTSB \nAircraft Accident Report \n56 \nrisk tolerance,\
+    \ and, as discussed, his judgment was likely degraded by a combination of fatigue, \nstress, and self-induced pressure.\
+    \ These factors are sufficient to explain his..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1603.pdf_chunk_0093
+  report_id: AAR1603.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5709
+  text_preview: "[RECOMMENDATIONS] Conversely, following procedures has a positive effect on safety. A Boeing study \nanalyzed\
+    \ 138 airline accidents that claimed 5,686 lives over a ten-year period. The study \nanalyzed factors that could have\
+    \ prevented each accident. The most highly ranked accident \n \n2 NTSB. (1994). Safety study: A review of flightcrew-involved,\
+    \ major accidents of U.S. air carriers, 1978 through \n1990. (NTSB Report No. NTSB/SS/94-01). Washington, DC: Author.\
+    \ \n3 Khatwa, R. & Helmreich, R. (1999). ..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 5
+  chunk_id: AAR7917.pdf_chunk_0072
+  report_id: AAR7917.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.5709
+  text_preview: '[TESTS AND RESEARCH] The Safety Board recognizes that resource limitations prohibit the FAA
+
+    from exercising rigid oversight of alt facets of the industry. Therefore, the FAA
+
+    must exercise its authority by insuring that aireraft designs do comply with
+
+    regulations, that manufacturers quality control programs are effective, that
+
+    aireraft operators adhere to a proper maintenance program; and that operational
+
+    procedures adopted by the carriers consider even unique emergencies which might
+
+    be encounter...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 6
+  chunk_id: AAR0705.pdf_chunk_0049
+  report_id: AAR0705.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5702
+  text_preview: "[FACTUAL INFORMATION] Comair captains described CRM training as good. Comair first officers stated that \n\
+    they had no difficulties speaking up if they felt rushed or had concerns with the conduct \nof the flight. Also, the principal\
+    \ operations inspector (POI) for Comair stated that there \nhad not been a crew interaction problem during the 5 years\
+    \ that preceded the accident. Safety Program Personnel Initiatives\n1.17.3 \nAt the time of the accident, Comair’s corporate\
+    \ compliance committee (which \ncom..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 7
+  chunk_id: AAR2104.pdf_chunk_0031
+  report_id: AAR2104.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5675
+  text_preview: "[ADDITIONAL INFORMATION] The FreeFlight ADS-B \ncomponents installed in the accident DHC-2 were installed\
+    \ in 2015 at the owner’s expense and not \nas a part of the post-Capstone upgrade program (appendix C outlines the features\
+    \ of the ADS-B \nsystem on each aircraft). \n1.11.2 Safety Management Systems \nThe investigation revealed that neither\
+    \ company had a safety management system (SMS) \nin place at the time of the accident.57 However, according to the president\
+    \ of Taquan Air, he \ndecided after the ..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 8
+  chunk_id: AAR7101.pdf_chunk_0026
+  report_id: AAR7101.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5671
+  text_preview: '[RECOMMENDATIONS] The number of accidents, number of
+
+    fatalities, and the available accident rates are
+
+    shown below:
+
+
+    Accidents Fatalities
+
+    Total Fatal
+
+    234 33 90
+
+    176* 45 109
+
+    206* 29 141
+
+    133** 30** 78**
+
+
+    *Commencing 1/1/68, the definition of substantial damage was changed. Comparisons should not be made with years prior
+    to that date.
+
+    ** These data are preliminary through October 31, 1970 only. After reviewing these data and the reports
+
+    previously referred to, the Board recommends
+
+    that the Air Taxi i...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 9
+  chunk_id: AAR9204.pdf_chunk_0039
+  report_id: AAR9204.pdf
+  section_name: ANALYSIS
+  score: 0.5664
+  text_preview: '[ANALYSIS] The FAA responded to these two safety recommendations in a letter
+
+    dated May 15, 1992, indicating its agreement with the needs expressed in the
+
+    recommendations. The Safety Board''s response to this letter, as well as to other
+
+    FAA letters that address open safety recommendations about FAA surveillance of
+
+    air Carrier operations and maintenance practices, is attached as Appendix I. 3.1
+
+
+    Findings
+
+
+    1. All crewmembers and air traffic controllers were properly
+
+    certified to perform their duties...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses safety improvements and recommendations made after an accident, which is directly relevant to the query about post-accident safety improvements and industry changes.'
+- rank: 10
+  chunk_id: AAR0901.pdf_chunk_0023
+  report_id: AAR0901.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.5624
+  text_preview: "[CONCLUSIONS > FINDINGS] National Transportation Safety Board \n23\n\nAircraft Accident \nSummary Report\
+    \ \n10. Identification, by an aircraft’s manufacturer or those responsible for postmanufacture \nmodifications, of which\
+    \ of an aircraft’s systems are critical to a flight (or to a realm of flight) \nwould enable pilots to make better-informed\
+    \ decisions regarding which circuit breakers they \nshould or should not attempt to reset before or during flight. \n\
+    11. More thorough and continually updated guidan..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 3
+  needs_human_review: 7

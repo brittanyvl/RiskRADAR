@@ -1,0 +1,229 @@
+metadata:
+  query_id: CMP-004
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: accidents during night visual flight rules operations
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%night%' AND lower(chunk_text) LIKE '%vfr%'
+  expected_report_ids: []
+  relevance_signals:
+  - night
+  - vfr
+  - visual
+  - darkness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.8
+results:
+- rank: 1
+  chunk_id: AAR9108.pdf_chunk_0041
+  report_id: AAR9108.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5008
+  text_preview: '[ADDITIONAL INFORMATION] Factors leading to this operating
+
+    procedure include the conservative length of runway remaining for aborts from
+
+    these locations and more expeditious handling by ATC. Upon receipt and
+
+    acknowledgement of a clearance to taxi onto a runway, flightcrews align the
+
+    airplane on the runway centerline.
+
+
+    1.17.8 Skywest Airlines .ATC Communication Procedures
+
+
+    The chief pilot for Skywest stated that the airline subscribes to
+
+    the phraseology and communication procedures contained in t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR1102.pdf_chunk_0108
+  report_id: AAR1102.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5002
+  text_preview: "[RECOMMENDATIONS] As the report adequately sets forth, this accident \noccurred during the window of circadian\
+    \ low at about 0437. Well-established scientific research \ndemonstrates that this time is associated with severe performance\
+    \ reductions, and increased \nerrors, incidents, and accidents. As a result, accidents involving pilot error that occur\
+    \ within this \nwindow of time should be thoroughly examined for fatigue. While mitigation strategies can be \nemployed\
+    \ to somewhat counter the performanc..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9103.pdf_chunk_0033
+  report_id: AAR9103.pdf
+  section_name: ANALYSIS
+  score: 0.495
+  text_preview: '[ANALYSIS] Therefore, the deficiencies would become apparent during a properly conducted
+
+    preflight exterior inspection. In normal operations where collision avoidance is dependent upon
+
+    pilot see and avoidance, anticollision lighting plays ar important part in
+
+
+    30
+
+
+    airplane conspicuity at night. The operation of required lighting equipment
+
+    is an obligation for al} pilots and operators. Consequently, any
+
+    discrepancies in the aircraft navigation and anticollision lighting systems
+
+    must be repaired f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8705.pdf_chunk_0056
+  report_id: AAR8705.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.491
+  text_preview: '[RECOMMENDATIONS] AE ALOR A DETTE BCA PRAGA A TITRE G
+
+
+    AAAI CARY SII ED YE a a ata
+
+
+    57
+
+
+    (6) Encourage all instructor pilots to notify the control tower
+
+    operator, at airports where a tower is manned, regarding first solo
+
+    flights, and require the tower operator to advise other traffic in
+
+    the pattern about such flights. (7) Conduct detail. traffic flow
+
+    studies for all high-volume general aviation controtled airports
+
+    with a view to improving the VFR traffie flow techniques of the
+
+    ATC personnel. (8) ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAB0605.pdf_chunk_0025
+  report_id: AAB0605.pdf
+  section_name: PROBABLE CAUSE
+  score: 0.4816
+  text_preview: "[PROBABLE CAUSE] I also am concerned that the Southern California TRACON staff generally seem unaware \n\
+    of the serious safety responsibilities they have for flight crews operating under night \nvisual flight rules, particularly\
+    \ in circumstances involving hazardous terrain. I have \nasked for information regarding what, if any, consequences, resulted\
+    \ from the controller’s\n\nfailure to provide safety information that may well have averted this accident. I have also\
+    \ \nasked for information regarding an ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8801.pdf_chunk_0035
+  report_id: AAR8801.pdf
+  section_name: ANALYSIS
+  score: 0.4803
+  text_preview: '[ANALYSIS] AC 90-48C urges VFR pilots to take advantage of air traffic advisory services
+
+    as a means of assisting them in seeing and avoiding other aircraft, but not substituting for
+
+    the pilots'' own visual scanning. The AC was tssued before the conflict alert feature was
+
+    in widespread use in the U.S. ATC system. Although the Safety Board eoneurs with the
+
+    emphasis that the AC places on pilots scanning effectively to avoid midalr collisions, the
+
+    Safety Board belleves that AC 96-48C should be update...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR9108.pdf_chunk_0058
+  report_id: AAR9108.pdf
+  section_name: ANALYSIS
+  score: 0.4706
+  text_preview: '[ANALYSIS] The intensity and vertical coverage of the anticollision beacon on
+
+    N683AV met the performance standards under which the airplane was
+
+    certificated. The Safety Board is aware that airplanes certificated after
+
+    September 1, 1977, are required to have an anticollision light with an
+
+    intensity of 400 candles and a vertical coverage of 75 degrees above and
+
+    below the horizontal plane of the airplane. This represents a fourfold
+
+    increase in light intensity and a significant expansion of the dema...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7230.pdf_chunk_0006
+  report_id: AAR7230.pdf
+  section_name: ANALYSIS
+  score: 0.4701
+  text_preview: '[ANALYSIS] VFR traffic advisories
+
+    i4 are provided to ISR traffic subject to the workload and discretion of the
+
+
+    '' controller, If the controlJer hud seen the VFR target (the Convair 240),
+
+
+    he would have given the information to Flight 58, since five aircraft
+
+
+    a would not constitute a sufficiently heavy workload to prohibit tke issuance
+
+    } of a traffic advisory. However, the five beacon targets in a concentrated ares may have prevented the controller from
+    seeing the VFR targev
+
+
+    operating in the sam...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR2104.pdf_chunk_0035
+  report_id: AAR2104.pdf
+  section_name: ANALYSIS
+  score: 0.4695
+  text_preview: "[ANALYSIS] The damage observed on \nboth airplanes was consistent with an in-flight impact followed by an\
+    \ impact with the \nwater and terrain. Thus, the NTSB concludes that none of the following safety issues were identified\
+    \ for the \naccident flight: (1) pilot qualification deficiencies; (2) pilot impairment; or (3) a malfunction or \nfailure\
+    \ on either airplane. \n2.2 See-And-Avoid Limitations \nBoth airplanes were operated in a high-traffic area under VFR.\
+    \ To mitigate the risk of a \ncollision in VFR..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9505.pdf_chunk_0033
+  report_id: AAR9505.pdf
+  section_name: COMMUNICATIONS
+  score: 0.4689
+  text_preview: '[COMMUNICATIONS] The Safety
+
+    Board believes that the Cessna pilot may have turned the landing lights on seconds before impact
+
+    in anticipation of a takeoff clearance. The Safety Board concludes that, given the Cessna 44 l’s lighting as it departed
+    the
+
+    Midcoast ramp, the ground and local controllers could not have reasonably been expected to
+
+    visually .detect the Cessna pilot’s deviation irom the taxi instructions. When it became apparent
+
+
+    39
+
+    to the controller that he could not follow or determine t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

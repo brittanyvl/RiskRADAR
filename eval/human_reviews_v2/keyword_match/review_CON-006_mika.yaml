@@ -1,0 +1,334 @@
+metadata:
+  query_id: CON-006
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: metal fatigue crack propagation structural inspection
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fatigue%crack%' OR lower(chunk_text) LIKE '%crack%propagation%'
+  expected_report_ids:
+  - AAR0201.pdf
+  - AAR0704.pdf
+  - AAR1903.pdf
+  - AAR9606.pdf
+  - AAR-90-06.pdf
+  - AAR8903.pdf
+  relevance_signals:
+  - fatigue
+  - crack
+  - inspection
+  - propagation
+  - fracture
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AAR7218.pdf_chunk_0017
+  report_id: AAR7218.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.5906
+  text_preview: '[SURVIVAL ASPECTS] Additional inspection by eddy cusrent and
+
+    ultrasonic methods clearly reverted both of the
+
+    aforementioned cracks with indications of the
+
+    possibility of other cracks. Radiographs (x-rays)
+
+    were then taken of the lug. These showed the
+
+    presence, extent, and depth of the two miajot
+
+    cracks, and indications of smitier cracks
+
+    associated with one of the major cracks. When
+
+    the radiographs were subjected to a photographic enhancement process’, it was found that
+
+    the ind’cations associated ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR8903.pdf_chunk_0107
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.563
+  text_preview: '[RECOMMENDATIONS] Therefore, Revision 3 is issued to up-grade this service bulletin
+
+    to an ‘ALERT’ status and to revise the repeat inspection
+
+    thresholds for detecting fatigue cracking of the outer skin panel
+
+    at the lap joint upper row of fasteners. Jul 19/720 I 737-53A1039
+
+    REV. 3: Aug 20/87 - §
+
+
+    123
+
+
+    BOEING SERVICE BULLETIN 737-53A1039 APPENDIX C
+
+
+    C. Deseription
+
+
+    The inspection and repair of specified skin lap joints per this
+
+    service bulletin is divided into two parts. Part one is for
+
+    corrosion a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0113
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5579
+  text_preview: '[RECOMMENDATIONS] Description. Type I Inspection
+
+
+    A. With the aid of a bright light, visually inspect the lap joint
+
+    exterior body skin, forward and aft of the fastener heads in the
+
+    upper row fasteners for fatigue cracks (See Figure 1). ;
+
+
+    B. If any crack is found, eddy current inspect the skin adjacent to
+
+    all joint upper row fastener heads the full length of the panel
+
+    in which crack(s) were found. See 737 Nondestructive Test Manual
+
+    D6-37239, Part 6, Subject 53-30-03 for inspection equipment and
+
+    ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR-90-06.pdf_chunk_0069
+  report_id: AAR-90-06.pdf
+  section_name: ANALYSIS
+  score: 0.5445
+  text_preview: "[ANALYSIS] The investigation \ndisclosed that the liberated pieces of the engine banjo frame contained \n\
+    transferred titanium. However, the Safety Board could not determine which of \nthe titanium engine parts struck the frame.\
+    \ \n2.4.2 \nInitiat'ion and Propagation of Fatigue Crack \n. Metallurgical examination showed that the fatigue crack initiated\
+    \ \nin a nitrogen-stabilized type I hard alpha defect at the inside surface of \nthe bore. The hard alpha defect was formed\
+    \ during manufacture of the \nmateri..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR7016.pdf_chunk_0029
+  report_id: AAR7016.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.5427
+  text_preview: '[AIRCRAFT INFORMATION] Tiere was evidence in the metallurgical studies of the fatigue
+
+    cracks near WS 197 of the right wing that there might have been sone
+
+    recent (relative to the accident time) tearing of the metal vhich
+
+    occurred at a more rapid rate than normally occurs in fatigue crack
+
+    ‘propagation. While this condition cannot be pinpointed exactly in time
+
+    relative to the accident, it might have been the result of an encounter
+
+    with turbulence prior to the separation of the wing. The aircraft w...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8903.pdf_chunk_0093
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5374
+  text_preview: '[RECOMMENDATIONS] HOWEVER, TESTS INDICATE THAT THE VOID AREA IS
+
+    NEVERTHELESS SATURATED WITH LPS-3 AND THEREFORE THE
+
+    LACK OF A VISUAL DROP IN FLUID LEVEL 1S UNIMPORTANT. CLEAR
+
+    PLASTIC
+
+    TUBING
+
+
+    STOP
+
+    COLLAR
+
+
+    SET SCREW
+
+
+    “INSULATION
+
+    BLANKET
+
+
+    BOEING SERVICE BULLETIN NO.
+
+
+    737-53-1039
+
+
+    APPENDIX C
+
+
+    101
+
+
+    APPENDIX C
+
+
+    rir.
+
+
+    102
+
+
+    ‘BOEING SERVICE BULLETIN NO. 737-53-+1039
+
+
+    Accomplishment Instructions
+
+
+    The following program outlines the minimum requirements for
+
+    maintaining the structural integrity of lap joints...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR9308.pdf_chunk_0022
+  report_id: AAR9308.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.536
+  text_preview: '[TESTS AND RESEARCH] The fatigue cracking propagated through about
+
+    45 percent of the hub arm cross section before final fracture occurred. The origin area contained a large number of ratchet
+    marks,” indicative
+
+    of fatigue crack initiation from a large number of individual initiation sites. The
+
+    approximate width of the origin area was 0.33 inch. A portion of the fracture adjacent to the fatigue origin area contained
+    a
+
+    distinct, semicircular, darkly discolored area that extended over a width of 0.7...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR8903.pdf_chunk_0016
+  report_id: AAR8903.pdf
+  section_name: OTHER DAMAGE
+  score: 0.5321
+  text_preview: '[OTHER DAMAGE] Furthermore, the fatigue cracking primarily is found in the
+
+    upper row of the outer skin panel lap joint rivet holes because this
+
+    area carries the greatest stress. For the underlying skin of the lap joint,
+
+    the area of greatest stress is through the lower row of lap joint rivet
+
+
+    holes. However, since the rivet holes in this skin panel are not
+
+    countersunk, fatigue cracking is not as likely to initiate at this location. Random cracking at Jap joints (See Section
+    1.17.4, Service
+
+    Diffic...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR8903.pdf_chunk_0017
+  report_id: AAR8903.pdf
+  section_name: OTHER DAMAGE
+  score: 0.5319
+  text_preview: '[OTHER DAMAGE] Operator compliance was not made mandatory by
+
+    the FAA. On August 20, 1987, the subject SB was elevated to "Alert" status
+
+    with Revision 3. The following was reason for the upgraded status:
+
+
+    Since the release of Revision 2 an operator has reported
+
+    multiple fatigue cracks on three airplanes which have
+
+    accumulated 40,400/42,800 flight hours and 44,700/49,900
+
+    flight cycles. Cracks were located in the upper skin at
+
+    stringer four (S-4), left and right, S-10 right and S-14
+
+    right, between ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR8903.pdf_chunk_0095
+  report_id: AAR8903.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5284
+  text_preview: '[RECOMMENDATIONS] D. Areas where no fatigue cracks are found should be
+
+    reinspected annually. Reinspection for fatigue cracks
+
+    may be terminated be replacing the existing upper row
+
+    of joint fasteners with standard protruding head solid
+
+    fasteners per Part Iv. However, a corrosion
+
+    inspection program should be maintained.
+
+
+    -
+
+
+    737-53-1039
+
+
+    Jul 19/72
+
+    21
+
+
+    REV. 2: Feb 8/74
+
+
+    104
+
+    APPENDIX C_
+
+
+    BOEING SERVICE BULLETIN NO. 737-53-1039
+
+
+    TYPICAL FATIGUE
+
+    CRACK LOCATION OYTER OR UPPER SKIN
+
+
+    ADHESIVE
+
+
+    STRINGER
+
+
+    IN...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

@@ -1,0 +1,224 @@
+metadata:
+  query_id: CON-010
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: spatial disorientation vestibular illusion instrument flight
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%spatial disorientation%' OR lower(chunk_text) LIKE '%vestibular%'
+  expected_report_ids:
+  - AAR0301.pdf
+  - AAR2002.pdf
+  - AAR0703.pdf
+  - AAR1403.pdf
+  - AAR2101.pdf
+  relevance_signals:
+  - disorientation
+  - vestibular
+  - illusion
+  - instrument
+  - attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.2
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR9205.pdf_chunk_0037
+  report_id: AAR9205.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7363
+  text_preview: '[ADDITIONAL INFORMATION] According to an article entitled "Inflight Spatial Disorientation” in the
+
+    January/February 1992, issue of Human Factors and Aviation Medicine:
+
+
+    Maintaining spatial orientation during flight when the outside horizon
+
+    visual reference is lost requires either orientation instrument displays
+
+    or automatic stabilization systems. Pilot exposure to linear and
+
+    angular accelerative forces during loss-of-outside-reference flight
+
+    produces confusing vestibular and proprioceptor stimul...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR8213.pdf_chunk_0012
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6999
+  text_preview: '[ADDITIONAL INFORMATION] You may have absolutely no idea
+
+    what the attitude of the airplane is or its position in reference to
+
+    the ground. Trust your instruments.
+
+
+    *+ + *
+
+
+    Other sensing mectanisms located in the inner ear are called
+
+    otolith organs. ey are affected by straight Line or linear
+
+    aceslerations. They register various "G" forces as they are applied
+
+    to the body but are not able to give accurate body orientation
+
+    information to the brain. PLIGHT FACTORS CONTRIBUTING TO SENSORY ILLUSIONS
+
+
+    1....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR9301S.pdf_chunk_0024
+  report_id: AAR9301S.pdf
+  section_name: SAFETY RECOMMENDATIONS
+  score: 0.6996
+  text_preview: '[SAFETY RECOMMENDATIONS] To an individual inside an aircraft, however, vestibular information can be
+
+    misleading because the body no longer has a fixed reference with which to orient
+
+    against, as the individual moves when the aircraft moves. Further, steady aircraft
+
+    motion, or an accelerating or decelerating aircraft, can produce vestibular
+
+    sensations that are at odds with the reality of the body’s orientation. Generally,
+
+
+    visua! information in an aircraft can counter misleading vestibular informa...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAB0202.pdf_chunk_0027
+  report_id: AAB0202.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6432
+  text_preview: '[ADDITIONAL INFORMATION] Practice and experience in instrument flying are necessary to help pilots ignore
+    or
+
+    overcome false sensations. The FAA Instrument Flying Handbook (FAA-H-8083-15) describes one of the
+
+    major illusions leading to spatial disorientation as follows:
+
+    Coriolis Illusion
+
+    The pilot has been in a turn long enough for the fluid in the ear canal to
+
+    move at the same speed as the canal. A movement of the head in a different
+
+    plane, such as looking at something in a different part of the...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR0301.pdf_chunk_0028
+  report_id: AAR0301.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.618
+  text_preview: "[FACTUAL INFORMATION] FAA AC 60-4A, “Pilot’s Spatial Disorientation,” states\nthat tests conducted with qualified\
+    \ instrument pilots showed that it could take as long as\n35 seconds to establish full control solely by reference to\
+    \ flight instruments when a loss of\nvisual reference occurs.\n37 A.J. Benson, “Spatial Disorientation—Common Illusions,”\
+    \ eds. J. Ernsting, A.N. Nichols, and\nD.J. Rainford, Aviation Medicine, 3rd Ed. (Oxford, United Kingdom: Butterworth-Heinemann,\
+    \ 1999). \n38 The FAA Aeronauti..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR0703.pdf_chunk_0026
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6101
+  text_preview: '[FACTUAL INFORMATION] Also, 54 percent of helicopter pilots reported having experienced
+
+    spatial disorientation illusions in clouds, and 32 percent reported experiencing such
+
+    illusions in poor visibility conditions. The average duration of spatial disorientation
+
+    60 M.G. Braithwaite, S.J. Durnford, J.S. Crowley, N.R. Rosado, and J.P. Albano, “Spatial Disorientation
+
+    in U.S. Army Rotary-wing Operations,” Aviation, Space, and Environmental Medicine, Vol. 69 (1998):
+
+    1031-1037.
+
+    61 (a) F.H. Previc, “Vis...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR2101.pdf_chunk_0056
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.6069
+  text_preview: "[ANALYSIS] Such skills are important for \npilots of all types of aircraft because spatial disorientation\
+    \ accidents are not limited to only \n \n66 According to the USHST, although commercially available devices exist, they\
+    \ are too limited in number to \nenable widespread use by a large segment of the pilot population (USHST 2019, 2). The\
+    \ FAA has two spatial \ndisorientation demonstrators (each of a different design) available for civilian pilot use (FAA\
+    \ 2003 and 2011).\n\nNTSB \nAircraft Accident Repor..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR9503.pdf_chunk_0062
+  report_id: AAR9503.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5956
+  text_preview: '[ADDITIONAL INFORMATION] D., and Mohfer, Srantey R., M.D. “tn-flight Spatial Disorientation,” in Hienan
+
+    af Factors and Aviation Madicine, Flight Safety Foundations, Arlington, Virginia, January/February, 1992, p. 2.
+
+    23 Antunano and Mohler, p. 5,
+
+
+    70
+
+
+    In flight, our motion sensing system may be stimulated by motion of
+
+    the aircraft alone, or in combination with head and body movement. Unfortunately, the system is not capable of detecting
+    a constant
+
+    velocity or small changes in velocity. Nor is it ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR9503.pdf_chunk_0092
+  report_id: AAR9503.pdf
+  section_name: ANALYSIS
+  score: 0.5916
+  text_preview: '[ANALYSIS] Further, because the flightcrew was initiating
+
+    the missed approach, which involved a large increase in engine thrust, a pronounced
+
+    increase in pitch attitude, and a banked tum to the night, the crew would have been
+
+    exposed to significant linear and angular accelerative forces. These forces could have
+
+    stimulated the flightcrew''s vestibular and proprioceptive sensory systems and produced
+
+    a form of spatial disorientation known as somatogravic illusion. The Safety Board believes that sinc...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR2002.pdf_chunk_0046
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.588
+  text_preview: "[ANALYSIS] NTSB \nAircraft Accident Report \n41 \nThus, when visual cues are limited and an airplane rapidly\
+    \ accelerates or decelerates, a \npilot may be susceptible to a somatogravic illusion (FAA 2016, 17-6). Somatogravic illusion\
+    \ is a \nform of spatial disorientation that results from a false sensation of pitch due to the inability of the \notolith\
+    \ organs of the human inner ear to separate the gravitational and sustained linear acceleration \ncomponents of the GIF\
+    \ vector (Young 2003 and Cheung 2004)..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

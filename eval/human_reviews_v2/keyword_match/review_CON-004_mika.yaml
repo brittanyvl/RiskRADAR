@@ -1,0 +1,185 @@
+metadata:
+  query_id: CON-004
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: crew resource management breakdown communication failure
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%crew resource management%' OR lower(chunk_text) LIKE '%crm%'
+  expected_report_ids:
+  - AAR1101.pdf
+  - AAR1001.pdf
+  - AAR9607.pdf
+  - AAR0001.pdf
+  - AAR1802.pdf
+  - AAR1002.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - crm
+  - communication
+  - coordination
+  - cockpit
+  - assertiveness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.16666666666666666
+  hit_at_10: true
+  precision_at_10: 0.2
+results:
+- rank: 1
+  chunk_id: AIR2401.pdf_chunk_0033
+  report_id: AIR2401.pdf
+  section_name: ANALYSIS
+  score: 0.45
+  text_preview: "[ANALYSIS] Therefore, the crew probably \ndid not expect another airplane to be on the runway and moving\
+    \ toward them, which \nmade them vulnerable to inspecting the runway and making related callouts in rote \nfashion rather\
+    \ than systematically searching for a small target. Thus, expectation bias \ncould explain how the captain and FO did\
+    \ not observe DAL1943 before entering \nrunway 4L. The NTSB concludes that the American Airlines flight crew’s nondetection\
+    \ of \nDAL1943 on runway 4L likely resulted f..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AIR1801.pdf_chunk_0053
+  report_id: AIR1801.pdf
+  section_name: ANALYSIS
+  score: 0.4302
+  text_preview: "[ANALYSIS] Several crew actions/inactions during the incident flight \ndemonstrated breakdowns in CRM, many\
+    \ of which were manifested as noncompliance with \nAir Canada’s standard operating procedures. These crew actions/inactions\
+    \ included \n• the flight crew’s ineffective review of NOTAMs in the flight release; \n• the flight crew’s failure to\
+    \ identify the runway 28L closure information within the ATIS \ninformation; \n• the flight crew’s failure to conduct\
+    \ a complete approach briefing; \n• the first o..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0604.pdf_chunk_0058
+  report_id: AAR0604.pdf
+  section_name: ANALYSIS
+  score: 0.4296
+  text_preview: '[ANALYSIS] First, they were aware in advance that they would be performing a
+
+    high-speed RTO and were instructed to apply reverse thrust, brakes, and spoilers
+
+    immediately and aggressively. Second, during these tests, the simulator pilots repeatedly
+
+    performed high-speed RTOs in the simulator, and they benefited from the practice. Third,
+
+    the simulator pilots were not subject to the stress that the accident pilots likely
+
+    experienced in a real-world situation. (Although pilots are expected to perform...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR0801.pdf_chunk_0034
+  report_id: AAR0801.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4283
+  text_preview: "[FACTUAL INFORMATION] Company pilots expressed confusion about the fatigue policy \nand the ramifications\
+    \ of calling in as fatigued. In addition, as a result of an administrative computer problem, from July 2005 \nto February\
+    \ 2007, Republic Airways Holdings inadvertently paid pilots for all sick, \nunavailable, or fatigue hours regardless of\
+    \ whether the sick leave was available or the \nunavailable or fatigue hours should have been compensated. As a result,\
+    \ the captain was \npaid for the 104 sick lea..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9602.pdf_chunk_0092
+  report_id: AAR9602.pdf
+  section_name: ANALYSIS
+  score: 0.4154
+  text_preview: "[ANALYSIS] The BEA believes that the NTSB\nshould take this opportunity to squarely address these issues\
+    \ with the goal\nof improving aviation safety. The NTSB’s lack to timely address these issues following this accident\
+    \ is\nparticularly \ndisturbing. The poor cockpit discipline, lack of cockpit\nresource management, and lack of situational\
+    \ awareness involved in this\naccident created an obligation on the part of the NTSB to address such\nsafety issues to\
+    \ prevent their reoccurrence. The BEA’s concern i..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR1001.pdf_chunk_0049
+  report_id: AAR1001.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.4112
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] Colgan stated that the program \nhad specific criteria and processes\
+    \ for entry into and exit from the program and that the flight \noperations department has been reviewing and revising\
+    \ the program’s operation. The Colgan director of flight standards stated that he had not tracked the accident captain\
+    \ \nin terms of his performance. The company chief pilot stated that he was aware that the captain \nhad failed his initial\
+    \ Saab 340 upgrade training proficien..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR1902.pdf_chunk_0055
+  report_id: AAR1902.pdf
+  section_name: ANALYSIS
+  score: 0.4027
+  text_preview: "[ANALYSIS] However, Trans-Pacific did not oversee the pilots’ performance \nafter their additional initial\
+    \ training to determine whether the noted performance deficiencies were \nfully resolved or were continuing and necessitated\
+    \ further training. On the accident flight, both \npilots exhibited performance problems that had previously occurred\
+    \ during their simulator training \ncourses. Thus, the NTSB concludes that the pilots’ performance on the accident flight\
+    \ included \ndeficiencies that were noted..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR1101.pdf_chunk_0118
+  report_id: AAR1101.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.401
+  text_preview: "[RECOMMENDATIONS] Hart, concurring in part and dissenting in part: \nConcurrence. The discussion in the report\
+    \ about Crew Resource Management (CRM) is \nfine as far as it goes, but I don’t believe it goes far enough. This accident\
+    \ involves a PIC and an \nSIC with very disparate experience levels – the PIC had about 3,600 hours of total flight time,\
+    \ \nwith almost 1,200 hours in type, while the SIC had less than 1,500 hours of total flight time, with \nless than 300\
+    \ hours in type. Query whether the con..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR9606.pdf_chunk_0064
+  report_id: AAR9606.pdf
+  section_name: ANALYSIS
+  score: 0.3922
+  text_preview: '[ANALYSIS] However, the Safety Board is concerned that the
+
+    flight attendant neither received nor sought information about the time remaining
+
+    to prepare the cabin or to brace for impact. The CVR transcript revealed that the
+
+    flightcrew informed her 7 minutes before impact that they had experienced an
+
+    engine failure, that they had declared an emergency for return to ATL, and that
+
+    they had advised her to brief the passengers. There were no further
+
+    communications to the flight attendant. Specifically...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8904.pdf_chunk_0051
+  report_id: AAR8904.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.3854
+  text_preview: '[TESTS AND RESEARCH] However, deficiencies identified in the previous audit were
+
+    observed. lneffective crew coordination and failure to
+
+    follow established procedures were observed in tine
+
+    operations. A minimum degree of challenge to the fhight
+
+    crewmembers and the acceptance of minimum standards were
+
+    observed on proficiency checks. Manuals and procedures have
+
+    been tmproved where specific findings and recommendations
+
+    were previously made. However, fundamental changes to
+
+    checktists and procedures a...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

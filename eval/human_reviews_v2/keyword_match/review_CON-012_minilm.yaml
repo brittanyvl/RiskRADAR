@@ -1,0 +1,220 @@
+metadata:
+  query_id: CON-012
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: loss of control inflight upset recovery training
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%loss of control%' OR lower(chunk_text) LIKE '%upset%recovery%'
+  expected_report_ids:
+  - AAR9602.pdf
+  - AAR0404.pdf
+  - AAR1001.pdf
+  - AAR1401.pdf
+  - AAR9901.pdf
+  - AAR0101.pdf
+  relevance_signals:
+  - loss of control
+  - upset
+  - recovery
+  - stall
+  - unusual attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR0906.pdf_chunk_0042
+  report_id: AAR0906.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7518
+  text_preview: "[ADDITIONAL INFORMATION] The airplane upset recovery training aid indicates that there are myriad potential\
+    \ \nsituations that pilots can experience while flying and that pilots should first gain control of the \nairplane and\
+    \ then determine and eliminate the cause of the upset. Specifically, the aid indicates \nthat every upset recovery should\
+    \ include managing the energy (airspeed), arresting any flightpath \ndivergence, and recovering to a stabilized flightpath.\
+    \ The airplane upset recovery training ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR2002.pdf_chunk_0031
+  report_id: AAR2002.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.7085
+  text_preview: "[ORGANIZATIONAL AND MANAGEMENT INFORMATION] Regardless of how the \nupset was recognized, the pilot must\
+    \ verify that an upset occurred by comparing control and \nperformance instrument indications before initiating the recovery\
+    \ on the attitude display. Such \ncomparison was meant to prevent aggravating the upset as a result of making control\
+    \ movements \nbased on erroneous instrument indications. According to Atlas’ upset recovery training aid: \nIn most cases,\
+    \ effective situational awareness will avo..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0404.pdf_chunk_0104
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6968
+  text_preview: '[FACTUAL INFORMATION] The working group consisted
+
+    of representatives from airplane manufacturers (Boeing, Airbus, and McDonnell
+
+    Douglas), airlines (including American Airlines, United Airlines, and Delta Air Lines,
+
+    which were already using upset recovery programs in simulator training), the FAA, and
+
+    pilots’ unions. The effort was the first time that the three airplane manufacturers worked
+
+    together on technical, noncommercial issues. Factual Information
+
+    96
+
+    Aircraft Accident Report
+
+    In public heari...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR0404.pdf_chunk_0178
+  report_id: AAR0404.pdf
+  section_name: ANALYSIS
+  score: 0.6475
+  text_preview: '[ANALYSIS] Accordingly, the Safety Board believes that, along with developing
+
+    upset recovery program guidance, the FAA should evaluate issues concerning the level of
+
+    automation appropriate to teaching upset training and develop and disseminate guidance
+
+    that will promote standardization and minimize the danger of inappropriate simulator
+
+    training.
+
+    210 For example, see the testimony of the vice president of training for Airbus North America customer
+
+    services at the Safety Board’s public hearing (p....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR0404.pdf_chunk_0105
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6363
+  text_preview: '[FACTUAL INFORMATION] For example, the
+
+    Airbus vice president indicated that the manufacturers were concerned about the AAMP’s
+
+    emphasis on rudder and utilization of simulation. Airbus did not initially favor the use of
+
+    simulators for upset recovery training because the forces that a pilot would experience in
+
+    terms of increased weight or G loading, both vertically and laterally, could not be
+
+    duplicated in a simulator. Also, Airbus was concerned about simulator fidelity and the
+
+    “high possibility” o...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9901.pdf_chunk_0220
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6216
+  text_preview: '[FACTUAL INFORMATION] According to USAir flight training personnel, the flight training syllabus at the
+
+    time of the USAir flight 427 accident included pilot training in the following maneuvers:
+
+    •
+
+    recovery from approaches to stalls,
+
+    •
+
+    recovery from a dutch roll,
+
+    •
+
+    high-speed buffet,
+
+    •
+
+    steep turns (45° bank), and
+
+    •
+
+    windshear escape. However, the Safety Board’s review of the USAir training syllabus that was in
+
+    effect before the accident for both the ground and simulator training programs revealed
+
+    t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR0404.pdf_chunk_0107
+  report_id: AAR0404.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6145
+  text_preview: "[FACTUAL INFORMATION] The\nDC-10 & MD-11 can also produce a very significant pitch moment.” \n•\nThe Airbus\
+    \ chief test pilot stated that “the training being given in the airlines at\nthe time to recover from excessive nose-up\
+    \ pitch attitudes emphasized rolling\nrapidly towards 90º of bank.” American’s presentation at the public hearing\nindicated\
+    \ that “AAMP taught pilots to roll the aircraft only if pushing the yoke\nforward does not lower the pitch attitude. It\
+    \ also noted the danger of loss of\ncontrol..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR0701.pdf_chunk_0053
+  report_id: AAR0701.pdf
+  section_name: ANALYSIS
+  score: 0.6079
+  text_preview: '[ANALYSIS] Even though the flight crew was eventually able to recover the airplane from the
+
+    upset event, the flight control inputs made during the upset were opposite of what was
+
+    required to recover the airplane. FDR data showed that the flight crew moved the control
+
+    column aft after the first stickpusher activation and that the crew moved the control
+
+    column aft with increasing magnitude after the next three activations of the stickpusher. A reason that might explain
+    why the pilots made these fl...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0906.pdf_chunk_0073
+  report_id: AAR0906.pdf
+  section_name: RECOMMENDATIONS
+  score: 0.5945
+  text_preview: "[RECOMMENDATIONS] Customers (such as the University of Michigan) who contract with aviation operators may\
+    \ \nnot understand the Federal Aviation Administration’s (FAA) role in aviation safety or know \nhow to contact FAA personnel\
+    \ when safety concerns arise. \n22. Had Federal Aviation Administration (FAA) personnel been aware of Marlin Air’s financial\
+    \ \nsituation, the FAA would have had an opportunity to increase surveillance of the company. \n63\n\nNTSB \nAircraft\
+    \ Accident Report 4. Recommendations \n4.1..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR9804_body.pdf_chunk_0101
+  report_id: AAR9804_body.pdf
+  section_name: ORGANIZATIONAL AND MANAGEMENT INFORMATION
+  score: 0.5844
+  text_preview: '[ORGANIZATIONAL AND MANAGEMENT INFORMATION] According to Comair’s DO and EMB-120 Program Manager, the upset
+    training
+
+    was considered a demonstration and familiarization item. Their goal was to help flightcrews
+
+    recognize upset situations and to know what to expect and how to respond to an upset. The
+
+    Safety Board reviewed Comair’s upset/unusual attitude training, which included cockpit
+
+    familiarization, system demonstration, and airplane characteristics. The training addressed the
+
+    following scenario...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

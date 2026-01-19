@@ -1,0 +1,206 @@
+metadata:
+  query_id: CON-007
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: automation mode confusion glass cockpit display
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%automation%' AND (lower(chunk_text) LIKE '%confusion%' OR lower(chunk_text)
+    LIKE '%mode%')
+  expected_report_ids:
+  - AAR1401.pdf
+  - AAR2002.pdf
+  - AAR8801.pdf
+  - AAR0001.pdf
+  - AAR0602.pdf
+  relevance_signals:
+  - automation
+  - autoflight
+  - mode
+  - display
+  - awareness
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AAR2002.pdf_chunk_0064
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.5262
+  text_preview: "[ANALYSIS] The accident investigations and various studies have resulted in safety recommendations \nintended\
+    \ to prevent accidents involving spatial disorientation due to somatogravic illusions. These \nincluded recommendations\
+    \ for changes in pilot training, standard operating procedures, display \ndesign, flight control system design, and ATC\
+    \ procedures. One study that examined flight crew loss of airplane state awareness also identified \ncommon themes, including\
+    \ lack of external visual references..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0602.pdf_chunk_0055
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.5218
+  text_preview: '[ANALYSIS] In such systems, only one set of commands guides
+
+    flight director command cues, which are presented simultaneously for both pilot stations. Analysis
+
+    49
+
+    Aircraft Accident Report
+
+    wants to program the flight director in advance of the subsequent phase of flight. However, only one pilot station can
+    be coupled at a time, and a lack of pilot awareness
+
+    regarding which set of command cues is coupled to the autopilot can lead to automation
+
+    mode confusion.111
+
+    Two indications in the cockpit provi...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR2002.pdf_chunk_0045
+  report_id: AAR2002.pdf
+  section_name: ANALYSIS
+  score: 0.4746
+  text_preview: "[ANALYSIS] According to Atlas’ procedures, the expected crew response to unwanted operation of \nautomated\
+    \ flight systems was to disconnect the automation. However, neither the FO nor the \ncaptain ever acknowledged that the\
+    \ airplane had transitioned to go-around mode or disengaged the \nautopilot or autothrottle. Thus, the NTSB concludes\
+    \ that, despite the presence of the go-around \nmode indications on the flight mode annunciator and other cues that indicated\
+    \ that the airplane had \ntransitioned to ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR0602.pdf_chunk_0013
+  report_id: AAR0602.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.471
+  text_preview: '[FACTUAL INFORMATION] Factual Information
+
+    12
+
+    Aircraft Accident Report
+
+    indicates “ON” when the autopilot and the flight director are coupled.31 The primary
+
+    method to decouple the autopilot and the flight director is by pushing the CPL button.32
+
+    Once decoupling occurs, the pilot is required to fly the helicopter manually. No aural
+
+    warning occurs when the autopilot and flight director become decoupled. During normal operations, the illumination, or
+    absence of illumination, of the CPL
+
+    button is the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR1402.pdf_chunk_0020
+  report_id: AAR1402.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.4649
+  text_preview: "[AIRCRAFT INFORMATION] The primary method of \nmaking mode selections is using the associated mode control\
+    \ panel mode pushbutton switch. \n1.6.2.4 Autopilot/Autothrottle Operation \nAccording to the UPS A300 AOM, when disengaging\
+    \ the autopilot or autothrottles, the \nPF must verbally state that the autopilot/autothrottles are being disengaged to\
+    \ ensure that both \npilots are aware of the autoflight system status. It further stated, if the autopilot is not providing\
+    \ \nprecise airplane control or mainta..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR9202.pdf_chunk_0029
+  report_id: AAR9202.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4579
+  text_preview: '[TESTS AND RESEARCH] The illumination of the display legend,
+
+    which reads “FWD CARGO DR" on the flight engineer''s panel, was discernible
+
+    vith one bulb inoperative. A functional check of the circuit, which allows the
+
+    cockpit warning lights to be dimmed during night operations, was also performed. The check consisted of removing the card
+    containing this circuit and installing it in
+
+    another B-747. The test was satisfactory in that the dim/bright circuit functioned
+
+
+    properly.
+
+
+    ewes
+
+
+    nantes me ‘abe cc...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses cockpit displays and lighting, which is relevant to the query about glass cockpit displays and automation mode confusion.'
+- rank: 7
+  chunk_id: AAR1401.pdf_chunk_0024
+  report_id: AAR1401.pdf
+  section_name: OTHER DAMAGE
+  score: 0.4518
+  text_preview: "[OTHER DAMAGE] Through the \nMCP, which is shown in figure 8, the flight crew arms or engages the AFDS and\
+    \ the A/T, makes \nmode selections, and sets target values. Four liquid crystal displays on the MCP show the target \n\
+    values for indicated airspeed, heading or track, vertical speed or flightpath angle, and altitude. NTSB \nAircraft Accident\
+    \ Report \n23 \nFigure 8. 777 mode control panel. \n1.6.3.1 Autopilot Flight Director System \nThe AFDS can provide A/P\
+    \ pitch, roll, and yaw commands to the airpla..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR8108.pdf_chunk_0019
+  report_id: AAR8108.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4486
+  text_preview: '[ADDITIONAL INFORMATION] A switch on each actuator is connected to the cockpit
+
+    hight display. One display, on the pilsts'' instrument panel, provides an amber (in transist)
+
+    light when an acutator is unlocked, a green light when all actuators are extended and
+
+    locked, of no light when the actuators are retracted and locked. The other display, aft of
+
+    the flight engineer''s panel, provides a display of the condition of each individual leading
+
+    edge device. When activated, this display will show whether...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses the cockpit display related to leading edge devices, which is relevant to the query about glass cockpit displays and automation mode confusion.'
+- rank: 9
+  chunk_id: AAR0602.pdf_chunk_0056
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.445
+  text_preview: '[ANALYSIS] The ability to engage only one or two axes, instead of all three, can be
+
+    beneficial in certain circumstances, such as search and rescue, when a pilot may engage a
+
+    roll function on the flight director mode selector (such as heading) but need to make pitch
+
+    control inputs to maintain a certain height above varying terrain. However, the
+
+    simultaneous presentation of command cues for both selected and unselected axes allows
+
+    for the possibility of pilot misinterpretation of the command cue f...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR1401.pdf_chunk_0111
+  report_id: AAR1401.pdf
+  section_name: ANALYSIS
+  score: 0.4433
+  text_preview: "[ANALYSIS] Pilot training could be improved across airplane types to support better pilot \nunderstanding\
+    \ of automated systems for flightpath management and their use in operational \n \n100 In addition, most pilots surveyed\
+    \ thought autoflight system training could be improved through more \nattention to automation surprises (57%) and hands-on\
+    \ use of automation in operational situations (52%). A third \n(33%) thought training could be improved through greater\
+    \ attention to transitions between modes, a..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+summary:
+  auto_keyword_matches: 8
+  needs_human_review: 2

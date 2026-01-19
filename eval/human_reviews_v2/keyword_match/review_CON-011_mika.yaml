@@ -1,0 +1,200 @@
+metadata:
+  query_id: CON-011
+  model: mika
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: fuel system contamination water ice crystals
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%fuel%' AND (lower(chunk_text) LIKE '%contamination%' OR lower(chunk_text)
+    LIKE '%water%ice%')
+  expected_report_ids:
+  - AAR8508.pdf
+  - AAR1006.pdf
+  - AAR1904.pdf
+  - AAR8214.pdf
+  - AAR1105.pdf
+  relevance_signals:
+  - fuel
+  - contamination
+  - water
+  - ice
+  - filter
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.8
+results:
+- rank: 1
+  chunk_id: AAR8214.pdf_chunk_0014
+  report_id: AAR8214.pdf
+  section_name: ANALYSIS
+  score: 0.498
+  text_preview: '[ANALYSIS] When questioned, the manufacturer''s laboratory conceded that
+
+    this test should not be considered conclusive, and that standard test methods should be
+
+    relied upon. In addition, the airplane was fueled at Anchorage, as well as at previous
+
+    refueling stations in the Reeve system, with Jet A fuel. Therefore, it would have been
+
+    impossible to have JP-4 fuel in the fuel controls, Therefore, the Safety Board concludes
+
+    that the fuel was Jet A. The Safety Board further concludes that the water in...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR8214.pdf_chunk_0009
+  report_id: AAR8214.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4224
+  text_preview: '[TESTS AND RESEARCH] These
+
+    samples were examined in the Rolls Royce laboratory. The sample from the fuel control
+
+    was determined to contain 31.4 percent by volume water. The sample from th2 fuel pump
+
+    contained 3.3 percent by volume water. The water also was tested for salinity and was
+
+    found to contain 10- to 15-percent chloride. The Rolls Royce laboratory also made a
+
+    comparison test of the sample against a standard fuel using infrared scectrophotometry,
+
+    and concluded that the fuel type was JP+4. ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAB0603.pdf_chunk_0025
+  report_id: AAB0603.pdf
+  section_name: ANALYSIS
+  score: 0.4174
+  text_preview: "[ANALYSIS] The presence of upper wing surface contamination is likely because the airplane was \nparked on\
+    \ the ground for about 40 to 45 minutes during freezing precipitation and it was not \ndeiced. A witness observation of\
+    \ upper wing surface contamination while the airplane was \nparked, as well as a passenger’s observation of slush sliding\
+    \ from the top of the fuselage before \ntakeoff, further confirm the presence of contamination. This type of contamination\
+    \ can easily \naccumulate while an airpla..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR1006.pdf_chunk_0141
+  report_id: AAR1006.pdf
+  section_name: ANALYSIS
+  score: 0.393
+  text_preview: "[ANALYSIS] A review of the GE CT58-140 engine control system and its fuel supply system showed \nthat many\
+    \ factors can affect the power output of the engine. Contamination within the engine \nfuel supply system is one potential\
+    \ factor. Depending on the size and material characteristics of \nthe contamination, a malfunction with either the FCU\
+    \ or the pilot valve (a component of the \n \n135 Transportation Safety Board of Canada, Report Number A02P0320. NTSB\
+    \ \nAircraft Accident Report \n117 \nstator vane ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 5
+  chunk_id: AAR8508.pdf_chunk_0018
+  report_id: AAR8508.pdf
+  section_name: SURVIVAL ASPECTS
+  score: 0.3904
+  text_preview: '[SURVIVAL ASPECTS] Tests of the
+
+    tanks were conducted for the PREA by an independent contractor on August 22, L984. All
+
+    tank openings were sealed and pressurized air was app: ..d to each tank for 24 hours. Both
+
+    the Nos. 1 and 2 tanks held air under pressure indicating that there were no interne] leaks.
+
+
+    1.16.2 Tests of Fuc’ Samples
+
+
+    Fluid samples were taken for analysis from the accident airplane wreckage,
+
+    the fueling facility, and the soa. The samples were tested at the Petroleum Testing ,
+
+    Lebor...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR8214.pdf_chunk_0013
+  report_id: AAR8214.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3878
+  text_preview: '[ADDITIONAL INFORMATION] However, it is a
+
+    potential source of ice in the fuel system when the fuel is at low temperature becacse of
+
+    exposure to cold temperatures at flight altitudes. For this reason, engines include fuel
+
+    heat systems or fuel filter bypasses, or both. At Anchorage International Airport, fuel is stored in a central tank farm
+    and
+
+    pumped through underground pipes to the airplane parking locations. It is pumped by
+
+    portable hydrant carts from these locations directly to the airplanes....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR1006.pdf_chunk_0140
+  report_id: AAR1006.pdf
+  section_name: ANALYSIS
+  score: 0.3812
+  text_preview: "[ANALYSIS] NTSB \nAircraft Accident Report \n116 \npreflight duties. Weather observations by a trained ground\
+    \ crew could provide independent, \naccurate, and recorded weather information. Basic weather instrumentation capable\
+    \ of reading wind, temperature, and pressure is \ncurrently available at low cost, and helitack crewmembers could be taught\
+    \ during their annual \ntraining to use this instrumentation to obtain and disseminate weather information to flight \n\
+    crews. The NTSB concludes that making accu..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR1105.pdf_chunk_0046
+  report_id: AAR1105.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3663
+  text_preview: "[ADDITIONAL INFORMATION] Laboratory and flight testing demonstrated that the use of an anti-icing additive\
+    \ at a \nmaximum concentration of 0.15 percent by volume could substantially inhibit fuel system icing \nunder most operating\
+    \ conditions. The AC cautioned that the concentration of the anti-icing \nadditive in the fuel was critical because a\
+    \ marked deterioration in its effectiveness could result \nfrom too little or too much additive. The AC concluded that\
+    \ fuel anti-icing additives are \nbeneficia..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR1006.pdf_chunk_0089
+  report_id: AAR1006.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.3652
+  text_preview: "[ADDITIONAL INFORMATION] Although the flight crew did not report a loss of engine power during \nthe event,\
+    \ the FCUs were removed from the helicopter’s engines for examination. Functional \ntesting of both FCUs conducted at\
+    \ Columbia Helicopters’ facility under the direct supervision of \nNTSB investigators determined that each unit was capable\
+    \ of supplying sufficient fuel to its \nrespective engine. During testing, both PRVs functioned as designed and moved\
+    \ freely when \ncommanded. A fuel sample was ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR9302.pdf_chunk_0052
+  report_id: AAR9302.pdf
+  section_name: ANALYSIS
+  score: 0.3614
+  text_preview: '[ANALYSIS] As with many other domestic air carriers, USAir had not
+
+    equipped any of its facilities to dispense the Type II fluids to provide extended anti-
+
+
+    ice protection to its aircraft. The Safety Board believes that USAir''s procedures met
+
+    airline standards and were consistent with most of the industry. The groundcrews
+
+    believed that visual inspections were sufficient for determining the presence of
+
+    airplane surface contamination. Groundcrews interviewed by Safety Board
+
+    investigators were very ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

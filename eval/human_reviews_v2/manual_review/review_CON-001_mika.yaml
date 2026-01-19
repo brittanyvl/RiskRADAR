@@ -1,0 +1,207 @@
+metadata:
+  query_id: CON-001
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: uncommanded flight control surface movement
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncommanded%' AND (lower(chunk_text) LIKE '%rudder%' OR lower(chunk_text)
+    LIKE '%aileron%' OR lower(chunk_text) LIKE '%elevator%')
+  expected_report_ids:
+  - AAR0404.pdf
+  - AAR9901.pdf
+  - AAR9602.pdf
+  - AAR9601.pdf
+  - AAR0101.pdf
+  relevance_signals:
+  - uncommanded
+  - hardover
+  - runaway
+  - control surface
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.14285714285714285
+  hit_at_10: true
+  precision_at_10: 0.1
+results:
+- rank: 1
+  chunk_id: AAR0201.pdf_chunk_0149
+  report_id: AAR0201.pdf
+  section_name: ANALYSIS
+  score: 0.4584
+  text_preview: '[ANALYSIS] The captain did not
+
+    brief the first officer about what to expect or what to do if these configuration changes
+
+    resulted in excessive flight control pressures or loss of control of the airplane. Further, the
+
+    captain did not specify that the flaps should be extended at a slower-than-normal rate,
+
+    which would have been a prudent precaution to minimize the possibility of the
+
+    configuration change causing abrupt airplane movements that could be difficult to control. Nevertheless, at 1618:17, ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 2
+  chunk_id: AAR9402.pdf_chunk_0019
+  report_id: AAR9402.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4528
+  text_preview: "[ADDITIONAL INFORMATION] Thc \nbuffet margin \nc and economy will be enhanced. \n2. \nIn turbulence, closely\
+    \ monitor autopilot operation and be \nprepared to disconnect it if the aircraft departs the desired \nattitude. If the\
+    \ pilot disconnects the autopilot, or if it shou!d \ntrip off, smoothly take over control and stabilize the pitch \nattitude.\
+    \ Do not trim rnanaally. After recovery from the \nupset, the autopilot may be reengaged if available. If the \nautoflight\
+    \ is engaged outside the capture zone of..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 3
+  chunk_id: AAR9304.pdf_chunk_0038
+  report_id: AAR9304.pdf
+  section_name: THE ACCIDENT
+  score: 0.4508
+  text_preview: '[THE ACCIDENT] That sensory input. coupled with
+
+    the “sinking” sensation because of the transition from climbing flight to descending
+
+    Hight (reduced load factor), very likely accounts for the impressions of the pilots
+
+    that the airplane was “not going to fly." The Safety Board was unable to identify
+
+    any other aerodynamic or mechanical explanation for the pilots’ stated belief. The analyses of the FDR data and medeling
+    of the takeoff verify that
+
+    the control column moved forward and that the airplan...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 4
+  chunk_id: AAR9205.pdf_chunk_0047
+  report_id: AAR9205.pdf
+  section_name: ANALYSIS
+  score: 0.4443
+  text_preview: '[ANALYSIS] The first officer also began all radio calls
+
+    as the nonflying pilot. However, there was no subsequent positive verbal transfer of
+
+    control to the first officer prior to the loss of contro) during the second go-around. Even if the captain thought he
+    had relinquished control to the first officer pricr to the
+
+    control loss, the first officer demonstrated that he considered himtci: the nonflying
+
+    pilot when he acknowledged the assigned vector of 300 degrees at 13°.:36.3. This
+
+    transmission wa...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 5
+  chunk_id: AAR8603.pdf_chunk_0044
+  report_id: AAR8603.pdf
+  section_name: ANALYSIS
+  score: 0.4394
+  text_preview: '[ANALYSIS] Thus, whe he failed to arrest the decrease by disengaging
+
+    the PMS and lowering the airplane''s nose by rotating the pitch control wheel on the
+
+    autopilot manual control module, he disconnected the autopilot. As noted earlier, an excursion from & stabslized condition
+    might be
+
+    exaggerated during the transfer from system monitor mode to system controller because
+
+    time is needed to ascertain the status of the airplane and assess the situation before the
+
+    pilut can reenter the control loop and...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 6
+  chunk_id: AAR1102.pdf_chunk_0067
+  report_id: AAR1102.pdf
+  section_name: ANALYSIS
+  score: 0.4299
+  text_preview: "[ANALYSIS] The NTSB acknowledges that recognizing the cockpit warning indicators, identifying the \nnature\
+    \ of any problems, and choosing a response procedure requires considerable attention. As \nnoted beneath the QRH Table\
+    \ of Contents, before a flight crew performs a procedure, the flight \ncrew “must assess the situation as a whole, taking\
+    \ into consideration the failures, when fully \nidentified, and the flight constraints imposed.” According to the GOM,\
+    \ in the event of an \ninoperative or malfunct..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 7
+  chunk_id: AAR0101.pdf_chunk_0091
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4295
+  text_preview: '[FACTUAL INFORMATION] Forces, moments, and aerodynamic coefficients are then obtained from these accelerations
+    using
+
+    Newton’s laws of physics. Boeing uses its aerodynamic models to derive flight control time histories from
+
+    the aerodynamic coefficients. Factual Information
+
+    86
+
+    Aircraft Accident Report
+
+    time histories. Further, kinematics techniques magnified the noise59 that was inherent in
+
+    the accident airplane’s FDR data, so smoothing techniques were needed to reduce this
+
+    noise and minimize the p...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR0502.pdf_chunk_0047
+  report_id: AAR0502.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.428
+  text_preview: '[CONCLUSIONS > FINDINGS] The airplane was loaded in
+
+    accordance with approved company weight and balance procedures. The weight and
+
+    balance of the airplane were within limits during all phases of the flight.
+
+    3.
+
+    Winds were within the airplane’s performance capabilities and did not adversely
+
+    affect the flight crew’s ability to maneuver the airplane during the approach and
+
+    landing as significant aircraft control authority remained.
+
+    4.
+
+    The emergency response was timely and appropriate. The passengers...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 9
+  chunk_id: AAR-90-06.pdf_chunk_0067
+  report_id: AAR-90-06.pdf
+  section_name: ANALYSIS
+  score: 0.4276
+  text_preview: "[ANALYSIS] The only means available to fly the airplane was \nthrough manipulation of thrust available from\
+    \ the No. 1 and No. 3 engines. The primary task confronting the flightcrew was controlling the airplane on \nits flightpath\
+    \ during the long period (about 60 seconds) of the \"phugoid\" or \npitch oscillation. This task was extremely difficult\
+    \ to accomplish because \nof the additional need to use the No. I and No. 3 power levers asymmetrically \nto maintain\
+    \ lateral (roll) control coupled with the ne..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 10
+  chunk_id: AAR1103.pdf_chunk_0056
+  report_id: AAR1103.pdf
+  section_name: ANALYSIS
+  score: 0.4225
+  text_preview: "[ANALYSIS] Ground scar evidence from the accident site indicated that the airplane was traveling \neast-northeast\
+    \ when it impacted terrain. Thus, it was on a heading that pointed away from any \nrelevant destination or previous flight\
+    \ track. An impact study that evaluated the airplane’s crush \ndamage and the ground scar evidence determined that the\
+    \ airplane impacted terrain at a pitch \nattitude of about 17° airplane nose up and bank angle of about 30° left wing\
+    \ down. Also, an \nairplane performance..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+summary:
+  auto_keyword_matches: 1
+  needs_human_review: 9

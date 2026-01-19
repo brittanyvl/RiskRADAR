@@ -1,0 +1,128 @@
+{
+  "model": "minilm",
+  "queries_reviewed": 20,
+  "queries_complete": 11,
+  "total_results_reviewed": 110,
+  "keyword_matches": 71,
+  "semantic_matches": 31,
+  "false_positives": 8,
+  "per_query": [
+    {
+      "query_id": "CMP-002",
+      "category": "comparative_queries",
+      "keyword_matches": 7,
+      "semantic_matches": 3,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.3,
+      "automated_mrr": 0.5
+    },
+    {
+      "query_id": "CMP-003",
+      "category": "comparative_queries",
+      "keyword_matches": 8,
+      "semantic_matches": 1,
+      "false_positives": 1,
+      "semantic_precision": 0.9,
+      "semantic_lift": 0.1,
+      "automated_mrr": 1.0
+    },
+    {
+      "query_id": "CMP-004",
+      "category": "comparative_queries",
+      "keyword_matches": 6,
+      "semantic_matches": 3,
+      "false_positives": 1,
+      "semantic_precision": 0.9,
+      "semantic_lift": 0.3,
+      "automated_mrr": 0.16666666666666666
+    },
+    {
+      "query_id": "CMP-005",
+      "category": "comparative_queries",
+      "keyword_matches": 6,
+      "semantic_matches": 4,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.4,
+      "automated_mrr": 0.16666666666666666
+    },
+    {
+      "query_id": "CMP-007",
+      "category": "comparative_queries",
+      "keyword_matches": 6,
+      "semantic_matches": 2,
+      "false_positives": 2,
+      "semantic_precision": 0.8,
+      "semantic_lift": 0.2,
+      "automated_mrr": 0.5
+    },
+    {
+      "query_id": "CMP-008",
+      "category": "comparative_queries",
+      "keyword_matches": 3,
+      "semantic_matches": 7,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.7,
+      "automated_mrr": 0.5
+    },
+    {
+      "query_id": "CON-001",
+      "category": "conceptual_queries",
+      "keyword_matches": 5,
+      "semantic_matches": 3,
+      "false_positives": 2,
+      "semantic_precision": 0.8,
+      "semantic_lift": 0.3,
+      "automated_mrr": 1.0
+    },
+    {
+      "query_id": "CON-004",
+      "category": "conceptual_queries",
+      "keyword_matches": 7,
+      "semantic_matches": 3,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.3,
+      "automated_mrr": 1.0
+    },
+    {
+      "query_id": "CON-007",
+      "category": "conceptual_queries",
+      "keyword_matches": 8,
+      "semantic_matches": 2,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.2,
+      "automated_mrr": 1.0
+    },
+    {
+      "query_id": "CON-008",
+      "category": "conceptual_queries",
+      "keyword_matches": 8,
+      "semantic_matches": 2,
+      "false_positives": 0,
+      "semantic_precision": 1.0,
+      "semantic_lift": 0.2,
+      "automated_mrr": 0.25
+    },
+    {
+      "query_id": "CON-011",
+      "category": "conceptual_queries",
+      "keyword_matches": 7,
+      "semantic_matches": 1,
+      "false_positives": 2,
+      "semantic_precision": 0.8,
+      "semantic_lift": 0.1,
+      "automated_mrr": 0.5
+    }
+  ],
+  "aggregate": {
+    "keyword_match_rate": 0.6454545454545455,
+    "semantic_match_rate": 0.2818181818181818,
+    "false_positive_rate": 0.07272727272727272,
+    "semantic_precision": 0.9272727272727272,
+    "semantic_lift": 0.2818181818181818
+  }
+}

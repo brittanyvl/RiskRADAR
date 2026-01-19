@@ -1,0 +1,214 @@
+metadata:
+  query_id: CON-001
+  model: minilm
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: 'Brittany Justice'
+  review_date: '2025-01-19'
+  review_complete: true
+query:
+  text: uncommanded flight control surface movement
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%uncommanded%' AND (lower(chunk_text) LIKE '%rudder%' OR lower(chunk_text)
+    LIKE '%aileron%' OR lower(chunk_text) LIKE '%elevator%')
+  expected_report_ids:
+  - AAR0404.pdf
+  - AAR9901.pdf
+  - AAR9602.pdf
+  - AAR9601.pdf
+  - AAR0101.pdf
+  relevance_signals:
+  - uncommanded
+  - hardover
+  - runaway
+  - control surface
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.3
+results:
+- rank: 1
+  chunk_id: AAR9901.pdf_chunk_0107
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.475
+  text_preview: '[FACTUAL INFORMATION] Safety Board investigators then modified the
+
+    control input, reran the simulations, and continued this process (known as iteration) until a
+
+    good match with the FDR data was obtained.165
+
+    Various factors affect the extent to which the derived control surface positions
+
+    reflect the actual control surface positions. For example, the accuracy of the USAir flight
+
+    427 simulations is affected by the fidelity of the aerodynamic modeling of the airplane in
+
+    the flight conditions at the ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 2
+  chunk_id: AAR0101.pdf_chunk_0091
+  report_id: AAR0101.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4747
+  text_preview: '[FACTUAL INFORMATION] Forces, moments, and aerodynamic coefficients are then obtained from these accelerations
+    using
+
+    Newton’s laws of physics. Boeing uses its aerodynamic models to derive flight control time histories from
+
+    the aerodynamic coefficients. Factual Information
+
+    86
+
+    Aircraft Accident Report
+
+    time histories. Further, kinematics techniques magnified the noise59 that was inherent in
+
+    the accident airplane’s FDR data, so smoothing techniques were needed to reduce this
+
+    noise and minimize the p...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR7303.pdf_chunk_0009
+  report_id: AAR7303.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.452
+  text_preview: '[TESTS AND RESEARCH] The program considered airplane response to a vortex velocity
+
+    distribution in terms of six degrees of freedotw,
+
+
+    4
+
+
+    A mathematical model representing the
+
+    characteristics of the DC-9 was exposed to a
+
+    mathematical model of a DC-10 left wingtip
+
+    generated vortex in a manner which simulated
+
+    the entry conditions previously described. As
+
+    the model airplane was subjected to external
+
+    loads, control surface deflections were introduced into the simulation by a model autopilot
+
+    which was...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 4
+  chunk_id: AAR9401.pdf_chunk_0060
+  report_id: AAR9401.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.452
+  text_preview: "[ADDITIONAL INFORMATION] Technique is the expert manner of \nperforming each of these steps .... \nProper\
+    \ technique is the hallmark of the professional, and a \nrequirement for an airline crewmember. It is emphasized that\
+    \ the contents of this section are presented as \nrecommended techniques, and not as regulatory-type procedures \nwith\
+    \ which strict literal compliance is always required, either by the \ncompany or FAA regulations. It is recognized that,\
+    \ in some \nsituations, the crew may find it necess..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR9901.pdf_chunk_0225
+  report_id: AAR9901.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4476
+  text_preview: "[FACTUAL INFORMATION] Factual Information\n201\n Aircraft Accident Report\nprompted by its determination\
+    \ that such procedures were not adequately defined in the\nexisting version of the 737 AFM. The AD established a “recall”\
+    \ procedure to be performed by flight crews\nimmediately, from memory, in the event of an uncommanded yaw or roll. The\
+    \ recall\nprocedure stated, “Maintain control of the airplane with all available flight controls. If roll\nis uncontrollable,\
+    \ immediately reduce angle of attack and in..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 6
+  chunk_id: AAR9604.pdf_chunk_0036
+  report_id: AAR9604.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4456
+  text_preview: '[ADDITIONAL INFORMATION] The
+
+    takeoffs were controllable in the absence of tiller inputs under all runway surface conditions from
+
+    dry through icy, and with crosswinds of up to 24 knots. Further, without tiller inputs, takeoffs
+
+    were controllable under crosswind conditions of 20 knots gusting to 40 knots. A simulated takeoff during which no aerodynamic
+    rudder or nosewheel steering
+
+    inputs were made resulted in the simulated airplane initially drifting downwind (to the right)
+
+    momentarily, then weathe...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR0401.pdf_chunk_0031
+  report_id: AAR0401.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.4434
+  text_preview: '[FACTUAL INFORMATION] He thought that the pilot had briefly
+
+    recovered control of the airplane, but then its nose went down. He stated that the airplane
+
+    hit the hangar and that he then saw a ball of fire. He further stated that both engines
+
+    appeared to be running throughout the flight and that he did not notice anything fall from
+
+    the airplane. The local control west controller has been a controller at the CLT ATCT since
+
+    1987. He was a controller at the RDU ATCT and with the U.S. Air Force before ...'
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 8
+  chunk_id: AAR8302.pdf_chunk_0062
+  report_id: AAR8302.pdf
+  section_name: FIRE
+  score: 0.4425
+  text_preview: '[FIRE] The fifth profile represented a frontal type wind shear with a milder headwind
+
+    shearout occurring in combination with a downdraft of less than 5 knois. The takeoff simulations were performed in a DC-10
+    flight simulator, at sea
+
+    level elevation and on a standard day. Low compressor (N1) takeoff setting wes
+
+    102 percent, and the pilot executed a normsl rotation and climbout. All takeoff
+
+    sequences were flown using the MFD-delta-A system. Report RD-117 states, however,
+
+    that the only clement of ...'
+  judgment: 'false_positive'
+  notes: 'This result discusses fire and takeoff simulations, which is not directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 9
+  chunk_id: AAB0101.pdf_chunk_0026
+  report_id: AAB0101.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.4399
+  text_preview: "[TESTS AND RESEARCH] The simulator also contains mathematical models of the \nairplane’s autopilot systems,\
+    \ which duplicate actual autopilot commands. The simulation \nincorporates these commands into its flight control models\
+    \ to compute control surface deflections \nand the resulting airplane motion. Safety Board investigators estimated the\
+    \ stabilizer and elevator movements during the \naccident scenario using information from the 727 engineering simulator\
+    \ and trim-in-motion \nsounds from the accide..."
+  judgment: 'semantic_match'
+  notes: 'This result discusses uncommanded flight control surface movement, which is directly relevant to the query about uncommanded flight control surface movement.'
+- rank: 10
+  chunk_id: AAR9401.pdf_chunk_0080
+  report_id: AAR9401.pdf
+  section_name: ANALYSIS
+  score: 0.4394
+  text_preview: "[ANALYSIS] Without an approach briefing, the flightcrew must fall back upon \nstandardized operational training.\
+    \ After the captain countermanded his decision to \ngo around on short final and took control of the airplane from him,\
+    \ there was no \nspecific guidance to the first officer regarding his duties to back up the captain \nduring the landing.\
+    \ The American Airlines Operating Manual does not give clear \ndirection on what the first officer should do following\
+    \ a captain taking control of an \nairpl..."
+  judgment: 'false_positive'
+  notes: 'This result discusses approach briefings and flight crew responsibilities, which is not directly relevant to the query about uncommanded flight control surface movement.'
+summary:
+  auto_keyword_matches: 5
+  needs_human_review: 5

@@ -1,0 +1,239 @@
+metadata:
+  query_id: CON-010
+  model: mika
+  category: conceptual_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: spatial disorientation vestibular illusion instrument flight
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%spatial disorientation%' OR lower(chunk_text) LIKE '%vestibular%'
+  expected_report_ids:
+  - AAR0301.pdf
+  - AAR2002.pdf
+  - AAR0703.pdf
+  - AAR1403.pdf
+  - AAR2101.pdf
+  relevance_signals:
+  - disorientation
+  - vestibular
+  - illusion
+  - instrument
+  - attitude
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.3333333333333333
+  hit_at_10: true
+  precision_at_10: 0.4
+results:
+- rank: 1
+  chunk_id: AAR9205.pdf_chunk_0037
+  report_id: AAR9205.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.7083
+  text_preview: '[ADDITIONAL INFORMATION] According to an article entitled "Inflight Spatial Disorientation” in the
+
+    January/February 1992, issue of Human Factors and Aviation Medicine:
+
+
+    Maintaining spatial orientation during flight when the outside horizon
+
+    visual reference is lost requires either orientation instrument displays
+
+    or automatic stabilization systems. Pilot exposure to linear and
+
+    angular accelerative forces during loss-of-outside-reference flight
+
+    produces confusing vestibular and proprioceptor stimul...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR9301S.pdf_chunk_0024
+  report_id: AAR9301S.pdf
+  section_name: SAFETY RECOMMENDATIONS
+  score: 0.6931
+  text_preview: '[SAFETY RECOMMENDATIONS] To an individual inside an aircraft, however, vestibular information can be
+
+    misleading because the body no longer has a fixed reference with which to orient
+
+    against, as the individual moves when the aircraft moves. Further, steady aircraft
+
+    motion, or an accelerating or decelerating aircraft, can produce vestibular
+
+    sensations that are at odds with the reality of the body’s orientation. Generally,
+
+
+    visua! information in an aircraft can counter misleading vestibular informa...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR0703.pdf_chunk_0025
+  report_id: AAR0703.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.6624
+  text_preview: '[FACTUAL INFORMATION] Hart, “Helicopter Human Factors,” Human Factors in Aviation (1988): 591-638.
+
+    58 National Transportation Safety Board, Risk Factors Associated with Weather-Related General
+
+    Aviation Accidents, Safety Study NTSB/SS-05/01 (Washington, DC: NTSB, 2005).
+
+    59 In 2004, there were 103 general aviation accidents that occurred in IMC, resulting in 143 deaths. Factual Information
+
+    25
+
+    Aircraft Accident Report
+
+    Reduced visibility conditions, such as IMC or dark night VMC, also greatly
+
+    increa...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAB0202.pdf_chunk_0027
+  report_id: AAB0202.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6245
+  text_preview: '[ADDITIONAL INFORMATION] Practice and experience in instrument flying are necessary to help pilots ignore
+    or
+
+    overcome false sensations. The FAA Instrument Flying Handbook (FAA-H-8083-15) describes one of the
+
+    major illusions leading to spatial disorientation as follows:
+
+    Coriolis Illusion
+
+    The pilot has been in a turn long enough for the fluid in the ear canal to
+
+    move at the same speed as the canal. A movement of the head in a different
+
+    plane, such as looking at something in a different part of the...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR8213.pdf_chunk_0011
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.6121
+  text_preview: '[ADDITIONAL INFORMATION] He said that he would not expect the pilot of Flight 104 to
+
+    have been using the autopilot during the approach. The operational procedure for executing a missed approach would have
+    been:
+
+    add power (probably climb power), raise the nose, establish and verify a positive rate of
+
+    climb, and raise the landing gear and flaps. In this case, the pilot also would have turned
+
+    right to the missed approach course of 060°
+
+
+    1.17.2 Elevator Trim Service History
+
+
+    The FAA Service Difficul...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8213.pdf_chunk_0012
+  report_id: AAR8213.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5987
+  text_preview: '[ADDITIONAL INFORMATION] You may have absolutely no idea
+
+    what the attitude of the airplane is or its position in reference to
+
+    the ground. Trust your instruments.
+
+
+    *+ + *
+
+
+    Other sensing mectanisms located in the inner ear are called
+
+    otolith organs. ey are affected by straight Line or linear
+
+    aceslerations. They register various "G" forces as they are applied
+
+    to the body but are not able to give accurate body orientation
+
+    information to the brain. PLIGHT FACTORS CONTRIBUTING TO SENSORY ILLUSIONS
+
+
+    1....'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR2101.pdf_chunk_0045
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.597
+  text_preview: "[ANALYSIS] According to the helicopter performance study, the helicopter immediately began climbing at a\
+    \ \nrate of about 1,500 fpm and began to bank to the left. The ADS-B data showed that, at first, the \nhelicopter’s flight\
+    \ path turned gradually left, generally continuing to follow US 101 below. However, as the helicopter continued to climb\
+    \ into the cloud layer and IMC, the pilot’s associated \nloss of outside visual references would have required him to\
+    \ transition his focus to the helicopter’s \n..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR0301.pdf_chunk_0027
+  report_id: AAR0301.pdf
+  section_name: FACTUAL INFORMATION
+  score: 0.5923
+  text_preview: '[FACTUAL INFORMATION] OSU’s revised team travel
+
+    policy appears in appendix B.
+
+    1.18.2 Spatial Disorientation Information
+
+    Spatial disorientation occurs when a pilot has inadequate visual information or
+
+    fails to attend to or properly interpret available information regarding the airplane’s pitch
+
+    34 An OSU alumnus from Houston, Texas, donated the use of the Learjet. A friend of the coach from
+
+    Little Rock, Arkansas, donated the use of the Cessna Citation.
+
+    35 The policy applies to baseball, basketball...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAR2101.pdf_chunk_0055
+  report_id: AAR2101.pdf
+  section_name: ANALYSIS
+  score: 0.5671
+  text_preview: "[ANALYSIS] Therefore, the NTSB \nrecommends that the FAA require the use of appropriate simulation devices\
+    \ during initial and \nrecurrent pilot training for Part 135 helicopter operations to provide scenario-based training\
+    \ that \n \n65 See appendix C. NTSB \nAircraft Accident Report \n45 \naddresses the decision-making, skills, and procedures\
+    \ needed to recognize and respond to changing \nweather conditions in flight, identify and apply mitigation strategies\
+    \ for avoiding adverse weather, \npractice the tr..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 10
+  chunk_id: AAR9503.pdf_chunk_0061
+  report_id: AAR9503.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.5352
+  text_preview: '[ADDITIONAL INFORMATION] The acceleration of gravity is the same physical
+
+    phenomenon as an imposed acceleration, and hence, in certain
+
+    circumstances, one may not be easily distinguishable from the other. When the imposed acceleration is of short duration,
+    such as the A
+
+
+    20 Aviation Occurrence Report, Skytink Airlines, Ltd., Fairchild Aircraft Corporation SA227 Metro tL C-GSLB,
+
+    Tetr:.nce Airport, British Columbia, 26 September, 1989. Report Number 8911007.
+
+
+    21 See Aircraft Accident Report--"Air T...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

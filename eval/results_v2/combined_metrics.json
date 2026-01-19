@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-01-19T15:40:18.719874",
+  "automated_categories": [
+    "incident_lookup",
+    "section_queries",
+    "aircraft_queries",
+    "phase_queries"
+  ],
+  "human_reviewed_categories": [
+    "conceptual_queries",
+    "comparative_queries"
+  ],
+  "minilm": {
+    "automated": {
+      "mean_mrr": 0.7042735042735042,
+      "mean_hit_at_10": 1.0
+    },
+    "human_reviewed": {
+      "semantic_precision": 0.9272727272727272,
+      "semantic_lift": 0.2818181818181818,
+      "false_positive_rate": 0.07272727272727272
+    }
+  },
+  "mika": {
+    "automated": {
+      "mean_mrr": 0.8156288156288156,
+      "mean_hit_at_10": 1.0
+    },
+    "human_reviewed": {
+      "semantic_precision": 0.9714285714285714,
+      "semantic_lift": 0.38571428571428573,
+      "false_positive_rate": 0.02857142857142857
+    }
+  },
+  "comparison": {
+    "automated_mrr_difference": 0.1113553113553114,
+    "semantic_lift_difference": 0.10389610389610393,
+    "mika_auto_advantage": true,
+    "mika_semantic_advantage": true
+  },
+  "recommendation": "MIKA - Higher semantic lift means better domain understanding"
+}

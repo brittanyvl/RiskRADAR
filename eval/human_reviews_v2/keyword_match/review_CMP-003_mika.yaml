@@ -1,0 +1,232 @@
+metadata:
+  query_id: CMP-003
+  model: mika
+  category: comparative_queries
+  difficulty: hard
+  exported_from: benchmark_mika_20260119_121302.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: recurring design defects in Boeing aircraft
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%boeing%' AND lower(chunk_text) LIKE '%design%'
+  expected_report_ids: []
+  relevance_signals:
+  - boeing
+  - design
+  - defect
+  - flaw
+  - modification
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 1.0
+  hit_at_10: true
+  precision_at_10: 0.7
+results:
+- rank: 1
+  chunk_id: AIR2504.pdf_chunk_0083
+  report_id: AIR2504.pdf
+  section_name: ANALYSIS
+  score: 0.4369
+  text_preview: "[ANALYSIS] Therefore, the NTSB \nrecommends that Boeing continue the certification process for the design\
+    \ \nenhancement for MED plugs to ensure that, once the design enhancement is \ncertified, all applicable newly manufactured\
+    \ airplanes are equipped with the \nenhancement. The NTSB also recommends that Boeing, once the design \nenhancement for\
+    \ MED plugs is certified, issue a service bulletin to address retrofitting \nin-service MED plug-equipped airplanes with\
+    \ the design enhancement. The NTSB \nfurthe..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AIR2504.pdf_chunk_0069
+  report_id: AIR2504.pdf
+  section_name: ANALYSIS
+  score: 0.4292
+  text_preview: "[ANALYSIS] Aviation Investigation Report \nAIR-25-04 \n \n79 2 Analysis \n2.1 Introduction \nThe airplane\
+    \ experienced an in-flight separation of the left MED plug and rapid \ndepressurization during climb about 6 minutes after\
+    \ takeoff from PDX. Alaska Airlines \nhad taken delivery of the newly manufactured airplane from Boeing about 3 months\
+    \ \nbefore the accident. The analysis first discusses the accident sequence and the airplane’s \nmanufacturing history\
+    \ related to the missing bolts. Specifically, we a..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 3
+  chunk_id: AAR8903.pdf_chunk_0031
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4271
+  text_preview: '[ADDITIONAL INFORMATION] Skin thickness of the
+
+    B-737 (0.036 inch) was slightly less than that of the B-727 (0.040 inch).
+
+    However, fatigue testing of a complete B-737 was not accomplished as it was
+
+    on the B-727. That is, the complete B-727 fuselage was cycled for
+
+    60,000 cycles (one economic design life goal) during certification whereas
+
+    the B-737 fuselage design concept was demonstrated by fatigue testing a
+
+    representative crown-to-keel half section of the fuselage. The test section
+
+    for the B-737,...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 4
+  chunk_id: AAR8903.pdf_chunk_0033
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4221
+  text_preview: '[ADDITIONAL INFORMATION] This. concern ultimately led to a requirement for a structural
+
+    reassessment or audit and the development of a continuing structural
+
+    integrity program for older transport airplanes. The air transport airframe
+
+    manufacturers developed the required programs, utilizing different concepts,
+
+    to achieve continued airworthiness of their aging airplanes. The structural
+
+    integrity programs have resulted in directed inspections of SSIs (any detail,
+
+    element, or assembly that contribute...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAR8903.pdf_chunk_0044
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.4135
+  text_preview: '[ANALYSIS] The Safety Board determined that the accident sequence initiated
+
+    with the structural separation of the pressurized fuselage skin. As a result
+
+    of this separation, an explosive decompression occurred, and a large portion
+
+    of the airplane cabin structure comprising the upper portion of section 43
+
+    was lost. The Safety Board’s analysis of this accident included an evaluation
+
+    of the structural and metallurgical evidence to determine the initial failure
+
+    origin and the manner of fuselage separ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR8903.pdf_chunk_0049
+  report_id: AAR8903.pdf
+  section_name: ANALYSIS
+  score: 0.4092
+  text_preview: '[ANALYSIS] They were: a high accumulation of flight
+
+    cycles between structural. inspections, an extended time period between
+
+    inspections that allowed the related effects of lap joint disbond, corrosion,
+
+    and fatigue to accumulate, and the manner in which a highly segmented
+
+    structural inspection program was implemented. The Aloha Airlines structural D check inspection interval for the
+
+    continuing airworthiness of their B-737 fleet was approved by the FAA at
+
+    15,000 hours. The selection of 15,000 hour...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 7
+  chunk_id: AAR8903.pdf_chunk_0029
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4083
+  text_preview: '[ADDITIONAL INFORMATION] No defects were reported during
+
+    that inspection. On April 9, 1988, with an accumulated 33,676 hours and
+
+    90,051 cycles, the airplane was hangared for heavy maintenance. It was the
+
+    highest cycle B-737 in the world fleet. Following the N73711 accident, the
+
+    N73712 airplane received a thorough corrosion/fatigue inspection and
+
+    evaluation of the structure. It was determined that the airplane was beyond
+
+    economical repair. It was dismantled on the site and sold for parts and
+
+
+    scr...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 8
+  chunk_id: AAR7917.pdf_chunk_0084
+  report_id: AAR7917.pdf
+  section_name: AIRCRAFT INFORMATION
+  score: 0.4065
+  text_preview: '[AIRCRAFT INFORMATION] Bulkhead With CSD and Engi i} Service Lines. Section.of Vertical Fin With Part of
+    Lower Rudder.
+
+
+    _- 37..Engipe #3. Ly
+
+    ight Main Gear, Wheels Separated from Strut.
+
+    738. Flap, Trailing Edge, Right. i
+
+    “39:72 Aux Hydraulic Pumps. Main. Gear Fuselage Doors, Left.
+
+    * Fuselage‘Section.
+
+    ; Left Inboard Flap. Piece of Stabilizer Chain.
+
+
+    "41. Fusefage Section With Cabin DaI I.
+
+
+    t 42."Right Wing Section, ARB-0941-2.'' Boost Pumps.
+
+    7:43. Slat, (Unidentified). hed
+
+
+    * 44.°Alr Cyclé. Machin...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 9
+  chunk_id: AAR0002.pdf_chunk_0070
+  report_id: AAR0002.pdf
+  section_name: ANALYSIS
+  score: 0.4041
+  text_preview: '[ANALYSIS] Based on the accident and incident record, the Safety Board is concerned that
+
+    certain complex system interactions, pilot input characteristics, and other factors, such as
+
+    c.g. position and atmospheric conditions, may occasionally combine during the landing
+
+    phase in undesirable ways that were not identified during the original certification of
+
+    transport airplanes. Thus, the Safety Board concludes that additional basic research to
+
+    identify undesirable landing phase combinations and to c...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR8903.pdf_chunk_0032
+  report_id: AAR8903.pdf
+  section_name: ADDITIONAL INFORMATION
+  score: 0.4033
+  text_preview: '[ADDITIONAL INFORMATION] The cracks ranged from about 0.37 inch to 0.67 inch tip to
+
+    tip. At this point, Boeing engineers placed additional. straps on the test
+
+    article at BS 760 and BS 820. At the Safety Board public hearing, Boeing
+
+    indicated this step was taken to preserve the test-article in the event of a
+
+    catastrophic failure. Boeing further indicated that the added straps would
+
+    not alter the results of the fatigue testing. When additional cycles were applied, individual cracks joined to
+
+    form ...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0

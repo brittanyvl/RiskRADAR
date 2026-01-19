@@ -1,0 +1,186 @@
+metadata:
+  query_id: CON-003
+  model: minilm
+  category: conceptual_queries
+  difficulty: medium
+  exported_from: benchmark_minilm_20260119_121248.json
+  reviewer: ''
+  review_date: ''
+  review_complete: false
+query:
+  text: controlled flight into terrain warning system GPWS TAWS
+  sql_ground_truth: WHERE lower(chunk_text) LIKE '%gpws%' OR lower(chunk_text) LIKE '%ground proximity%' OR lower(chunk_text)
+    LIKE '%terrain%warning%'
+  expected_report_ids:
+  - AAR1802.pdf
+  - AAR1003.pdf
+  - AAR1402.pdf
+  - AAR9701.pdf
+  - AAR0001.pdf
+  - AAR1102.pdf
+  relevance_signals:
+  - gpws
+  - taws
+  - terrain
+  - cfit
+  - warning
+instructions:
+  keyword_match: Already filled in by automated check. Result matches SQL pattern or relevance signals.
+  semantic_match: 'YOU FILL THIS: Result is relevant but doesn''t match keywords. This is what makes semantic search valuable!'
+  false_positive: 'YOU FILL THIS: Result is NOT relevant to the query.'
+  note: Only review results where judgment is empty. Pre-filled KEYWORD_MATCH can be changed if wrong.
+automated_metrics:
+  mrr: 0.5
+  hit_at_10: true
+  precision_at_10: 0.5
+results:
+- rank: 1
+  chunk_id: AAR1702.pdf_chunk_0012
+  report_id: AAR1702.pdf
+  section_name: PILOT INFORMATION
+  score: 0.6661
+  text_preview: "[PILOT INFORMATION] Class C TAWS equipment is intended for voluntary installations on \nairplanes not covered\
+    \ by TAWS requirements. All classes of TAWS share certain basic functions, and the TSO \nspecifies different criteria\
+    \ for certain functions, features, and alerting for each class. NTSB \nAircraft Accident Report \n13 \n• Forward-looking\
+    \ terrain awareness: A warning function that uses a terrain database and \nan obstruction database to alert the pilot\
+    \ to hazardous terrain or obstructions in front..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 2
+  chunk_id: AAR0001.pdf_chunk_0051
+  report_id: AAR0001.pdf
+  section_name: TESTS AND RESEARCH
+  score: 0.6465
+  text_preview: '[TESTS AND RESEARCH] 1.16 Tests and Research
+
+    1.16.1 Enhanced Ground Proximity Warning System Simulation
+
+    Because of advances in computer technology and terrain mapping capabilities,
+
+    GPWS manufacturers have developed improved terrain avoidance systems. In 1997, the
+
+    FAA certified a new terrain awareness and warning system (TAWS), also known as
+
+    enhanced GPWS. (See section 1.18.2.2 for general information about enhanced GPWS.)
+
+    This system was not installed or required on the accident airplane.75
+
+    An e...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 3
+  chunk_id: AAR1802.pdf_chunk_0082
+  report_id: AAR1802.pdf
+  section_name: CONCLUSIONS > FINDINGS
+  score: 0.6307
+  text_preview: "[CONCLUSIONS > FINDINGS] The operation of flights at altitudes below the terrain awareness and warning system\
+    \ \n(TAWS) required terrain clearance, and the corresponding frequent TAWS alerts and \npilots’ routine use of the inhibit\
+    \ feature contrary to the manufacturer’s guidance, is \ninconsistent with the goal of providing the greatest possible\
+    \ level of safety, in which \nterrain awareness is high and terrain alerts from TAWS are both rare and taken seriously\
+    \ \nwhen received. \n16. At the time of the ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 4
+  chunk_id: AAR8702.pdf_chunk_0046
+  report_id: AAR8702.pdf
+  section_name: ANALYSIS
+  score: 0.6145
+  text_preview: '[ANALYSIS] An advisory type of system to rnonitor height above the ground may have
+
+    been sufficient to direct the flightcrews'' attention to the possibility of ground contact in
+
+    time to avoid an accident. Au an example of the terrain protection afforded by the GPWS, the Safety
+
+    Board examined the alerting features of a GPWS product and applied the specifications to
+
+    the flightpaths of the two airplanes involved {n the accident in Virginia and in Maine. In
+
+    the Henson accident, the GPWS would have ale...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 5
+  chunk_id: AAB0606.pdf_chunk_0012
+  report_id: AAB0606.pdf
+  section_name: AIRPORT INFORMATION
+  score: 0.6096
+  text_preview: '[AIRPORT INFORMATION] The MSAW operates in
+
+    two modes: general terrain monitor (GTM) mode, which monitors aircraft clearance above the
+
+    highest terrain and obstacles in a general area, and the approach monitor (AM) mode, which
+
+    monitors aircraft clearance above terrain and obstacles within a specific area on a certain runway
+
+    approach (known as the Type II Airport Area). Each of these modes alerts controllers when an
+
+    aircraft is currently below or predicted to go below an established minimum safe al...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 6
+  chunk_id: AAR1402.pdf_chunk_0089
+  report_id: AAR1402.pdf
+  section_name: ANALYSIS
+  score: 0.6094
+  text_preview: "[ANALYSIS] However, this accident \ndemonstrates that this sequence of events may not occur in certain situations,\
+    \ particularly when \nan airplane is in the landing configuration and close to the airport. Therefore, the NTSB \nconcludes\
+    \ that an escalating series of TAWS alerts before impact with terrain or obstacles is not \nalways guaranteed due to technological\
+    \ limitations, which reduces the safety effectiveness of the \nTAWS during the approach to landing. Therefore, the NTSB\
+    \ recommends that the F..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 7
+  chunk_id: AAR1802.pdf_chunk_0065
+  report_id: AAR1802.pdf
+  section_name: ANALYSIS
+  score: 0.5996
+  text_preview: "[ANALYSIS] Thus, the NTSB concludes that, given the \ncircumstances of this and other accidents that the\
+    \ NTSB has investigated involving VFR operations \nconducted below the TAWS RTC with the TAWS alerting feature inhibited,\
+    \ all Part 135 operators \ncould likely benefit from improved guidance and procedures related to testing, inhibiting,\
+    \ and \nenabling the TAWS alerts. Therefore, the NTSB recommends that the FAA work with Part 135 \ncertificate holders\
+    \ that operate under VFR in mountainous terrain a..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 8
+  chunk_id: AAR1802.pdf_chunk_0010
+  report_id: AAR1802.pdf
+  section_name: FACTUAL INFORMATION > HISTORY OF THE FLIGHT
+  score: 0.5968
+  text_preview: "[FACTUAL INFORMATION > HISTORY OF THE FLIGHT] The GMX 200 features faster \nprocessing times and improved\
+    \ screen quality.) \n1.3.3 Terrain Awareness and Warning System \nThe airplane was equipped with a Bendix/King (Honeywell)\
+    \ KGP 560 GA-EGPWS that \nprovided the Class B terrain TAWS capabilities required for the accident airplane.12 The \n\
+    GA-EGPWS used an internal GPS receiver and terrain database to determine the possibility of \nterrain conflicts; among\
+    \ its capabilities was a forward looking terrai..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Report ID in expected list'
+- rank: 9
+  chunk_id: AAB0606.pdf_chunk_0022
+  report_id: AAB0606.pdf
+  section_name: ANALYSIS
+  score: 0.5885
+  text_preview: '[ANALYSIS] The study determined that the accident descent
+
+    profile was along the edge of the MSAW GTM predicted alert threshold. In this case, although the
+
+    MSAW recorded a single predicted exceedance of the threshold at 0614:30, the two subsequent
+
+    scans did not predict exceedances; therefore, no GTM predicted alert was generated. The MSAW generated an AM current alert
+    at 0614:35. The HOU ATCT controller began
+
+    issuing a low-altitude warning to the flight crew about 7.5 seconds later. Analysis of t...'
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+- rank: 10
+  chunk_id: AAR0602.pdf_chunk_0053
+  report_id: AAR0602.pdf
+  section_name: ANALYSIS
+  score: 0.5811
+  text_preview: "[ANALYSIS] One such system is TAWS, which\nalerts flight crews to a potential collision with terrain or water.\
+    \ Helicopters are not\ncurrently required to be equipped with TAWS; this issue is discussed and analyzed in\nsection 2.3.1.\n\
+    2.3\n Cockpit Systems\n2.3.1 Terrain Awareness and Warning System\nTAWS has the ability to look ahead of an aircraft to\
+    \ detect the terrain or other\nobstructions along a flightpath. However, none of the S-76A helicopters in Era Aviation’s\n\
+    fleet were equipped with a TAWS or ..."
+  judgment: KEYWORD_MATCH
+  notes: '[AUTO] Matches relevance signals/SQL pattern'
+summary:
+  auto_keyword_matches: 10
+  needs_human_review: 0
