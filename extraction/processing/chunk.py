@@ -122,8 +122,9 @@ def chunk_document(
     page_source_map = {ps["page"]: ps for ps in page_sources}
 
     # Chunking parameters from config
-    min_tokens = TOKENIZER_CONFIG["chunk_min_tokens"]  # v2: enforced minimum
-    max_tokens = TOKENIZER_CONFIG["chunk_max_tokens"]
+    min_tokens = TOKENIZER_CONFIG["chunk_min_tokens"]  # v2: enforced minimum (400)
+    target_tokens = TOKENIZER_CONFIG["chunk_target_tokens"]  # target (600)
+    max_tokens = TOKENIZER_CONFIG["chunk_max_tokens"]  # hard max (800)
     overlap_tokens = get_overlap_tokens()
 
     # Build unified sentence list with section metadata
@@ -160,20 +161,25 @@ def chunk_document(
         first_section_name = None
         first_section_number = None
 
-        # Accumulate sentences until we hit max or run out
+        # Accumulate sentences until we hit target/max or run out
         while i < len(all_sentences):
             sentence_info = all_sentences[i]
             sentence_tokens = sentence_info["tokens"]
 
-            # Would this sentence push us over max?
-            if current_tokens + sentence_tokens > max_tokens and current_sentences:
-                # Check if we've hit minimum - if not, include anyway up to max
-                if current_tokens >= min_tokens:
-                    break  # Create chunk with current content
-                # Under minimum - continue adding if we won't exceed max too much
-                # Allow going up to max to meet minimum requirement
-                if current_tokens + sentence_tokens > max_tokens:
-                    break  # Can't add without exceeding max
+            # Chunking decision logic:
+            # 1. If adding would exceed max_tokens, must break (unless chunk is empty)
+            # 2. If we've hit minimum AND adding would exceed target, prefer to break
+            # 3. If under minimum, keep adding until we hit max_tokens
+
+            if current_sentences:  # Only consider breaking if we have content
+                would_exceed_max = current_tokens + sentence_tokens > max_tokens
+                would_exceed_target = current_tokens + sentence_tokens > target_tokens
+                met_minimum = current_tokens >= min_tokens
+
+                if would_exceed_max:
+                    break  # Hard stop at max
+                if met_minimum and would_exceed_target:
+                    break  # Soft stop at target once minimum is met
 
             current_sentences.append(sentence_info)
             current_tokens += sentence_tokens
