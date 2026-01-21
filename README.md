@@ -26,6 +26,7 @@ An end-to-end data engineering and machine learning pipeline that transforms uns
   - [Phase 4: Chunking](#phase-4-chunking)
   - [Phase 5: Embeddings](#phase-5-embeddings)
 - [Evaluation Framework](#evaluation-framework)
+- [Taxonomy & Cause Attribution](#taxonomy--cause-attribution-phase-6-8)
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
 - [License](#license)
@@ -56,7 +57,14 @@ This project serves as a portfolio piece demonstrating skills in data engineerin
 | Phase 3 - Text Extraction | **Complete** | 30,602 pages extracted (14K embedded + 16K OCR) |
 | Phase 4 - Chunking | **Complete** | 24,766 search-ready chunks (v2: 400-800 tokens) |
 | Phase 5 - Embeddings | **Complete** | Dual-model embeddings with benchmark evaluation |
-| Phase 6-8 - App | Planned | Streamlit search and analytics interface |
+| Phase 6A - Discovery | **Planned** | BERTopic topic discovery from cause sections |
+| Phase 6A-Review | **Planned** | **GATE 1**: Human topic review & approval |
+| Phase 6B - Taxonomy Build | **Planned** | CICTT + discovered topics → 3-level hierarchy |
+| Phase 6B-Review | **Planned** | **GATE 2**: Human taxonomy review & seed selection |
+| Phase 6C - Scoring | **Planned** | Multi-signal cause attribution (percentage allocation) |
+| Phase 6C-Review | **Planned** | **GATE 3**: Human score review (50 reports) |
+| Phase 7 - Trends | Planned | Prevalence analytics by time period |
+| Phase 8 - Streamlit App | Planned | Search + Cause Map Explorer interface |
 
 ---
 
@@ -236,7 +244,9 @@ Each module has detailed documentation covering usage, API reference, and exampl
 | **extraction** | PDF extraction and chunking pipeline | [extraction/README.md](extraction/README.md) |
 | **embeddings** | Embedding generation and Qdrant upload | [embeddings/README.md](embeddings/README.md) |
 | **eval** | Benchmark framework and evaluation | [eval/README.md](eval/README.md) |
+| **taxonomy** | Cause attribution and taxonomy scoring | [taxonomy/README.md](taxonomy/README.md) |
 | **analytics** | DuckDB analytics and SQL interface | [analytics/README.md](analytics/README.md) |
+| **app** | Streamlit search and explorer interface | [app/README.md](app/README.md) |
 
 ---
 
@@ -337,6 +347,99 @@ See [eval/README.md](eval/README.md) for complete methodology documentation.
 
 ---
 
+## Taxonomy & Cause Attribution (Phase 6-8)
+
+### Overview
+
+Phase 6-8 builds a hierarchical accident cause taxonomy and assigns multi-cause attribution to each report:
+
+```
+Phase 6A: Topic Discovery (BERTopic)
+    │
+    ▼
+Phase 6B: Taxonomy Building (CICTT + Discovered Topics)
+    │
+    ▼
+Phase 6C: Multi-Signal Scoring (Keywords + Embeddings)
+    │
+    ▼
+Phase 7: Trend Analytics (Prevalence over Time)
+    │
+    ▼
+Phase 8: Streamlit App (Search + Cause Map Explorer)
+```
+
+### Critical Finding: Section Consistency
+
+Analysis revealed PROBABLE CAUSE sections only exist in 30.4% of reports:
+
+| Section | Coverage |
+|---------|----------|
+| PROBABLE CAUSE | 30.4% |
+| CONCLUSIONS | 50.0% |
+| FINDINGS | 54.5% |
+| ANALYSIS | **70.2%** |
+| Any cause section | **80.6%** |
+
+**Solution:** Hybrid approach - use cause sections when available, fallback to full document.
+
+### Taxonomy Structure
+
+3-level hierarchy using CICTT (NTSB official categories) as foundation:
+
+```
+Level 1: CICTT Categories (15 official categories)
+  └─ Level 2: Topic Groups (BERTopic-discovered)
+      └─ Level 3: Specific Themes (Sub-topics)
+```
+
+**CICTT Level 1 Categories:**
+- LOC-I (Loss of Control - Inflight)
+- CFIT (Controlled Flight Into Terrain)
+- SCF-PP/SCF-NP (System/Component Failure)
+- ICE, UIMC, FUEL, FIRE, etc.
+
+### Multi-Cause Attribution
+
+Reports can have multiple causes with percentage allocation:
+- Percentages sum to 100%
+- Evidence-backed (linked to specific chunks)
+- Roll-up: L3 → L2 → L1
+
+### Human-in-the-Loop Review
+
+Three explicit approval gates ensure quality:
+
+| Gate | Phase | Review Process |
+|------|-------|----------------|
+| **Gate 1** | After 6A | Export topics to CSV, review/rename/merge, import decisions |
+| **Gate 2** | After 6B | Export taxonomy YAML, review structure, select seed examples |
+| **Gate 3** | After 6C | Export 50 scored reports, validate cause assignments |
+
+Pipeline pauses at each gate until you explicitly approve to proceed.
+
+### CLI Commands (Phase 6)
+
+```bash
+python -m taxonomy.cli discover          # BERTopic topic discovery
+python -m taxonomy.cli export-topics     # Export for Gate 1 review
+python -m taxonomy.cli approve-gate 1    # Approve to proceed
+
+python -m taxonomy.cli map               # Map topics to CICTT
+python -m taxonomy.cli export-taxonomy   # Export for Gate 2 review
+python -m taxonomy.cli approve-gate 2    # Approve to proceed
+
+python -m taxonomy.cli score --model both  # Score all reports
+python -m taxonomy.cli export-review     # Export for Gate 3 review
+python -m taxonomy.cli approve-gate 3    # Approve to proceed
+
+python -m taxonomy.cli trends            # Compute prevalence trends
+```
+
+See CLAUDE.md for detailed implementation plan.
+
+---
+
 ## Project Structure
 
 ```
@@ -344,7 +447,7 @@ riskRADAR/
 ├── riskradar/           # Core configuration module
 │   └── config.py        # Paths, Qdrant settings, environment
 ├── sqlite/              # Database layer
-│   ├── schema.py        # Table definitions (14 tables)
+│   ├── schema.py        # Table definitions (14+ tables)
 │   ├── connection.py    # Connection management
 │   └── queries.py       # Common SQL operations
 ├── scraper/             # Web scraping library
@@ -362,6 +465,14 @@ riskRADAR/
 │   ├── benchmark.py     # Evaluation runner
 │   ├── gold_queries.yaml # 50 test queries
 │   └── results/         # Benchmark outputs
+├── taxonomy/            # Cause attribution pipeline (Phase 6)
+│   ├── taxonomy.yaml    # 3-level taxonomy definition
+│   ├── discover.py      # BERTopic topic discovery
+│   ├── scorer.py        # Multi-signal scoring
+│   └── cli.py           # CLI entry point
+├── app/                 # Streamlit application (Phase 8)
+│   ├── main.py          # Entry point
+│   └── pages/           # Search, taxonomy, dashboard
 ├── analytics/           # DuckDB analytics
 │   ├── cli.py           # Interactive SQL shell
 │   └── views.py         # Pre-built analytical views
@@ -369,6 +480,7 @@ riskRADAR/
 │   └── verify_setup.py  # Environment verification
 ├── .env.example         # Environment template
 ├── requirements.txt     # Python dependencies
+├── CLAUDE.md            # Development context and phase plans
 ├── PORTFOLIO.md         # Project narrative and learnings
 └── README.md            # This file
 ```
