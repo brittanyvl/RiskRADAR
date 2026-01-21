@@ -1,0 +1,10 @@
+{
+  "run_id": 1,
+  "n_chunks_total": 24766,
+  "n_chunks_causal": 5806,
+  "n_chunks_processed": 5806,
+  "n_reports": 453,
+  "n_chunk_assignments": 6555,
+  "n_report_assignments": 1736,
+  "categories_used": 27
+}

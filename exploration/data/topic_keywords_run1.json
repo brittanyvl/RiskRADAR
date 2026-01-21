@@ -1,0 +1,3574 @@
+[
+  {
+    "topic_id": 0,
+    "name": "0_approach_feet_descent_altitude",
+    "count": 434,
+    "keywords": [
+      {
+        "word": "approach",
+        "score": 0.02580769273736005
+      },
+      {
+        "word": "feet",
+        "score": 0.014759421443307722
+      },
+      {
+        "word": "descent",
+        "score": 0.013421541116267498
+      },
+      {
+        "word": "altitude",
+        "score": 0.011906247807922241
+      },
+      {
+        "word": "captain",
+        "score": 0.011398939445620484
+      },
+      {
+        "word": "officer",
+        "score": 0.009795432499917366
+      },
+      {
+        "word": "localizer",
+        "score": 0.009152843393710726
+      },
+      {
+        "word": "airplane",
+        "score": 0.008802891002995543
+      },
+      {
+        "word": "runway",
+        "score": 0.00879434814225277
+      },
+      {
+        "word": "rate",
+        "score": 0.008229726433807885
+      }
+    ]
+  },
+  {
+    "topic_id": 1,
+    "name": "1_wind_weather_shear_information",
+    "count": 264,
+    "keywords": [
+      {
+        "word": "wind",
+        "score": 0.02674890333523849
+      },
+      {
+        "word": "weather",
+        "score": 0.02422966911324828
+      },
+      {
+        "word": "shear",
+        "score": 0.012758457821942303
+      },
+      {
+        "word": "information",
+        "score": 0.01244371854493315
+      },
+      {
+        "word": "wind shear",
+        "score": 0.01182064243832115
+      },
+      {
+        "word": "thunderstorm",
+        "score": 0.010170074520469457
+      },
+      {
+        "word": "radar",
+        "score": 0.010012572208283237
+      },
+      {
+        "word": "airport",
+        "score": 0.009908606740980238
+      },
+      {
+        "word": "winds",
+        "score": 0.009657711994113726
+      },
+      {
+        "word": "knots",
+        "score": 0.009420677551017146
+      }
+    ]
+  },
+  {
+    "topic_id": 2,
+    "name": "2_runway_taxiway_controller_taxi",
+    "count": 177,
+    "keywords": [
+      {
+        "word": "runway",
+        "score": 0.03319230943856678
+      },
+      {
+        "word": "taxiway",
+        "score": 0.026327550702100164
+      },
+      {
+        "word": "controller",
+        "score": 0.019147369270635917
+      },
+      {
+        "word": "taxi",
+        "score": 0.014629425777789098
+      },
+      {
+        "word": "controllers",
+        "score": 0.012972369297655795
+      },
+      {
+        "word": "swa",
+        "score": 0.010672177268077796
+      },
+      {
+        "word": "crew",
+        "score": 0.010634600520884926
+      },
+      {
+        "word": "traffic",
+        "score": 0.010553816452769826
+      },
+      {
+        "word": "airport",
+        "score": 0.01054236077521992
+      },
+      {
+        "word": "surface",
+        "score": 0.010365952003827278
+      }
+    ]
+  },
+  {
+    "topic_id": 3,
+    "name": "3_collision_traffic_controller_cessna",
+    "count": 166,
+    "keywords": [
+      {
+        "word": "collision",
+        "score": 0.02461599761267997
+      },
+      {
+        "word": "traffic",
+        "score": 0.021782148645997784
+      },
+      {
+        "word": "controller",
+        "score": 0.017915387413638045
+      },
+      {
+        "word": "cessna",
+        "score": 0.01724872059690065
+      },
+      {
+        "word": "target",
+        "score": 0.016747944804412794
+      },
+      {
+        "word": "radar",
+        "score": 0.01603487893840589
+      },
+      {
+        "word": "aircraft",
+        "score": 0.014155029138426369
+      },
+      {
+        "word": "separation",
+        "score": 0.013348254751736234
+      },
+      {
+        "word": "controllers",
+        "score": 0.011984117880294435
+      },
+      {
+        "word": "pilot",
+        "score": 0.011667116281280573
+      }
+    ]
+  },
+  {
+    "topic_id": 4,
+    "name": "4_engine_propeller_power_engines",
+    "count": 162,
+    "keywords": [
+      {
+        "word": "engine",
+        "score": 0.036686582140418714
+      },
+      {
+        "word": "propeller",
+        "score": 0.02550182021648587
+      },
+      {
+        "word": "power",
+        "score": 0.01491617774726391
+      },
+      {
+        "word": "engines",
+        "score": 0.012927070621526562
+      },
+      {
+        "word": "turbine",
+        "score": 0.012463973145361964
+      },
+      {
+        "word": "takeoff",
+        "score": 0.009782301668223877
+      },
+      {
+        "word": "failure",
+        "score": 0.009624928416657791
+      },
+      {
+        "word": "right",
+        "score": 0.009326426765272067
+      },
+      {
+        "word": "right engine",
+        "score": 0.009313616992593539
+      },
+      {
+        "word": "blade",
+        "score": 0.00928116901417714
+      }
+    ]
+  },
+  {
+    "topic_id": 5,
+    "name": "5_probable_probable cause_cause_national",
+    "count": 159,
+    "keywords": [
+      {
+        "word": "probable",
+        "score": 0.013453975674232036
+      },
+      {
+        "word": "probable cause",
+        "score": 0.013343774876203569
+      },
+      {
+        "word": "cause",
+        "score": 0.012797582626525817
+      },
+      {
+        "word": "national",
+        "score": 0.011570152473058514
+      },
+      {
+        "word": "transportation safety",
+        "score": 0.011558986043755442
+      },
+      {
+        "word": "transportation",
+        "score": 0.011316941907445404
+      },
+      {
+        "word": "national transportation",
+        "score": 0.011245610516560235
+      },
+      {
+        "word": "board",
+        "score": 0.010312467016716868
+      },
+      {
+        "word": "safety",
+        "score": 0.009687233810453671
+      },
+      {
+        "word": "accident",
+        "score": 0.009611813022374967
+      }
+    ]
+  },
+  {
+    "topic_id": 6,
+    "name": "6_evacuation_emergency_passengers_attendants",
+    "count": 148,
+    "keywords": [
+      {
+        "word": "evacuation",
+        "score": 0.024554048633354565
+      },
+      {
+        "word": "emergency",
+        "score": 0.022006254926188986
+      },
+      {
+        "word": "passengers",
+        "score": 0.02027287143344128
+      },
+      {
+        "word": "attendants",
+        "score": 0.01863277369959267
+      },
+      {
+        "word": "flight attendants",
+        "score": 0.01830725748089776
+      },
+      {
+        "word": "cabin",
+        "score": 0.01785064734041864
+      },
+      {
+        "word": "exit",
+        "score": 0.016079681950309923
+      },
+      {
+        "word": "attendant",
+        "score": 0.015322391250523862
+      },
+      {
+        "word": "flight attendant",
+        "score": 0.014851374503534902
+      },
+      {
+        "word": "arff",
+        "score": 0.013687496955593905
+      }
+    ]
+  },
+  {
+    "topic_id": 7,
+    "name": "7_hours_certificate_held_medical certificate",
+    "count": 126,
+    "keywords": [
+      {
+        "word": "hours",
+        "score": 0.03470223986473568
+      },
+      {
+        "word": "certificate",
+        "score": 0.031017680884708902
+      },
+      {
+        "word": "held",
+        "score": 0.022504289978030476
+      },
+      {
+        "word": "medical certificate",
+        "score": 0.016044883764779156
+      },
+      {
+        "word": "employed",
+        "score": 0.014986945155235173
+      },
+      {
+        "word": "total",
+        "score": 0.014880771733453257
+      },
+      {
+        "word": "land",
+        "score": 0.014306028548125533
+      },
+      {
+        "word": "hearing",
+        "score": 0.014106842491845031
+      },
+      {
+        "word": "ratings",
+        "score": 0.014091955843421886
+      },
+      {
+        "word": "medical",
+        "score": 0.013332371726923323
+      }
+    ]
+  },
+  {
+    "topic_id": 8,
+    "name": "8_controller_pilot_clearance_radar",
+    "count": 111,
+    "keywords": [
+      {
+        "word": "controller",
+        "score": 0.018455978867784675
+      },
+      {
+        "word": "pilot",
+        "score": 0.014475659319506007
+      },
+      {
+        "word": "clearance",
+        "score": 0.014138654197530633
+      },
+      {
+        "word": "radar",
+        "score": 0.013625915128997189
+      },
+      {
+        "word": "terrain",
+        "score": 0.012734892970265218
+      },
+      {
+        "word": "flight",
+        "score": 0.012426217851217032
+      },
+      {
+        "word": "radial",
+        "score": 0.01176725965350667
+      },
+      {
+        "word": "course",
+        "score": 0.011714900982956728
+      },
+      {
+        "word": "vfr",
+        "score": 0.011364966601558602
+      },
+      {
+        "word": "heading",
+        "score": 0.011181972192342475
+      }
+    ]
+  },
+  {
+    "topic_id": 9,
+    "name": "9_stall_stick_shaker_stick shaker",
+    "count": 100,
+    "keywords": [
+      {
+        "word": "stall",
+        "score": 0.04165263060110615
+      },
+      {
+        "word": "stick",
+        "score": 0.02134522691579552
+      },
+      {
+        "word": "shaker",
+        "score": 0.017860892990504026
+      },
+      {
+        "word": "stick shaker",
+        "score": 0.017560727785000087
+      },
+      {
+        "word": "recovery",
+        "score": 0.016022238881733476
+      },
+      {
+        "word": "pitch",
+        "score": 0.01482574466961021
+      },
+      {
+        "word": "aoa",
+        "score": 0.01418462978098811
+      },
+      {
+        "word": "airplane",
+        "score": 0.013934782951249725
+      },
+      {
+        "word": "abx",
+        "score": 0.013348311077506054
+      },
+      {
+        "word": "airspeed",
+        "score": 0.0125149694942432
+      }
+    ]
+  },
+  {
+    "topic_id": 10,
+    "name": "10_disk_inspection_crack_blade",
+    "count": 100,
+    "keywords": [
+      {
+        "word": "disk",
+        "score": 0.03068120403638928
+      },
+      {
+        "word": "inspection",
+        "score": 0.025379292185316014
+      },
+      {
+        "word": "crack",
+        "score": 0.02401755435251536
+      },
+      {
+        "word": "blade",
+        "score": 0.020067967080265942
+      },
+      {
+        "word": "ultrasonic",
+        "score": 0.018581236687821703
+      },
+      {
+        "word": "propeller",
+        "score": 0.018230594958794408
+      },
+      {
+        "word": "fatigue",
+        "score": 0.016991134230317916
+      },
+      {
+        "word": "engine",
+        "score": 0.01648334934161164
+      },
+      {
+        "word": "cracks",
+        "score": 0.01400632437629883
+      },
+      {
+        "word": "hub",
+        "score": 0.013804785138264025
+      }
+    ]
+  },
+  {
+    "topic_id": 11,
+    "name": "11_wing_crack_inspection_skin",
+    "count": 94,
+    "keywords": [
+      {
+        "word": "wing",
+        "score": 0.022163219834404016
+      },
+      {
+        "word": "crack",
+        "score": 0.022037884446534057
+      },
+      {
+        "word": "inspection",
+        "score": 0.021475546986807932
+      },
+      {
+        "word": "skin",
+        "score": 0.018018385995392554
+      },
+      {
+        "word": "fatigue",
+        "score": 0.01740623722743026
+      },
+      {
+        "word": "lap",
+        "score": 0.015254742708994259
+      },
+      {
+        "word": "joint",
+        "score": 0.01500464740154717
+      },
+      {
+        "word": "aloha",
+        "score": 0.014609530708040445
+      },
+      {
+        "word": "maintenance",
+        "score": 0.013431380821144227
+      },
+      {
+        "word": "aloha airlines",
+        "score": 0.013221183311732306
+      }
+    ]
+  },
+  {
+    "topic_id": 12,
+    "name": "12_sleep_fatigue_hours_duty",
+    "count": 84,
+    "keywords": [
+      {
+        "word": "sleep",
+        "score": 0.04618429764712646
+      },
+      {
+        "word": "fatigue",
+        "score": 0.02920170353555028
+      },
+      {
+        "word": "hours",
+        "score": 0.025105012380832514
+      },
+      {
+        "word": "duty",
+        "score": 0.020169366549557036
+      },
+      {
+        "word": "rest",
+        "score": 0.018680513283255484
+      },
+      {
+        "word": "day",
+        "score": 0.016685510224823147
+      },
+      {
+        "word": "time",
+        "score": 0.016480132724333078
+      },
+      {
+        "word": "accident",
+        "score": 0.014798454204289194
+      },
+      {
+        "word": "officer",
+        "score": 0.0125478410911351
+      },
+      {
+        "word": "performance",
+        "score": 0.011956468387901287
+      }
+    ]
+  },
+  {
+    "topic_id": 13,
+    "name": "13_faa_oversight_surveillance_training",
+    "count": 79,
+    "keywords": [
+      {
+        "word": "faa",
+        "score": 0.01972926088689561
+      },
+      {
+        "word": "oversight",
+        "score": 0.01937473866729117
+      },
+      {
+        "word": "surveillance",
+        "score": 0.018116205069799867
+      },
+      {
+        "word": "training",
+        "score": 0.01695531453499526
+      },
+      {
+        "word": "poi",
+        "score": 0.015051072036492636
+      },
+      {
+        "word": "program",
+        "score": 0.014669216828940485
+      },
+      {
+        "word": "safety",
+        "score": 0.014627673915884338
+      },
+      {
+        "word": "operations",
+        "score": 0.012345359848983243
+      },
+      {
+        "word": "air",
+        "score": 0.012101295396464892
+      },
+      {
+        "word": "records",
+        "score": 0.011330613353918568
+      }
+    ]
+  },
+  {
+    "topic_id": 14,
+    "name": "14_icing_atr_icing conditions_freezing",
+    "count": 75,
+    "keywords": [
+      {
+        "word": "icing",
+        "score": 0.043058887140553524
+      },
+      {
+        "word": "atr",
+        "score": 0.042334768596075975
+      },
+      {
+        "word": "icing conditions",
+        "score": 0.029275629971215654
+      },
+      {
+        "word": "freezing",
+        "score": 0.028387812322741825
+      },
+      {
+        "word": "conditions",
+        "score": 0.02764083507971009
+      },
+      {
+        "word": "4184",
+        "score": 0.0229245496785974
+      },
+      {
+        "word": "flight 4184",
+        "score": 0.022797725688024118
+      },
+      {
+        "word": "aileron",
+        "score": 0.020613307422105383
+      },
+      {
+        "word": "hinge moment",
+        "score": 0.01918800030830889
+      },
+      {
+        "word": "ice",
+        "score": 0.018262436866940394
+      }
+    ]
+  },
+  {
+    "topic_id": 15,
+    "name": "15_rudder_pedal_rudder pedal_input",
+    "count": 71,
+    "keywords": [
+      {
+        "word": "rudder",
+        "score": 0.07297673564706905
+      },
+      {
+        "word": "pedal",
+        "score": 0.037907242482391156
+      },
+      {
+        "word": "rudder pedal",
+        "score": 0.03128918573055733
+      },
+      {
+        "word": "input",
+        "score": 0.025206504299238455
+      },
+      {
+        "word": "yaw",
+        "score": 0.025059979469413834
+      },
+      {
+        "word": "inputs",
+        "score": 0.019886309217914632
+      },
+      {
+        "word": "yaw damper",
+        "score": 0.018701439475554357
+      },
+      {
+        "word": "control",
+        "score": 0.01838249010136635
+      },
+      {
+        "word": "damper",
+        "score": 0.017360219647043793
+      },
+      {
+        "word": "left",
+        "score": 0.016261580971173577
+      }
+    ]
+  },
+  {
+    "topic_id": 16,
+    "name": "16_trim_stabilizer_control_tab",
+    "count": 68,
+    "keywords": [
+      {
+        "word": "trim",
+        "score": 0.06666180494404729
+      },
+      {
+        "word": "stabilizer",
+        "score": 0.023074427369511825
+      },
+      {
+        "word": "control",
+        "score": 0.02059679499014775
+      },
+      {
+        "word": "tab",
+        "score": 0.015858067904475852
+      },
+      {
+        "word": "elevator",
+        "score": 0.015364033195945044
+      },
+      {
+        "word": "trim tab",
+        "score": 0.014447445694817016
+      },
+      {
+        "word": "horizontal stabilizer",
+        "score": 0.014144154617297566
+      },
+      {
+        "word": "aileron trim",
+        "score": 0.013588225557515286
+      },
+      {
+        "word": "horizontal",
+        "score": 0.013288647060501186
+      },
+      {
+        "word": "pitch",
+        "score": 0.012981930207039288
+      }
+    ]
+  },
+  {
+    "topic_id": 17,
+    "name": "17_135_operations_faa_charter",
+    "count": 66,
+    "keywords": [
+      {
+        "word": "135",
+        "score": 0.022880585645186684
+      },
+      {
+        "word": "operations",
+        "score": 0.022793043344840943
+      },
+      {
+        "word": "faa",
+        "score": 0.019683338662697066
+      },
+      {
+        "word": "charter",
+        "score": 0.018233999097631706
+      },
+      {
+        "word": "oversight",
+        "score": 0.014945006546456457
+      },
+      {
+        "word": "training",
+        "score": 0.014783003214498784
+      },
+      {
+        "word": "operators",
+        "score": 0.014546240343220324
+      },
+      {
+        "word": "flights",
+        "score": 0.014318904346967034
+      },
+      {
+        "word": "cfitavoidance",
+        "score": 0.013985941770826526
+      },
+      {
+        "word": "ntsb",
+        "score": 0.013658992563697117
+      }
+    ]
+  },
+  {
+    "topic_id": 18,
+    "name": "18_sms_operators_fdm_ntsb",
+    "count": 63,
+    "keywords": [
+      {
+        "word": "sms",
+        "score": 0.04970062025407549
+      },
+      {
+        "word": "operators",
+        "score": 0.02545895858557082
+      },
+      {
+        "word": "fdm",
+        "score": 0.023494614845308175
+      },
+      {
+        "word": "ntsb",
+        "score": 0.02273390623545618
+      },
+      {
+        "word": "safety",
+        "score": 0.022130273066724895
+      },
+      {
+        "word": "135",
+        "score": 0.021917940776367984
+      },
+      {
+        "word": "faa",
+        "score": 0.019565077936464566
+      },
+      {
+        "word": "program",
+        "score": 0.018826280363187602
+      },
+      {
+        "word": "135 operators",
+        "score": 0.01824857058378194
+      },
+      {
+        "word": "recommendation",
+        "score": 0.0173110544157219
+      }
+    ]
+  },
+  {
+    "topic_id": 19,
+    "name": "19_cam_cam1_source_content",
+    "count": 61,
+    "keywords": [
+      {
+        "word": "cam",
+        "score": 0.07483331280234426
+      },
+      {
+        "word": "cam1",
+        "score": 0.06263573648280425
+      },
+      {
+        "word": "source",
+        "score": 0.05928665586883784
+      },
+      {
+        "word": "content",
+        "score": 0.050695782264354956
+      },
+      {
+        "word": "sound",
+        "score": 0.04983610458664447
+      },
+      {
+        "word": "source content",
+        "score": 0.04308524218721218
+      },
+      {
+        "word": "time source",
+        "score": 0.04282720654047189
+      },
+      {
+        "word": "ah",
+        "score": 0.03747423625251417
+      },
+      {
+        "word": "okay",
+        "score": 0.03724844748777122
+      },
+      {
+        "word": "zero",
+        "score": 0.03424582068928719
+      }
+    ]
+  },
+  {
+    "topic_id": 20,
+    "name": "20_wing_ice_contamination_deicing",
+    "count": 61,
+    "keywords": [
+      {
+        "word": "wing",
+        "score": 0.031496493361018306
+      },
+      {
+        "word": "ice",
+        "score": 0.03099850979559338
+      },
+      {
+        "word": "contamination",
+        "score": 0.023769917136680557
+      },
+      {
+        "word": "deicing",
+        "score": 0.01792336635003857
+      },
+      {
+        "word": "snow",
+        "score": 0.017820229424138568
+      },
+      {
+        "word": "wings",
+        "score": 0.01689476477439349
+      },
+      {
+        "word": "stall",
+        "score": 0.015050875213819348
+      },
+      {
+        "word": "takeoff",
+        "score": 0.01277754805887618
+      },
+      {
+        "word": "airfoil",
+        "score": 0.010923785703565171
+      },
+      {
+        "word": "surfaces",
+        "score": 0.010690770065932496
+      }
+    ]
+  },
+  {
+    "topic_id": 21,
+    "name": "21_elevator_relief_boeing_egyptian",
+    "count": 60,
+    "keywords": [
+      {
+        "word": "elevator",
+        "score": 0.044242714111776674
+      },
+      {
+        "word": "relief",
+        "score": 0.025907124805743028
+      },
+      {
+        "word": "boeing",
+        "score": 0.023843756307679802
+      },
+      {
+        "word": "egyptian",
+        "score": 0.020862926641177566
+      },
+      {
+        "word": "relief officer",
+        "score": 0.01973020305568067
+      },
+      {
+        "word": "ntsb",
+        "score": 0.019379782917355672
+      },
+      {
+        "word": "pca",
+        "score": 0.018938687456386136
+      },
+      {
+        "word": "eit",
+        "score": 0.01750374523752209
+      },
+      {
+        "word": "990",
+        "score": 0.015391703176378826
+      },
+      {
+        "word": "movements",
+        "score": 0.01499689293472731
+      }
+    ]
+  },
+  {
+    "topic_id": 22,
+    "name": "22_medical_drug_drugs_parachute",
+    "count": 56,
+    "keywords": [
+      {
+        "word": "medical",
+        "score": 0.025106487146166426
+      },
+      {
+        "word": "drug",
+        "score": 0.0232988417664184
+      },
+      {
+        "word": "drugs",
+        "score": 0.022168899043732412
+      },
+      {
+        "word": "parachute",
+        "score": 0.016630870746000777
+      },
+      {
+        "word": "marijuana",
+        "score": 0.014147216211358173
+      },
+      {
+        "word": "use",
+        "score": 0.01388334200389485
+      },
+      {
+        "word": "jump",
+        "score": 0.013816446056116554
+      },
+      {
+        "word": "pilots",
+        "score": 0.01300916204344722
+      },
+      {
+        "word": "pilot",
+        "score": 0.012313014117787208
+      },
+      {
+        "word": "faa",
+        "score": 0.012239055398037728
+      }
+    ]
+  },
+  {
+    "topic_id": 23,
+    "name": "23_elevator_maintenance_elevator control_control",
+    "count": 53,
+    "keywords": [
+      {
+        "word": "elevator",
+        "score": 0.043592833672515575
+      },
+      {
+        "word": "maintenance",
+        "score": 0.03127756325764998
+      },
+      {
+        "word": "elevator control",
+        "score": 0.029355571742818203
+      },
+      {
+        "word": "control",
+        "score": 0.026629934222123945
+      },
+      {
+        "word": "tab",
+        "score": 0.02200264694945602
+      },
+      {
+        "word": "control tab",
+        "score": 0.019949343643228885
+      },
+      {
+        "word": "air",
+        "score": 0.01909915149975231
+      },
+      {
+        "word": "mechanic",
+        "score": 0.018599314077241563
+      },
+      {
+        "word": "air midwest",
+        "score": 0.01783680670678062
+      },
+      {
+        "word": "cass",
+        "score": 0.017640766442875606
+      }
+    ]
+  },
+  {
+    "topic_id": 24,
+    "name": "24_ice_icing_icing conditions_boots",
+    "count": 51,
+    "keywords": [
+      {
+        "word": "ice",
+        "score": 0.056759913188089
+      },
+      {
+        "word": "icing",
+        "score": 0.05249070735461712
+      },
+      {
+        "word": "icing conditions",
+        "score": 0.028272505239744762
+      },
+      {
+        "word": "boots",
+        "score": 0.025904763775323466
+      },
+      {
+        "word": "deicing",
+        "score": 0.02474276443676032
+      },
+      {
+        "word": "deice",
+        "score": 0.02245469391400796
+      },
+      {
+        "word": "conditions",
+        "score": 0.020285112531543144
+      },
+      {
+        "word": "boot",
+        "score": 0.019624517105439165
+      },
+      {
+        "word": "deicing boots",
+        "score": 0.016362739806075464
+      },
+      {
+        "word": "rough",
+        "score": 0.016158836770475637
+      }
+    ]
+  },
+  {
+    "topic_id": 25,
+    "name": "25_acme_alaska airlines_end play_jackscrew",
+    "count": 49,
+    "keywords": [
+      {
+        "word": "acme",
+        "score": 0.05950864887835574
+      },
+      {
+        "word": "alaska airlines",
+        "score": 0.05326144023493612
+      },
+      {
+        "word": "end play",
+        "score": 0.050461432657933736
+      },
+      {
+        "word": "jackscrew",
+        "score": 0.04938659775794167
+      },
+      {
+        "word": "play",
+        "score": 0.04886390303942395
+      },
+      {
+        "word": "alaska",
+        "score": 0.045186494681192
+      },
+      {
+        "word": "wear",
+        "score": 0.04302954860443855
+      },
+      {
+        "word": "lubrication",
+        "score": 0.04263415214876239
+      },
+      {
+        "word": "nut",
+        "score": 0.040658951485865714
+      },
+      {
+        "word": "acme nut",
+        "score": 0.039832535853074905
+      }
+    ]
+  },
+  {
+    "topic_id": 26,
+    "name": "26_checklist_oxygen_engine_cabin",
+    "count": 47,
+    "keywords": [
+      {
+        "word": "checklist",
+        "score": 0.027402652862761303
+      },
+      {
+        "word": "oxygen",
+        "score": 0.023038895943680568
+      },
+      {
+        "word": "engine",
+        "score": 0.021978026484022743
+      },
+      {
+        "word": "cabin",
+        "score": 0.02118430515272151
+      },
+      {
+        "word": "american airlines",
+        "score": 0.01628080201358073
+      },
+      {
+        "word": "valve",
+        "score": 0.016043482844782925
+      },
+      {
+        "word": "emergency",
+        "score": 0.01468994729154956
+      },
+      {
+        "word": "american",
+        "score": 0.01404867918850599
+      },
+      {
+        "word": "filter",
+        "score": 0.013737647945978246
+      },
+      {
+        "word": "light",
+        "score": 0.011625797996201526
+      }
+    ]
+  },
+  {
+    "topic_id": 27,
+    "name": "27_cvr_recorder_recorders_voice",
+    "count": 47,
+    "keywords": [
+      {
+        "word": "cvr",
+        "score": 0.03266694554968779
+      },
+      {
+        "word": "recorder",
+        "score": 0.02190370175648483
+      },
+      {
+        "word": "recorders",
+        "score": 0.020218859371859868
+      },
+      {
+        "word": "voice",
+        "score": 0.020021002740442433
+      },
+      {
+        "word": "cockpit voice",
+        "score": 0.017807429226744567
+      },
+      {
+        "word": "cvrs",
+        "score": 0.016768030101449383
+      },
+      {
+        "word": "cockpit",
+        "score": 0.015287848252594752
+      },
+      {
+        "word": "audio",
+        "score": 0.014722430971564832
+      },
+      {
+        "word": "flight data",
+        "score": 0.012991973852075381
+      },
+      {
+        "word": "data",
+        "score": 0.012268111086835171
+      }
+    ]
+  },
+  {
+    "topic_id": 28,
+    "name": "28_thrust_reverse_reverse thrust_epr",
+    "count": 47,
+    "keywords": [
+      {
+        "word": "thrust",
+        "score": 0.06929228094337714
+      },
+      {
+        "word": "reverse",
+        "score": 0.05721554025490293
+      },
+      {
+        "word": "reverse thrust",
+        "score": 0.05133415356431259
+      },
+      {
+        "word": "epr",
+        "score": 0.031785518976096605
+      },
+      {
+        "word": "reverser",
+        "score": 0.028972417065226887
+      },
+      {
+        "word": "thrust reverser",
+        "score": 0.025120709734733352
+      },
+      {
+        "word": "landing",
+        "score": 0.017302286696076724
+      },
+      {
+        "word": "reversers",
+        "score": 0.01703376305104763
+      },
+      {
+        "word": "thrust reversers",
+        "score": 0.01606975936013381
+      },
+      {
+        "word": "13 epr",
+        "score": 0.013415305430054265
+      }
+    ]
+  },
+  {
+    "topic_id": 29,
+    "name": "29_gear_landing_landing gear_touchdown",
+    "count": 46,
+    "keywords": [
+      {
+        "word": "gear",
+        "score": 0.03661145296395332
+      },
+      {
+        "word": "landing",
+        "score": 0.032633226791796116
+      },
+      {
+        "word": "landing gear",
+        "score": 0.02243416534333294
+      },
+      {
+        "word": "touchdown",
+        "score": 0.0161028884570727
+      },
+      {
+        "word": "md11",
+        "score": 0.016001934561263188
+      },
+      {
+        "word": "checklist",
+        "score": 0.0121182970606537
+      },
+      {
+        "word": "captain",
+        "score": 0.010903703962369215
+      },
+      {
+        "word": "bounce",
+        "score": 0.009979307077514687
+      },
+      {
+        "word": "bounced",
+        "score": 0.008885365506863281
+      },
+      {
+        "word": "second",
+        "score": 0.008741059761491306
+      }
+    ]
+  },
+  {
+    "topic_id": 30,
+    "name": "30_braking_runway_braking action_brake",
+    "count": 46,
+    "keywords": [
+      {
+        "word": "braking",
+        "score": 0.046261033186189335
+      },
+      {
+        "word": "runway",
+        "score": 0.030566026922098415
+      },
+      {
+        "word": "braking action",
+        "score": 0.023397587111998894
+      },
+      {
+        "word": "brake",
+        "score": 0.021858138367650957
+      },
+      {
+        "word": "landing",
+        "score": 0.02166116226152159
+      },
+      {
+        "word": "brakes",
+        "score": 0.017480050479946628
+      },
+      {
+        "word": "distance",
+        "score": 0.013626535967545574
+      },
+      {
+        "word": "reports",
+        "score": 0.012635723227446464
+      },
+      {
+        "word": "action",
+        "score": 0.012456364514939307
+      },
+      {
+        "word": "thrust",
+        "score": 0.012408659907710938
+      }
+    ]
+  },
+  {
+    "topic_id": 31,
+    "name": "31_seat_shoulder_seats_harness",
+    "count": 45,
+    "keywords": [
+      {
+        "word": "seat",
+        "score": 0.037331908427760685
+      },
+      {
+        "word": "shoulder",
+        "score": 0.030938635923196463
+      },
+      {
+        "word": "seats",
+        "score": 0.025274195871378722
+      },
+      {
+        "word": "harness",
+        "score": 0.022424960687626345
+      },
+      {
+        "word": "shoulder harness",
+        "score": 0.020066130967205473
+      },
+      {
+        "word": "restraint",
+        "score": 0.018827781032777366
+      },
+      {
+        "word": "children",
+        "score": 0.017568463127321944
+      },
+      {
+        "word": "occupant",
+        "score": 0.016091435420147116
+      },
+      {
+        "word": "passenger",
+        "score": 0.015367585824498672
+      },
+      {
+        "word": "child",
+        "score": 0.015277303701607469
+      }
+    ]
+  },
+  {
+    "topic_id": 32,
+    "name": "32_helicopter_pilot_helicopters_terrain",
+    "count": 44,
+    "keywords": [
+      {
+        "word": "helicopter",
+        "score": 0.04729766470933876
+      },
+      {
+        "word": "pilot",
+        "score": 0.021800599216178843
+      },
+      {
+        "word": "helicopters",
+        "score": 0.020044127358709522
+      },
+      {
+        "word": "terrain",
+        "score": 0.014208232416586879
+      },
+      {
+        "word": "accident",
+        "score": 0.014142450126182695
+      },
+      {
+        "word": "flight",
+        "score": 0.012539192549613673
+      },
+      {
+        "word": "pilots",
+        "score": 0.011529290588477376
+      },
+      {
+        "word": "water",
+        "score": 0.010499122767435358
+      },
+      {
+        "word": "imc",
+        "score": 0.010429625478696468
+      },
+      {
+        "word": "altitude",
+        "score": 0.00933958403050476
+      }
+    ]
+  },
+  {
+    "topic_id": 33,
+    "name": "33_door_cargo door_cargo_latch",
+    "count": 43,
+    "keywords": [
+      {
+        "word": "door",
+        "score": 0.11176078506168474
+      },
+      {
+        "word": "cargo door",
+        "score": 0.0510937230501103
+      },
+      {
+        "word": "cargo",
+        "score": 0.0443324551029568
+      },
+      {
+        "word": "latch",
+        "score": 0.04192932367954196
+      },
+      {
+        "word": "cams",
+        "score": 0.025231237017865327
+      },
+      {
+        "word": "open",
+        "score": 0.02432205388243896
+      },
+      {
+        "word": "closed",
+        "score": 0.02190555084861936
+      },
+      {
+        "word": "lock",
+        "score": 0.01976632575354004
+      },
+      {
+        "word": "position",
+        "score": 0.018192910830160888
+      },
+      {
+        "word": "locked",
+        "score": 0.01731729839630598
+      }
+    ]
+  },
+  {
+    "topic_id": 34,
+    "name": "34_generator_electrical_power_bus",
+    "count": 43,
+    "keywords": [
+      {
+        "word": "generator",
+        "score": 0.04409688976808241
+      },
+      {
+        "word": "electrical",
+        "score": 0.03760587395343464
+      },
+      {
+        "word": "power",
+        "score": 0.03265248483420766
+      },
+      {
+        "word": "bus",
+        "score": 0.031054796780859366
+      },
+      {
+        "word": "attitude",
+        "score": 0.02564518140714655
+      },
+      {
+        "word": "indicator",
+        "score": 0.021451614306212667
+      },
+      {
+        "word": "standby",
+        "score": 0.018402322434536836
+      },
+      {
+        "word": "switch",
+        "score": 0.017994171460975456
+      },
+      {
+        "word": "attitude indicator",
+        "score": 0.01742722447315302
+      },
+      {
+        "word": "instruments",
+        "score": 0.015199261657843575
+      }
+    ]
+  },
+  {
+    "topic_id": 35,
+    "name": "35_captain_officer_captains_training",
+    "count": 41,
+    "keywords": [
+      {
+        "word": "captain",
+        "score": 0.023077653792007043
+      },
+      {
+        "word": "officer",
+        "score": 0.019570544243495493
+      },
+      {
+        "word": "captains",
+        "score": 0.013477471094430264
+      },
+      {
+        "word": "training",
+        "score": 0.013190797275756724
+      },
+      {
+        "word": "flight",
+        "score": 0.012000186934147861
+      },
+      {
+        "word": "flying",
+        "score": 0.01171369644323483
+      },
+      {
+        "word": "officers",
+        "score": 0.011539469141270391
+      },
+      {
+        "word": "pilot",
+        "score": 0.009866839798002439
+      },
+      {
+        "word": "approach",
+        "score": 0.009093056259735954
+      },
+      {
+        "word": "board",
+        "score": 0.00901690179228878
+      }
+    ]
+  },
+  {
+    "topic_id": 36,
+    "name": "36_recorder_flight recorder_crashresistant_crashresistant flight",
+    "count": 40,
+    "keywords": [
+      {
+        "word": "recorder",
+        "score": 0.038879116452213605
+      },
+      {
+        "word": "flight recorder",
+        "score": 0.029398731883755354
+      },
+      {
+        "word": "crashresistant",
+        "score": 0.026042213718432686
+      },
+      {
+        "word": "crashresistant flight",
+        "score": 0.025020485591034605
+      },
+      {
+        "word": "data",
+        "score": 0.02313131597951079
+      },
+      {
+        "word": "ntsb",
+        "score": 0.022766248177574864
+      },
+      {
+        "word": "image",
+        "score": 0.020305445246883328
+      },
+      {
+        "word": "recorders",
+        "score": 0.01765694908451189
+      },
+      {
+        "word": "cockpit",
+        "score": 0.017064246168640548
+      },
+      {
+        "word": "recorder systems",
+        "score": 0.015417605671254352
+      }
+    ]
+  },
+  {
+    "topic_id": 37,
+    "name": "37_hydraulic_rotor_yaw_tail",
+    "count": 39,
+    "keywords": [
+      {
+        "word": "hydraulic",
+        "score": 0.06601201725731015
+      },
+      {
+        "word": "rotor",
+        "score": 0.057507019354738315
+      },
+      {
+        "word": "yaw",
+        "score": 0.04993579576173171
+      },
+      {
+        "word": "tail",
+        "score": 0.04771394056083737
+      },
+      {
+        "word": "tail rotor",
+        "score": 0.047256307325562144
+      },
+      {
+        "word": "servo",
+        "score": 0.0354754123966301
+      },
+      {
+        "word": "pedal",
+        "score": 0.034746793228442395
+      },
+      {
+        "word": "yaw servo",
+        "score": 0.028521141847859657
+      },
+      {
+        "word": "helicopters",
+        "score": 0.028476453543425213
+      },
+      {
+        "word": "compensator",
+        "score": 0.02814085995655486
+      }
+    ]
+  },
+  {
+    "topic_id": 38,
+    "name": "38_engine_ditching_failure_checklist",
+    "count": 37,
+    "keywords": [
+      {
+        "word": "engine",
+        "score": 0.030963249918964725
+      },
+      {
+        "word": "ditching",
+        "score": 0.028976570885215946
+      },
+      {
+        "word": "failure",
+        "score": 0.024881596211922857
+      },
+      {
+        "word": "checklist",
+        "score": 0.023449959799837976
+      },
+      {
+        "word": "engine failure",
+        "score": 0.022735994002682985
+      },
+      {
+        "word": "failure checklist",
+        "score": 0.014598945334222367
+      },
+      {
+        "word": "dualengine failure",
+        "score": 0.013048123461321275
+      },
+      {
+        "word": "dualengine",
+        "score": 0.012816025325331442
+      },
+      {
+        "word": "airplane",
+        "score": 0.012362107088238131
+      },
+      {
+        "word": "double engine",
+        "score": 0.011160339351537435
+      }
+    ]
+  },
+  {
+    "topic_id": 39,
+    "name": "39_smoke_goggles_smoke goggles_cabin",
+    "count": 36,
+    "keywords": [
+      {
+        "word": "smoke",
+        "score": 0.07319213433281754
+      },
+      {
+        "word": "goggles",
+        "score": 0.027207109660956824
+      },
+      {
+        "word": "smoke goggles",
+        "score": 0.02476912113108248
+      },
+      {
+        "word": "cabin",
+        "score": 0.022116298531344326
+      },
+      {
+        "word": "emergency",
+        "score": 0.02172478380625638
+      },
+      {
+        "word": "cockpit",
+        "score": 0.01772928490821124
+      },
+      {
+        "word": "board",
+        "score": 0.015429555608582444
+      },
+      {
+        "word": "don",
+        "score": 0.015247007086525278
+      },
+      {
+        "word": "captain",
+        "score": 0.014253032887573623
+      },
+      {
+        "word": "emergency descent",
+        "score": 0.014109635544843709
+      }
+    ]
+  },
+  {
+    "topic_id": 40,
+    "name": "40_sar_dps_mission_alaska dps",
+    "count": 35,
+    "keywords": [
+      {
+        "word": "sar",
+        "score": 0.0315167499368677
+      },
+      {
+        "word": "dps",
+        "score": 0.029722568951029323
+      },
+      {
+        "word": "mission",
+        "score": 0.025704917441207297
+      },
+      {
+        "word": "alaska dps",
+        "score": 0.022273490426253057
+      },
+      {
+        "word": "pilot",
+        "score": 0.0221979864542354
+      },
+      {
+        "word": "alaska",
+        "score": 0.0221902127500726
+      },
+      {
+        "word": "nmsp",
+        "score": 0.021367027108731545
+      },
+      {
+        "word": "search",
+        "score": 0.020397506418989717
+      },
+      {
+        "word": "helicopter",
+        "score": 0.019819931074070863
+      },
+      {
+        "word": "risk",
+        "score": 0.019261832137960497
+      }
+    ]
+  },
+  {
+    "topic_id": 41,
+    "name": "41_cargo_weight_loading_fine",
+    "count": 35,
+    "keywords": [
+      {
+        "word": "cargo",
+        "score": 0.051489326283022725
+      },
+      {
+        "word": "weight",
+        "score": 0.04777186862226854
+      },
+      {
+        "word": "loading",
+        "score": 0.03692389419566579
+      },
+      {
+        "word": "fine",
+        "score": 0.02861257231129093
+      },
+      {
+        "word": "weight balance",
+        "score": 0.02663831374226839
+      },
+      {
+        "word": "balance",
+        "score": 0.025682224937658253
+      },
+      {
+        "word": "fine air",
+        "score": 0.025391927789992372
+      },
+      {
+        "word": "aeromar",
+        "score": 0.023279973660803532
+      },
+      {
+        "word": "pallet",
+        "score": 0.02188708532999218
+      },
+      {
+        "word": "cg",
+        "score": 0.020163987731265612
+      }
+    ]
+  },
+  {
+    "topic_id": 42,
+    "name": "42_training_commuter_checklists_safety",
+    "count": 34,
+    "keywords": [
+      {
+        "word": "training",
+        "score": 0.016495761291325562
+      },
+      {
+        "word": "commuter",
+        "score": 0.015533565125500685
+      },
+      {
+        "word": "checklists",
+        "score": 0.014573067571218129
+      },
+      {
+        "word": "safety",
+        "score": 0.01227168060275817
+      },
+      {
+        "word": "board",
+        "score": 0.011755275442850103
+      },
+      {
+        "word": "operations",
+        "score": 0.011006450378707091
+      },
+      {
+        "word": "checklist",
+        "score": 0.01091077071870433
+      },
+      {
+        "word": "flight",
+        "score": 0.010687203125293109
+      },
+      {
+        "word": "safety board",
+        "score": 0.010518140795421231
+      },
+      {
+        "word": "experience",
+        "score": 0.010517751801569546
+      }
+    ]
+  },
+  {
+    "topic_id": 43,
+    "name": "43_crm_training_crm training_crew",
+    "count": 34,
+    "keywords": [
+      {
+        "word": "crm",
+        "score": 0.04967093828427447
+      },
+      {
+        "word": "training",
+        "score": 0.030498133603921933
+      },
+      {
+        "word": "crm training",
+        "score": 0.027336072278751268
+      },
+      {
+        "word": "crew",
+        "score": 0.015413910317530349
+      },
+      {
+        "word": "resource",
+        "score": 0.014409412565036977
+      },
+      {
+        "word": "135",
+        "score": 0.014212652633720693
+      },
+      {
+        "word": "resource management",
+        "score": 0.01419021768201924
+      },
+      {
+        "word": "management",
+        "score": 0.013715153233337173
+      },
+      {
+        "word": "flight",
+        "score": 0.012789574356952474
+      },
+      {
+        "word": "pilots",
+        "score": 0.010541705810326821
+      }
+    ]
+  },
+  {
+    "topic_id": 44,
+    "name": "44_weather_tour_air tour_pilots",
+    "count": 33,
+    "keywords": [
+      {
+        "word": "weather",
+        "score": 0.04428178334876612
+      },
+      {
+        "word": "tour",
+        "score": 0.040158264263988136
+      },
+      {
+        "word": "air tour",
+        "score": 0.024760497300922533
+      },
+      {
+        "word": "pilots",
+        "score": 0.022858594413098204
+      },
+      {
+        "word": "hawaii",
+        "score": 0.02242054745020576
+      },
+      {
+        "word": "weather conditions",
+        "score": 0.018956259611384117
+      },
+      {
+        "word": "cuebased",
+        "score": 0.017864088410954704
+      },
+      {
+        "word": "conditions",
+        "score": 0.017049919728969493
+      },
+      {
+        "word": "camera",
+        "score": 0.01533339242930315
+      },
+      {
+        "word": "route",
+        "score": 0.01523264403858762
+      }
+    ]
+  },
+  {
+    "topic_id": 45,
+    "name": "45_goaround_goaround mode_mode_fo",
+    "count": 32,
+    "keywords": [
+      {
+        "word": "goaround",
+        "score": 0.0285218249329607
+      },
+      {
+        "word": "goaround mode",
+        "score": 0.0256327494392579
+      },
+      {
+        "word": "mode",
+        "score": 0.024260227284601983
+      },
+      {
+        "word": "fo",
+        "score": 0.01835424091485964
+      },
+      {
+        "word": "autopilot",
+        "score": 0.01705812587412447
+      },
+      {
+        "word": "activation goaround",
+        "score": 0.015302798336128454
+      },
+      {
+        "word": "inadvertent activation",
+        "score": 0.013722214060255823
+      },
+      {
+        "word": "activation",
+        "score": 0.013302459612486255
+      },
+      {
+        "word": "airplanes",
+        "score": 0.012889242178568001
+      },
+      {
+        "word": "control",
+        "score": 0.012264452891075047
+      }
+    ]
+  },
+  {
+    "topic_id": 46,
+    "name": "46_tca_action_midair_traffic",
+    "count": 32,
+    "keywords": [
+      {
+        "word": "tca",
+        "score": 0.0263318819255278
+      },
+      {
+        "word": "action",
+        "score": 0.020939442552708798
+      },
+      {
+        "word": "midair",
+        "score": 0.01953978328400035
+      },
+      {
+        "word": "traffic",
+        "score": 0.019245418569327755
+      },
+      {
+        "word": "recommendation",
+        "score": 0.01854185915524873
+      },
+      {
+        "word": "recommendations",
+        "score": 0.018343663689706326
+      },
+      {
+        "word": "collision",
+        "score": 0.017567733317700125
+      },
+      {
+        "word": "tcas",
+        "score": 0.016710617375815723
+      },
+      {
+        "word": "terminal",
+        "score": 0.016366167694335524
+      },
+      {
+        "word": "faa",
+        "score": 0.015483519141369353
+      }
+    ]
+  },
+  {
+    "topic_id": 47,
+    "name": "47_battery_cell_cells_thermal",
+    "count": 32,
+    "keywords": [
+      {
+        "word": "battery",
+        "score": 0.08617162413336824
+      },
+      {
+        "word": "cell",
+        "score": 0.08609816747344268
+      },
+      {
+        "word": "cells",
+        "score": 0.04357745734728265
+      },
+      {
+        "word": "thermal",
+        "score": 0.04194780488058138
+      },
+      {
+        "word": "batteries",
+        "score": 0.03882457426029279
+      },
+      {
+        "word": "gs",
+        "score": 0.030964556327649224
+      },
+      {
+        "word": "runaway",
+        "score": 0.030288806847929062
+      },
+      {
+        "word": "787",
+        "score": 0.030140654434763978
+      },
+      {
+        "word": "lithium",
+        "score": 0.0285816550674486
+      },
+      {
+        "word": "internal",
+        "score": 0.026465656820458608
+      }
+    ]
+  },
+  {
+    "topic_id": 48,
+    "name": "48_fatigue_sleep_duty_fatigued",
+    "count": 31,
+    "keywords": [
+      {
+        "word": "fatigue",
+        "score": 0.047333420594899665
+      },
+      {
+        "word": "sleep",
+        "score": 0.025538464201456588
+      },
+      {
+        "word": "duty",
+        "score": 0.024433890916746522
+      },
+      {
+        "word": "fatigued",
+        "score": 0.015031775580793848
+      },
+      {
+        "word": "policy",
+        "score": 0.014073533934641634
+      },
+      {
+        "word": "safety",
+        "score": 0.013894748615364386
+      },
+      {
+        "word": "attendance",
+        "score": 0.012819020149691699
+      },
+      {
+        "word": "regulations",
+        "score": 0.012516619498699389
+      },
+      {
+        "word": "disorders",
+        "score": 0.01209909562428536
+      },
+      {
+        "word": "sleep disorders",
+        "score": 0.011641889228064755
+      }
+    ]
+  },
+  {
+    "topic_id": 49,
+    "name": "49_fuel_fuel boost_boost_boost pump",
+    "count": 31,
+    "keywords": [
+      {
+        "word": "fuel",
+        "score": 0.12643562044241974
+      },
+      {
+        "word": "fuel boost",
+        "score": 0.057012354565238066
+      },
+      {
+        "word": "boost",
+        "score": 0.05489083407917463
+      },
+      {
+        "word": "boost pump",
+        "score": 0.04342746884727089
+      },
+      {
+        "word": "pump",
+        "score": 0.04204774616815566
+      },
+      {
+        "word": "fsii",
+        "score": 0.04089104142816632
+      },
+      {
+        "word": "imbalance",
+        "score": 0.035311184910254534
+      },
+      {
+        "word": "fuel imbalance",
+        "score": 0.029326102033130002
+      },
+      {
+        "word": "right fuel",
+        "score": 0.02765678434111465
+      },
+      {
+        "word": "fuel pressure",
+        "score": 0.022871055713377133
+      }
+    ]
+  },
+  {
+    "topic_id": 50,
+    "name": "50_slat_slats_piston_extension",
+    "count": 31,
+    "keywords": [
+      {
+        "word": "slat",
+        "score": 0.08458345572959912
+      },
+      {
+        "word": "slats",
+        "score": 0.03789734264085454
+      },
+      {
+        "word": "piston",
+        "score": 0.027472324018741397
+      },
+      {
+        "word": "extension",
+        "score": 0.027400709833856892
+      },
+      {
+        "word": "leading edge",
+        "score": 0.024824571771723595
+      },
+      {
+        "word": "edge",
+        "score": 0.023836134785238713
+      },
+      {
+        "word": "mach",
+        "score": 0.02354516176156213
+      },
+      {
+        "word": "leading",
+        "score": 0.022941320259685816
+      },
+      {
+        "word": "edge slat",
+        "score": 0.020465301386298138
+      },
+      {
+        "word": "flapslat",
+        "score": 0.018464778516760025
+      }
+    ]
+  },
+  {
+    "topic_id": 51,
+    "name": "51_fuel_pounds_weight_lbs",
+    "count": 30,
+    "keywords": [
+      {
+        "word": "fuel",
+        "score": 0.06734015574316538
+      },
+      {
+        "word": "pounds",
+        "score": 0.041180702048720985
+      },
+      {
+        "word": "weight",
+        "score": 0.02655645085594329
+      },
+      {
+        "word": "lbs",
+        "score": 0.01717224405978601
+      },
+      {
+        "word": "gallons",
+        "score": 0.016541742659224604
+      },
+      {
+        "word": "weight balance",
+        "score": 0.015628985840514788
+      },
+      {
+        "word": "balance",
+        "score": 0.01551249742793381
+      },
+      {
+        "word": "calculations",
+        "score": 0.014668493640922134
+      },
+      {
+        "word": "captain",
+        "score": 0.014615783774216008
+      },
+      {
+        "word": "flight",
+        "score": 0.01367965610861066
+      }
+    ]
+  },
+  {
+    "topic_id": 52,
+    "name": "52_approach_probable cause_probable_cause",
+    "count": 29,
+    "keywords": [
+      {
+        "word": "approach",
+        "score": 0.021849235590340094
+      },
+      {
+        "word": "probable cause",
+        "score": 0.01455971350914336
+      },
+      {
+        "word": "probable",
+        "score": 0.014446924846901318
+      },
+      {
+        "word": "cause",
+        "score": 0.01437699617263782
+      },
+      {
+        "word": "descent",
+        "score": 0.01422031522088428
+      },
+      {
+        "word": "altitude",
+        "score": 0.013858419475131535
+      },
+      {
+        "word": "transportation",
+        "score": 0.01098181874681255
+      },
+      {
+        "word": "national transportation",
+        "score": 0.01087012845981344
+      },
+      {
+        "word": "transportation safety",
+        "score": 0.010427809926552376
+      },
+      {
+        "word": "board",
+        "score": 0.010172662191001358
+      }
+    ]
+  },
+  {
+    "topic_id": 53,
+    "name": "53_cargo_compartment_cargo compartment_container",
+    "count": 29,
+    "keywords": [
+      {
+        "word": "cargo",
+        "score": 0.06126588211974798
+      },
+      {
+        "word": "compartment",
+        "score": 0.039385314466739284
+      },
+      {
+        "word": "cargo compartment",
+        "score": 0.03561757446668303
+      },
+      {
+        "word": "container",
+        "score": 0.03342188183318858
+      },
+      {
+        "word": "smoke",
+        "score": 0.031591793997128935
+      },
+      {
+        "word": "containers",
+        "score": 0.027558393792278306
+      },
+      {
+        "word": "compartments",
+        "score": 0.024797611690232074
+      },
+      {
+        "word": "synthesizer",
+        "score": 0.021600833585464097
+      },
+      {
+        "word": "oxygen",
+        "score": 0.02127816037666205
+      },
+      {
+        "word": "cargo compartments",
+        "score": 0.019125266648229937
+      }
+    ]
+  },
+  {
+    "topic_id": 54,
+    "name": "54_tour_air tour_adsb_hawaii",
+    "count": 29,
+    "keywords": [
+      {
+        "word": "tour",
+        "score": 0.0621966459811981
+      },
+      {
+        "word": "air tour",
+        "score": 0.05385871155997575
+      },
+      {
+        "word": "adsb",
+        "score": 0.045846934188073986
+      },
+      {
+        "word": "hawaii",
+        "score": 0.030739880138646175
+      },
+      {
+        "word": "air",
+        "score": 0.026382549603611895
+      },
+      {
+        "word": "operators",
+        "score": 0.023697943908716223
+      },
+      {
+        "word": "tour operators",
+        "score": 0.01964528283995146
+      },
+      {
+        "word": "sfar",
+        "score": 0.019138430772402192
+      },
+      {
+        "word": "sfar 71",
+        "score": 0.017259450903811265
+      },
+      {
+        "word": "infrastructure",
+        "score": 0.017050237022385863
+      }
+    ]
+  },
+  {
+    "topic_id": 55,
+    "name": "55_vortex_core_vortices_rotors",
+    "count": 28,
+    "keywords": [
+      {
+        "word": "vortex",
+        "score": 0.06743082019541093
+      },
+      {
+        "word": "core",
+        "score": 0.024746718462098236
+      },
+      {
+        "word": "vortices",
+        "score": 0.024190292804330105
+      },
+      {
+        "word": "rotors",
+        "score": 0.019820565478509748
+      },
+      {
+        "word": "rotor",
+        "score": 0.019043711575004625
+      },
+      {
+        "word": "dc9",
+        "score": 0.017079264229354543
+      },
+      {
+        "word": "pressure",
+        "score": 0.016741090647047086
+      },
+      {
+        "word": "turbulence",
+        "score": 0.016016294597708394
+      },
+      {
+        "word": "feet",
+        "score": 0.015895099506111267
+      },
+      {
+        "word": "wake",
+        "score": 0.0143349180210827
+      }
+    ]
+  },
+  {
+    "topic_id": 56,
+    "name": "56_fan_fan blade_cowl_blade",
+    "count": 28,
+    "keywords": [
+      {
+        "word": "fan",
+        "score": 0.1597420155798862
+      },
+      {
+        "word": "fan blade",
+        "score": 0.06861278351033653
+      },
+      {
+        "word": "cowl",
+        "score": 0.06655933251152338
+      },
+      {
+        "word": "blade",
+        "score": 0.05884436955772334
+      },
+      {
+        "word": "fbo",
+        "score": 0.045619704670238334
+      },
+      {
+        "word": "fan case",
+        "score": 0.04085172792773657
+      },
+      {
+        "word": "engine",
+        "score": 0.03726034090850495
+      },
+      {
+        "word": "fan blades",
+        "score": 0.0333128569855735
+      },
+      {
+        "word": "case",
+        "score": 0.030299334720152633
+      },
+      {
+        "word": "blades",
+        "score": 0.028746285127246328
+      }
+    ]
+  },
+  {
+    "topic_id": 57,
+    "name": "57_turbulence_aircraft_control_wing",
+    "count": 28,
+    "keywords": [
+      {
+        "word": "turbulence",
+        "score": 0.031451764878420926
+      },
+      {
+        "word": "aircraft",
+        "score": 0.013677032624170436
+      },
+      {
+        "word": "control",
+        "score": 0.013666738996434025
+      },
+      {
+        "word": "wing",
+        "score": 0.012494548669666787
+      },
+      {
+        "word": "severe",
+        "score": 0.010914658237982648
+      },
+      {
+        "word": "area",
+        "score": 0.010262849409723721
+      },
+      {
+        "word": "upset",
+        "score": 0.010261610325567432
+      },
+      {
+        "word": "loss",
+        "score": 0.0098438364131419
+      },
+      {
+        "word": "structural",
+        "score": 0.009653059675114335
+      },
+      {
+        "word": "air turbulence",
+        "score": 0.009330253680620128
+      }
+    ]
+  },
+  {
+    "topic_id": 58,
+    "name": "58_hazardous materials_hazardous_materials_undeclared",
+    "count": 27,
+    "keywords": [
+      {
+        "word": "hazardous materials",
+        "score": 0.09878322502591758
+      },
+      {
+        "word": "hazardous",
+        "score": 0.09719420340576389
+      },
+      {
+        "word": "materials",
+        "score": 0.0965250731198407
+      },
+      {
+        "word": "undeclared",
+        "score": 0.02911420581530514
+      },
+      {
+        "word": "undeclared hazardous",
+        "score": 0.02331538971643295
+      },
+      {
+        "word": "shipping",
+        "score": 0.02250711815954014
+      },
+      {
+        "word": "freight",
+        "score": 0.02015304296540385
+      },
+      {
+        "word": "packages",
+        "score": 0.01997326530099842
+      },
+      {
+        "word": "shipment",
+        "score": 0.01749491619158603
+      },
+      {
+        "word": "board",
+        "score": 0.01738307079200618
+      }
+    ]
+  },
+  {
+    "topic_id": 59,
+    "name": "59_taws_terrain_alerts_gpws",
+    "count": 27,
+    "keywords": [
+      {
+        "word": "taws",
+        "score": 0.03871896649541416
+      },
+      {
+        "word": "terrain",
+        "score": 0.03291290630875294
+      },
+      {
+        "word": "alerts",
+        "score": 0.03037338621627057
+      },
+      {
+        "word": "gpws",
+        "score": 0.027175986984777866
+      },
+      {
+        "word": "warning",
+        "score": 0.017356786236710057
+      },
+      {
+        "word": "inhibit",
+        "score": 0.01732899700337501
+      },
+      {
+        "word": "alert",
+        "score": 0.016806014966349953
+      },
+      {
+        "word": "ground proximity",
+        "score": 0.014067283627322237
+      },
+      {
+        "word": "proximity",
+        "score": 0.01396895560178754
+      },
+      {
+        "word": "inhibited",
+        "score": 0.013578556451510574
+      }
+    ]
+  },
+  {
+    "topic_id": 60,
+    "name": "60_rotor_blade_damper_tail",
+    "count": 26,
+    "keywords": [
+      {
+        "word": "rotor",
+        "score": 0.07255211933305204
+      },
+      {
+        "word": "blade",
+        "score": 0.06870014066065465
+      },
+      {
+        "word": "damper",
+        "score": 0.044997475374824396
+      },
+      {
+        "word": "tail",
+        "score": 0.04275336003489142
+      },
+      {
+        "word": "tail rotor",
+        "score": 0.0405492090297459
+      },
+      {
+        "word": "rotor blade",
+        "score": 0.04019016988753768
+      },
+      {
+        "word": "main rotor",
+        "score": 0.02535522399264795
+      },
+      {
+        "word": "dr",
+        "score": 0.02373391198703965
+      },
+      {
+        "word": "special effects",
+        "score": 0.023634169454514076
+      },
+      {
+        "word": "yellow",
+        "score": 0.020535403750949137
+      }
+    ]
+  },
+  {
+    "topic_id": 61,
+    "name": "61_rudder_servo valve_servo_valve",
+    "count": 26,
+    "keywords": [
+      {
+        "word": "rudder",
+        "score": 0.08938865366268776
+      },
+      {
+        "word": "servo valve",
+        "score": 0.06387946628662312
+      },
+      {
+        "word": "servo",
+        "score": 0.060081673317187806
+      },
+      {
+        "word": "valve",
+        "score": 0.05491224433570663
+      },
+      {
+        "word": "pcu",
+        "score": 0.03756916248655439
+      },
+      {
+        "word": "slide",
+        "score": 0.03652931774402814
+      },
+      {
+        "word": "jam",
+        "score": 0.03428713618037063
+      },
+      {
+        "word": "main rudder",
+        "score": 0.030919850704274665
+      },
+      {
+        "word": "secondary slide",
+        "score": 0.028089440524172244
+      },
+      {
+        "word": "rudder pcu",
+        "score": 0.026502671195462683
+      }
+    ]
+  },
+  {
+    "topic_id": 62,
+    "name": "62_emergency_ava052_controllers_flightcrew",
+    "count": 25,
+    "keywords": [
+      {
+        "word": "emergency",
+        "score": 0.023377642202750785
+      },
+      {
+        "word": "ava052",
+        "score": 0.022811755952998395
+      },
+      {
+        "word": "controllers",
+        "score": 0.02273266249214805
+      },
+      {
+        "word": "flightcrew",
+        "score": 0.022149292194780523
+      },
+      {
+        "word": "fuel",
+        "score": 0.021982028067707913
+      },
+      {
+        "word": "atc",
+        "score": 0.020191891486350352
+      },
+      {
+        "word": "jfk",
+        "score": 0.01954953201142148
+      },
+      {
+        "word": "controller",
+        "score": 0.01802687719457583
+      },
+      {
+        "word": "alternate",
+        "score": 0.017440578264930128
+      },
+      {
+        "word": "priority",
+        "score": 0.013966534920290404
+      }
+    ]
+  },
+  {
+    "topic_id": 63,
+    "name": "63_stabilizer_horizontal stabilizer_horizontal_continental express",
+    "count": 25,
+    "keywords": [
+      {
+        "word": "stabilizer",
+        "score": 0.052098186519083205
+      },
+      {
+        "word": "horizontal stabilizer",
+        "score": 0.029124280679256213
+      },
+      {
+        "word": "horizontal",
+        "score": 0.028228018144345206
+      },
+      {
+        "word": "continental express",
+        "score": 0.022011364620060033
+      },
+      {
+        "word": "maintenance",
+        "score": 0.019075871221522177
+      },
+      {
+        "word": "continental",
+        "score": 0.017968300384374986
+      },
+      {
+        "word": "structure",
+        "score": 0.017429216113294246
+      },
+      {
+        "word": "leading",
+        "score": 0.017180071082301553
+      },
+      {
+        "word": "express",
+        "score": 0.016849077568598828
+      },
+      {
+        "word": "vertical stabilizer",
+        "score": 0.0165041234302202
+      }
+    ]
+  },
+  {
+    "topic_id": 64,
+    "name": "64_fdr_fdrs_parameters_safety",
+    "count": 25,
+    "keywords": [
+      {
+        "word": "fdr",
+        "score": 0.04741648636461745
+      },
+      {
+        "word": "fdrs",
+        "score": 0.031027189622272626
+      },
+      {
+        "word": "parameters",
+        "score": 0.02539039120828784
+      },
+      {
+        "word": "safety",
+        "score": 0.02024285914216587
+      },
+      {
+        "word": "data",
+        "score": 0.019371164795845715
+      },
+      {
+        "word": "board",
+        "score": 0.01682677332266414
+      },
+      {
+        "word": "safety board",
+        "score": 0.015521282107841304
+      },
+      {
+        "word": "recorded",
+        "score": 0.01373637715358326
+      },
+      {
+        "word": "maintenance",
+        "score": 0.013699010533532311
+      },
+      {
+        "word": "airplanes",
+        "score": 0.013351913771804216
+      }
+    ]
+  },
+  {
+    "topic_id": 65,
+    "name": "65_plug_med_med plug_removal",
+    "count": 24,
+    "keywords": [
+      {
+        "word": "plug",
+        "score": 0.07087465519414247
+      },
+      {
+        "word": "med",
+        "score": 0.0647853409332594
+      },
+      {
+        "word": "med plug",
+        "score": 0.05570897876226935
+      },
+      {
+        "word": "removal",
+        "score": 0.042428354802330696
+      },
+      {
+        "word": "left med",
+        "score": 0.04027477901018829
+      },
+      {
+        "word": "boeing",
+        "score": 0.035035017791890506
+      },
+      {
+        "word": "production",
+        "score": 0.027562365908833184
+      },
+      {
+        "word": "boeings",
+        "score": 0.02678766312086724
+      },
+      {
+        "word": "bolts",
+        "score": 0.02571072426977099
+      },
+      {
+        "word": "manufacturing",
+        "score": 0.02470194740150951
+      }
+    ]
+  },
+  {
+    "topic_id": 66,
+    "name": "66_runway_rsa_emas_airport",
+    "count": 24,
+    "keywords": [
+      {
+        "word": "runway",
+        "score": 0.03118077841526538
+      },
+      {
+        "word": "rsa",
+        "score": 0.031024137618110927
+      },
+      {
+        "word": "emas",
+        "score": 0.03088587967457322
+      },
+      {
+        "word": "airport",
+        "score": 0.030568486812562003
+      },
+      {
+        "word": "rsas",
+        "score": 0.024515420714513275
+      },
+      {
+        "word": "special",
+        "score": 0.022490369305984897
+      },
+      {
+        "word": "airports",
+        "score": 0.02086753113049117
+      },
+      {
+        "word": "runways",
+        "score": 0.018688691404422465
+      },
+      {
+        "word": "safety",
+        "score": 0.017581774589575813
+      },
+      {
+        "word": "faa",
+        "score": 0.01699821123128592
+      }
+    ]
+  },
+  {
+    "topic_id": 67,
+    "name": "67_boss_air_fighter_boeing b17g",
+    "count": 23,
+    "keywords": [
+      {
+        "word": "boss",
+        "score": 0.07065751167849592
+      },
+      {
+        "word": "air",
+        "score": 0.06273921252717778
+      },
+      {
+        "word": "fighter",
+        "score": 0.03530476914317449
+      },
+      {
+        "word": "boeing b17g",
+        "score": 0.02780493889494277
+      },
+      {
+        "word": "b17g",
+        "score": 0.02769079021930737
+      },
+      {
+        "word": "caf",
+        "score": 0.027049735487894716
+      },
+      {
+        "word": "report air2407",
+        "score": 0.02265913389592253
+      },
+      {
+        "word": "air2407",
+        "score": 0.02265913389592253
+      },
+      {
+        "word": "p63f",
+        "score": 0.02163909709216845
+      },
+      {
+        "word": "bell p63f",
+        "score": 0.02163909709216845
+      }
+    ]
+  },
+  {
+    "topic_id": 68,
+    "name": "68_mode_777_spd_pf",
+    "count": 23,
+    "keywords": [
+      {
+        "word": "mode",
+        "score": 0.04431497584559823
+      },
+      {
+        "word": "777",
+        "score": 0.03904738521547989
+      },
+      {
+        "word": "spd",
+        "score": 0.03385808099890255
+      },
+      {
+        "word": "pf",
+        "score": 0.03355181353378924
+      },
+      {
+        "word": "flch",
+        "score": 0.030568980557437602
+      },
+      {
+        "word": "flch spd",
+        "score": 0.028014606139451618
+      },
+      {
+        "word": "pm",
+        "score": 0.025942854591751253
+      },
+      {
+        "word": "asiana",
+        "score": 0.025635176979549815
+      },
+      {
+        "word": "fd",
+        "score": 0.024688184061699776
+      },
+      {
+        "word": "flight director",
+        "score": 0.02093577964599347
+      }
+    ]
+  },
+  {
+    "topic_id": 69,
+    "name": "69_takeoff_tire_rejected_v1",
+    "count": 22,
+    "keywords": [
+      {
+        "word": "takeoff",
+        "score": 0.03757331421999897
+      },
+      {
+        "word": "tire",
+        "score": 0.030456117386878707
+      },
+      {
+        "word": "rejected",
+        "score": 0.028236646867842195
+      },
+      {
+        "word": "v1",
+        "score": 0.02764269130111758
+      },
+      {
+        "word": "rto",
+        "score": 0.022804938199051668
+      },
+      {
+        "word": "rejected takeoff",
+        "score": 0.020921980528935853
+      },
+      {
+        "word": "speed",
+        "score": 0.01556696850519748
+      },
+      {
+        "word": "airplane",
+        "score": 0.015477098401700527
+      },
+      {
+        "word": "runway",
+        "score": 0.015473694499921628
+      },
+      {
+        "word": "captain",
+        "score": 0.015407829330241435
+      }
+    ]
+  },
+  {
+    "topic_id": 70,
+    "name": "70_flap_piper_page_add",
+    "count": 22,
+    "keywords": [
+      {
+        "word": "flap",
+        "score": 0.13749856403500027
+      },
+      {
+        "word": "piper",
+        "score": 0.052801188798030155
+      },
+      {
+        "word": "page",
+        "score": 0.052627045689092565
+      },
+      {
+        "word": "add",
+        "score": 0.05129336465734972
+      },
+      {
+        "word": "flaps",
+        "score": 0.0509063547667671
+      },
+      {
+        "word": "25",
+        "score": 0.05025431463095917
+      },
+      {
+        "word": "delete",
+        "score": 0.04585628552020976
+      },
+      {
+        "word": "paragraph",
+        "score": 0.04377793281154632
+      },
+      {
+        "word": "service bulletin",
+        "score": 0.04101813050670893
+      },
+      {
+        "word": "bulletin",
+        "score": 0.03835898753960618
+      }
+    ]
+  },
+  {
+    "topic_id": 71,
+    "name": "71_landing distance_distance_landing_assessments",
+    "count": 21,
+    "keywords": [
+      {
+        "word": "landing distance",
+        "score": 0.06577899009059723
+      },
+      {
+        "word": "distance",
+        "score": 0.05417229419613496
+      },
+      {
+        "word": "landing",
+        "score": 0.05344730632628488
+      },
+      {
+        "word": "assessments",
+        "score": 0.04238923939573288
+      },
+      {
+        "word": "distance assessments",
+        "score": 0.034026343354009427
+      },
+      {
+        "word": "arrival",
+        "score": 0.03173795039299407
+      },
+      {
+        "word": "arrival landing",
+        "score": 0.026579161733012592
+      },
+      {
+        "word": "margin",
+        "score": 0.026163554978210733
+      },
+      {
+        "word": "safety margin",
+        "score": 0.02536809700709031
+      },
+      {
+        "word": "safo",
+        "score": 0.023701577664910208
+      }
+    ]
+  },
+  {
+    "topic_id": 72,
+    "name": "72_traffic_alerting_aural_adsb",
+    "count": 21,
+    "keywords": [
+      {
+        "word": "traffic",
+        "score": 0.043633547533045325
+      },
+      {
+        "word": "alerting",
+        "score": 0.03857683107659346
+      },
+      {
+        "word": "aural",
+        "score": 0.03654542217291434
+      },
+      {
+        "word": "adsb",
+        "score": 0.03537304890291814
+      },
+      {
+        "word": "collision",
+        "score": 0.030599961740251414
+      },
+      {
+        "word": "dhc3",
+        "score": 0.028222048403052643
+      },
+      {
+        "word": "alerts",
+        "score": 0.02565651955488157
+      },
+      {
+        "word": "visual",
+        "score": 0.02371319686768778
+      },
+      {
+        "word": "71",
+        "score": 0.02271408268465883
+      },
+      {
+        "word": "cdti",
+        "score": 0.022216147979096903
+      }
+    ]
+  },
+  {
+    "topic_id": 73,
+    "name": "73_certification_airworthiness_faa_type certification",
+    "count": 20,
+    "keywords": [
+      {
+        "word": "certification",
+        "score": 0.03736971824320896
+      },
+      {
+        "word": "airworthiness",
+        "score": 0.03108157588768848
+      },
+      {
+        "word": "faa",
+        "score": 0.029641912290743283
+      },
+      {
+        "word": "type certification",
+        "score": 0.01676949623770526
+      },
+      {
+        "word": "afm",
+        "score": 0.015558874896678693
+      },
+      {
+        "word": "revision",
+        "score": 0.015486193102747313
+      },
+      {
+        "word": "aeg",
+        "score": 0.014897464980078276
+      },
+      {
+        "word": "cc",
+        "score": 0.01424045541190453
+      },
+      {
+        "word": "stc",
+        "score": 0.01390732183667316
+      },
+      {
+        "word": "atr",
+        "score": 0.013766945771599296
+      }
+    ]
+  },
+  {
+    "topic_id": 74,
+    "name": "74_power_engine_pilot_loss",
+    "count": 20,
+    "keywords": [
+      {
+        "word": "power",
+        "score": 0.015305070907307226
+      },
+      {
+        "word": "engine",
+        "score": 0.014284186307991963
+      },
+      {
+        "word": "pilot",
+        "score": 0.012842887904506236
+      },
+      {
+        "word": "loss",
+        "score": 0.011509804573813467
+      },
+      {
+        "word": "airplane",
+        "score": 0.01080134892774807
+      },
+      {
+        "word": "accident",
+        "score": 0.010207290291653277
+      },
+      {
+        "word": "control",
+        "score": 0.010078102551902491
+      },
+      {
+        "word": "captain",
+        "score": 0.009402449525691327
+      },
+      {
+        "word": "aircraft",
+        "score": 0.00884325278655741
+      },
+      {
+        "word": "flight",
+        "score": 0.008610458752864788
+      }
+    ]
+  },
+  {
+    "topic_id": 75,
+    "name": "75_spoiler_spoilers_extended_autospoiler",
+    "count": 20,
+    "keywords": [
+      {
+        "word": "spoiler",
+        "score": 0.08324562368486463
+      },
+      {
+        "word": "spoilers",
+        "score": 0.07335471205355339
+      },
+      {
+        "word": "extended",
+        "score": 0.027222025921055652
+      },
+      {
+        "word": "autospoiler",
+        "score": 0.02468958660304887
+      },
+      {
+        "word": "spoiler handle",
+        "score": 0.021382046062403494
+      },
+      {
+        "word": "actuator",
+        "score": 0.020743663185716486
+      },
+      {
+        "word": "handle",
+        "score": 0.019153253315645487
+      },
+      {
+        "word": "arming",
+        "score": 0.018916196335407295
+      },
+      {
+        "word": "spoilers extended",
+        "score": 0.018637892471784292
+      },
+      {
+        "word": "md80",
+        "score": 0.018068892348395944
+      }
+    ]
+  }
+]
