@@ -1,0 +1,24 @@
+{
+  "l1_run_id": 1,
+  "l2_run_id": 1,
+  "timestamp": "2026-01-25T19:03:46.394164",
+  "config_version": "2.0.0",
+  "l1_source": {
+    "chunk_assignments": 6555,
+    "report_categories": 1736,
+    "unique_reports": 418
+  },
+  "l2": {
+    "eligible_chunks": 1798,
+    "processed_chunks": 1478,
+    "chunk_assignments": 2446,
+    "report_assignments": 1106,
+    "subcategories_used": 32,
+    "reports_with_l2": 289,
+    "time_sec": 10.01
+  },
+  "performance": {
+    "total_time_sec": 11.03,
+    "chunks_per_sec": 147.7
+  }
+}

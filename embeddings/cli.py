@@ -12,6 +12,9 @@ Usage:
     python -m embeddings.cli upload mika
     python -m embeddings.cli upload both
 
+    python -m embeddings.cli enrich both         # Add taxonomy + PDF URLs to Qdrant
+    python -m embeddings.cli enrich mika --l1-run 1 --l2-run 1
+
     python -m embeddings.cli all                 # Embed + upload both
 
     python -m embeddings.cli verify minilm       # Verify Qdrant collection
@@ -31,7 +34,13 @@ from sqlite import queries
 from .config import MODELS, get_parquet_path, CHUNKS_JSONL_PATH
 from .embed import embed_all_models, embed_chunks
 from .storage import get_parquet_stats
-from .upload import upload_all_models, upload_embeddings, verify_collection
+from .upload import (
+    upload_all_models,
+    upload_embeddings,
+    verify_collection,
+    enrich_payloads_with_taxonomy,
+    enrich_all_models,
+)
 
 
 def setup_logging(log_name: str, verbose: bool = False) -> logging.Logger:
@@ -292,6 +301,56 @@ def cmd_verify(args):
     return 0 if all_ok else 1
 
 
+def cmd_enrich(args):
+    """Handle enrich command - add taxonomy data to Qdrant payloads."""
+    logger = setup_logging(f"enrich_{args.model}", args.verbose)
+    logger.info(f"Enrich command: model={args.model}, l1_run={args.l1_run}, l2_run={args.l2_run}")
+
+    # Check prerequisites
+    if not validate_prerequisites("verify", logger):  # Same prereqs as verify
+        return 1
+
+    conn = init_db(DB_PATH)
+
+    exit_code = 0
+    try:
+        if args.model == "both":
+            stats = enrich_all_models(
+                l1_run_id=args.l1_run,
+                l2_run_id=args.l2_run,
+                conn=conn
+            )
+            for model_name, model_stats in stats.items():
+                if model_stats.get("status") == "completed":
+                    logger.info(f"{model_name}: {model_stats['points_updated']} points enriched")
+                else:
+                    logger.error(f"{model_name}: {model_stats.get('error', 'failed')}")
+                    exit_code = 1
+        else:
+            stats = enrich_payloads_with_taxonomy(
+                model_name=args.model,
+                l1_run_id=args.l1_run,
+                l2_run_id=args.l2_run,
+                conn=conn
+            )
+            if stats.get("status") == "completed":
+                logger.info(f"Completed: {stats['points_updated']} points enriched")
+                logger.info(f"  Reports with taxonomy: {stats['reports_with_taxonomy']}")
+                logger.info(f"  Reports without taxonomy: {stats['reports_without_taxonomy']}")
+            else:
+                logger.error(f"Enrichment failed: {stats.get('error', 'unknown error')}")
+                exit_code = 1
+
+    except Exception as e:
+        logger.error(f"Enrichment failed: {e}")
+        exit_code = 1
+
+    finally:
+        conn.close()
+
+    return exit_code
+
+
 def cmd_stats(args):
     """Handle stats command."""
     print("\n" + "=" * 60)
@@ -361,6 +420,7 @@ def main():
 Commands:
   embed MODEL     Generate embeddings (minilm|mika|both)
   upload MODEL    Upload to Qdrant (minilm|mika|both)
+  enrich MODEL    Add taxonomy data to Qdrant payloads (minilm|mika|both)
   all             Embed + upload both models
   verify MODEL    Verify Qdrant collection (minilm|mika|both)
   stats           Show embedding statistics
@@ -368,6 +428,8 @@ Commands:
 Examples:
   python -m embeddings.cli embed both --limit 100
   python -m embeddings.cli upload minilm
+  python -m embeddings.cli enrich both               # Add L1/L2 taxonomy + PDF URLs
+  python -m embeddings.cli enrich mika --l1-run 1 --l2-run 1
   python -m embeddings.cli all
   python -m embeddings.cli stats
         """
@@ -442,6 +504,35 @@ Examples:
         help="Verbose logging"
     )
     verify_parser.set_defaults(func=cmd_verify)
+
+    # Enrich command
+    enrich_parser = subparsers.add_parser(
+        "enrich",
+        help="Add taxonomy data and PDF URLs to Qdrant payloads"
+    )
+    enrich_parser.add_argument(
+        "model",
+        choices=["minilm", "mika", "both"],
+        help="Model collection to enrich"
+    )
+    enrich_parser.add_argument(
+        "--l1-run",
+        type=int,
+        default=1,
+        help="L1 classification run ID (default: 1)"
+    )
+    enrich_parser.add_argument(
+        "--l2-run",
+        type=int,
+        default=1,
+        help="L2 classification run ID (default: 1)"
+    )
+    enrich_parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Verbose logging"
+    )
+    enrich_parser.set_defaults(func=cmd_enrich)
 
     # Stats command
     stats_parser = subparsers.add_parser("stats", help="Show statistics")

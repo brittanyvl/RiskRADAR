@@ -30,6 +30,7 @@ An end-to-end data engineering and machine learning pipeline that transforms uns
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
 - [License](#license)
+- [References & Citations](#references--citations)
 
 ---
 
@@ -57,12 +58,11 @@ This project serves as a portfolio piece demonstrating skills in data engineerin
 | Phase 3 - Text Extraction | **Complete** | 30,602 pages extracted (14K embedded + 16K OCR) |
 | Phase 4 - Chunking | **Complete** | 24,766 search-ready chunks (v2: 400-800 tokens) |
 | Phase 5 - Embeddings | **Complete** | Dual-model embeddings with benchmark evaluation |
-| Phase 6A - Discovery | **Planned** | BERTopic topic discovery from cause sections |
-| Phase 6A-Review | **Planned** | **GATE 1**: Human topic review & approval |
-| Phase 6B - Taxonomy Build | **Planned** | CICTT + discovered topics → 3-level hierarchy |
-| Phase 6B-Review | **Planned** | **GATE 2**: Human taxonomy review & seed selection |
-| Phase 6C - Scoring | **Planned** | Multi-signal cause attribution (percentage allocation) |
-| Phase 6C-Review | **Planned** | **GATE 3**: Human score review (50 reports) |
+| Phase 6A - L1 Classification | **Complete** | 453 reports → 27 CICTT categories |
+| Phase 6A-Sub - L2 Classification | **Complete** | 1,106 report-L2 assignments → 32 subcategories |
+| Phase 6A - Qdrant Enrichment | **Complete** | Payloads enriched with taxonomy + PDF URLs |
+| Phase 6A-Review | **Pending** | Human review of L1+L2 classifications |
+| Phase 6C - Scoring | Planned | Multi-signal cause attribution (percentage allocation) |
 | Phase 7 - Trends | Planned | Prevalence analytics by time period |
 | Phase 8 - Streamlit App | Planned | Search + Cause Map Explorer interface |
 
@@ -351,13 +351,21 @@ See [eval/README.md](eval/README.md) for complete methodology documentation.
 
 ### Overview
 
-Phase 6-8 builds a hierarchical accident cause taxonomy and assigns multi-cause attribution to each report:
+Phase 6-8 builds a hierarchical accident cause taxonomy and assigns multi-cause attribution to each report.
+
+**Key Learning:** Initial BERTopic unsupervised topic discovery produced 76 topics, but human review revealed they captured document structure (headers, boilerplate) rather than meaningful safety factors. This led to a pivot to industry-standard taxonomies.
 
 ```
-Phase 6A: Topic Discovery (BERTopic)
+Phase 6A: CICTT Level 1 Classification (Complete - 453 reports → 27 categories)
     │
     ▼
-Phase 6B: Taxonomy Building (CICTT + Discovered Topics)
+Phase 6A-Sub: Level 2 Sub-Categorization (Complete - 1,106 assignments → 32 subcategories)
+    │
+    ▼
+Qdrant Enrichment (Complete - payloads enriched with l1_categories, l2_subcategories, pdf_url)
+    │
+    ▼
+Phase 6A-Review: Human Taxonomy Review (GATE - Pending)
     │
     ▼
 Phase 6C: Multi-Signal Scoring (Keywords + Embeddings)
@@ -369,74 +377,112 @@ Phase 7: Trend Analytics (Prevalence over Time)
 Phase 8: Streamlit App (Search + Cause Map Explorer)
 ```
 
-### Critical Finding: Section Consistency
-
-Analysis revealed PROBABLE CAUSE sections only exist in 30.4% of reports:
-
-| Section | Coverage |
-|---------|----------|
-| PROBABLE CAUSE | 30.4% |
-| CONCLUSIONS | 50.0% |
-| FINDINGS | 54.5% |
-| ANALYSIS | **70.2%** |
-| Any cause section | **80.6%** |
-
-**Solution:** Hybrid approach - use cause sections when available, fallback to full document.
-
 ### Taxonomy Structure
 
-3-level hierarchy using CICTT (NTSB official categories) as foundation:
+2-level hybrid hierarchy using industry standards:
 
 ```
-Level 1: CICTT Categories (15 official categories)
-  └─ Level 2: Topic Groups (BERTopic-discovered)
-      └─ Level 3: Specific Themes (Sub-topics)
+Level 1: CICTT Categories (27 categories from CAST/ICAO)
+    │
+    └─ Level 2: Sub-Categories (48 total, targeted by category type)
+        ├── LOC-I → Industry-standard sub-causes (IATA/EASA research)
+        ├── CFIT → Industry-standard sub-causes (IATA/SKYbrary)
+        ├── SCF-PP/SCF-NP → Technical sub-systems
+        └── Human-causal categories → HFACS Unsafe Acts
 ```
 
-**CICTT Level 1 Categories:**
-- LOC-I (Loss of Control - Inflight)
-- CFIT (Controlled Flight Into Terrain)
-- SCF-PP/SCF-NP (System/Component Failure)
-- ICE, UIMC, FUEL, FIRE, etc.
+### Level 1: CICTT Categories (Complete)
 
-### Multi-Cause Attribution
+453 reports classified to 27 CICTT occurrence categories using embedding similarity.
 
-Reports can have multiple causes with percentage allocation:
-- Percentages sum to 100%
-- Evidence-backed (linked to specific chunks)
-- Roll-up: L3 → L2 → L1
+**Key Categories:**
+| Code | Name | Description |
+|------|------|-------------|
+| LOC-I | Loss of Control - Inflight | Stalls, spins, spatial disorientation |
+| CFIT | Controlled Flight Into Terrain | Impact while aircraft under control |
+| SCF-PP | System Failure - Powerplant | Engine, propeller, rotor failures |
+| SCF-NP | System Failure - Non-Powerplant | Flight controls, hydraulics, electrical |
+| RE | Runway Excursion | Overruns, veer-offs |
+| UIMC | VFR into IMC | Inadvertent instrument conditions |
+
+### Level 2: Sub-Categories (Complete)
+
+Targeted sub-categorization using domain-specific frameworks.
+
+**L2 Classification Results:**
+- 1,478 chunks processed (from L2-enabled categories)
+- 2,446 chunk-L2 assignments generated
+- 1,106 report-L2 assignments
+- 32 subcategories used
+
+**Sub-category frameworks:**
+
+| L1 Category | Sub-Category Source | Sub-Categories |
+|-------------|---------------------|----------------|
+| **LOC-I** | IATA/EASA research | STALL, UPSET, SD (Spatial Disorientation), ENV, SYS, LOAD |
+| **CFIT** | IATA/SKYbrary | NAV (Navigation), SA (Situational Awareness), VIS, TAWS, PROC |
+| **SCF-PP** | Technical sub-systems | ENG, FUEL, PROP, FIRE |
+| **SCF-NP** | Technical sub-systems | FLT (Flight Controls), HYD, ELEC, STRUCT, GEAR |
+| **Human-causal** (7 categories) | HFACS Level 1 | SKILL, DECISION, PERCEPTUAL, VIOLATION |
+| **Other** (13 categories) | None | Remain flat (low volume or already specific) |
+
+### Classification Method
+
+Two-pass embedding-based classification:
+
+```
+Pass 1: Chunk → L1 CICTT (cosine similarity to CICTT seed phrases)
+Pass 2: Chunk + L1 → L2 Sub-category (cosine similarity to L2 seed phrases)
+Combined Confidence: L1_confidence × L2_confidence
+```
+
+Uses NASA MIKA embeddings (768 dimensions) for domain-specific semantic matching.
 
 ### Human-in-the-Loop Review
 
-Three explicit approval gates ensure quality:
-
 | Gate | Phase | Review Process |
 |------|-------|----------------|
-| **Gate 1** | After 6A | Export topics to CSV, review/rename/merge, import decisions |
-| **Gate 2** | After 6B | Export taxonomy YAML, review structure, select seed examples |
-| **Gate 3** | After 6C | Export 50 scored reports, validate cause assignments |
-
-Pipeline pauses at each gate until you explicitly approve to proceed.
+| **Gate 1** | After 6A | ✅ Complete - CICTT L1 classification approved |
+| **Gate 2** | After 6A-Sub | Export 50 sub-category assignments, validate accuracy |
+| **Gate 3** | After 6C | Export scored reports, validate multi-cause attribution |
 
 ### CLI Commands (Phase 6)
 
 ```bash
-python -m taxonomy.cli discover          # BERTopic topic discovery
-python -m taxonomy.cli export-topics     # Export for Gate 1 review
-python -m taxonomy.cli approve-gate 1    # Approve to proceed
+# Level 1 CICTT Classification (Complete)
+python -m taxonomy.cli map               # Map reports to CICTT categories
+python -m taxonomy.cli review            # Export HTML for human review
+python -m taxonomy.cli stats             # Show classification statistics
 
-python -m taxonomy.cli map               # Map topics to CICTT
-python -m taxonomy.cli export-taxonomy   # Export for Gate 2 review
-python -m taxonomy.cli approve-gate 2    # Approve to proceed
+# Level 2 Sub-Categorization (In Progress)
+python -m taxonomy.cli classify          # Hierarchical L1+L2 classification
+python -m taxonomy.cli export-review     # Export for Gate 2 review
+python -m taxonomy.cli import-review     # Import completed reviews
+python -m taxonomy.cli review-stats      # Show approval/rejection rates
 
-python -m taxonomy.cli score --model both  # Score all reports
-python -m taxonomy.cli export-review     # Export for Gate 3 review
-python -m taxonomy.cli approve-gate 3    # Approve to proceed
+# Trend Analytics (Phase 7)
+python -m taxonomy.cli trends            # Compute prevalence over time
 
-python -m taxonomy.cli trends            # Compute prevalence trends
+# Qdrant Payload Enrichment (adds taxonomy to vector payloads)
+python -m embeddings.cli enrich both     # Adds l1_categories, l2_subcategories, pdf_url
 ```
 
-See CLAUDE.md for detailed implementation plan.
+### Qdrant Enrichment (Complete)
+
+Vector payloads in Qdrant have been enriched with taxonomy data for category-filtered search:
+
+| Field | Type | Example |
+|-------|------|---------|
+| `l1_categories` | list[string] | `["LOC-I", "SCF-NP"]` |
+| `l2_subcategories` | list[string] | `["LOC-I-STALL", "CFIT-NAV"]` |
+| `pdf_url` | string | `https://www.ntsb.gov/.../AAR0201.pdf` |
+
+This enables:
+- **Category-filtered semantic search** in Streamlit
+- **Direct PDF linking** to original NTSB reports
+- **Faceted navigation** by taxonomy categories
+
+See [CLAUDE.md](CLAUDE.md) for detailed implementation plan and [portfolio.md](portfolio.md) for the BERTopic → CICTT pivot narrative.
 
 ---
 
@@ -533,6 +579,147 @@ MIT License - See LICENSE file for details.
 - **NTSB** for making aviation accident reports publicly available
 - **NASA-AIML** for the MIKA domain-specific embedding model
 - **Qdrant** for the vector database platform
+
+---
+
+## References & Citations
+
+This project incorporates research and standards from multiple aviation safety organizations. Below are the primary sources used in designing the taxonomy and classification systems.
+
+### Aviation Taxonomy Standards
+
+#### CICTT (CAST/ICAO Common Taxonomy Team)
+
+The primary taxonomy framework used for Level 1 occurrence classification:
+
+- **NTSB. (2013).** *Aviation Occurrence Categories: Definitions and Usage Notes (Version 4.6)*. National Transportation Safety Board.
+  - URL: https://www.ntsb.gov/safety/data/Documents/datafiles/OccurrenceCategoryDefinitions.pdf
+  - Used for: 28 CICTT occurrence category definitions
+
+- **CAST-ICAO. (2017).** *CICTT Aviation Occurrence Categories (Version 4.7)*. Commercial Aviation Safety Team / International Civil Aviation Organization.
+  - URL: https://www.cast-safety.org/
+  - Used for: Category keywords and classification guidance
+
+- **SKYbrary. (2024).** *CAST/ICAO Common Taxonomy Team (CICTT)*. SKYbrary Aviation Safety.
+  - URL: https://skybrary.aero/articles/casticao-common-taxonomy-team-cictt
+  - Used for: Taxonomy overview and implementation guidance
+
+#### HFACS (Human Factors Analysis and Classification System)
+
+Used for Level 2 human factors sub-categorization:
+
+- **Shappell, S.A. & Wiegmann, D.A. (2000).** *The Human Factors Analysis and Classification System (HFACS)*. DOT/FAA/AM-00/7. Federal Aviation Administration.
+  - URL: https://rosap.ntl.bts.gov/view/dot/21482
+  - Used for: 4-level HFACS framework (Unsafe Acts, Preconditions, Unsafe Supervision, Organizational Influences)
+
+- **Wiegmann, D.A. & Shappell, S.A. (2003).** *A Human Error Approach to Aviation Accident Analysis*. Ashgate Publishing.
+  - Used for: HFACS category definitions and application methodology
+
+- **SKYbrary. (2024).** *Human Factors Analysis and Classification System (HFACS)*. SKYbrary Aviation Safety.
+  - URL: https://skybrary.aero/articles/human-factors-analysis-and-classification-system-hfacs
+  - Used for: HFACS Level 1 sub-categories (Skill-Based, Decision, Perceptual Errors; Violations)
+
+- **HFACS, Inc. (2024).** *The HFACS Framework*.
+  - URL: https://www.hfacs.com/hfacs-framework.html
+  - Used for: Framework structure and category hierarchy
+
+#### ECCAIRS/ADREP
+
+European occurrence reporting taxonomy (referenced for comparison):
+
+- **ICAO. (2024).** *ADREP Taxonomy*. International Civil Aviation Organization.
+  - URL: https://www.icao.int/safety/airnavigation/AIG/Pages/Taxonomy.aspx
+  - Used for: Understanding international aviation taxonomy standards
+
+- **EASA. (2024).** *ECCAIRS 2 Taxonomy Browser*. European Union Aviation Safety Agency.
+  - URL: https://aviationreporting.eu/en/taxonomy-browser
+  - Used for: Multi-level taxonomy structure reference
+
+### Loss of Control In-Flight (LOC-I) Research
+
+Used for LOC-I Level 2 sub-categorization:
+
+- **IATA. (2015).** *Loss of Control In-Flight Accident Analysis Report (1st Edition)*. International Air Transport Association.
+  - URL: https://flightsafety.org/wp-content/uploads/2017/07/IATA-LOC-I-1st-Ed-2015.pdf
+  - Used for: LOC-I contributing factors taxonomy (Environmental, Pilot-Induced, Systems-Induced)
+
+- **IATA. (2019).** *Loss of Control In-Flight Accident Analysis Report (2019 Edition)*. International Air Transport Association.
+  - URL: https://www.iata.org/contentassets/b6eb2adc248c484192101edd1ed36015/loc-i_2019.pdf
+  - Used for: Updated LOC-I statistics and Threat Error Management (TEM) framework
+
+- **EASA. (2024).** *Loss of Control (LOC-I)*. European Union Aviation Safety Agency.
+  - URL: https://www.easa.europa.eu/en/domains/general-aviation/flying-safely/loss-of-control
+  - Used for: LOC-I causes (stall, upset, spatial disorientation, environmental, automation)
+
+- **NASA. (2016).** *Aircraft Loss of Control: Problem Analysis for the Development and Validation of Technology Solutions*. NASA Technical Reports Server.
+  - URL: https://ntrs.nasa.gov/api/citations/20160007744/downloads/20160007744.pdf
+  - Used for: Three major contributing factor categories (adverse onboard conditions, external hazards, abnormal flight conditions)
+
+- **Flight Safety Foundation. (2024).** *Loss of Control-In Flight (LOC-I) Archives*.
+  - URL: https://flightsafety.org/safety-issue/loc-i/
+  - Used for: LOC-I safety research and prevention strategies
+
+### Controlled Flight Into Terrain (CFIT) Research
+
+Used for CFIT Level 2 sub-categorization:
+
+- **IATA. (2018).** *Controlled Flight Into Terrain Accident Analysis Report (2008-2017 Data)*. International Air Transport Association.
+  - URL: https://www.iata.org/contentassets/06377898f60c46028a4dd38f13f979ad/cfit-report.pdf
+  - Used for: CFIT contributing factors (navigation error, situational awareness, visibility)
+
+- **SKYbrary. (2024).** *Controlled Flight Into Terrain (CFIT)*. SKYbrary Aviation Safety.
+  - URL: https://skybrary.aero/articles/controlled-flight-terrain-cfit
+  - Used for: CFIT causes and TAWS/GPWS effectiveness
+
+- **FAA. (2022).** *Controlled Flight Into Terrain*. Federal Aviation Administration.
+  - URL: https://www.faa.gov/sites/faa.gov/files/2022-01/Controlled%20Flight%20into%20Terrain.pdf
+  - Used for: CFIT prevention and contributing factors
+
+- **ICAO. (2025).** *Controlled Flight Into Terrain (CFIT): An Aviation Safety Challenge*. IBOM-Air presentation.
+  - URL: https://www.icao.int/sites/default/files/WACAF/MeetingDocs/2025/CFIT%20Workshop/
+  - Used for: CFIT causes and mitigations
+
+### Topic Modeling & NLP
+
+Used for unsupervised topic discovery (Phase 6A evaluation):
+
+- **Grootendorst, M. (2022).** *BERTopic: Neural Topic Modeling with a Class-based TF-IDF Procedure*. arXiv:2203.05794.
+  - URL: https://maartengr.github.io/BERTopic/
+  - Used for: Initial topic discovery attempt (led to CICTT pivot)
+
+- **BERTopic Documentation. (2024).** *Guided Topic Modeling*.
+  - URL: https://maartengr.github.io/BERTopic/getting_started/guided/guided.html
+  - Used for: Seed word and guided topic modeling techniques
+
+- **BERTopic Documentation. (2024).** *Seed Words*.
+  - URL: https://maartengr.github.io/BERTopic/getting_started/seed_words/seed_words.html
+  - Used for: ClassTfidfTransformer seed word implementation
+
+### Embedding Models
+
+- **NASA-AIML. (2023).** *MIKA_Custom_IR: Aviation Domain Information Retrieval Model*. Hugging Face.
+  - URL: https://huggingface.co/NASA-AIML/MIKA_Custom_IR
+  - Used for: Primary embedding model (768 dimensions, aviation-domain trained)
+
+- **Reimers, N. & Gurevych, I. (2019).** *Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks*. EMNLP 2019.
+  - URL: https://www.sbert.net/
+  - Used for: MiniLM baseline model and sentence-transformers library
+
+### ICAO Safety Reports
+
+- **ICAO. (2024).** *Safety Report 2024 Edition*. International Civil Aviation Organization.
+  - URL: https://www.icao.int/sites/default/files/sp-files/safety/Documents/ICAO_SR_2024.pdf
+  - Used for: Global aviation safety statistics and high-risk categories
+
+- **ICAO. (2025).** *Safety Report 2025 Edition*. International Civil Aviation Organization.
+  - URL: https://www.icao.int/sites/default/files/sp-files/safety/Documents/ICAO_SR_2025.pdf
+  - Used for: Updated CICTT occurrence category references
+
+### Data Source
+
+- **NTSB. (2024).** *Aviation Accident Reports*. National Transportation Safety Board.
+  - URL: https://www.ntsb.gov/investigations/AccidentReports/Pages/Reports.aspx
+  - Used for: Source of 510 aviation accident report PDFs (1966-present)
 
 ---
 

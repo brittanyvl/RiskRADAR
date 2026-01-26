@@ -164,6 +164,23 @@ python -m embeddings.cli all
 python -m embeddings.cli all --recreate -V v2
 ```
 
+### Taxonomy Enrichment
+
+```bash
+# Enrich Qdrant payloads with taxonomy data and PDF URLs
+python -m embeddings.cli enrich minilm   # MiniLM collection only
+python -m embeddings.cli enrich mika     # MIKA collection only
+python -m embeddings.cli enrich both     # Both collections
+
+# With specific run IDs
+python -m embeddings.cli enrich both --l1-run 1 --l2-run 1
+```
+
+This adds the following fields to each Qdrant payload:
+- `l1_categories`: List of L1 CICTT codes (e.g., `["LOC-I", "SCF-NP"]`)
+- `l2_subcategories`: List of L2 subcategory codes (e.g., `["LOC-I-STALL"]`)
+- `pdf_url`: Direct link to NTSB PDF
+
 ---
 
 ## Output Files
@@ -204,9 +221,17 @@ Each vector in Qdrant has the following payload for filtering:
   "accident_date": "2000-01-31",
   "report_date": "2002-12-30",
   "location": "Point Mugu, California",
-  "title": "Loss of Control and Impact with Pacific Ocean..."
+  "title": "Loss of Control and Impact with Pacific Ocean...",
+  "l1_categories": ["LOC-I", "SCF-NP"],
+  "l2_subcategories": ["LOC-I-STALL", "CFIT-NAV"],
+  "pdf_url": "https://www.ntsb.gov/investigations/AccidentReports/Reports/AAR0201.pdf"
 }
 ```
+
+**Taxonomy Fields** (added via `enrich` command):
+- `l1_categories`: List of L1 CICTT category codes for the report
+- `l2_subcategories`: List of L2 subcategory codes for the report
+- `pdf_url`: Direct link to the original NTSB PDF
 
 **Note:** `chunk_text` is NOT stored in Qdrant to save storage. For signal-based evaluation, the benchmark loads text from `analytics/data/chunks.parquet`.
 

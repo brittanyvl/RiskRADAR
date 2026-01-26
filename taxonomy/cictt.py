@@ -8,21 +8,54 @@ Reference: https://www.ntsb.gov/safety/data/Documents/datafiles/OccurrenceCatego
 
 These categories are used internationally for classifying aviation accidents
 and incidents by their primary causal/occurrence type.
+
+Extended to support hierarchical taxonomy:
+- Level 1: CICTT occurrence categories (27 categories)
+- Level 2: Sub-categories (industry-specific or HFACS-based)
+
+INTELLECTUAL PROPERTY NOTE:
+---------------------------
+CICTT is an international PUBLIC STANDARD developed by CAST/ICAO specifically
+for industry-wide adoption. The NTSB reference document is a US Government
+publication and is PUBLIC DOMAIN (17 U.S.C. § 105).
+
+Category codes and names follow the CICTT standard. All descriptions, keywords,
+and seed phrases in this file are ORIGINAL CONTENT written for RiskRADAR.
 """
 
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
+from typing import Optional, Dict, Any
 
 
 @dataclass
 class CICTTCategory:
-    """A CICTT occurrence category with matching criteria."""
+    """
+    A CICTT occurrence category with matching criteria.
+
+    Supports both Level 1 (CICTT) and Level 2 (sub-categories) in hierarchy.
+
+    Attributes:
+        code: Unique category identifier (e.g., "LOC-I" or "LOC-I-STALL")
+        name: Human-readable category name
+        description: Detailed description of what this category covers
+        keywords: Keywords for text matching
+        seed_phrases: Example phrases for embedding similarity
+        parent_code: Code of parent category (None for L1, parent code for L2)
+        level: Hierarchy level (1 for CICTT, 2 for sub-categories)
+        is_active: Whether this category is active for classification
+        hfacs_type: HFACS type if this is an HFACS sub-category (SKILL, DECISION, etc.)
+        metadata: Additional metadata for extensibility
+    """
     code: str
     name: str
     description: str
     keywords: list[str]  # Keywords for text matching
     seed_phrases: list[str]  # Example phrases for embedding similarity
     parent_code: Optional[str] = None  # For subcategories
+    level: int = 1  # 1 = CICTT Level 1, 2 = Sub-category
+    is_active: bool = True  # Enable/disable categories
+    hfacs_type: Optional[str] = None  # SKILL, DECISION, PERCEPTUAL, VIOLATION
+    metadata: Dict[str, Any] = field(default_factory=dict)  # Extensibility
 
 
 # CICTT Occurrence Categories - ordered by typical frequency/importance

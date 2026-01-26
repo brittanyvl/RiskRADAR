@@ -15,6 +15,7 @@ A technical narrative documenting the design decisions, challenges overcome, and
 - [Statistical Validity](#statistical-validity)
 - [Results and Findings](#results-and-findings)
 - [Lessons Learned](#lessons-learned)
+- [The Taxonomy Journey: From Unsupervised Discovery to Industry Standards](#the-taxonomy-journey-from-unsupervised-discovery-to-industry-standards)
 - [Future Directions](#future-directions)
 - [Skills Demonstrated](#skills-demonstrated)
 
@@ -22,15 +23,20 @@ A technical narrative documenting the design decisions, challenges overcome, and
 
 ## Executive Summary
 
-RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) into a semantically searchable knowledge base. The project demonstrates production-grade data engineering practices:
+RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) into a semantically searchable, taxonomically classified knowledge base. The project demonstrates production-grade data engineering practices:
 
 - **30,602 pages** processed through OCR and quality pipelines
 - **24,766 chunks** optimized through iterative evaluation
 - **2 embedding models** compared with rigorous statistical methods
 - **50 benchmark queries** spanning 6 difficulty categories
 - **38.6% semantic lift** achieved with domain-specific embeddings
+- **453 reports classified** into 27 CICTT Level 1 categories
+- **1,106 report-L2 assignments** across 32 industry-standard subcategories
+- **Qdrant payloads enriched** with taxonomy data for category-filtered search
 
-The most significant technical insight: **chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
+The most significant technical insights:
+1. **Chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
+2. **Unsupervised topic modeling fails on standardized documents**. BERTopic discovered 76 topics, but human review revealed they captured document structure rather than safety factors—prompting a pivot to the industry-standard CICTT taxonomy.
 
 ---
 
@@ -59,16 +65,16 @@ Modern embedding models can capture semantic relationships, but require careful 
 ### Pipeline Overview
 
 ```
-Phase 1: Scrape     Phase 3: Extract    Phase 4: Chunk      Phase 5: Embed
-─────────────────   ─────────────────   ─────────────────   ─────────────────
-NTSB Website        PDF Documents       Document Text       Chunk Vectors
-    │                   │                   │                   │
-    ▼                   ▼                   ▼                   ▼
-510 PDFs ────────► 30,602 pages ────► 24,766 chunks ────► Qdrant Cloud
-    │                   │                   │                   │
-    ▼                   ▼                   ▼                   ▼
-SQLite              JSON/JSONL          JSONL               Vector Index
-(metadata)          (full text)         (search-ready)      (similarity)
+Phase 1: Scrape     Phase 3: Extract    Phase 4: Chunk      Phase 5: Embed      Phase 6: Classify
+─────────────────   ─────────────────   ─────────────────   ─────────────────   ─────────────────
+NTSB Website        PDF Documents       Document Text       Chunk Vectors       L1+L2 Taxonomy
+    │                   │                   │                   │                   │
+    ▼                   ▼                   ▼                   ▼                   ▼
+510 PDFs ────────► 30,602 pages ────► 24,766 chunks ────► Qdrant Cloud ────► 27 L1 + 32 L2
+    │                   │                   │                   │                   │
+    ▼                   ▼                   ▼                   ▼                   ▼
+SQLite              JSON/JSONL          JSONL               Vector Index        Enriched Payloads
+(metadata)          (full text)         (search-ready)      (similarity)        (l1/l2 + pdf_url)
 ```
 
 ### Design Principles
@@ -379,13 +385,177 @@ With proper chunking and evaluation, we achieved perfect recall in top-10 result
 
 ---
 
+## The Taxonomy Journey: From Unsupervised Discovery to Industry Standards
+
+Phase 6 represents a critical inflection point in the project—where **human judgment proved essential** to redirect an automated approach that wasn't delivering actionable results.
+
+### Phase 6A: Unsupervised Topic Discovery (The Failed Approach)
+
+**Hypothesis**: BERTopic with domain-specific MIKA embeddings would discover meaningful aviation safety themes from 60 years of accident reports.
+
+**Implementation**:
+- Filtered to 5,806 causal chunks (PROBABLE CAUSE, ANALYSIS, CONCLUSIONS, FINDINGS sections)
+- Used pre-computed MIKA 768-dimensional embeddings
+- Ran BERTopic with UMAP dimensionality reduction and HDBSCAN clustering
+
+**Results**:
+| Metric | Value |
+|--------|-------|
+| Topics Discovered | 76 |
+| Outlier Chunks | 1,285 (22.1%) |
+| Processing Time | 47 seconds |
+
+**What We Found—And Why It Failed**:
+
+The topics produced by BERTopic had some surface-level relevance, but upon human review, serious problems emerged:
+
+| Topic | Top Keywords | Problem |
+|-------|--------------|---------|
+| 0 | approach, feet, descent, altitude | Generic flight terminology, not causal |
+| 5 | probable, probable cause, cause, national | Document structure words, not safety factors |
+| 7 | hours, certificate, held, medical certificate | Pilot certification boilerplate |
+| 19 | cam, cam1, source, content | CVR transcript artifacts |
+| 52 | approach, probable cause, probable, cause | Duplicate of structural terms |
+
+**Key Observations**:
+1. **Noise dominated meaningful signal**: 22% of chunks were outliers, and many clusters captured document formatting rather than safety concepts
+2. **Keywords were random, not semantic**: The algorithm found statistical co-occurrences, not meaningful causal factors
+3. **No actionable taxonomy emerged**: The 76 topics couldn't be cleanly mapped to aviation safety categories
+4. **Domain structure overpowered content**: NTSB's standardized report format created spurious clusters around section headers and boilerplate language
+
+### Human-in-the-Loop Review (GATE 1)
+
+This is where **rigorous human evaluation** changed the project trajectory.
+
+**Review Process**:
+1. Exported all 76 topics with representative chunks
+2. Reviewed each topic for semantic coherence and aviation relevance
+3. Attempted to map topics to known safety categories
+4. Documented systematic issues
+
+**Decision**: After review, the unsupervised approach was **abandoned**. The topics were not meaningful enough to build a taxonomy around, and forcing a mapping would produce unreliable results.
+
+### The Pivot: CICTT Industry Standard Taxonomy
+
+**Research Phase**: Investigated how the aviation safety industry actually classifies accidents. Discovered the **CAST/ICAO Common Taxonomy Team (CICTT)** framework—a collaborative effort between the FAA, ICAO, and international safety organizations.
+
+**Why CICTT?**
+1. **Industry-vetted**: Used globally by safety investigators since 2006
+2. **Expert-defined categories**: 30 occurrence types with precise definitions
+3. **Proven in practice**: Already validated on thousands of real accidents
+4. **Semantically meaningful**: Categories reflect actual causal factors, not statistical artifacts
+
+**CICTT Categories Implemented**:
+| Code | Category | Description |
+|------|----------|-------------|
+| LOC-I | Loss of Control - Inflight | Stalls, spins, spatial disorientation |
+| CFIT | Controlled Flight Into Terrain | Flew into terrain while under control |
+| SCF-PP | System Failure - Powerplant | Engine, propeller, rotor failures |
+| SCF-NP | System Failure - Non-Powerplant | Flight controls, hydraulics, electrical |
+| RE | Runway Excursion | Overruns, veer-offs |
+| ICE | Icing | Airframe and engine icing |
+| WSTRW | Wind Shear/Thunderstorm | Microbursts, convective weather |
+| FUEL | Fuel Related | Exhaustion, starvation, contamination |
+| MAC | Midair Collision | In-flight collisions |
+| ... | *+ 21 more categories* | |
+
+### Phase 6B: Embedding-Based CICTT Classification
+
+**New Approach**: Instead of discovering topics, **map chunks to known categories** using embedding similarity.
+
+**Implementation**:
+```
+CICTT Categories → Embed seed phrases (MIKA)
+Report Chunks → Existing MIKA embeddings
+Cosine Similarity → Category assignments
+Aggregate → Report-level classification
+```
+
+**Key Design Decisions**:
+1. **Seed phrases, not just keywords**: Each category has 4-6 example sentences that capture the semantic meaning
+2. **Multi-signal scoring**: Combines average similarity, max similarity, and evidence count
+3. **Threshold filtering**: Only assignments above 0.45 similarity included
+4. **Multi-label**: Reports can have multiple contributing causes (average 3.8 per report)
+
+**L1 Results**:
+| Metric | Value |
+|--------|-------|
+| Reports Classified | 453 |
+| Categories Used | 27 of 30 |
+| Chunk Assignments | 6,555 |
+| Report-Level Assignments | 1,736 |
+| Avg Categories per Report | 3.8 |
+
+### Phase 6A-Sub: Hierarchical L2 Classification (Complete)
+
+**Building on L1**: Extended the CICTT classification with industry-standard subcategories using a two-pass approach:
+
+1. **Pass 1 (L1)**: Map chunks to CICTT categories (done above)
+2. **Pass 2 (L2)**: For each L1 assignment, map to more specific subcategories
+
+**Subcategory Sources**:
+- **LOC-I**: IATA/EASA research (STALL, UPSET, SD, ENV, SYS, LOAD)
+- **CFIT**: IATA/SKYbrary (NAV, SA, VIS, TAWS, PROC)
+- **SCF-PP/SCF-NP**: Technical sub-systems (ENG, FUEL, HYD, ELEC, etc.)
+- **Human-causal categories**: HFACS Unsafe Acts (SKILL, DECISION, PERCEPTUAL, VIOLATION)
+
+**L2 Results**:
+| Metric | Value |
+|--------|-------|
+| Chunks Processed | 1,478 |
+| L2 Chunk Assignments | 2,446 |
+| Report-L2 Assignments | 1,106 |
+| Subcategories Used | 32 |
+
+### Qdrant Payload Enrichment (Complete)
+
+**Final Step**: Enriched all Qdrant vector payloads with taxonomy data for category-filtered search in Streamlit.
+
+**New Payload Fields**:
+```json
+{
+  "l1_categories": ["LOC-I", "SCF-NP"],
+  "l2_subcategories": ["LOC-I-STALL", "CFIT-NAV"],
+  "pdf_url": "https://www.ntsb.gov/.../AAR0201.pdf"
+}
+```
+
+This enables:
+- **Category-filtered semantic search**: Filter results by L1/L2 taxonomy
+- **Direct PDF linking**: Link to original NTSB reports
+- **Faceted navigation**: Show category facets alongside search results
+
+### Comparing Approaches
+
+| Aspect | BERTopic Discovery | CICTT Mapping |
+|--------|-------------------|---------------|
+| Categories | 76 (auto-discovered) | 30 (expert-defined) |
+| Interpretability | Low—random keywords | High—industry standard |
+| Outlier Rate | 22.1% | 0% (all chunks mapped) |
+| Human Validation | Failed review | Pending systematic review |
+| Reproducibility | Sensitive to parameters | Deterministic |
+| Domain Alignment | Document structure noise | Aviation safety focus |
+
+### Key Takeaway
+
+**Unsupervised methods need supervised validation.** BERTopic is a powerful tool, but it finds statistical patterns—not necessarily meaningful patterns. In specialized domains with standardized document formats:
+
+1. **Document structure creates noise**: Report templates, section headers, and boilerplate language form spurious clusters
+2. **Domain expertise is irreplaceable**: The CICTT taxonomy represents decades of aviation safety expertise that no algorithm could derive from text alone
+3. **Human-in-the-loop isn't optional**: The Gate 1 review caught a fundamental problem before it propagated through the entire pipeline
+
+This pivot cost time but saved the project from building on a flawed foundation.
+
+---
+
 ## Future Directions
 
-### Short-term (Phase 6-8)
+### Short-term (Phase 6C-8)
 
-1. **Streamlit Application**: Search interface with filtering by date, aircraft, location
-2. **Hierarchical Taxonomy**: Categorize reports by cause (human factors, mechanical, weather)
-3. **Trend Analytics**: Visualize safety themes over time
+1. **Taxonomy Scoring (Phase 6C)**: Implement percentage allocation for multi-cause attribution
+2. **Human Score Review (GATE 3)**: Validate 50 report classifications against NTSB PROBABLE CAUSE sections
+3. **Trend Analytics (Phase 7)**: Prevalence of cause categories over decades
+4. **Streamlit Application (Phase 8)**: Search with taxonomy filtering, cause explorer, trend dashboard
 
 ### Medium-term
 
@@ -414,12 +584,15 @@ With proper chunking and evaluation, we achieved perfect recall in top-10 result
 - Section-aware chunking with pattern matching
 - Embedding model comparison (general vs. domain-specific)
 - Vector database integration (Qdrant Cloud)
+- Unsupervised topic modeling (BERTopic, UMAP, HDBSCAN)
+- Embedding-based classification with seed phrases
 
 ### Evaluation Methodology
 - Stratified benchmark design
 - Statistical significance testing (bootstrap CI, Wilcoxon)
 - Human evaluation protocol
 - Semantic lift calculation
+- Human-in-the-loop review gates for model validation
 
 ### Software Engineering
 - Modular architecture with clear separation of concerns
@@ -431,16 +604,20 @@ With proper chunking and evaluation, we achieved perfect recall in top-10 result
 - Understanding NTSB report structure
 - Aviation terminology and concepts
 - Safety investigation methodology
+- CICTT occurrence taxonomy (CAST/ICAO industry standard)
 
 ---
 
 ## Conclusion
 
-RiskRADAR demonstrates that building effective semantic search requires more than plugging documents into an embedding model. The journey from 94.9% to 100% Hit@10 came not from model improvements, but from understanding how document structure affects retrieval.
+RiskRADAR demonstrates that building effective semantic search and classification requires more than plugging documents into an embedding model. The journey from 94.9% to 100% Hit@10 came not from model improvements, but from understanding how document structure affects retrieval. Similarly, the pivot from unsupervised topic modeling to CICTT taxonomy came from recognizing that statistical patterns don't equal meaningful patterns.
 
-The key insight: **preprocessing decisions compound**. Bad chunks lead to bad embeddings lead to bad retrieval. Investing in quality at every stage pays exponential dividends.
+The key insights:
+1. **Preprocessing decisions compound**. Bad chunks lead to bad embeddings lead to bad retrieval. Investing in quality at every stage pays exponential dividends.
+2. **Domain expertise cannot be automated away**. BERTopic found 76 topics; human review found they were noise. The CICTT taxonomy, built by aviation safety experts over decades, provides what no algorithm could discover.
+3. **Human-in-the-loop is essential**. Every major quality improvement came from human review—whether catching chunking problems, validating retrieval quality, or recognizing that unsupervised topics were meaningless.
 
-For professionals evaluating this work: the benchmark methodology and statistical rigor are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly.
+For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course.
 
 ---
 

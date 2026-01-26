@@ -10,9 +10,11 @@ SCHEMA_VERSION history:
 - v1: Phase 1 - Scraping (reports, scrape_progress, scrape_errors)
 - v2: Phase 3 - Text Extraction (pages, extraction_runs, extraction_errors)
 - v3: Phase 4 - Chunking (documents, chunks, chunking_runs, chunking_errors)
+- v4: Phase 5 - Embeddings (embedding_runs, qdrant_upload_runs, embedding_errors)
+- v5: Phase 6 - Taxonomy (taxonomy_runs, chunk_l1/l2, report_l1/l2, reviews)
 """
 
-SCHEMA_VERSION = 4
+SCHEMA_VERSION = 5
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -431,8 +433,201 @@ PHASE5_TABLES = [
     EMBEDDING_ERRORS_TABLE,
 ]
 
+# ============================================================================
+# Phase 6: Taxonomy Classification
+# ============================================================================
+
+# Taxonomy runs - tracks classification executions
+TAXONOMY_RUNS_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_type TEXT NOT NULL CHECK(run_type IN ('l1_only', 'l2_only', 'full', 'incremental')),
+    model_name TEXT NOT NULL,            -- 'mika' (primary for taxonomy)
+    taxonomy_version TEXT NOT NULL,      -- e.g., '1.0.0'
+    started_at TEXT NOT NULL,
+    completed_at TEXT,
+    status TEXT NOT NULL CHECK(status IN ('running', 'completed', 'failed', 'interrupted')),
+
+    -- Input stats
+    total_chunks INTEGER DEFAULT 0,
+    total_reports INTEGER DEFAULT 0,
+
+    -- L1 output stats
+    l1_chunk_assignments INTEGER DEFAULT 0,
+    l1_report_assignments INTEGER DEFAULT 0,
+    l1_categories_used INTEGER DEFAULT 0,
+
+    -- L2 output stats (hierarchical classification)
+    l2_chunk_assignments INTEGER DEFAULT 0,
+    l2_report_assignments INTEGER DEFAULT 0,
+    l2_subcategories_used INTEGER DEFAULT 0,
+
+    -- Performance
+    total_time_sec REAL,
+    chunks_per_sec REAL,
+
+    -- Error stats
+    error_count INTEGER DEFAULT 0,
+
+    -- Config snapshot
+    config_json TEXT
+);
+"""
+
+# L1 chunk assignments - chunk to CICTT category mappings
+TAXONOMY_CHUNK_L1_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_chunk_l1 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chunk_id TEXT NOT NULL,
+    report_id TEXT NOT NULL,
+    category_code TEXT NOT NULL,         -- CICTT code (e.g., 'LOC-I')
+    similarity REAL NOT NULL,            -- Cosine similarity score
+    rank INTEGER NOT NULL,               -- Rank within chunk (1 = best match)
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE CASCADE,
+    UNIQUE (chunk_id, category_code, run_id)
+);
+"""
+
+# L1 report categories - aggregated report to CICTT category mappings
+TAXONOMY_REPORT_L1_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_report_l1 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id TEXT NOT NULL,
+    category_code TEXT NOT NULL,         -- CICTT code (e.g., 'LOC-I')
+    category_name TEXT NOT NULL,         -- Human-readable name
+    score REAL NOT NULL,                 -- Aggregated score
+    pct_contribution REAL NOT NULL,      -- Percentage contribution (sums to 100)
+    avg_similarity REAL,                 -- Average chunk similarity
+    max_similarity REAL,                 -- Maximum chunk similarity
+    n_chunks INTEGER,                    -- Number of supporting chunks
+    rank INTEGER NOT NULL,               -- Rank within report
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE CASCADE,
+    UNIQUE (report_id, category_code, run_id)
+);
+"""
+
+# L2 chunk assignments - chunk to subcategory mappings
+TAXONOMY_CHUNK_L2_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_chunk_l2 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    chunk_id TEXT NOT NULL,
+    report_id TEXT NOT NULL,
+    parent_code TEXT NOT NULL,           -- L1 CICTT code (e.g., 'LOC-I')
+    subcategory_code TEXT NOT NULL,      -- L2 code (e.g., 'LOC-I-STALL')
+    similarity REAL NOT NULL,            -- Cosine similarity to subcategory
+    combined_confidence REAL NOT NULL,   -- L1_confidence * L2_confidence
+    rank INTEGER NOT NULL,               -- Rank within chunk for this parent
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE CASCADE,
+    UNIQUE (chunk_id, subcategory_code, run_id)
+);
+"""
+
+# L2 report subcategories - aggregated report subcategory assignments
+TAXONOMY_REPORT_L2_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_report_l2 (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id TEXT NOT NULL,
+    parent_code TEXT NOT NULL,           -- L1 CICTT code
+    subcategory_code TEXT NOT NULL,      -- L2 code
+    subcategory_name TEXT NOT NULL,      -- Human-readable name
+    score REAL NOT NULL,                 -- Aggregated score
+    pct_of_parent REAL NOT NULL,         -- Percentage within parent (sums to 100)
+    combined_confidence REAL NOT NULL,   -- L1_confidence * L2_confidence
+    avg_similarity REAL,                 -- Average chunk similarity
+    max_similarity REAL,                 -- Maximum chunk similarity
+    n_chunks INTEGER,                    -- Number of supporting chunks
+    rank INTEGER NOT NULL,               -- Rank within parent
+    run_id INTEGER,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE CASCADE,
+    UNIQUE (report_id, subcategory_code, run_id)
+);
+"""
+
+# Taxonomy errors - classification error logging
+TAXONOMY_ERRORS_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_errors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id INTEGER,
+    report_id TEXT,
+    chunk_id TEXT,
+    level TEXT NOT NULL CHECK(level IN ('l1', 'l2')),
+    error_type TEXT NOT NULL,
+    error_message TEXT,
+    stack_trace TEXT,
+    created_at TEXT NOT NULL,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE CASCADE
+);
+"""
+
+# Taxonomy reviews - human review tracking for quality assurance
+TAXONOMY_REVIEWS_TABLE = """
+CREATE TABLE IF NOT EXISTS taxonomy_reviews (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    report_id TEXT NOT NULL,
+    category_code TEXT NOT NULL,         -- L1 or L2 code
+    level TEXT NOT NULL CHECK(level IN ('l1', 'l2')),
+
+    -- Review data
+    decision TEXT NOT NULL CHECK(decision IN ('APPROVE', 'REJECT', 'UNCERTAIN', 'CHANGE')),
+    correct_code TEXT,                   -- If CHANGE, what it should be
+    notes TEXT,
+
+    -- Reviewer info
+    reviewer TEXT,
+    reviewed_at TEXT NOT NULL,
+
+    -- Link to original assignment
+    run_id INTEGER,
+
+    FOREIGN KEY (run_id) REFERENCES taxonomy_runs(id) ON DELETE SET NULL,
+    UNIQUE (report_id, category_code, run_id)
+);
+"""
+
+# Phase 6 indexes
+PHASE6_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_taxonomy_runs_status ON taxonomy_runs(status);",
+    "CREATE INDEX IF NOT EXISTS idx_taxonomy_runs_version ON taxonomy_runs(taxonomy_version);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l1_report ON taxonomy_chunk_l1(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l1_category ON taxonomy_chunk_l1(category_code);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l1_run ON taxonomy_chunk_l1(run_id);",
+    "CREATE INDEX IF NOT EXISTS idx_report_l1_report ON taxonomy_report_l1(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_report_l1_category ON taxonomy_report_l1(category_code);",
+    "CREATE INDEX IF NOT EXISTS idx_report_l1_run ON taxonomy_report_l1(run_id);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l2_report ON taxonomy_chunk_l2(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l2_parent ON taxonomy_chunk_l2(parent_code);",
+    "CREATE INDEX IF NOT EXISTS idx_chunk_l2_subcategory ON taxonomy_chunk_l2(subcategory_code);",
+    "CREATE INDEX IF NOT EXISTS idx_report_l2_report ON taxonomy_report_l2(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_report_l2_parent ON taxonomy_report_l2(parent_code);",
+    "CREATE INDEX IF NOT EXISTS idx_reviews_report ON taxonomy_reviews(report_id);",
+    "CREATE INDEX IF NOT EXISTS idx_reviews_decision ON taxonomy_reviews(decision);",
+]
+
+# All tables for Phase 6
+PHASE6_TABLES = [
+    TAXONOMY_RUNS_TABLE,
+    TAXONOMY_CHUNK_L1_TABLE,
+    TAXONOMY_REPORT_L1_TABLE,
+    TAXONOMY_CHUNK_L2_TABLE,
+    TAXONOMY_REPORT_L2_TABLE,
+    TAXONOMY_ERRORS_TABLE,
+    TAXONOMY_REVIEWS_TABLE,
+]
+
 # All indexes
-INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES + PHASE5_INDEXES
+INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES + PHASE5_INDEXES + PHASE6_INDEXES
 
 # All tables combined
-ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES + PHASE5_TABLES
+ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES + PHASE5_TABLES + PHASE6_TABLES
