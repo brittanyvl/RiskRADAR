@@ -1,7 +1,7 @@
 # RiskRADAR - Pick Up Here
 
-**Last Updated:** 2026-01-27
-**Last Session:** Aircraft extraction improvements completed
+**Last Updated:** 2026-02-10
+**Last Session:** Bayesian model refinement + weather/time feature extraction completed
 
 ---
 
@@ -16,10 +16,16 @@
 | Phase 3: Text Extraction | Complete | 30,602 pages extracted |
 | Phase 4: Chunking v2 | Complete | 24,766 chunks (95.6% in target range) |
 | Phase 5: Embeddings | Complete | MiniLM + MIKA models in Qdrant |
+| Phase 5b: Benchmark | Complete | MiniLM recommended (75.5% precision) |
 | Phase 6A: L1 Taxonomy | Complete | 27 CICTT categories, 453 reports classified |
 | Phase 6A-Sub: L2 Taxonomy | Complete | 32 subcategories, 1,106 assignments |
 | Qdrant Enrichment | Complete | Payloads enriched with taxonomy + PDF URLs |
 | Aircraft Extraction | Complete | 92.7% coverage (473/510 reports) |
+| Report Type Classification | Complete | 510 reports classified (436 accident, 74 other) |
+| BM25 + Hybrid Search | Complete | BM25, semantic, and hybrid (RRF) search |
+| Weather Extraction | Complete | 72.4% coverage (369/510 reports) |
+| Time-of-Day Extraction | Complete | 90.8% coverage (463/510 reports) |
+| Bayesian Risk Model | Complete | 5 features, Hit@1=54.8%, Hit@5=90.7% |
 
 ### Data Quality Summary
 
@@ -29,244 +35,104 @@
 | Aircraft Make | 473 | 92.7% |
 | Region | 461 | 90.4% |
 | Season | 489 | 95.9% |
+| Weather (VMC/IMC) | 369 | 72.4% |
+| Time of Day | 463 | 90.8% |
 | L1 Taxonomy | 453 | 88.8% |
 | L2 Taxonomy | ~400 | ~78% |
+
+### Bayesian Model Results
+
+- **Training data:** 431 accident reports (filtered via `report_types`)
+- **Features:** aircraft_category, season, region, weather_category, time_of_day
+- **Validation (LOO):** Hit@1=54.8%, Hit@3=81.4%, Hit@5=90.7%
+- **Persistence:** Priors + likelihoods saved to SQLite tables
+- **Thresholds:** Data-driven (90th/50th percentile)
+
+### Weather Breakdown
+
+| Category | Count | Percentage |
+|----------|-------|------------|
+| VMC | 164 | 32.2% |
+| IMC | 205 | 40.2% |
+| Unknown | 141 | 27.6% |
+
+### Time-of-Day Breakdown
+
+| Category | Count | Percentage |
+|----------|-------|------------|
+| Morning | 106 | 20.8% |
+| Afternoon | 159 | 31.2% |
+| Evening | 57 | 11.2% |
+| Night | 141 | 27.6% |
+| Unknown | 47 | 9.2% |
 
 ### Key Files
 
 | File | Purpose |
 |------|---------|
-| `sqlite/riskradar.db` | Main SQLite database |
-| `risk_profiler/aircraft_data.py` | Aircraft lookup with 686 patterns |
+| `sqlite/riskradar.db` | Main SQLite database (schema v7) |
+| `risk_profiler/bayesian_model.py` | Naive Bayes risk model with persistence + validation |
+| `risk_profiler/extract_weather.py` | VMC/IMC extraction from chunk text |
+| `risk_profiler/extract_time.py` | Time-of-day extraction from chunk text |
 | `risk_profiler/extract_features.py` | Feature extraction pipeline |
+| `risk_profiler/aircraft_data.py` | Aircraft lookup with 686 patterns |
+| `risk_profiler/report_types.py` | Report type classification (accident vs other) |
+| `risk_profiler/cli.py` | CLI: train-model, validate-model, extract-weather, extract-time |
+| `search/` | BM25 + semantic + hybrid (RRF) search module |
+| `app/pages/4_Risk_Profiler.py` | Streamlit risk profiler page (5 feature dropdowns) |
 | `taxonomy/` | CICTT classification system |
 | `embeddings/` | Vector embedding pipeline |
-| `docs/feature_extraction_learnings.md` | Validation learnings |
 
 ---
 
 ## TODO List (Priority Order)
 
-### Phase 3.5: Data Quality & Enrichment (NEXT)
+### Immediate: Streamlit App Completion
 
-- [ ] **Manual review of reports WITHOUT taxonomy (57 reports)**
-  - Export list of unclassified reports
-  - Review titles to determine if they are:
-    - Safety Studies (label as `report_type: safety_study`)
-    - Multi-Accident Analysis (label as `report_type: multi_accident`)
-    - Hazmat Reports (label as `report_type: hazmat`)
-    - Policy Recommendations (label as `report_type: recommendation`)
-    - Actual accidents missing classification
-  - Create `report_types` table to track document categories
-  - Goal: Clear picture of what we have for retrieval
+- [ ] **Finalize Risk Profiler page**
+  - Test end-to-end with all 5 feature dropdowns
+  - Verify `load_model()` fast path works in Streamlit
+  - Add visualization of risk distribution (bar chart of posteriors)
+  - Add confidence indicators for each prediction
 
-- [ ] **Improve taxonomy hit rate**
-  - Analyze why 57 reports have no taxonomy
-  - Consider lowering similarity threshold for edge cases
-  - Review seed phrases for underrepresented categories
-  - Add manual classifications where needed
-  - Target: 95%+ taxonomy coverage for actual accident reports
+- [ ] **Search page integration**
+  - Connect hybrid search (BM25 + semantic + RRF) to Streamlit
+  - Add taxonomy filter dropdowns
+  - Add aircraft/region/date filters
+  - Display results with relevance scores + PDF links
 
-- [ ] **Label non-accident documents**
-  - ASR series (Aviation Safety Recommendations)
-  - AIR series (Safety studies)
-  - HZB/HZMSR (Hazmat reports)
-  - Generic AAR titles (need body parsing)
+- [ ] **Taxonomy Explorer page**
+  - Category distribution charts
+  - Drill-down from L1 to L2
+  - Report list per category
 
-### Phase 4: Bayesian Risk Model
+### Next: Trend Analytics & Visualization
 
-- [ ] **Define Bayesian model structure**
-  - P(category | aircraft_type, region, season)
-  - Prior probabilities from historical data
-  - Likelihood functions for each feature
-  - Posterior calculation for risk scoring
+- [ ] **KPI SQL views**
+  - Category prevalence over time
+  - Category co-occurrence matrix
+  - Regional heatmaps
+  - Seasonal patterns
+  - Aircraft type risk comparisons
 
-- [ ] **Build model tables**
-  ```sql
-  -- Prior probabilities
-  CREATE TABLE bayes_priors (
-      category_code TEXT PRIMARY KEY,
-      prior_probability REAL,
-      sample_count INTEGER
-  );
+- [ ] **Trends dashboard page**
+  - Time series visualizations
+  - Heatmaps (region x category, season x category)
+  - Co-occurrence matrices
+  - Weather/time cross-tabulations with accident categories
 
-  -- Conditional probabilities
-  CREATE TABLE bayes_likelihoods (
-      category_code TEXT,
-      feature_name TEXT,  -- 'aircraft_category', 'region', 'season', 'decade'
-      feature_value TEXT,
-      likelihood REAL,
-      sample_count INTEGER
-  );
+### Future: API & Advanced Features
 
-  -- Risk scores by combination
-  CREATE TABLE risk_scores (
-      aircraft_category TEXT,
-      region TEXT,
-      category_code TEXT,
-      risk_score REAL,
-      confidence_interval_low REAL,
-      confidence_interval_high REAL
-  );
-  ```
+- [ ] **FastAPI backend** (if needed beyond Streamlit)
+  - Semantic search endpoint
+  - Bayesian risk scoring endpoint
+  - KPI query endpoints
 
-- [ ] **Train model on historical data**
-- [ ] **Validate model predictions**
-- [ ] **Document model assumptions and limitations**
-
-### Phase 5: KPI Database Design
-
-Define SQL tables and views for dashboard KPIs BEFORE building UI.
-
-#### 5.1 Insurance Dashboard KPIs
-
-Target users: Insurance underwriters assessing risk
-
-| KPI | Description | SQL View |
-|-----|-------------|----------|
-| Risk Score by Aircraft Type | Bayesian risk per aircraft category | `kpi_risk_by_aircraft` |
-| Risk Score by Region | Geographic risk distribution | `kpi_risk_by_region` |
-| Risk Trend Over Time | Year-over-year risk changes | `kpi_risk_trend` |
-| High-Risk Combinations | Aircraft + Region + Season combos | `kpi_high_risk_combos` |
-| Claim Severity Indicators | Fatality rates by category | `kpi_severity_indicators` |
-| Portfolio Risk Assessment | Aggregate risk for aircraft fleet | `kpi_portfolio_risk` |
-
-#### 5.2 Manufacturer Dashboard KPIs
-
-Target users: Aircraft/component manufacturers
-
-| KPI | Description | SQL View |
-|-----|-------------|----------|
-| SCF-PP by Manufacturer | System failures - powerplant | `kpi_scf_pp_by_make` |
-| SCF-NP by Manufacturer | System failures - non-powerplant | `kpi_scf_np_by_make` |
-| Model-Specific Issues | Recurring problems by model | `kpi_model_issues` |
-| Component Failure Trends | Failure modes over time | `kpi_component_trends` |
-| Design-Related Factors | Categories manufacturers can address | `kpi_design_factors` |
-| Comparison to Fleet Average | Manufacturer vs industry baseline | `kpi_manufacturer_comparison` |
-
-#### 5.3 Maintenance Dashboard KPIs
-
-Target users: MRO providers, airline maintenance teams
-
-| KPI | Description | SQL View |
-|-----|-------------|----------|
-| Maintenance-Related Accidents | MAINT category analysis | `kpi_maint_accidents` |
-| Fuel System Issues | FUEL category breakdown | `kpi_fuel_issues` |
-| Icing-Related Events | ICE category by aircraft type | `kpi_icing_events` |
-| Pre-Flight Detection Rate | Issues detectable before flight | `kpi_preflight_detection` |
-| Age-Related Failures | Correlation with aircraft age | `kpi_age_failures` |
-| Inspection Effectiveness | Post-inspection incident rates | `kpi_inspection_effectiveness` |
-
-#### 5.4 Human Factors Dashboard KPIs
-
-Target users: Flight crews, training departments, safety officers
-
-| KPI | Description | SQL View |
-|-----|-------------|----------|
-| LOC-I Analysis | Loss of control breakdown | `kpi_loci_analysis` |
-| CFIT Analysis | Controlled flight into terrain | `kpi_cfit_analysis` |
-| HFACS Categories | Human factors taxonomy | `kpi_hfacs_breakdown` |
-| CRM-Related Events | Crew resource management | `kpi_crm_events` |
-| Fatigue Indicators | Time-of-day correlations | `kpi_fatigue_indicators` |
-| Training Gap Indicators | Skill-based vs decision errors | `kpi_training_gaps` |
-| Phase of Flight Analysis | Takeoff, cruise, landing risks | `kpi_flight_phase` |
-
-#### 5.5 Trends & Analytics Dashboard KPIs
-
-Target users: Safety researchers, analysts
-
-| KPI | Description | SQL View |
-|-----|-------------|----------|
-| Category Prevalence Over Time | Trend lines by decade/year | `kpi_category_trends` |
-| Category Co-occurrence Matrix | Heatmap of related categories | `kpi_category_cooccurrence` |
-| Regional Heatmaps | Geographic distribution | `kpi_regional_heatmap` |
-| Seasonal Patterns | Month/quarter analysis | `kpi_seasonal_patterns` |
-| Aircraft Evolution | Risk changes as aircraft age | `kpi_aircraft_evolution` |
-| Linear Regression: Risk Factors | Statistical correlations | `kpi_regression_analysis` |
-| Year-over-Year Comparisons | Delta analysis | `kpi_yoy_comparison` |
-| Aggregations by Metadata | Pivot tables by any dimension | `kpi_metadata_aggregations` |
-
-### Phase 6: API Development
-
-Build FastAPI backend BEFORE Streamlit.
-
-- [ ] **Semantic Search API**
-  ```
-  POST /api/search
-  - query: string
-  - filters: {categories, aircraft_type, region, date_range}
-  - top_k: int
-  - model: "minilm" | "mika"
-  ```
-
-- [ ] **Bayesian Risk API**
-  ```
-  POST /api/risk/score
-  - aircraft_category: string
-  - region: string
-  - season: string
-
-  GET /api/risk/profile/{aircraft_type}
-  GET /api/risk/trends/{category_code}
-  ```
-
-- [ ] **KPI API Endpoints**
-  ```
-  GET /api/kpi/insurance/{kpi_name}
-  GET /api/kpi/manufacturer/{kpi_name}
-  GET /api/kpi/maintenance/{kpi_name}
-  GET /api/kpi/human-factors/{kpi_name}
-  GET /api/kpi/trends/{kpi_name}
-  ```
-
-- [ ] **Report API**
-  ```
-  GET /api/reports/{report_id}
-  GET /api/reports/{report_id}/chunks
-  GET /api/reports/{report_id}/taxonomy
-  ```
-
-### Phase 7: Streamlit Application (LAST)
-
-Only begin after Phases 4-6 are complete.
-
-#### Page 1: Semantic Search
-- Natural language query
-- Taxonomy filters
-- Aircraft/region/date filters
-- Results with relevance scores
-- PDF links
-
-#### Page 2: Insurance Dashboard
-- Risk assessment tools
-- Portfolio analysis
-- Trend visualizations
-- Export capabilities
-
-#### Page 3: Manufacturer Dashboard
-- System failure analysis
-- Model-specific insights
-- Design factor breakdown
-- Comparison tools
-
-#### Page 4: Maintenance Dashboard
-- Maintenance-related events
-- Component analysis
-- Age/inspection correlations
-- Actionable insights
-
-#### Page 5: Human Factors Dashboard
-- LOC-I/CFIT deep dives
-- HFACS analysis
-- CRM and training gaps
-- Phase of flight analysis
-
-#### Page 6: Trends & Analytics
-- Time series visualizations
-- Heatmaps
-- Co-occurrence matrices
-- Regression analysis
-- Custom aggregations
+- [ ] **Model improvements**
+  - Experiment with feature interactions (e.g., weather x time_of_day)
+  - Try hierarchical Bayes with L2 subcategories
+  - Improve weather extraction coverage (currently 72.4%)
+  - Consider adding aircraft_make as a feature
 
 ---
 
@@ -276,79 +142,50 @@ Only begin after Phases 4-6 are complete.
 |----------|--------|-----------|
 | Taxonomy | CICTT L1 + Industry L2 | Industry standard, interpretable |
 | Embedding Model | MiniLM (production) | Better semantic precision (75.5% vs 60%) |
-| Search | Vector + BM25 hybrid | Best retrieval performance |
-| Case Sensitivity | UPPER() in SQL | Robust pattern matching |
-| Fuzzy Matching | Trigram Jaccard @ 0.85 | Catches typos and variants |
+| Search | Vector + BM25 hybrid (RRF) | Best retrieval performance |
+| Weather Feature | VMC vs IMC (binary) | NTSB standard; specific phenomena are outcome categories |
+| Time Feature | 4 buckets (Morning/Afternoon/Evening/Night) | Simple, no external dependencies |
+| Model Training | Accident-only (431 reports) | Excludes 74 non-accident docs (safety studies, etc.) |
+| Risk Thresholds | Data-driven (percentile-based) | 90th percentile = HIGH, 50th = MODERATE |
+| Model Persistence | SQLite tables (bayes_priors, bayes_likelihoods) | Fast Streamlit loading via `load_model()` |
 
 ---
 
-## Database Schema Additions Needed
-
-```sql
--- Report type classification (safety study vs accident)
-CREATE TABLE report_types (
-    report_id TEXT PRIMARY KEY,
-    report_type TEXT,  -- 'accident', 'safety_study', 'recommendation', 'hazmat', 'multi_accident'
-    classification_source TEXT,  -- 'auto', 'manual'
-    notes TEXT,
-    FOREIGN KEY (report_id) REFERENCES reports(filename)
-);
-
--- KPI materialized views (create these before dashboards)
--- See Phase 5 for full list
-
--- API rate limiting / usage tracking
-CREATE TABLE api_usage (
-    id INTEGER PRIMARY KEY,
-    endpoint TEXT,
-    timestamp TEXT,
-    response_time_ms INTEGER,
-    status_code INTEGER
-);
-```
-
----
-
-## Files to Create
-
-| File | Purpose |
-|------|---------|
-| `risk_profiler/bayesian_model.py` | Bayesian risk calculation |
-| `risk_profiler/kpi_views.sql` | SQL views for all KPIs |
-| `api/main.py` | FastAPI application |
-| `api/routers/search.py` | Search endpoints |
-| `api/routers/risk.py` | Risk score endpoints |
-| `api/routers/kpi.py` | KPI endpoints |
-| `app/pages/` | Streamlit pages (after API) |
-
----
-
-## Quick Start Commands
+## CLI Quick Reference
 
 ```bash
 # Activate environment
 cd C:\Users\bvlma\CODE\riskRADAR
 venv\Scripts\activate
 
-# Check current coverage
-python -c "import sqlite3; conn = sqlite3.connect('sqlite/riskradar.db'); print(conn.execute('SELECT COUNT(*) FROM report_features WHERE aircraft_category IS NOT NULL').fetchone()[0], 'reports with aircraft')"
+# Risk Profiler commands
+python -m risk_profiler.cli classify-types [--dry-run]
+python -m risk_profiler.cli load-chunks
+python -m risk_profiler.cli extract-weather [--jsonl path]
+python -m risk_profiler.cli extract-time [--jsonl path]
+python -m risk_profiler.cli train-model [--features f1,f2,...] [--skip-validate]
+python -m risk_profiler.cli validate-model [--features f1,f2,...]
 
-# Run feature extraction
-python -m risk_profiler.extract_features
+# Search commands
+python -m search.cli build-index|search|benchmark|stats
 
-# Check taxonomy coverage
-python -m taxonomy.cli stats
+# Taxonomy commands
+python -m taxonomy.cli classify|categories|subcategories|stats
+python -m taxonomy.cli retry-unclassified [--run-id 2]
+
+# Check data coverage
+python -c "import sqlite3; c=sqlite3.connect('sqlite/riskradar.db'); print(c.execute('SELECT weather_category, COUNT(*) FROM report_features GROUP BY weather_category').fetchall())"
+python -c "import sqlite3; c=sqlite3.connect('sqlite/riskradar.db'); print(c.execute('SELECT time_of_day, COUNT(*) FROM report_features GROUP BY time_of_day').fetchall())"
 ```
 
 ---
 
 ## Notes for Next Session
 
-1. Start with **Phase 3.5** - manual review of unclassified reports
-2. Create `report_types` table to properly categorize documents
-3. Design Bayesian model tables before implementation
-4. Define ALL KPI SQL views before ANY Streamlit work
-5. Build FastAPI backend as the data access layer
-6. Streamlit is the LAST step, not the first
+1. Streamlit app is the main focus — Risk Profiler page is functional but needs polish
+2. Search page needs to be connected to the `search/` module (BM25 + hybrid)
+3. Trend analytics and visualization are the big remaining analytical features
+4. All extraction pipelines are complete — no more feature engineering needed unless improving coverage
+5. Schema is at version 7 — includes bayes_priors + bayes_likelihoods tables
 
-**Remember:** Backend first, frontend last. Data quality drives everything.
+**Key insight:** The Bayesian model with 5 features (Hit@5=90.7%) shows strong performance. Weather and time features added +3.5pp to Hit@1 over the 3-feature baseline. The model is ready for portfolio demonstration.

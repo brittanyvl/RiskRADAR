@@ -35,6 +35,10 @@ RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) 
 - **510 reports typed** into 6 categories via automated prefix/title classification
 - **1,106 report-L2 assignments** across 32 industry-standard subcategories
 - **Qdrant payloads enriched** with taxonomy data for category-filtered search
+- **7 features extracted** from metadata and unstructured text (aircraft, region, season, weather, time)
+- **Bayesian risk model** trained on 431 accident reports with 5 features, validated at Hit@1=54.8%, Hit@5=90.7%
+- **Weather (VMC/IMC)** extracted from 369/510 reports via regex on meteorological sections
+- **Time-of-day** extracted from 463/510 reports via timestamp parsing
 
 The most significant technical insights:
 1. **Chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
@@ -656,6 +660,69 @@ The **5 remaining reports** are genuinely intractable with this approach:
 
 ---
 
+## Bayesian Risk Model: From Features to Predictions
+
+After building taxonomy coverage and data quality infrastructure, the next step was turning structured features into actionable risk predictions. This required three parallel workstreams: model refinement, weather extraction, and time-of-day extraction.
+
+### The Data Quality Problem
+
+The initial Bayesian model trained on *all* 448 reports with taxonomy—including 17 safety studies, recommendation summaries, and supplement documents that aren't accident reports. These contaminated the priors: safety studies discuss multiple categories broadly, inflating base rates for common categories and diluting signal from rare but important ones.
+
+**Fix**: Join on the `report_types` table and filter to `report_type = 'accident'` only. This reduced the training set from 448 to **431 accident reports**—a cleaner dataset that produces more accurate conditional probabilities.
+
+### Feature Extraction from Unstructured Text
+
+The original model had 3 features (aircraft category, season, region) extracted from structured metadata. To improve predictions, we added 2 features extracted from the *unstructured text* of accident report chunks:
+
+**Weather (VMC/IMC)**:
+- Scans chunks in section-priority order: METEOROLOGICAL → SYNOPSIS → ANALYSIS
+- High-confidence patterns: explicit `VMC`, `IMC`, `VFR conditions`, `IFR conditions`
+- Medium-confidence patterns: inferred from visibility, ceiling, fog mentions
+- **Result**: 369/510 reports classified (164 VMC, 205 IMC)
+
+**Time of Day**:
+- Parses military time (`about 0830 EDT`), 12-hour (`10:30 a.m.`), and keywords (`nighttime`)
+- Handles UTC-to-local conversion using state timezone lookup
+- Guards against false positives from altitudes and years (negative lookahead for "feet", "MSL", "FL")
+- **Result**: 463/510 reports classified (106 Morning, 159 Afternoon, 57 Evening, 141 Night)
+
+### Model Refinement
+
+| Improvement | Before | After |
+|-------------|--------|-------|
+| Training data | All 448 reports | 431 accident-only |
+| Features | 3 (hardcoded) | 5 (configurable, whitelist-validated) |
+| Risk thresholds | Hardcoded (>15%, >8%) | Data-driven (90th/50th percentile) |
+| Persistence | Recomputes every call | Saved to SQLite, fast load path |
+| Validation | None | LOO cross-validation with Hit@1/3/5 |
+
+### Cross-Validation Results
+
+| Metric | 3 Features | 5 Features |
+|--------|-----------|-----------|
+| Hit@1 | 51.3% | **54.8%** |
+| Hit@3 | 83.3% | 80.7% |
+| Hit@5 | 90.7% | **90.7%** |
+| Mean Rank | 2.5 | 2.5 |
+| Median Rank | 1 | 1 |
+
+The 5-feature model shows a meaningful improvement in top-1 accuracy (+3.5 percentage points), while maintaining the same Hit@5 and mean rank. The slight Hit@3 decrease is expected—adding features sharpens the distribution, which helps the top-1 prediction but can push the 2nd/3rd predictions around.
+
+### Predictions That Make Aviation Sense
+
+The model's predictions align with domain knowledge:
+
+- **Turboprop, Winter, West, IMC, Night** → CFIT (Controlled Flight Into Terrain) ranks #1 at 15.5%. This is the classic CFIT scenario: instrument conditions + darkness + mountainous terrain.
+- **Single-piston, Summer, South, VMC, Afternoon** → MAC (Midair Collision) ranks #1 at 17.6%. VFR conditions + busy airspace + see-and-avoid environment.
+
+These intuitively correct predictions—without any hand-tuning—validate that the Bayesian approach captures real conditional dependencies in the accident data.
+
+### Key Takeaway
+
+**Simple models on clean data beat complex models on dirty data.** Naive Bayes with 5 features and Laplace smoothing achieves 90.7% Hit@5 on accident category prediction. The critical improvements came from data quality (filtering to accident-only training data) and feature engineering (extracting weather and time from free text), not from algorithmic complexity.
+
+---
+
 ## Future Directions
 
 ### Short-term
@@ -727,8 +794,9 @@ The key insights:
 2. **Domain expertise cannot be automated away**. BERTopic found 76 topics; human review found they were noise. The CICTT taxonomy, built by aviation safety experts over decades, provides what no algorithm could discover.
 3. **Human-in-the-loop is essential**. Every major quality improvement came from human review—whether catching chunking problems, validating retrieval quality, recognizing that unsupervised topics were meaningless, or ranking section names into priority tiers for the final classification pass.
 4. **Root cause analysis beats brute force**. When 92 reports lacked taxonomy, the fix wasn't lowering thresholds—it was discovering that 55% of them were non-accident documents. Understanding the problem correctly reduced the actual gap from 92 to 35, and targeted fixes brought coverage to 98.9%.
+5. **Free-text features add signal**. Extracting VMC/IMC weather and time-of-day from unstructured report text and adding them to the Bayesian model improved Hit@1 accuracy from 51.3% to 54.8%, demonstrating that even simple regex-based NLP features meaningfully improve probabilistic predictions.
 
-For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. And the 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation, not parameter tuning.
+For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. The 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation, not parameter tuning. And the Bayesian risk model is meaningful because it was built on clean data (accident-only training), validated rigorously (LOO cross-validation), and uses data-driven thresholds rather than arbitrary cutoffs.
 
 ---
 

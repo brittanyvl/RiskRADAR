@@ -15,7 +15,7 @@ SCHEMA_VERSION history:
 - v6: Phase 7 - Data Quality (report_types)
 """
 
-SCHEMA_VERSION = 6
+SCHEMA_VERSION = 7
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -645,15 +645,39 @@ CREATE TABLE IF NOT EXISTS report_types (
 );
 """
 
+# Bayesian model persistence - stores trained model parameters
+BAYES_PRIORS_TABLE = """
+CREATE TABLE IF NOT EXISTS bayes_priors (
+    category_code TEXT PRIMARY KEY,
+    prior_probability REAL NOT NULL,
+    sample_count INTEGER,
+    computed_at TEXT
+);
+"""
+
+BAYES_LIKELIHOODS_TABLE = """
+CREATE TABLE IF NOT EXISTS bayes_likelihoods (
+    category_code TEXT NOT NULL,
+    feature_name TEXT NOT NULL,
+    feature_value TEXT NOT NULL,
+    likelihood REAL NOT NULL,
+    sample_count INTEGER,
+    PRIMARY KEY (category_code, feature_name, feature_value)
+);
+"""
+
 # Phase 7 indexes
 PHASE7_INDEXES = [
     "CREATE INDEX IF NOT EXISTS idx_report_types_type ON report_types(report_type);",
     "CREATE INDEX IF NOT EXISTS idx_report_types_prefix ON report_types(report_prefix);",
+    "CREATE INDEX IF NOT EXISTS idx_bayes_likelihoods_feature ON bayes_likelihoods(feature_name);",
 ]
 
 # All tables for Phase 7
 PHASE7_TABLES = [
     REPORT_TYPES_TABLE,
+    BAYES_PRIORS_TABLE,
+    BAYES_LIKELIHOODS_TABLE,
 ]
 
 # All indexes

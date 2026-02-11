@@ -44,8 +44,11 @@ RiskRADAR demonstrates a complete production-grade pipeline for processing unstr
 4. **Embeds** chunks using both general-purpose and domain-specific models
 5. **Indexes** vectors in Qdrant Cloud for similarity search
 6. **Evaluates** retrieval quality using a rigorous 50-query benchmark with human review
+7. **Classifies** reports into 27 CICTT accident categories with L2 subcategories
+8. **Extracts features** (aircraft type, weather, time-of-day) from unstructured text via regex pipelines
+9. **Models risk** using Bayesian inference with 5 features and cross-validated predictions
 
-This project serves as a portfolio piece demonstrating skills in data engineering, NLP, information retrieval, and ML evaluation methodology.
+This project serves as a portfolio piece demonstrating skills in data engineering, NLP, information retrieval, probabilistic modeling, and ML evaluation methodology.
 
 ---
 
@@ -58,13 +61,16 @@ This project serves as a portfolio piece demonstrating skills in data engineerin
 | Phase 3 - Text Extraction | **Complete** | 30,602 pages extracted (14K embedded + 16K OCR) |
 | Phase 4 - Chunking | **Complete** | 24,766 search-ready chunks (v2: 400-800 tokens) |
 | Phase 5 - Embeddings | **Complete** | Dual-model embeddings with benchmark evaluation |
-| Phase 6A - L1 Classification | **Complete** | 453 reports → 27 CICTT categories |
+| Phase 6A - L1 Classification | **Complete** | 431 accident reports → 27 CICTT categories (98.9%) |
 | Phase 6A-Sub - L2 Classification | **Complete** | 1,106 report-L2 assignments → 32 subcategories |
 | Phase 6A - Qdrant Enrichment | **Complete** | Payloads enriched with taxonomy + PDF URLs |
-| Phase 6A-Review | **Pending** | Human review of L1+L2 classifications |
-| Phase 6C - Scoring | Planned | Multi-signal cause attribution (percentage allocation) |
-| Phase 7 - Trends | Planned | Prevalence analytics by time period |
-| Phase 8 - Streamlit App | Planned | Search + Cause Map Explorer interface |
+| Data Quality - Report Types | **Complete** | 510 reports classified (436 accident, 74 non-accident) |
+| Data Quality - Gap Analysis | **Complete** | Taxonomy gap: 18% → 1.1% through iterative investigation |
+| Risk Profiler - Feature Extraction | **Complete** | 7 features extracted (aircraft, region, season, weather, time) |
+| Risk Profiler - Bayesian Model | **Complete** | 5-feature Naive Bayes with LOO validation (Hit@5: 90.7%) |
+| BM25 + Hybrid Search | **Complete** | BM25 index + RRF fusion with semantic search |
+| Streamlit App | **In Progress** | 4 pages: Search, Taxonomy, Analysis, Risk Profiler |
+| Phase 7 - Trend Analytics | Planned | Prevalence analytics by time period |
 
 ---
 
@@ -94,7 +100,7 @@ The v2 chunking strategy (400-800 tokens with section prefixes and 25% overlap) 
 ## Architecture
 
 ```
-                                 RiskRADAR Architecture
+                                    RiskRADAR Architecture
 
     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
     │   NTSB      │     │   Extract   │     │   Chunk     │     │   Embed     │
@@ -104,9 +110,16 @@ The v2 chunking strategy (400-800 tokens with section prefixes and 25% overlap) 
           │                   │                   │                   │
           ▼                   ▼                   ▼                   ▼
     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-    │   SQLite    │     │   JSON/     │     │   Parquet   │     │   Vector    │
-    │  (metadata) │     │   JSONL     │     │  (analytics)│     │   Search    │
+    │   SQLite    │     │   Taxonomy  │     │   Feature   │     │  Bayesian   │
+    │  (metadata) │     │   CICTT L1  │     │  Extraction │     │   Risk      │
+    │             │     │   + L2 (32) │     │  (7 feats)  │     │   Model     │
     └─────────────┘     └─────────────┘     └─────────────┘     └─────────────┘
+                                                  │                   │
+                                                  ▼                   ▼
+                              ┌──────────────────────────────────────────────┐
+                              │          Streamlit Application               │
+                              │  Search │ Taxonomy │ Analysis │ Risk Profiler│
+                              └──────────────────────────────────────────────┘
 ```
 
 ---
@@ -356,7 +369,7 @@ Phase 6-8 builds a hierarchical accident cause taxonomy and assigns multi-cause 
 **Key Learning:** Initial BERTopic unsupervised topic discovery produced 76 topics, but human review revealed they captured document structure (headers, boilerplate) rather than meaningful safety factors. This led to a pivot to industry-standard taxonomies.
 
 ```
-Phase 6A: CICTT Level 1 Classification (Complete - 453 reports → 27 categories)
+Phase 6A: CICTT Level 1 Classification (Complete - 431 accident reports → 27 categories, 98.9%)
     │
     ▼
 Phase 6A-Sub: Level 2 Sub-Categorization (Complete - 1,106 assignments → 32 subcategories)
@@ -365,16 +378,19 @@ Phase 6A-Sub: Level 2 Sub-Categorization (Complete - 1,106 assignments → 32 su
 Qdrant Enrichment (Complete - payloads enriched with l1_categories, l2_subcategories, pdf_url)
     │
     ▼
-Phase 6A-Review: Human Taxonomy Review (GATE - Pending)
+Data Quality: Report Type Classification (Complete - 436 accident, 74 non-accident)
     │
     ▼
-Phase 6C: Multi-Signal Scoring (Keywords + Embeddings)
+Risk Profiler: Feature Extraction (Complete - 7 features at 72-96% coverage)
     │
     ▼
-Phase 7: Trend Analytics (Prevalence over Time)
+Risk Profiler: Bayesian Model (Complete - 5-feature model, Hit@1 54.8%, Hit@5 90.7%)
     │
     ▼
-Phase 8: Streamlit App (Search + Cause Map Explorer)
+Phase 7: Trend Analytics (Planned)
+    │
+    ▼
+Streamlit App (In Progress - Search, Taxonomy, Analysis, Risk Profiler pages)
 ```
 
 ### Taxonomy Structure
@@ -486,49 +502,108 @@ See [CLAUDE.md](CLAUDE.md) for detailed implementation plan and [portfolio.md](p
 
 ---
 
+## Risk Profiler: Bayesian Risk Model
+
+### Overview
+
+The Risk Profiler uses **Bayesian inference** to compute `P(accident_category | features)` — predicting which CICTT accident categories are most likely given a flight profile.
+
+### Feature Extraction Pipeline
+
+7 features are extracted from report metadata and unstructured text:
+
+| Feature | Source | Coverage | Method |
+|---------|--------|----------|--------|
+| Aircraft Category | Report title | 92.7% | Pattern matching against 686 aircraft patterns |
+| Region | Location field | 90.4% | US Census Bureau state → region mapping |
+| Season | Accident date | 95.9% | Month → season mapping |
+| Weather (VMC/IMC) | Chunk text | 72.4% | Regex extraction from METEOROLOGICAL sections |
+| Time of Day | Chunk text | 90.8% | Timestamp parsing from SYNOPSIS sections |
+
+Weather and time-of-day are extracted from the raw text of accident report chunks using section-prioritized regex scanning with confidence levels (high/medium/low).
+
+### Model
+
+- **Algorithm**: Naive Bayes with Laplace smoothing (α = 1.0)
+- **Training data**: 431 accident reports only (excludes safety studies, supplements)
+- **Categories**: 27 CICTT Level 1 categories
+- **Risk thresholds**: Data-driven (90th/50th percentile of posterior distribution)
+- **Persistence**: Trained model saved to `bayes_priors` + `bayes_likelihoods` SQLite tables
+
+### Validation (Leave-One-Out Cross-Validation)
+
+| Metric | 3 Features | 5 Features |
+|--------|-----------|-----------|
+| Hit@1 | 51.3% | **54.8%** |
+| Hit@3 | 83.3% | 80.7% |
+| Hit@5 | 90.7% | **90.7%** |
+| Mean Rank | 2.5 | 2.5 |
+
+Adding weather and time-of-day features improved top-1 accuracy by 3.5 percentage points.
+
+### CLI Commands
+
+```bash
+# Feature extraction
+python -m risk_profiler.cli extract-weather    # VMC/IMC from text
+python -m risk_profiler.cli extract-time       # Time-of-day from text
+
+# Model training and validation
+python -m risk_profiler.cli train-model --features aircraft_category,season,region,weather_category,time_of_day
+python -m risk_profiler.cli validate-model --features aircraft_category,season,region,weather_category,time_of_day
+```
+
+---
+
 ## Project Structure
 
 ```
 riskRADAR/
-├── riskradar/           # Core configuration module
-│   └── config.py        # Paths, Qdrant settings, environment
-├── sqlite/              # Database layer
-│   ├── schema.py        # Table definitions (14+ tables)
-│   ├── connection.py    # Connection management
-│   └── queries.py       # Common SQL operations
-├── scraper/             # Web scraping library
-│   ├── browser.py       # Chrome driver management
-│   ├── actions.py       # Page interactions
-│   └── download.py      # File download handling
-├── extraction/          # PDF processing pipeline
-│   ├── processing/      # Extraction and chunking modules
-│   └── json_data/       # Pipeline outputs (gitignored)
-├── embeddings/          # Embedding pipeline
-│   ├── models.py        # Model wrapper
-│   ├── embed.py         # Generation pipeline
-│   └── upload.py        # Qdrant integration
-├── eval/                # Benchmark framework
-│   ├── benchmark.py     # Evaluation runner
-│   ├── gold_queries.yaml # 50 test queries
-│   └── results/         # Benchmark outputs
-├── taxonomy/            # Cause attribution pipeline (Phase 6)
-│   ├── taxonomy.yaml    # 3-level taxonomy definition
-│   ├── discover.py      # BERTopic topic discovery
-│   ├── scorer.py        # Multi-signal scoring
-│   └── cli.py           # CLI entry point
-├── app/                 # Streamlit application (Phase 8)
-│   ├── main.py          # Entry point
-│   └── pages/           # Search, taxonomy, dashboard
-├── analytics/           # DuckDB analytics
-│   ├── cli.py           # Interactive SQL shell
-│   └── views.py         # Pre-built analytical views
-├── scripts/             # Utility scripts
-│   └── verify_setup.py  # Environment verification
-├── .env.example         # Environment template
-├── requirements.txt     # Python dependencies
-├── CLAUDE.md            # Development context and phase plans
-├── PORTFOLIO.md         # Project narrative and learnings
-└── README.md            # This file
+├── riskradar/               # Core configuration module
+│   └── config.py            # Paths, Qdrant settings, environment
+├── sqlite/                  # Database layer
+│   └── schema.py            # Table definitions (v7, 20+ tables)
+├── scraper/                 # Web scraping library
+│   ├── browser.py           # Chrome driver management
+│   ├── actions.py           # Page interactions
+│   └── download.py          # File download handling
+├── extraction/              # PDF processing pipeline
+│   ├── processing/          # Extraction and chunking modules
+│   └── json_data/           # Pipeline outputs (gitignored)
+├── embeddings/              # Embedding pipeline
+│   ├── models.py            # Model wrapper
+│   ├── embed.py             # Generation pipeline
+│   └── upload.py            # Qdrant integration
+├── eval/                    # Benchmark framework
+│   ├── benchmark.py         # Evaluation runner
+│   ├── gold_queries.yaml    # 50 test queries
+│   └── results/             # Benchmark outputs
+├── taxonomy/                # CICTT classification pipeline (Phase 6)
+│   ├── taxonomy.yaml        # 2-level taxonomy definition
+│   └── cli.py               # CLI entry point
+├── risk_profiler/           # Feature extraction + Bayesian model
+│   ├── bayesian_model.py    # Naive Bayes with persistence + validation
+│   ├── extract_features.py  # Aircraft + location extraction
+│   ├── extract_weather.py   # VMC/IMC extraction from text
+│   ├── extract_time.py      # Time-of-day extraction from text
+│   ├── report_types.py      # Report type classification
+│   ├── schema.py            # Risk profiler table definitions
+│   └── cli.py               # CLI entry point
+├── search/                  # BM25 + hybrid search
+│   └── cli.py               # CLI entry point
+├── app/                     # Streamlit application
+│   ├── main.py              # Entry point
+│   └── pages/               # Search, Taxonomy, Analysis, Risk Profiler
+├── analytics/               # DuckDB analytics
+│   ├── cli.py               # Interactive SQL shell
+│   └── views.py             # Pre-built analytical views
+├── scripts/                 # Utility scripts
+│   └── verify_setup.py      # Environment verification
+├── .env.example             # Environment template
+├── requirements.txt         # Python dependencies
+├── CLAUDE.md                # Development context and phase plans
+├── PORTFOLIO.md             # Project narrative and learnings
+└── README.md                # This file
 ```
 
 ---
