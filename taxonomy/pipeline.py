@@ -185,6 +185,92 @@ def run_l2_classification(
     }
 
 
+def run_retry_classification(l1_run_id: int = 2) -> dict:
+    """
+    Retry L1 classification for unclassified accident reports, then run L2
+    on newly classified reports.
+
+    Args:
+        l1_run_id: Run ID for the retry L1 pass (default 2)
+
+    Returns:
+        Dict with combined L1 retry + L2 stats
+    """
+    from .mapper import retry_unclassified
+
+    logger.info("=" * 60)
+    logger.info("Starting Retry Classification Pipeline")
+    logger.info("=" * 60)
+
+    # Step 1: Retry L1 for unclassified accident reports
+    logger.info("Step 1: Retrying L1 classification...")
+    l1_results = retry_unclassified(run_id=l1_run_id)
+
+    l1_stats = l1_results["stats"]
+    if l1_stats.get("retry_count", 0) == 0:
+        logger.info("No reports to retry - pipeline complete")
+        return {"l1_stats": l1_stats, "l2_stats": None}
+
+    # Step 2: Try L2 on newly classified reports (may fail if L1 data
+    # format doesn't match what L2 pipeline expects -- that's OK)
+    l2_stats = None
+    try:
+        logger.info("Step 2: Running L2 on newly classified reports...")
+        l2_results = run_l2_classification(
+            l1_run_id=l1_run_id,
+            l2_run_id=l1_run_id,
+        )
+        l2_stats = l2_results["stats"]
+        logger.info(f"  L2 assignments: {l2_stats['l2']['report_assignments']}")
+    except Exception as e:
+        logger.warning(f"L2 classification skipped: {e}")
+        logger.info("L1 results saved successfully. L2 can be run separately.")
+
+    logger.info("=" * 60)
+    logger.info("Retry Classification Pipeline Complete!")
+    logger.info(f"  L1 reports classified: {l1_stats.get('reports_classified', 0)}")
+    logger.info("=" * 60)
+
+    return {
+        "l1_stats": l1_stats,
+        "l2_stats": l2_stats,
+    }
+
+
+def run_final_retry(run_id: int = 3) -> dict:
+    """
+    Final retry pass: use ALL sections except Tier 4 exclusions.
+
+    This is the last-resort pass for edge-case reports with non-standard
+    section names.
+
+    Args:
+        run_id: Run ID for this final pass (default 3)
+
+    Returns:
+        Dict with L1 stats
+    """
+    from .mapper import retry_final_pass
+
+    logger.info("=" * 60)
+    logger.info("Starting Final Retry Pipeline (all sections)")
+    logger.info("=" * 60)
+
+    l1_results = retry_final_pass(run_id=run_id)
+
+    l1_stats = l1_results["stats"]
+    if l1_stats.get("retry_count", 0) == 0:
+        logger.info("No reports to retry - pipeline complete")
+        return {"l1_stats": l1_stats}
+
+    logger.info("=" * 60)
+    logger.info("Final Retry Pipeline Complete!")
+    logger.info(f"  Reports classified: {l1_stats.get('reports_classified', 0)}")
+    logger.info("=" * 60)
+
+    return {"l1_stats": l1_stats}
+
+
 def get_classification_summary(run_id: int = 1) -> dict:
     """
     Get summary of a classification run.

@@ -1,0 +1,240 @@
+{
+  "_metadata": {
+    "version": "1.0",
+    "created": "2026-01-27",
+    "source": "Manual review of all 510 reports",
+    "reviewer": "Human validation"
+  },
+  "corrections": [
+    {"report_id": "AAB0001.pdf", "make": "Learjet", "model": "35", "category": "jet-regional", "notes": "Had Learjet but missed Model 35"},
+    {"report_id": "AAB0101.pdf", "make": "Boeing", "model": "727", "category": "jet-narrow", "notes": "Got Boeing but missed 727 from first sentences"},
+    {"report_id": "AAB0102.pdf", "make": "Piper", "model": "PA-31-350", "category": "multi-piston", "notes": "Nothing in title, found in History of Flight"},
+    {"report_id": "AAB0202.pdf", "make": "Cessna", "model": "335", "category": "multi-piston", "notes": "Missed entirely"},
+    {"report_id": "AAB0205.pdf", "make": "British Aerospace", "model": "J-3101", "category": "turboprop", "notes": "Missed entirely - Jetstream 31"},
+    {"report_id": "AAB0401.pdf", "make": "Canadair", "model": "CL-600", "category": "jet-regional", "notes": "Got Canadair/Challenger but missed CL-600"},
+    {"report_id": "AAB0601.pdf", "make": "Beechcraft", "model": "King Air 200", "category": "turboprop", "notes": "Got King Air but missed 200"},
+    {"report_id": "AAB0603.pdf", "make": "Canadair", "model": "CL-600-2A12", "category": "jet-regional", "notes": "Missed entirely"},
+    {"report_id": "AAB0605.pdf", "make": "Learjet", "model": "24", "category": "jet-regional", "notes": "Got Learjet but missed 24"},
+    {"report_id": "AAB0607.pdf", "make": "CASA", "model": "C-212-CC", "category": "turboprop", "notes": "Missed entirely"},
+    {"report_id": "AAB0702.pdf", "make": "Cirrus", "model": "SR-20", "category": "single-piston", "notes": "Missed entirely"},
+    {"report_id": "AAB0704.pdf", "make": "Eurocopter", "model": "EC-135 P2", "category": "helicopter", "notes": "Missed entirely"},
+    {"report_id": "AAB1301.pdf", "make": "Boeing", "model": "707", "category": "jet-narrow", "notes": "In header Aircraft and Registration, not title"},
+    {"report_id": "AAR-90-06.pdf", "make": "McDonnell Douglas", "model": "DC-10-10", "category": "jet-wide", "notes": "Labeled Boeing but is DC-10"},
+    {"report_id": "AAR0101.pdf", "make": "Boeing", "model": "737-200", "category": "jet-narrow", "notes": "Got Boeing but missed 737-200"},
+    {"report_id": "AAR0401.pdf", "make": "Raytheon Beechcraft", "model": "1900D", "category": "turboprop", "notes": "In report not title"},
+    {"report_id": "AAR0501.pdf", "make": "Boeing", "model": "MD-10-10F", "category": "jet-wide", "notes": "Missed entirely - MD-10"},
+    {"report_id": "AAR0502.pdf", "make": "ATR", "model": "72-212", "category": "turboprop", "notes": "Avions De Transport Regional"},
+    {"report_id": "AAR0601.pdf", "make": "BAE Systems", "model": "BAE-J3201", "category": "turboprop", "notes": "Missed entirely - Jetstream"},
+    {"report_id": "AAR0704.pdf", "make": "Grumman", "model": "G-73T Turbo Mallard", "category": "turboprop", "notes": "Got Grumman but missed full model"},
+    {"report_id": "AAR0801.pdf", "make": "Embraer", "model": "ERJ-170", "category": "jet-regional", "notes": "Missed entirely"},
+    {"report_id": "AAR0802.pdf", "make": "Bombardier/Canadair", "model": "CL600-2B19", "category": "jet-regional", "notes": "Only got Canadair, missed full model"},
+    {"report_id": "AAR0905.pdf", "make": "Cessna", "model": "500", "category": "jet-regional", "notes": "Citation 500"},
+    {"report_id": "AAR0907.pdf", "make": "Aerospatiale", "model": "SA365N1", "category": "helicopter", "notes": "Missed entirely"},
+    {"report_id": "AAR1001.pdf", "make": "Bombardier", "model": "DHC-8-400", "category": "turboprop", "notes": "Missed entirely"},
+    {"report_id": "AAR1101.pdf", "make": "Hawker Beechcraft", "model": "125-800A", "category": "jet-regional", "notes": "Missed entirely"},
+    {"report_id": "AAR1103.pdf", "make": "de Havilland", "model": "DHC-3T", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR1104.pdf", "make": "Agusta", "model": "A109E", "category": "helicopter", "notes": "Was Agusta S.p.A A109E"},
+    {"report_id": "AAR1202.pdf", "make": "Gulfstream", "model": "G650", "category": "jet-regional", "notes": "Got Gulfstream but missed GVI/G650"},
+    {"report_id": "AAR1403.pdf", "make": "Eurocopter", "model": "AS350 B3", "category": "helicopter", "notes": "Missed entirely"},
+    {"report_id": "AAR1503.pdf", "make": "Gulfstream", "model": "G-IV", "category": "jet-regional", "notes": "Got Gulfstream but missed G-IV"},
+    {"report_id": "AAR1601.pdf", "make": "Embraer", "model": "EMB-500", "category": "jet-regional", "notes": "Missed entirely - Phenom 100"},
+    {"report_id": "AAR1701.pdf", "make": "Airbus Helicopters", "model": "AS350 B3e", "category": "helicopter", "notes": "Got Airbus but missed AS350"},
+    {"report_id": "AAR1702.pdf", "make": "de Havilland", "model": "DHC-3", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR1703.pdf", "make": "Balony Kubicek", "model": "BB85Z", "category": "balloon", "notes": "Hot Air Balloon"},
+    {"report_id": "AAR1904.pdf", "make": "Airbus Helicopters", "model": "AS350 B2", "category": "helicopter", "notes": "Got Airbus but missed AS350"},
+    {"report_id": "AAR1901.pdf", "make": "Boeing", "model": "MD-83", "category": "jet-narrow", "notes": "Was Boeing MD-83"},
+    {"report_id": "AAR6907.pdf", "make": "Sikorsky", "model": "S-61L", "category": "helicopter", "notes": "Listed as 5-61L"},
+    {"report_id": "AAR7007.pdf", "make": "Fairchild Hiller", "model": "FH-227C", "category": "turboprop", "notes": "Got Fairchild but missed FH-227C"},
+    {"report_id": "AAR7011.pdf", "make": "Convair", "model": "880", "category": "jet-narrow", "notes": "Model 22M"},
+    {"report_id": "AAR7013.pdf", "make": "Cessna", "model": "310N", "category": "multi-piston", "notes": "Missed entirely"},
+    {"report_id": "AAR7016.pdf", "make": "Fairchild", "model": "F-27B", "category": "turboprop", "notes": "Got Fairchild but missed F-27B"},
+    {"report_id": "AAR7017.pdf", "make": "Douglas", "model": "DC-4", "category": "multi-piston", "notes": "Carvair ATL conversion"},
+    {"report_id": "AAR7021.pdf", "make": "Learjet", "model": "23A", "category": "jet-regional", "notes": "Lear Jet 23A"},
+    {"report_id": "AAR7022.pdf", "make": "Aero Commander", "model": "1121", "category": "jet-regional", "notes": "Jet Commander"},
+    {"report_id": "AAR7025.pdf", "make": "Martin", "model": "404", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7102.pdf", "make": "Douglas", "model": "C-54D", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7103.pdf", "make": "Learjet", "model": "L23A", "category": "jet-regional", "notes": "Missed"},
+    {"report_id": "AAR7105.pdf", "make": "de Havilland", "model": "DH-104 Dove", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7107.pdf", "make": "Boeing", "model": "747-121", "category": "jet-wide", "notes": "Got Boeing but missed 747-121"},
+    {"report_id": "AAR7113.pdf", "make": "Beechcraft", "model": "C-45H", "category": "multi-piston", "notes": "Infinite II conversion"},
+    {"report_id": "AAR7115.pdf", "make": "Douglas", "model": "DC-9-32", "category": "jet-narrow", "notes": "WRONG - labeled Boeing but is DC-9"},
+    {"report_id": "AAR7207.pdf", "make": "Boeing", "model": "707", "category": "jet-narrow", "notes": "Got Boeing but missed 707"},
+    {"report_id": "AAR7215.pdf", "make": "Beechcraft", "model": "E18S", "category": "multi-piston", "notes": "ATECO Westwind II"},
+    {"report_id": "AAR7216.pdf", "make": "Boeing", "model": "707", "category": "jet-narrow", "notes": "Got Boeing but missed 707"},
+    {"report_id": "AAR7218.pdf", "make": "Boeing", "model": "720-047B", "category": "jet-narrow", "notes": "Missed model"},
+    {"report_id": "AAR7219.pdf", "make": "de Havilland", "model": "DH-104-7AXC", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7222.pdf", "make": "Boeing", "model": "727-100", "category": "jet-narrow", "notes": "Some only have 727"},
+    {"report_id": "AAR7223.pdf", "make": "Beechcraft", "model": "D18S", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7224.pdf", "make": "Learjet", "model": "25", "category": "jet-regional", "notes": "Got Learjet but missed 25"},
+    {"report_id": "AAR7225.pdf", "make": "Beechcraft", "model": "65B-80", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7301.pdf", "make": "Cessna", "model": "310C", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7302.pdf", "make": "McDonnell Douglas", "model": "DC-10", "category": "jet-wide", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7303.pdf", "make": "McDonnell Douglas", "model": "DC-9", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7307.pdf", "make": "North American", "model": "Sabreliner Mark 5", "category": "jet-regional", "notes": "Title says Sabre Mark 5"},
+    {"report_id": "AAR7308.pdf", "make": "Fairchild Hiller", "model": "FH-227B", "category": "turboprop", "notes": "Got Fairchild but missed model"},
+    {"report_id": "AAR7315.pdf", "make": "McDonnell Douglas", "model": "DC-9", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7406.pdf", "make": "Fairchild Hiller", "model": "FH-227B", "category": "turboprop", "notes": "Got Fairchild but missed model"},
+    {"report_id": "AAR7411.pdf", "make": "Lockheed", "model": "L-1049H Super Constellation", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7413.pdf", "make": "McDonnell Douglas", "model": "DC-9", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7503.pdf", "make": "Beechcraft", "model": "99A", "category": "turboprop", "notes": "Missed model"},
+    {"report_id": "AAR7505.pdf", "make": "Lockheed", "model": "L-382", "category": "turboprop", "notes": "Hercules"},
+    {"report_id": "AAR7508.pdf", "make": "Grumman", "model": "G-1159", "category": "jet-regional", "notes": "Got Grumman but missed G-1159"},
+    {"report_id": "AAR7601.pdf", "make": "Fairchild", "model": "F-27B", "category": "turboprop", "notes": "Got Fairchild but missed F-27B"},
+    {"report_id": "AAR7602.pdf", "make": "Beechcraft", "model": "A100", "category": "turboprop", "notes": "King Air A100"},
+    {"report_id": "AAR7610.pdf", "make": "Piper", "model": "PA23-250", "category": "multi-piston", "notes": "Aztec"},
+    {"report_id": "AAR7701.pdf", "make": "Boeing", "model": "727", "category": "jet-narrow", "notes": "Got Boeing but missed 727"},
+    {"report_id": "AAR7703.pdf", "make": "North American", "model": "TB-25N", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7704.pdf", "make": "Beechcraft", "model": "Baron 58", "category": "multi-piston", "notes": "Got Baron but missed 58"},
+    {"report_id": "AAR7708.pdf", "make": "Learjet", "model": "LR24B", "category": "jet-regional", "notes": "Got Learjet but missed LR24B"},
+    {"report_id": "AAR7711.pdf", "make": "Cessna", "model": "421", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR7804.pdf", "make": "Grumman", "model": "Gulfstream II", "category": "jet-regional", "notes": "Got Gulfstream but make is Grumman"},
+    {"report_id": "AAR7808.pdf", "make": "Douglas", "model": "DC-8", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7811.pdf", "make": "Beech-Hawker", "model": "125-600-A", "category": "jet-regional", "notes": "Missed"},
+    {"report_id": "AAR7902.pdf", "make": "BAC", "model": "1-11", "category": "jet-narrow", "notes": "Missed - BAC One-Eleven"},
+    {"report_id": "AAR7904.pdf", "make": "Convair", "model": "580", "category": "turboprop", "notes": "In body not title"},
+    {"report_id": "AAR7912.pdf", "make": "Nord", "model": "262", "category": "turboprop", "notes": "Mohawk/Frakes 298"},
+    {"report_id": "AAR7913.pdf", "make": "Nord", "model": "262", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR7914.pdf", "make": "Sikorsky", "model": "S-61L", "category": "helicopter", "notes": "In body not title"},
+    {"report_id": "AAR7915.pdf", "make": "Learjet", "model": "25B", "category": "jet-regional", "notes": "Got Learjet but missed 25B"},
+    {"report_id": "AAR7916.pdf", "make": "Beechcraft", "model": "70 Excalibur", "category": "multi-piston", "notes": "Conversion"},
+    {"report_id": "AAR7917.pdf", "make": "McDonnell Douglas", "model": "DC-10", "category": "jet-wide", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR7918.pdf", "make": "Gates Learjet", "model": "25C Century III", "category": "jet-regional", "notes": "Missed"},
+    {"report_id": "AAR8004.pdf", "make": "Gates Learjet", "model": "25D", "category": "jet-regional", "notes": "Missed"},
+    {"report_id": "AAR8005.pdf", "make": "Cessna", "model": "Citation 501", "category": "jet-regional", "notes": "Got Citation but missed 501"},
+    {"report_id": "AAR8007.pdf", "make": "Martin", "model": "404", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR8008.pdf", "make": "Piper", "model": "PA31-310", "category": "multi-piston", "notes": "WRONG info"},
+    {"report_id": "AAR8012.pdf", "make": "Learjet", "model": "23", "category": "jet-regional", "notes": "Got Learjet but missed 23"},
+    {"report_id": "AAR8014.pdf", "make": "Lockheed", "model": "1049H", "category": "multi-piston", "notes": "Constellation"},
+    {"report_id": "AAR8015.pdf", "make": "Swearingen", "model": "SA-226 Metro", "category": "turboprop", "notes": "Got Swearingen but missed model"},
+    {"report_id": "AAR8109.pdf", "make": "Cessna", "model": "Citation 500", "category": "jet-regional", "notes": "Got Citation but missed 500"},
+    {"report_id": "AAR8111.pdf", "make": "Beechcraft", "model": "99A", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR8113.pdf", "make": "Lockheed", "model": "Jetstar", "category": "jet-regional", "notes": "N520S"},
+    {"report_id": "AAR8115.pdf", "make": "Learjet", "model": "25D", "category": "jet-regional", "notes": "Got Learjet but missed 25D"},
+    {"report_id": "AAR8117.pdf", "make": "Beechcraft", "model": "65-A80 Excalibur", "category": "multi-piston", "notes": "Conversion"},
+    {"report_id": "AAR8204.pdf", "make": "Learjet", "model": "24", "category": "jet-regional", "notes": "Got Learjet but missed 24"},
+    {"report_id": "AAR8212.pdf", "make": "Cessna", "model": "414A", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR8214.pdf", "make": "NAMC", "model": "YS-11A", "category": "turboprop", "notes": "NIHON YS-11A"},
+    {"report_id": "AAR8301.pdf", "make": "Learjet", "model": "23", "category": "jet-regional", "notes": "Got Learjet but missed 23"},
+    {"report_id": "AAR8304.pdf", "make": "Cessna", "model": "551 Citation II", "category": "jet-regional", "notes": "Got Citation but missed 551"},
+    {"report_id": "AAR8307.pdf", "make": "McDonnell Douglas", "model": "DC-8", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR8401.pdf", "make": "Mitsubishi", "model": "MU-2B", "category": "turboprop", "notes": "Got Mitsubishi but missed MU-2B"},
+    {"report_id": "AAR8405.pdf", "make": "Lockheed", "model": "L-18 Learstar", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR8411.pdf", "make": "Learjet", "model": "25", "category": "jet-regional", "notes": "Got Learjet but missed 25"},
+    {"report_id": "AAR8414.pdf", "make": "Bell", "model": "UH-1B", "category": "helicopter", "notes": "UG-1B"},
+    {"report_id": "AAR8501.pdf", "make": "Boeing", "model": "727", "category": "jet-narrow", "notes": "Got Boeing but missed 727"},
+    {"report_id": "AAR8502.pdf", "make": "Learjet", "model": "23", "category": "jet-regional", "notes": "Got Learjet but missed 23"},
+    {"report_id": "AAR8605.pdf", "make": "Lockheed", "model": "L-1011-385-1", "category": "jet-wide", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR8704.pdf", "make": "Lockheed", "model": "L-382G", "category": "turboprop", "notes": "Hercules"},
+    {"report_id": "AAR8705.pdf", "make": "Lockheed", "model": "L-1011", "category": "jet-wide", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR8803.pdf", "make": "Swearingen", "model": "Metro II", "category": "turboprop", "notes": "Got Swearingen but missed Metro II"},
+    {"report_id": "AAR8806.pdf", "make": "British Aerospace", "model": "3101 Jetstream 31", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR8807.pdf", "make": "CASA", "model": "C-212", "category": "turboprop", "notes": "Missed"},
+    {"report_id": "AAR8808.pdf", "make": "CASA", "model": "C-212-CC", "category": "turboprop", "notes": "Construcciones Aeronauticas"},
+    {"report_id": "AAR8901.pdf", "make": "Fairchild", "model": "Metro III", "category": "turboprop", "notes": "Got Fairchild but missed Metro III"},
+    {"report_id": "AAR8904.pdf", "make": "Boeing", "model": "727", "category": "jet-narrow", "notes": "Got Boeing but missed 727"},
+    {"report_id": "AAR9107.pdf", "make": null, "model": null, "category": "not-applicable", "notes": "Fuel farm fire - no aircraft"},
+    {"report_id": "AAR9201.pdf", "make": "Beechcraft", "model": "Beechjet", "category": "jet-regional", "notes": "N25BR"},
+    {"report_id": "AAR9202.pdf", "make": "Boeing", "model": "747", "category": "jet-wide", "notes": "Got Boeing but missed 747"},
+    {"report_id": "AAR9301.pdf", "make": "Beechcraft", "model": "E18S", "category": "multi-piston", "notes": "Missed"},
+    {"report_id": "AAR9302.pdf", "make": "Fokker", "model": "F-28", "category": "jet-regional", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR9305.pdf", "make": "Mitsubishi", "model": "MU-2B-60", "category": "turboprop", "notes": "Got Mitsubishi but missed full model"},
+    {"report_id": "AAR9308.pdf", "make": "Mitsubishi", "model": "MU-2B-60", "category": "turboprop", "notes": "Got Mitsubishi but missed full model"},
+    {"report_id": "AAR9401.pdf", "make": "McDonnell Douglas", "model": "DC-10", "category": "jet-wide", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR9406.pdf", "make": "SAAB", "model": "340B", "category": "turboprop", "notes": "In abstract not title"},
+    {"report_id": "AAR9502.pdf", "make": "Learjet", "model": "25D", "category": "jet-regional", "notes": "Got Learjet but missed 25D"},
+    {"report_id": "AAR9503.pdf", "make": "McDonnell Douglas", "model": "DC-9", "category": "jet-narrow", "notes": "WRONG - labeled Boeing"},
+    {"report_id": "AAR9601.pdf", "make": "ATR", "model": "72-212", "category": "turboprop", "notes": "Avions de Transport Regional"},
+    {"report_id": "AAR9602.pdf", "make": "ATR", "model": "72-212", "category": "turboprop", "notes": "Avions de Transport Regional"},
+    {"report_id": "AAR9702.pdf", "make": "Cessna", "model": "177B", "category": "single-piston", "notes": "Cardinal"},
+    {"report_id": "AIR2204.pdf", "make": "Cirrus", "model": "SR22T", "category": "single-piston", "notes": "Missed"},
+    {"report_id": "AIR2404.pdf", "make": "Bell", "model": "UH-1B", "category": "helicopter", "notes": "Missed"},
+    {"report_id": "AIR2503.pdf", "make": "CFM International", "model": "LEAP-1B", "category": "other", "notes": "Engine not aircraft - special case"},
+    {"report_id": "AIR2507.pdf", "make": "Learjet", "model": "35A", "category": "jet-regional", "notes": "Got Learjet but missed 35A from analysis section"},
+    {"report_id": "HZM8802.pdf", "make": "Boeing", "model": "727", "category": "jet-narrow", "notes": "Got Boeing but missed 727"}
+  ],
+  "multi_aircraft_reports": [
+    {
+      "report_id": "AAR7603.pdf",
+      "notes": "TWO aircraft - near collision",
+      "aircraft": [
+        {"sequence": 1, "make": "Douglas", "model": "DC-10", "category": "jet-wide"},
+        {"sequence": 2, "make": "Lockheed", "model": "L-1011", "category": "jet-wide"}
+      ]
+    },
+    {
+      "report_id": "AAR7506.pdf",
+      "notes": "Midair collision - ANG Convair and Piper",
+      "aircraft": [
+        {"sequence": 1, "make": "Convair", "model": "F-106", "category": "jet-regional"},
+        {"sequence": 2, "make": "Piper", "model": "PA-24-250", "category": "single-piston"}
+      ]
+    },
+    {
+      "report_id": "AAR7911.pdf",
+      "notes": "Near collision - two Boeings",
+      "aircraft": [
+        {"sequence": 1, "make": "Boeing", "model": "727", "category": "jet-narrow"},
+        {"sequence": 2, "make": "Boeing", "model": "747", "category": "jet-wide"}
+      ]
+    },
+    {
+      "report_id": "AAR8118.pdf",
+      "notes": "Midair collision - HP-137 and Cessna TU-206",
+      "aircraft": [
+        {"sequence": 1, "make": "Handley Page", "model": "HP-137", "category": "turboprop"},
+        {"sequence": 2, "make": "Cessna", "model": "TU-206", "category": "single-piston"}
+      ]
+    },
+    {
+      "report_id": "AAR8210.pdf",
+      "notes": "Midair collision - F-111D and Cessna",
+      "aircraft": [
+        {"sequence": 1, "make": "General Dynamics", "model": "F-111D", "category": "jet-regional"},
+        {"sequence": 2, "make": "Cessna", "model": "TU-206G", "category": "single-piston"}
+      ]
+    },
+    {
+      "report_id": "AAR8303.pdf",
+      "notes": "Midair collision - Aero Commander and Cessna",
+      "aircraft": [
+        {"sequence": 1, "make": "Aero Commander", "model": "560E", "category": "multi-piston"},
+        {"sequence": 2, "make": "Cessna", "model": "182Q", "category": "single-piston"}
+      ]
+    },
+    {
+      "report_id": "AAR8407.pdf",
+      "notes": "Midair collision - F-4C and Beech Baron",
+      "aircraft": [
+        {"sequence": 1, "make": "McDonnell Douglas", "model": "F-4C", "category": "jet-regional"},
+        {"sequence": 2, "make": "Beechcraft", "model": "D-55 Baron", "category": "multi-piston"}
+      ]
+    },
+    {
+      "report_id": "AAR8703.pdf",
+      "notes": "Midair collision - DHC-7 and Bell helicopter",
+      "aircraft": [
+        {"sequence": 1, "make": "de Havilland", "model": "DHC-7", "category": "turboprop"},
+        {"sequence": 2, "make": "Bell", "model": "206B", "category": "helicopter"}
+      ]
+    },
+    {
+      "report_id": "AAR8802.pdf",
+      "notes": "Midair collision - Cessna 340A and SNJ-4N",
+      "aircraft": [
+        {"sequence": 1, "make": "Cessna", "model": "340A", "category": "multi-piston"},
+        {"sequence": 2, "make": "North American", "model": "SNJ-4N", "category": "single-piston"}
+      ]
+    },
+    {
+      "report_id": "AIR2401.pdf",
+      "notes": "Runway incursion - two Boeings",
+      "aircraft": [
+        {"sequence": 1, "make": "Boeing", "model": "777", "category": "jet-wide"},
+        {"sequence": 2, "make": "Boeing", "model": "737", "category": "jet-narrow"}
+      ]
+    }
+  ],
+  "duplicate_reports": [
+    {"report_id": "AAR8803S.pdf", "related_to": "AAR8803.pdf", "notes": "Duplicate with S suffix - same accident"}
+  ]
+}

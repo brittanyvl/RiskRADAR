@@ -109,6 +109,71 @@ class TaxonomyConfig:
 
 
 @dataclass
+class RetryConfig(TaxonomyConfig):
+    """Relaxed config for retrying unclassified accident reports."""
+
+    causal_sections: list = field(default_factory=lambda: [
+        "PROBABLE CAUSE",
+        "ANALYSIS",
+        "CONCLUSIONS",
+        "FINDINGS",
+        "DISCUSSION",
+        "SUMMARY",
+        "DETERMINATION",
+    ])
+
+    min_chunk_tokens: int = 50
+    min_similarity_threshold: float = 0.35
+
+
+RETRY_CONFIG = RetryConfig()
+
+
+@dataclass
+class FinalRetryConfig(TaxonomyConfig):
+    """
+    Final relaxed config for edge-case reports (run 3).
+
+    Instead of include-listing causal sections, this config uses ALL sections
+    EXCEPT Tier 4 exclusions (recommendations, numbered paragraphs, narrow
+    factual sections). This catches 1970s-era reports with non-standard
+    section names like INVESTIGATION, SYNOPSIS, HISTORY OF FLIGHT, etc.
+
+    Section tiers (human-reviewed):
+      Tier 1 (causal):   ANALYSIS, PROBABLE CAUSE, FINDINGS, SYNOPSIS, etc.
+      Tier 2 (context):  INVESTIGATION, HISTORY OF FLIGHT, WRECKAGE, etc.
+      Tier 3 (support):  SURVIVAL ASPECTS, AIRCRAFT INFO, FIRE, CREW, etc.
+      Tier 4 (excluded): RECOMMENDATIONS, PARAGRAPH_##, METEOROLOGICAL, etc.
+    """
+
+    # Not used for include-filtering (we use exclusion-based logic)
+    causal_sections: list = field(default_factory=list)
+
+    # Sections to EXCLUDE (Tier 4: low signal / noise)
+    excluded_sections: list = field(default_factory=lambda: [
+        "RECOMMENDATIONS",
+        "SAFETY RECOMMENDATIONS",
+        "PARAGRAPH_",
+        "METEOROLOGICAL INFORMATION",
+        "AERODROME AND GROUND FACILITIES",
+        "MEDICAL AND PATHOLOGICAL INFORMATION",
+        "COMPANY INFORMATION",
+        "DAMAGE TO AIRCRAFT",
+        "APPENDIX",
+        "APPENDICES",
+    ])
+
+    min_chunk_tokens: int = 50
+    min_similarity_threshold: float = 0.35
+
+    # Flag to signal exclusion-based filtering
+    use_exclusion_filter: bool = True
+
+
+FINAL_RETRY_CONFIG = FinalRetryConfig()
+
+
+@dataclass
 class ReviewConfig:
     """Configuration for human review process."""
 

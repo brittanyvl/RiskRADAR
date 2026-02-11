@@ -12,9 +12,10 @@ SCHEMA_VERSION history:
 - v3: Phase 4 - Chunking (documents, chunks, chunking_runs, chunking_errors)
 - v4: Phase 5 - Embeddings (embedding_runs, qdrant_upload_runs, embedding_errors)
 - v5: Phase 6 - Taxonomy (taxonomy_runs, chunk_l1/l2, report_l1/l2, reviews)
+- v6: Phase 7 - Data Quality (report_types)
 """
 
-SCHEMA_VERSION = 5
+SCHEMA_VERSION = 6
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -441,7 +442,7 @@ PHASE5_TABLES = [
 TAXONOMY_RUNS_TABLE = """
 CREATE TABLE IF NOT EXISTS taxonomy_runs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    run_type TEXT NOT NULL CHECK(run_type IN ('l1_only', 'l2_only', 'full', 'incremental')),
+    run_type TEXT NOT NULL CHECK(run_type IN ('l1_only', 'l2_only', 'full', 'incremental', 'retry_unclassified')),
     model_name TEXT NOT NULL,            -- 'mika' (primary for taxonomy)
     taxonomy_version TEXT NOT NULL,      -- e.g., '1.0.0'
     started_at TEXT NOT NULL,
@@ -626,8 +627,37 @@ PHASE6_TABLES = [
     TAXONOMY_REVIEWS_TABLE,
 ]
 
+# ============================================================================
+# Phase 7: Data Quality
+# ============================================================================
+
+# Report types - classify reports by type (accident, safety_study, etc.)
+REPORT_TYPES_TABLE = """
+CREATE TABLE IF NOT EXISTS report_types (
+    report_id TEXT PRIMARY KEY,
+    report_type TEXT NOT NULL,
+    report_prefix TEXT,
+    classification_source TEXT,
+    expects_taxonomy INTEGER DEFAULT 1 CHECK(expects_taxonomy IN (0, 1)),
+    notes TEXT,
+    classified_at TEXT,
+    FOREIGN KEY (report_id) REFERENCES reports(filename)
+);
+"""
+
+# Phase 7 indexes
+PHASE7_INDEXES = [
+    "CREATE INDEX IF NOT EXISTS idx_report_types_type ON report_types(report_type);",
+    "CREATE INDEX IF NOT EXISTS idx_report_types_prefix ON report_types(report_prefix);",
+]
+
+# All tables for Phase 7
+PHASE7_TABLES = [
+    REPORT_TYPES_TABLE,
+]
+
 # All indexes
-INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES + PHASE5_INDEXES + PHASE6_INDEXES
+INDEXES = PHASE1_INDEXES + PHASE3_INDEXES + PHASE4_INDEXES + PHASE5_INDEXES + PHASE6_INDEXES + PHASE7_INDEXES
 
 # All tables combined
-ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES + PHASE5_TABLES + PHASE6_TABLES
+ALL_TABLES = PHASE1_TABLES + PHASE3_TABLES + PHASE4_TABLES + PHASE5_TABLES + PHASE6_TABLES + PHASE7_TABLES

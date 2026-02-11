@@ -343,6 +343,61 @@ def cmd_import_review(args, logger):
     return 0
 
 
+def cmd_retry_unclassified(args, logger):
+    """Retry classification for unclassified accident reports."""
+    from .pipeline import run_retry_classification
+
+    logger.info("Starting retry classification for unclassified accident reports")
+    logger.info(f"Run ID: {args.run_id}")
+
+    results = run_retry_classification(l1_run_id=args.run_id)
+
+    l1_stats = results["l1_stats"]
+
+    print("\n" + "=" * 60)
+    print("RETRY CLASSIFICATION COMPLETE")
+    print("=" * 60)
+    print(f"Run ID: {args.run_id}")
+    print(f"Reports targeted: {l1_stats.get('retry_count', 0)}")
+    print(f"Reports classified: {l1_stats.get('reports_classified', 0)}")
+    print(f"Chunk assignments: {l1_stats.get('chunk_assignments', 0)}")
+    print(f"Categories used: {l1_stats.get('categories_used', 0)}")
+
+    if results.get("l2_stats"):
+        l2 = results["l2_stats"]["l2"]
+        print(f"\nL2 Results:")
+        print(f"  Report assignments: {l2['report_assignments']}")
+        print(f"  Subcategories used: {l2['subcategories_used']}")
+
+    print("=" * 60)
+    return 0
+
+
+def cmd_retry_final(args, logger):
+    """Final retry using all sections except Tier 4 exclusions."""
+    from .pipeline import run_final_retry
+
+    logger.info("Starting final retry pass (all sections, Tier 4 excluded)")
+    logger.info(f"Run ID: {args.run_id}")
+
+    results = run_final_retry(run_id=args.run_id)
+
+    l1_stats = results["l1_stats"]
+
+    print("\n" + "=" * 60)
+    print("FINAL RETRY CLASSIFICATION COMPLETE")
+    print("=" * 60)
+    print(f"Run ID: {args.run_id}")
+    print(f"Reports targeted: {l1_stats.get('retry_count', 0)}")
+    print(f"Reports classified: {l1_stats.get('reports_classified', 0)}")
+    print(f"Chunk assignments: {l1_stats.get('chunk_assignments', 0)}")
+    print(f"Categories used: {l1_stats.get('categories_used', 0)}")
+    print(f"Sections used: {l1_stats.get('sections_used', 0)}")
+    print("=" * 60)
+
+    return 0
+
+
 def cmd_subcategories(args, logger):
     """List all L2 subcategories."""
     from .subcategories import PARENT_TO_SUBCATEGORIES, HFACS_SUBCATEGORIES
@@ -501,6 +556,26 @@ def main():
         "--run-id", type=int, default=1, help="Original run identifier"
     )
 
+    # retry-unclassified command
+    retry_parser = subparsers.add_parser(
+        "retry-unclassified",
+        help="Retry classification for unclassified accident reports"
+    )
+    retry_parser.add_argument(
+        "--run-id", type=int, default=2,
+        help="Run identifier for retry pass (default: 2)"
+    )
+
+    # retry-final command (all sections, Tier 4 excluded)
+    retry_final_parser = subparsers.add_parser(
+        "retry-final",
+        help="Final retry using all sections except Tier 4 (recommendations, paragraphs, etc.)"
+    )
+    retry_final_parser.add_argument(
+        "--run-id", type=int, default=3,
+        help="Run identifier for final retry pass (default: 3)"
+    )
+
     # subcategories command
     subparsers.add_parser("subcategories", help="List L2 subcategories")
 
@@ -525,6 +600,9 @@ def main():
         # L2 Subcategory commands
         "classify-l2": cmd_classify_l2,
         "review-l2": cmd_review_l2,
+        # Retry commands
+        "retry-unclassified": cmd_retry_unclassified,
+        "retry-final": cmd_retry_final,
         # Legacy hierarchical commands
         "export-review": cmd_export_review,
         "import-review": cmd_import_review,

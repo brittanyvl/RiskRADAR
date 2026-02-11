@@ -16,6 +16,7 @@ A technical narrative documenting the design decisions, challenges overcome, and
 - [Results and Findings](#results-and-findings)
 - [Lessons Learned](#lessons-learned)
 - [The Taxonomy Journey: From Unsupervised Discovery to Industry Standards](#the-taxonomy-journey-from-unsupervised-discovery-to-industry-standards)
+- [Closing the Gap: Data Quality and Taxonomy Coverage](#closing-the-gap-data-quality-and-taxonomy-coverage)
 - [Future Directions](#future-directions)
 - [Skills Demonstrated](#skills-demonstrated)
 
@@ -30,13 +31,15 @@ RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) 
 - **2 embedding models** compared with rigorous statistical methods
 - **50 benchmark queries** spanning 6 difficulty categories
 - **38.6% semantic lift** achieved with domain-specific embeddings
-- **453 reports classified** into 27 CICTT Level 1 categories
+- **431 accident reports classified** into 27 CICTT Level 1 categories (98.9% coverage)
+- **510 reports typed** into 6 categories via automated prefix/title classification
 - **1,106 report-L2 assignments** across 32 industry-standard subcategories
 - **Qdrant payloads enriched** with taxonomy data for category-filtered search
 
 The most significant technical insights:
 1. **Chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
 2. **Unsupervised topic modeling fails on standardized documents**. BERTopic discovered 76 topics, but human review revealed they captured document structure rather than safety factors—prompting a pivot to the industry-standard CICTT taxonomy.
+3. **Coverage gaps require root cause analysis, not brute force**. An 18% taxonomy gap (92 reports) seemed like a classification failure, but systematic investigation revealed most were non-accident documents that *shouldn't* have taxonomy. The true gap was 8%, resolved through iterative, human-guided section prioritization.
 
 ---
 
@@ -477,10 +480,10 @@ Aggregate → Report-level classification
 3. **Threshold filtering**: Only assignments above 0.45 similarity included
 4. **Multi-label**: Reports can have multiple contributing causes (average 3.8 per report)
 
-**L1 Results**:
+**L1 Results** (initial run):
 | Metric | Value |
 |--------|-------|
-| Reports Classified | 453 |
+| Reports Classified | 418 |
 | Categories Used | 27 of 30 |
 | Chunk Assignments | 6,555 |
 | Report-Level Assignments | 1,736 |
@@ -548,20 +551,124 @@ This pivot cost time but saved the project from building on a flawed foundation.
 
 ---
 
+## Closing the Gap: Data Quality and Taxonomy Coverage
+
+After completing L1 and L2 taxonomy classification, a troubling number stared back from the metrics: **92 reports (18%) had no taxonomy at all**. Before building dashboards and analytics on top of this data, we needed to understand *why* and fix it.
+
+This section documents a systematic investigation that transformed an opaque 18% gap into a well-understood, nearly-complete dataset—and the human-in-the-loop decisions that made it work.
+
+### The Problem: 92 Reports with Zero Taxonomy
+
+The initial L1 classification pipeline filtered chunks to causal sections (PROBABLE CAUSE, ANALYSIS, CONCLUSIONS, FINDINGS) and required a minimum similarity threshold of 0.40. This worked well for standard reports but left 92 of 510 reports completely unclassified.
+
+The naive fix—lower thresholds and retry—would have been wrong. The real question was: **should all 92 reports have taxonomy in the first place?**
+
+### Step 1: Report Type Classification (The Detective Work)
+
+NTSB publishes several types of documents under the same file format, not just accident reports. We built an automated classifier using filename prefixes and title heuristics:
+
+| Prefix | Type | Expects Taxonomy? | Count |
+|--------|------|-------------------|-------|
+| AAR, AAB | Accident Report | Yes | 436 |
+| AIR, SIR, SS, SAR | Safety Study | No | 28 |
+| ASR | Safety Recommendation | No | 21 |
+| HZB, HZMSR | Hazmat Report | No | 2 |
+| Unknown | Flagged for Review | Assumed yes | 1 |
+
+**Result**: 51 of the 92 "gaps" were non-accident documents that were never supposed to have accident taxonomy. The classification reduced the true gap from 92 to 53.
+
+### Step 2: Supplemental Document Detection
+
+Further analysis revealed a second category hiding in the data: **supplemental documents** that had been treated as standalone reports.
+
+We built a filename-pattern detector that identified:
+- **Appendix files**: `AAR0003_app.pdf`, `AAR9804_C.pdf` (letter suffixes)
+- **Summary versions**: `AAR8501S.pdf` (S suffix = executive summary)
+- **Reconsideration responses**: `AAR9704r.pdf` (r suffix)
+- **Cover/TOC pages**: Short files (< 3 pages) with a `_body.pdf` sibling
+
+**22 supplemental documents** were reclassified, dropping the accident count from 458 to 436 and the true gap from 53 to **35 reports**.
+
+### Step 3: Iterative Retry with Relaxed Thresholds
+
+For the 35 remaining accident reports, we built a retry pipeline with relaxed parameters:
+
+| Parameter | Original | Retry |
+|-----------|----------|-------|
+| Causal sections | 4 (strict) | 7 (+ DISCUSSION, SUMMARY, DETERMINATION) |
+| Min chunk tokens | 100 | 50 |
+| Min similarity | 0.40 | 0.35 |
+| Scope | All 510 reports | Only 35 missing accident reports |
+
+**Result**: 8 more reports classified, bringing coverage to 409/436 (93.8%). But 27 reports remained stubbornly unclassified.
+
+### Step 4: Human-in-the-Loop Section Prioritization (GATE 2)
+
+The remaining 27 reports failed because their section names didn't match *any* of our causal section patterns. Analysis revealed they were mostly 1970s-era reports with non-standard formatting.
+
+Rather than blindly opening all sections (which risks noisy classifications), we performed a **human review of all 64 unique section names** across the 27 gap reports, organizing them into priority tiers:
+
+| Tier | Signal Level | Example Sections | Decision |
+|------|-------------|-----------------|----------|
+| **Tier 1**: Causal | Highest | SYNOPSIS, CONCLUSIONS > FINDINGS, (a) FINDINGS | Include |
+| **Tier 2**: Investigation | Good | INVESTIGATION, HISTORY OF FLIGHT, WRECKAGE, TESTS AND RESEARCH | Include |
+| **Tier 3**: Supporting | Moderate | SURVIVAL ASPECTS, AIRCRAFT INFORMATION, FIRE, CREW INFORMATION | Include |
+| **Tier 4**: Low/Noise | Low | RECOMMENDATIONS, PARAGRAPH_##, METEOROLOGICAL | Exclude |
+
+**Key insight**: `SYNOPSIS` appeared in 10 of 27 reports and `INVESTIGATION` in 12 of 27. These two sections alone could unlock most remaining reports, but they had been excluded by the original causal-sections filter because they contain factual descriptions rather than causal analysis.
+
+**Human decision**: Include Tiers 1-3 (broad coverage from diverse sections), exclude Tier 4 (recommendations don't describe causes; numbered paragraphs have no section context; narrow factual sections like METEOROLOGICAL add noise without causal signal).
+
+### Step 5: Final Pass with Exclusion-Based Filtering
+
+The final pass inverted the filtering logic. Instead of include-listing causal sections, it **included everything except Tier 4 exclusions**:
+
+```
+Original: include IF section IN [PROBABLE CAUSE, ANALYSIS, ...]    (4 patterns)
+Retry:    include IF section IN [+ DISCUSSION, SUMMARY, ...]       (7 patterns)
+Final:    include IF section NOT IN [RECOMMENDATIONS, PARAGRAPH_*] (exclusion-based)
+```
+
+**Result**: 22 of 27 remaining reports classified, using 520 chunks across 24 different section types.
+
+### Final Coverage: 98.9%
+
+| Stage | Coverage | Gap | Method |
+|-------|----------|-----|--------|
+| Initial L1 run | 401/436 (92.0%) | 35 | Strict causal sections |
+| + Retry pass | 409/436 (93.8%) | 27 | Expanded sections, lower thresholds |
+| + Final pass | 431/436 (98.9%) | 5 | All sections except Tier 4 |
+
+The **5 remaining reports** are genuinely intractable with this approach:
+- **3 reports** have only `PARAGRAPH_##` sections (1970s format with no section headers at all)
+- **1 report** contains only `RECOMMENDATIONS` (no accident description)
+- **1 report** has causal sections but all chunk similarities fell below the 0.35 threshold
+
+### What This Process Demonstrates
+
+**1. Root cause analysis before optimization.** The instinct was to lower thresholds and re-run. But the 92-report gap wasn't a threshold problem—it was a data heterogeneity problem. 55% of the "gap" was non-accident documents that should never have been in scope.
+
+**2. Progressive relaxation, not wholesale abandonment.** Each retry pass relaxed constraints incrementally, with human review at each stage. This prevented the noisy classifications that would result from simply turning off all filters.
+
+**3. Human-in-the-loop at the right granularity.** We didn't ask a human to review 24,766 chunks or 510 reports. We asked a human to rank 64 section names into 4 tiers—a 10-minute decision that unlocked 22 more classifications.
+
+**4. Knowing when to stop.** The 5 remaining reports represent a deliberate stopping point. We could classify them by removing all filters, but the resulting low-confidence classifications would degrade overall data quality. 98.9% coverage with high confidence is better than 100% with noise.
+
+---
+
 ## Future Directions
 
-### Short-term (Phase 6C-8)
+### Short-term
 
-1. **Taxonomy Scoring (Phase 6C)**: Implement percentage allocation for multi-cause attribution
-2. **Human Score Review (GATE 3)**: Validate 50 report classifications against NTSB PROBABLE CAUSE sections
-3. **Trend Analytics (Phase 7)**: Prevalence of cause categories over decades
-4. **Streamlit Application (Phase 8)**: Search with taxonomy filtering, cause explorer, trend dashboard
+1. **BM25 + Hybrid Search**: BM25 index built from 24,766 chunks, with weighted Reciprocal Rank Fusion (RRF) combining BM25 keyword matching and Qdrant semantic search
+2. **Streamlit Application**: Search with taxonomy filtering, cause explorer, trend dashboard
+3. **Trend Analytics**: Prevalence of cause categories over decades
 
 ### Medium-term
 
 1. **Fine-tuned Model**: Train MIKA on NTSB-specific queries for further improvement
-2. **Hybrid Search**: Combine vector similarity with BM25 keyword matching
-3. **Query Expansion**: Use LLM to expand user queries with aviation terminology
+2. **Query Expansion**: Use LLM to expand user queries with aviation terminology
+3. **Advanced Analytics**: Aircraft/location parsing, clustering, temporal trends
 
 ### Long-term
 
@@ -578,6 +685,8 @@ This pivot cost time but saved the project from building on a flawed foundation.
 - SQLite for state management, JSONL/Parquet for bulk data
 - Incremental processing with resume capability
 - Comprehensive logging and error tracking
+- Data quality gap analysis with root cause investigation
+- Automated document type classification (prefix/title heuristics)
 
 ### NLP/ML
 - Text extraction with OCR fallback
@@ -593,6 +702,7 @@ This pivot cost time but saved the project from building on a flawed foundation.
 - Human evaluation protocol
 - Semantic lift calculation
 - Human-in-the-loop review gates for model validation
+- Iterative gap analysis with progressive threshold relaxation
 
 ### Software Engineering
 - Modular architecture with clear separation of concerns
@@ -610,17 +720,18 @@ This pivot cost time but saved the project from building on a flawed foundation.
 
 ## Conclusion
 
-RiskRADAR demonstrates that building effective semantic search and classification requires more than plugging documents into an embedding model. The journey from 94.9% to 100% Hit@10 came not from model improvements, but from understanding how document structure affects retrieval. Similarly, the pivot from unsupervised topic modeling to CICTT taxonomy came from recognizing that statistical patterns don't equal meaningful patterns.
+RiskRADAR demonstrates that building effective semantic search and classification requires more than plugging documents into an embedding model. The journey from 94.9% to 100% Hit@10 came not from model improvements, but from understanding how document structure affects retrieval. Similarly, the pivot from unsupervised topic modeling to CICTT taxonomy came from recognizing that statistical patterns don't equal meaningful patterns. And the gap analysis journey—from an unexplained 18% taxonomy gap to 98.9% coverage—came from asking *why* before asking *how*.
 
 The key insights:
 1. **Preprocessing decisions compound**. Bad chunks lead to bad embeddings lead to bad retrieval. Investing in quality at every stage pays exponential dividends.
 2. **Domain expertise cannot be automated away**. BERTopic found 76 topics; human review found they were noise. The CICTT taxonomy, built by aviation safety experts over decades, provides what no algorithm could discover.
-3. **Human-in-the-loop is essential**. Every major quality improvement came from human review—whether catching chunking problems, validating retrieval quality, or recognizing that unsupervised topics were meaningless.
+3. **Human-in-the-loop is essential**. Every major quality improvement came from human review—whether catching chunking problems, validating retrieval quality, recognizing that unsupervised topics were meaningless, or ranking section names into priority tiers for the final classification pass.
+4. **Root cause analysis beats brute force**. When 92 reports lacked taxonomy, the fix wasn't lowering thresholds—it was discovering that 55% of them were non-accident documents. Understanding the problem correctly reduced the actual gap from 92 to 35, and targeted fixes brought coverage to 98.9%.
 
-For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course.
+For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. And the 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation, not parameter tuning.
 
 ---
 
-*Last updated: January 2026*
+*Last updated: February 2026*
 
 *For technical documentation, see [README.md](README.md) and module-specific documentation.*

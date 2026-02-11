@@ -30,6 +30,9 @@ pyarrow>=14.0.0  # Parquet storage for embeddings
 PyYAML>=6.0.0  # Gold queries format
 scipy>=1.10.0  # Statistical significance tests
 
+# Search (Hybrid BM25 + Semantic)
+rank-bm25>=0.2.2
+
 # App (Phase 8)
 # streamlit>=1.30.0
 

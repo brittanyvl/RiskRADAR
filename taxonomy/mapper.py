@@ -368,6 +368,337 @@ def map_reports_to_cictt(run_id: int = 1) -> dict:
     }
 
 
+def retry_unclassified(run_id: int = 2, config=None) -> dict:
+    """
+    Retry classification for accident reports that were not classified in the
+    original run.
+
+    Uses RetryConfig with relaxed thresholds (wider section matching,
+    lower similarity threshold, smaller min tokens).
+
+    Args:
+        run_id: Run identifier for this retry pass (default 2)
+        config: RetryConfig instance (uses default if None)
+
+    Returns:
+        Dict with retry results and statistics
+    """
+    from .config import RETRY_CONFIG
+    from .cictt import CICTT_BY_CODE
+    from riskradar.config import DB_PATH
+    import sqlite3
+    from datetime import datetime
+
+    config = config or RETRY_CONFIG
+
+    logger.info("=" * 60)
+    logger.info("RETRY: Classifying unclassified accident reports")
+    logger.info("=" * 60)
+
+    # Find accident reports missing taxonomy
+    conn = sqlite3.connect(DB_PATH)
+    missing_df = pd.read_sql_query("""
+        SELECT rt.report_id
+        FROM report_types rt
+        WHERE rt.report_type = 'accident'
+          AND rt.report_id NOT IN (
+              SELECT DISTINCT report_id FROM report_taxonomy WHERE level = 'L1'
+          )
+    """, conn)
+    conn.close()
+
+    missing_ids = set(missing_df["report_id"].tolist())
+    logger.info(f"Found {len(missing_ids)} accident reports without taxonomy")
+
+    if not missing_ids:
+        logger.info("No unclassified accident reports - nothing to retry")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Load all chunks, then filter to missing reports
+    all_chunks = load_chunks_with_metadata()
+    target_chunks = all_chunks[all_chunks["report_id"].isin(missing_ids)].copy()
+    logger.info(f"Found {len(target_chunks):,} chunks for {len(missing_ids)} missing reports")
+
+    if target_chunks.empty:
+        logger.info("No chunks found for missing reports")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Filter causal sections with relaxed config
+    include_pattern = "|".join(config.causal_sections)
+    exclude_pattern = "|".join(config.excluded_sections)
+
+    include_mask = target_chunks["section_name"].str.upper().str.contains(
+        include_pattern, na=False, regex=True, case=False
+    )
+    exclude_mask = target_chunks["section_name"].str.upper().str.contains(
+        exclude_pattern, na=False, regex=True, case=False
+    )
+    token_mask = target_chunks["token_count"] >= config.min_chunk_tokens
+
+    causal_chunks = target_chunks[include_mask & ~exclude_mask & token_mask].copy()
+    logger.info(f"Filtered to {len(causal_chunks):,} causal chunks (relaxed config)")
+
+    if causal_chunks.empty:
+        logger.info("No causal chunks found with relaxed config")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Load embeddings
+    chunk_ids = causal_chunks["chunk_id"].tolist()
+    embeddings_df = load_mika_embeddings(chunk_ids)
+
+    merged = causal_chunks.merge(embeddings_df, on="chunk_id", how="inner")
+    if merged.empty:
+        logger.info("No embeddings found for target chunks")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    chunk_embeddings = np.vstack(merged["embedding"].values)
+    logger.info(f"Processing {len(merged):,} chunks with embeddings")
+
+    # Compute CICTT embeddings
+    model = SentenceTransformer(config.embedding_model)
+    category_embeddings = compute_cictt_embeddings(model)
+
+    # Compute similarities and assign
+    similarities, codes = compute_similarities(chunk_embeddings, category_embeddings)
+    chunk_assignments = assign_categories(
+        merged.drop(columns=["embedding"]),
+        similarities,
+        codes,
+        threshold=config.min_similarity_threshold,
+        top_k=config.top_k_categories,
+    )
+
+    if chunk_assignments.empty:
+        logger.info("No assignments above threshold")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Aggregate to report level
+    report_categories = aggregate_report_categories(chunk_assignments)
+    report_categories["category_name"] = report_categories["category_code"].map(
+        lambda c: CICTT_BY_CODE[c].name if c in CICTT_BY_CODE else c
+    )
+
+    # Save to parquet
+    chunk_path = TAXONOMY_DATA_DIR / f"chunk_assignments_run{run_id}.parquet"
+    chunk_assignments.to_parquet(chunk_path, index=False)
+
+    report_path = TAXONOMY_DATA_DIR / f"report_categories_run{run_id}.parquet"
+    report_categories.to_parquet(report_path, index=False)
+
+    # Save to SQLite (report_taxonomy table - same schema as original pipeline)
+    now = datetime.now().isoformat()
+    conn = sqlite3.connect(DB_PATH)
+
+    for _, row in report_categories.iterrows():
+        conn.execute(
+            """INSERT OR IGNORE INTO report_taxonomy
+               (report_id, level, category_code, category_name, parent_code,
+                confidence, rank, source_run_id)
+               VALUES (?, 'L1', ?, ?, NULL, ?, ?, ?)""",
+            (row["report_id"], row["category_code"], row["category_name"],
+             float(row["score"]), int(row["rank"]), run_id),
+        )
+
+    conn.commit()
+    conn.close()
+
+    stats = {
+        "run_id": run_id,
+        "retry_count": len(missing_ids),
+        "chunks_processed": len(merged),
+        "chunk_assignments": len(chunk_assignments),
+        "report_assignments": len(report_categories),
+        "reports_classified": report_categories["report_id"].nunique(),
+        "categories_used": report_categories["category_code"].nunique(),
+    }
+
+    # Save stats
+    stats_path = TAXONOMY_DATA_DIR / f"mapping_stats_run{run_id}.json"
+    with open(stats_path, "w") as f:
+        json.dump(stats, f, indent=2)
+
+    logger.info("=" * 60)
+    logger.info("Retry Classification Complete!")
+    logger.info(f"  Missing reports targeted: {len(missing_ids)}")
+    logger.info(f"  Reports classified: {stats['reports_classified']}")
+    logger.info(f"  Categories used: {stats['categories_used']}")
+    logger.info("=" * 60)
+
+    return {
+        "stats": stats,
+        "chunk_assignments": chunk_assignments,
+        "report_categories": report_categories,
+    }
+
+
+def retry_final_pass(run_id: int = 3, config=None) -> dict:
+    """
+    Final retry pass using ALL sections except Tier 4 exclusions.
+
+    This is the last-resort pass for edge-case reports (mostly 1970s-era)
+    that have non-standard section names. Instead of include-listing
+    causal sections, we include everything EXCEPT known low-signal sections
+    (recommendations, numbered paragraphs, narrow factual).
+
+    Args:
+        run_id: Run identifier for this final pass (default 3)
+        config: FinalRetryConfig instance (uses default if None)
+
+    Returns:
+        Dict with retry results and statistics
+    """
+    from .config import FINAL_RETRY_CONFIG
+    from .cictt import CICTT_BY_CODE
+    from riskradar.config import DB_PATH
+    import sqlite3
+    from datetime import datetime
+
+    config = config or FINAL_RETRY_CONFIG
+
+    logger.info("=" * 60)
+    logger.info("FINAL PASS: Classifying remaining edge-case reports")
+    logger.info("Using ALL sections except Tier 4 exclusions")
+    logger.info("=" * 60)
+
+    # Find accident reports still missing taxonomy
+    conn = sqlite3.connect(DB_PATH)
+    missing_df = pd.read_sql_query("""
+        SELECT rt.report_id
+        FROM report_types rt
+        WHERE rt.report_type = 'accident'
+          AND rt.report_id NOT IN (
+              SELECT DISTINCT report_id FROM report_taxonomy WHERE level = 'L1'
+          )
+    """, conn)
+    conn.close()
+
+    missing_ids = set(missing_df["report_id"].tolist())
+    logger.info(f"Found {len(missing_ids)} accident reports still without taxonomy")
+
+    if not missing_ids:
+        logger.info("No unclassified accident reports remain - nothing to do")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Load all chunks, then filter to missing reports
+    all_chunks = load_chunks_with_metadata()
+    target_chunks = all_chunks[all_chunks["report_id"].isin(missing_ids)].copy()
+    logger.info(f"Found {len(target_chunks):,} chunks for {len(missing_ids)} missing reports")
+
+    if target_chunks.empty:
+        logger.info("No chunks found for missing reports")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Exclusion-based filtering: include everything EXCEPT Tier 4
+    exclude_pattern = "|".join(config.excluded_sections)
+    exclude_mask = target_chunks["section_name"].str.upper().str.contains(
+        exclude_pattern, na=False, regex=True, case=False
+    )
+    token_mask = target_chunks["token_count"] >= config.min_chunk_tokens
+
+    eligible_chunks = target_chunks[~exclude_mask & token_mask].copy()
+    logger.info(f"After excluding Tier 4 sections: {len(eligible_chunks):,} chunks "
+                f"(from {len(target_chunks):,})")
+
+    # Log section distribution for transparency
+    section_dist = eligible_chunks["section_name"].value_counts()
+    logger.info("Section distribution of eligible chunks:")
+    for sec, cnt in section_dist.head(15).items():
+        logger.info(f"  {sec}: {cnt}")
+
+    if eligible_chunks.empty:
+        logger.info("No eligible chunks after filtering")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Load embeddings
+    chunk_ids = eligible_chunks["chunk_id"].tolist()
+    embeddings_df = load_mika_embeddings(chunk_ids)
+
+    merged = eligible_chunks.merge(embeddings_df, on="chunk_id", how="inner")
+    if merged.empty:
+        logger.info("No embeddings found for target chunks")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    chunk_embeddings = np.vstack(merged["embedding"].values)
+    logger.info(f"Processing {len(merged):,} chunks with embeddings")
+
+    # Compute CICTT embeddings
+    model = SentenceTransformer(config.embedding_model)
+    category_embeddings = compute_cictt_embeddings(model)
+
+    # Compute similarities and assign
+    similarities, codes = compute_similarities(chunk_embeddings, category_embeddings)
+    chunk_assignments = assign_categories(
+        merged.drop(columns=["embedding"]),
+        similarities,
+        codes,
+        threshold=config.min_similarity_threshold,
+        top_k=config.top_k_categories,
+    )
+
+    if chunk_assignments.empty:
+        logger.info("No assignments above threshold")
+        return {"stats": {"retry_count": 0, "run_id": run_id}}
+
+    # Aggregate to report level
+    report_categories = aggregate_report_categories(chunk_assignments)
+    report_categories["category_name"] = report_categories["category_code"].map(
+        lambda c: CICTT_BY_CODE[c].name if c in CICTT_BY_CODE else c
+    )
+
+    # Save to parquet
+    chunk_path = TAXONOMY_DATA_DIR / f"chunk_assignments_run{run_id}.parquet"
+    chunk_assignments.to_parquet(chunk_path, index=False)
+
+    report_path = TAXONOMY_DATA_DIR / f"report_categories_run{run_id}.parquet"
+    report_categories.to_parquet(report_path, index=False)
+
+    # Save to SQLite
+    conn = sqlite3.connect(DB_PATH)
+
+    for _, row in report_categories.iterrows():
+        conn.execute(
+            """INSERT OR IGNORE INTO report_taxonomy
+               (report_id, level, category_code, category_name, parent_code,
+                confidence, rank, source_run_id)
+               VALUES (?, 'L1', ?, ?, NULL, ?, ?, ?)""",
+            (row["report_id"], row["category_code"], row["category_name"],
+             float(row["score"]), int(row["rank"]), run_id),
+        )
+
+    conn.commit()
+    conn.close()
+
+    stats = {
+        "run_id": run_id,
+        "retry_count": len(missing_ids),
+        "chunks_processed": len(merged),
+        "chunk_assignments": len(chunk_assignments),
+        "report_assignments": len(report_categories),
+        "reports_classified": report_categories["report_id"].nunique(),
+        "categories_used": report_categories["category_code"].nunique(),
+        "sections_used": eligible_chunks["section_name"].nunique(),
+    }
+
+    # Save stats
+    stats_path = TAXONOMY_DATA_DIR / f"mapping_stats_run{run_id}.json"
+    with open(stats_path, "w") as f:
+        json.dump(stats, f, indent=2)
+
+    logger.info("=" * 60)
+    logger.info("Final Pass Classification Complete!")
+    logger.info(f"  Missing reports targeted: {len(missing_ids)}")
+    logger.info(f"  Reports classified: {stats['reports_classified']}")
+    logger.info(f"  Categories used: {stats['categories_used']}")
+    logger.info(f"  Sections used: {stats['sections_used']}")
+    logger.info("=" * 60)
+
+    return {
+        "stats": stats,
+        "chunk_assignments": chunk_assignments,
+        "report_categories": report_categories,
+    }
+
+
 def load_mapping_results(run_id: int = 1) -> dict:
     """Load previous mapping results."""
     chunk_path = TAXONOMY_DATA_DIR / f"chunk_assignments_run{run_id}.parquet"

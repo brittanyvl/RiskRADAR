@@ -1,0 +1,10 @@
+{
+  "run_id": 3,
+  "retry_count": 27,
+  "chunks_processed": 520,
+  "chunk_assignments": 647,
+  "report_assignments": 106,
+  "reports_classified": 22,
+  "categories_used": 24,
+  "sections_used": 24
+}

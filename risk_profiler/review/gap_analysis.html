@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gap Analysis - Reports Needing Aircraft - RiskRADAR</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0; padding: 20px; background: #f5f5f5;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #dc3545; }
+
+        .summary {
+            background: #fff3cd; padding: 20px; border-radius: 8px;
+            border-left: 4px solid #ffc107; margin-bottom: 20px;
+        }
+
+        .card {
+            background: white; margin-bottom: 15px; border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); overflow: hidden;
+        }
+        .card-header {
+            background: #f8f9fa; padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .card-body { padding: 15px; }
+
+        .report-id { font-family: monospace; font-weight: bold; }
+        .title { font-size: 16px; margin-bottom: 10px; }
+        .meta { color: #666; font-size: 14px; }
+        .categories { margin-top: 10px; }
+        .badge {
+            display: inline-block; padding: 3px 8px; border-radius: 12px;
+            font-size: 12px; margin-right: 5px; margin-bottom: 5px;
+            background: #e2e3e5; color: #383d41;
+        }
+
+        .input-row {
+            display: grid; grid-template-columns: 200px 150px 1fr;
+            gap: 10px; margin-top: 10px; align-items: center;
+        }
+        .input-row label { font-weight: 500; }
+        .input-row select, .input-row input {
+            padding: 6px 10px; border: 1px solid #ddd; border-radius: 4px;
+        }
+
+        .export-btn {
+            background: #28a745; color: white; padding: 12px 24px;
+            border: none; border-radius: 4px; cursor: pointer;
+            font-size: 16px; margin-top: 20px;
+        }
+        .export-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gap Analysis: Reports Needing Aircraft Extraction</h1>
+
+        <div class="summary">
+            <strong>1 reports</strong> have taxonomy classification but no aircraft category extracted.
+            These need manual review or pattern additions.
+        </div>
+
+        <button class="export-btn" onclick="exportManualEntries()">Export Manual Entries</button>
+
+        <div style="margin-top: 20px;">
+
+            <div class="card">
+                <div class="card-header">
+                    <span class="report-id">AAR8104.pdf</span>
+                    <span class="meta">1980-03-20 | Houston, TX</span>
+                </div>
+                <div class="card-body">
+                    <div class="title">Aviation Accident Report AAR-81-04</div>
+                    <div class="categories">Categories: <span class="badge">LOC-G</span><span class="badge">LOC-I</span><span class="badge">NAV</span></div>
+                    <div class="input-row">
+                        <label>Aircraft Category:</label>
+                        <select data-report="AAR8104.pdf" data-field="category">
+                            <option value="">-- Select --</option>
+                            <option value="jet-wide">jet-wide</option>
+                            <option value="jet-narrow">jet-narrow</option>
+                            <option value="jet-regional">jet-regional</option>
+                            <option value="turboprop">turboprop</option>
+                            <option value="multi-piston">multi-piston</option>
+                            <option value="single-piston">single-piston</option>
+                            <option value="helicopter">helicopter</option>
+                            <option value="balloon">balloon</option>
+                            <option value="other">other</option>
+                            <option value="not-applicable">not-applicable</option>
+                        </select>
+                        <input type="text" data-report="AAR8104.pdf" data-field="notes"
+                               placeholder="Notes (e.g., aircraft make/model)">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function exportManualEntries() {
+            const entries = [];
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const reportId = card.querySelector('[data-field="category"]').dataset.report;
+                const category = card.querySelector('[data-field="category"]').value;
+                const notes = card.querySelector('[data-field="notes"]').value;
+
+                if (category) {
+                    entries.push({
+                        report_id: reportId,
+                        aircraft_category: category,
+                        notes: notes,
+                        source: 'manual_review'
+                    });
+                }
+            });
+
+            if (entries.length === 0) {
+                alert('No entries to export. Please fill in some categories first.');
+                return;
+            }
+
+            const blob = new Blob([JSON.stringify(entries, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'manual_aircraft_entries_' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+
+            alert('Exported ' + entries.length + ' entries');
+        }
+    </script>
+</body>
+</html>
