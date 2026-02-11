@@ -69,8 +69,8 @@ This project serves as a portfolio piece demonstrating skills in data engineerin
 | Risk Profiler - Feature Extraction | **Complete** | 7 features extracted (aircraft, region, season, weather, time) |
 | Risk Profiler - Bayesian Model | **Complete** | Binary Relevance NB, proper LOO, ECE=0.021, Hit@5=86.8% |
 | BM25 + Hybrid Search | **Complete** | BM25 index + RRF fusion with semantic search |
-| Streamlit App | **In Progress** | 4 pages: Search, Taxonomy, Analysis, Risk Profiler |
-| Phase 7 - Trend Analytics | Planned | Prevalence analytics by time period |
+| Phase 7 - Stakeholder Analytics | **Next** | Formal analytics layer + 4 stakeholder dashboards |
+| Phase 8 - Streamlit App | Planned | 7 pages: Search, Taxonomy, 4 Dashboards, Risk Profiler |
 
 ---
 
@@ -117,8 +117,16 @@ The v2 chunking strategy (400-800 tokens with section prefixes and 25% overlap) 
                                                   │                   │
                                                   ▼                   ▼
                               ┌──────────────────────────────────────────────┐
+                              ┌──────────────────────────────────────────────┐
+                              │       Stakeholder Analytics (DuckDB)         │
+                              │  Manufacturer │ Maintenance │ Insurance │    │
+                              │  Pilot        │ Co-occurrence│ Trends   │    │
+                              └──────────────────────────────────────────────┘
+                                                  │
+                                                  ▼
+                              ┌──────────────────────────────────────────────┐
                               │          Streamlit Application               │
-                              │  Search │ Taxonomy │ Analysis │ Risk Profiler│
+                              │  Search │ Taxonomy │ 4 Dashboards │ Risk    │
                               └──────────────────────────────────────────────┘
 ```
 
@@ -390,10 +398,10 @@ Risk Profiler: Bayesian Model (Complete - Binary Relevance NB, ECE=0.021, Hit@5=
 Statistical Audit & Model Rewrite (Complete - Fixed 4 critical flaws, production-ready)
     │
     ▼
-Phase 7: Trend Analytics (Planned)
+Phase 7: Stakeholder Analytics (Next - formal analytics layer + 4 dashboards)
     │
     ▼
-Streamlit App (In Progress - Search, Taxonomy, Analysis, Risk Profiler pages)
+Phase 8: Streamlit App (Planned - Search, Taxonomy, 4 Dashboards, Risk Profiler)
 ```
 
 ### Taxonomy Structure

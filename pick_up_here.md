@@ -1,7 +1,7 @@
 # RiskRADAR - Pick Up Here
 
 **Last Updated:** 2026-02-10
-**Last Session:** Statistical audit + Binary Relevance Bayesian model rewrite completed
+**Last Session:** Roadmap updated — analytics-first approach (Phase 7 → Phase 8)
 
 ---
 
@@ -116,39 +116,66 @@
 
 ## TODO List (Priority Order)
 
-### Immediate: Streamlit App Completion
+### Phase 7: Stakeholder Analytics (NEXT — do BEFORE Streamlit)
 
-- [ ] **Finalize Risk Profiler page**
-  - Test end-to-end with all 5 feature dropdowns
-  - Verify `load_model()` fast path works in Streamlit (tested — works)
-  - Add visualization of risk distribution (bar chart of posteriors)
-  - Add confidence indicators for each prediction
+Build a formal analytics layer with reusable DuckDB views, Parquet exports, and query modules. This must be completed before building the Streamlit app so dashboards have a solid analytical foundation.
 
-- [ ] **Search page integration**
-  - Connect hybrid search (BM25 + semantic + RRF) to Streamlit
-  - Add taxonomy filter dropdowns
-  - Add aircraft/region/date filters
-  - Display results with relevance scores + PDF links
+**Analytics layer (`analytics/`):**
+- [ ] **Core shared analytics module**
+  - Co-occurrence matrix (category × category)
+  - Trend aggregations (category prevalence over time)
+  - Risk score calculations per stakeholder dimension
+  - Parquet exports for each stakeholder view
+  - Reusable SQL views for dashboards
+
+- [ ] **Manufacturer's Risk Summary analytics**
+  - Risk breakdown by aircraft_category + aircraft_make
+  - SCF-PP / SCF-NP prevalence by manufacturer/type
+  - Failure mode trends (L2 subcategories for SCF-PP, SCF-NP)
+  - Data sources: aircraft_category, aircraft_make, L1/L2 taxonomy
+
+- [ ] **Maintenance Risk Summary analytics**
+  - SCF-PP / SCF-NP deep dive (engine, fuel, hydraulic, electrical, structural)
+  - Component failure patterns from L2 subcategories
+  - Cross-tabulation with aircraft_category and season
+  - Data sources: L1/L2 taxonomy, aircraft_category, season
+
+- [ ] **Insurance Risk Summary analytics**
+  - Category co-occurrence matrix (which risks cluster together)
+  - Risk profiles by region × season × weather
+  - Severity proxies (multi-category incidents as complexity indicator)
+  - Data sources: all features + taxonomy + report metadata
+
+- [ ] **Pilot's Risk Summary analytics**
+  - LOC-I / CFIT / UIMC profiles by aircraft type
+  - Weather × time-of-day risk matrix
+  - Seasonal patterns for human-factors categories
+  - Data sources: aircraft_category, weather_category, time_of_day, L1/L2 taxonomy
+
+### Phase 8: Streamlit Application (AFTER analytics)
+
+Build after Phase 7 analytics are developed. Each page consumes the analytics layer.
+
+- [ ] **Semantic Search page**
+  - Hybrid search (BM25 + semantic + RRF) via `search/` module
+  - Taxonomy filter dropdowns (L1, L2)
+  - Aircraft/region/date filters
+  - Results with relevance scores + PDF links
 
 - [ ] **Taxonomy Explorer page**
-  - Category distribution charts
+  - Category distribution charts (L1 and L2)
   - Drill-down from L1 to L2
   - Report list per category
 
-### Next: Trend Analytics & Visualization
+- [ ] **Manufacturer Dashboard page** — from Phase 7 analytics
+- [ ] **Maintenance Dashboard page** — from Phase 7 analytics
+- [ ] **Insurance Dashboard page** — from Phase 7 analytics
+- [ ] **Pilot Dashboard page** — from Phase 7 analytics
 
-- [ ] **KPI SQL views**
-  - Category prevalence over time
-  - Category co-occurrence matrix
-  - Regional heatmaps
-  - Seasonal patterns
-  - Aircraft type risk comparisons
-
-- [ ] **Trends dashboard page**
-  - Time series visualizations
-  - Heatmaps (region x category, season x category)
-  - Co-occurrence matrices
-  - Weather/time cross-tabulations with accident categories
+- [ ] **Finalize Risk Profiler page** (exists, needs polish)
+  - Test end-to-end with all 5 feature dropdowns
+  - Add visualization of risk distribution (bar chart of posteriors)
+  - Add confidence indicators for each prediction
 
 ### Future: API & Advanced Features
 
@@ -161,7 +188,7 @@
   - Experiment with feature interactions (e.g., weather x time_of_day)
   - Try hierarchical Bayes with L2 subcategories
   - Improve weather extraction coverage (currently 72.4%)
-  - Consider adding aircraft_make as a feature
+  - Consider adding aircraft_make as a Bayesian model feature
 
 ---
 
@@ -179,6 +206,9 @@
 | Risk Thresholds | Data-driven (percentile-based) | 90th percentile = HIGH (67.1%), 50th = MODERATE (54.3%) |
 | Model Persistence | SQLite tables (v8 schema) | Fast Streamlit loading via `load_model()` |
 | Calibration Metric | ECE (Expected Calibration Error) | Standard metric for probability reliability; model achieves 0.021 |
+| Analytics Before App | Phase 7 (analytics) → Phase 8 (Streamlit) | Build formal analytics layer with DuckDB views before dashboards |
+| Stakeholder Dashboards | 4 dashboards (Manufacturer, Maintenance, Insurance, Pilot) | Each stakeholder has distinct analytical focus and use case |
+| Aircraft Data | Use existing aircraft_category + aircraft_make | No new extractions; 92.7% coverage is sufficient |
 
 ---
 
@@ -215,10 +245,13 @@ python -c "import sqlite3; c=sqlite3.connect('sqlite/riskradar.db'); print('labe
 
 ## Notes for Next Session
 
-1. Streamlit app is the main focus — Risk Profiler page is functional with binary relevance model
-2. Search page needs to be connected to the `search/` module (BM25 + hybrid)
-3. Trend analytics and visualization are the big remaining analytical features
-4. All extraction pipelines are complete — no more feature engineering needed unless improving coverage
-5. Schema is at version 8 — includes binary relevance bayes tables (label + positive_count)
-6. The Bayesian model is **production-ready** — audited, rewritten, and validated with proper LOO, ECE=0.021, and baseline comparison
-7. Portfolio.md has the full model evolution narrative (initial → audit → rewrite → production validation)
+1. **Analytics FIRST, then Streamlit** — build the formal analytics layer (Phase 7) before building the app (Phase 8)
+2. Phase 7 = DuckDB views + Parquet exports + reusable query modules for 4 stakeholder dashboards
+3. Data sources for analytics: existing features (aircraft_category, aircraft_make, season, region, weather_category, time_of_day) + taxonomy (L1, L2) + report metadata — **no new extractions needed**
+4. Risk Profiler page already exists and works with binary relevance model — just needs polish
+5. Search module (`search/`) is complete — just needs Streamlit integration in Phase 8
+6. All extraction pipelines are complete — no more feature engineering unless improving coverage
+7. Schema is at version 8 — includes binary relevance bayes tables (label + positive_count)
+8. The Bayesian model is **production-ready** — audited, rewritten, and validated with proper LOO, ECE=0.021, and baseline comparison
+9. Portfolio.md has the full model evolution narrative (initial → audit → rewrite → production validation)
+10. CLAUDE.md has the full roadmap with Phase 7/8 details
