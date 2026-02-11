@@ -190,28 +190,22 @@ def cmd_train_model(args):
     """Train and save the Bayesian model to database."""
     import sqlite3
     from .bayesian_model import BayesianRiskModel, VALID_FEATURES
+    from sqlite.schema import BAYES_PRIORS_TABLE, BAYES_LIKELIHOODS_TABLE
 
     conn = sqlite3.connect(args.db)
 
-    # Ensure persistence tables exist
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS bayes_priors (
-            category_code TEXT PRIMARY KEY,
-            prior_probability REAL NOT NULL,
-            sample_count INTEGER,
-            computed_at TEXT
-        )
-    """)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS bayes_likelihoods (
-            category_code TEXT NOT NULL,
-            feature_name TEXT NOT NULL,
-            feature_value TEXT NOT NULL,
-            likelihood REAL NOT NULL,
-            sample_count INTEGER,
-            PRIMARY KEY (category_code, feature_name, feature_value)
-        )
-    """)
+    # Migrate old schema if needed (v7 -> v8: add label column to likelihoods)
+    cursor = conn.cursor()
+    cols = [row[1] for row in cursor.execute("PRAGMA table_info(bayes_likelihoods)").fetchall()]
+    if 'label' not in cols:
+        print("Migrating bayes tables to v8 schema (binary relevance)...")
+        cursor.execute("DROP TABLE IF EXISTS bayes_likelihoods")
+        cursor.execute("DROP TABLE IF EXISTS bayes_priors")
+        conn.commit()
+
+    # Ensure persistence tables exist with current schema
+    conn.execute(BAYES_PRIORS_TABLE)
+    conn.execute(BAYES_LIKELIHOODS_TABLE)
     conn.commit()
 
     # Parse features

@@ -13,9 +13,11 @@ SCHEMA_VERSION history:
 - v4: Phase 5 - Embeddings (embedding_runs, qdrant_upload_runs, embedding_errors)
 - v5: Phase 6 - Taxonomy (taxonomy_runs, chunk_l1/l2, report_l1/l2, reviews)
 - v6: Phase 7 - Data Quality (report_types)
+- v7: Bayesian model persistence (bayes_priors, bayes_likelihoods)
+- v8: Binary Relevance Bayes (positive_count in priors, label in likelihoods PK)
 """
 
-SCHEMA_VERSION = 7
+SCHEMA_VERSION = 8
 
 # Reports table - stores metadata from NTSB scraping
 REPORTS_TABLE = """
@@ -650,6 +652,7 @@ BAYES_PRIORS_TABLE = """
 CREATE TABLE IF NOT EXISTS bayes_priors (
     category_code TEXT PRIMARY KEY,
     prior_probability REAL NOT NULL,
+    positive_count INTEGER,
     sample_count INTEGER,
     computed_at TEXT
 );
@@ -660,9 +663,10 @@ CREATE TABLE IF NOT EXISTS bayes_likelihoods (
     category_code TEXT NOT NULL,
     feature_name TEXT NOT NULL,
     feature_value TEXT NOT NULL,
+    label INTEGER NOT NULL DEFAULT 1,
     likelihood REAL NOT NULL,
     sample_count INTEGER,
-    PRIMARY KEY (category_code, feature_name, feature_value)
+    PRIMARY KEY (category_code, feature_name, feature_value, label)
 );
 """
 

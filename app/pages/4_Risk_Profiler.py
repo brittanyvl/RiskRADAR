@@ -134,7 +134,7 @@ with col1:
     })
 
     # Create a visual bar chart
-    st.markdown("**Top 10 Most Likely Categories**")
+    st.markdown("**Top 10 Highest Risk Categories**")
 
     for idx, row in df.iterrows():
         col_code, col_bar, col_pct, col_risk = st.columns([1.5, 4, 1, 1])
@@ -145,7 +145,7 @@ with col1:
         with col_bar:
             # Create a progress bar
             progress = row['Probability']
-            st.progress(min(progress * 3, 1.0))  # Scale for visibility
+            st.progress(min(progress, 1.0))
 
         with col_pct:
             st.write(row['Pct'])
@@ -162,7 +162,7 @@ with col1:
     if predictions:
         top = predictions[0]
         st.markdown("---")
-        st.markdown(f"**Most Likely:** {top['category_name']} ({top['percentage']})")
+        st.markdown(f"**Highest Risk:** {top['category_name']} ({top['percentage']})")
 
 with col2:
     st.subheader("Selected Profile")
@@ -197,17 +197,18 @@ with col2:
     st.markdown("---")
     st.subheader("How It Works")
     st.markdown(f"""
-    This model uses **Bayesian inference** to compute:
+    This model uses **Binary Relevance Naive Bayes** — 27 independent
+    binary classifiers, one per accident category:
 
     ```
-    P(category | features) ∝
-        P(category) × P(features | category)
+    P(cat | features) = sigmoid(
+        log P(cat=1) + Σ log P(fi|cat=1)
+      - log P(cat=0) - Σ log P(fi|cat=0)
+    )
     ```
 
-    Where:
-    - **P(category)** is the base rate from historical data
-    - **P(features | category)** is the likelihood of your
-      flight profile given each accident category
+    Each category gets an **independent probability** (they do not
+    sum to 1). Multiple categories can be high simultaneously.
 
     The model learns from **{model.training_report_count} classified
     accident reports** with L1 CICTT taxonomy assignments.
@@ -254,10 +255,11 @@ with st.expander("📚 Methodology"):
 
     ### Model Details
 
-    - **Algorithm**: Naive Bayes with Laplace smoothing
-    - **Smoothing Parameter**: α = 1.0
-    - **Categories**: 27 CICTT Level 1 categories
+    - **Algorithm**: Binary Relevance Naive Bayes (multi-label)
+    - **Smoothing Parameter**: α = 1.0 (Laplace)
+    - **Categories**: 27 CICTT Level 1 categories (independent classifiers)
     - **Training data**: Accident reports only (excludes safety studies)
+    - **Probabilities**: Independent per category (do not sum to 1)
     - **Risk thresholds**: Data-driven (90th/50th percentile)
 
     ### Limitations
