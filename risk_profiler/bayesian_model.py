@@ -849,7 +849,7 @@ def load_model(db_path: str = "sqlite/riskradar.db") -> BayesianRiskModel:
     Load a pre-trained model from SQLite (fast path for Streamlit).
     Falls back to training from scratch if no saved model exists.
     """
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, check_same_thread=False)
     model = BayesianRiskModel(conn, train=False)
     if not model.load_from_db():
         print("No saved model found, training from scratch...")
