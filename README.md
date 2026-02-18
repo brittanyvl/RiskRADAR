@@ -27,6 +27,8 @@ An end-to-end data engineering and machine learning pipeline that transforms uns
   - [Phase 5: Embeddings](#phase-5-embeddings)
 - [Evaluation Framework](#evaluation-framework)
 - [Taxonomy & Cause Attribution](#taxonomy--cause-attribution-phase-6-8)
+- [Stakeholder Analytics](#stakeholder-analytics-phase-7)
+- [Streamlit Application](#streamlit-application-phase-8)
 - [Project Structure](#project-structure)
 - [Technologies](#technologies)
 - [License](#license)
@@ -47,8 +49,10 @@ RiskRADAR demonstrates a complete production-grade pipeline for processing unstr
 7. **Classifies** reports into 27 CICTT accident categories with L2 subcategories
 8. **Extracts features** (aircraft type, weather, time-of-day) from unstructured text via regex pipelines
 9. **Models risk** using Binary Relevance Naive Bayes with 5 features, proper LOO validation, and ECE = 0.021 calibration
+10. **Analyzes risk** through reusable SQL analytics modules for fleet safety, underwriting, and operational risk
+11. **Presents findings** via a Streamlit application with 3 consulting-style narrative reports, a Bayesian risk profiler, and a terminology glossary
 
-This project serves as a portfolio piece demonstrating skills in data engineering, NLP, information retrieval, probabilistic modeling, and ML evaluation methodology.
+This project serves as a portfolio piece demonstrating skills in data engineering, NLP, information retrieval, probabilistic modeling, ML evaluation methodology, and data visualization.
 
 ---
 
@@ -69,8 +73,8 @@ This project serves as a portfolio piece demonstrating skills in data engineerin
 | Risk Profiler - Feature Extraction | **Complete** | 7 features extracted (aircraft, region, season, weather, time) |
 | Risk Profiler - Bayesian Model | **Complete** | Binary Relevance NB, proper LOO, ECE=0.021, Hit@5=86.8% |
 | BM25 + Hybrid Search | **Complete** | BM25 index + RRF fusion with semantic search |
-| Phase 7 - Stakeholder Analytics | **Next** | Formal analytics layer + 4 stakeholder dashboards |
-| Phase 8 - Streamlit App | Planned | 7 pages: Search, Taxonomy, 4 Dashboards, Risk Profiler |
+| Phase 7 - Stakeholder Analytics | **Complete** | Reusable SQL analytics modules (shared, fleet, underwriting, ops) |
+| Phase 8 - Streamlit App | **Complete** | 5 pages: 3 narrative reports, Risk Profiler, Terminology |
 
 ---
 
@@ -117,16 +121,16 @@ The v2 chunking strategy (400-800 tokens with section prefixes and 25% overlap) 
                                                   │                   │
                                                   ▼                   ▼
                               ┌──────────────────────────────────────────────┐
-                              ┌──────────────────────────────────────────────┐
-                              │       Stakeholder Analytics (DuckDB)         │
-                              │  Manufacturer │ Maintenance │ Insurance │    │
-                              │  Pilot        │ Co-occurrence│ Trends   │    │
+                              │       Stakeholder Analytics (SQLite)         │
+                              │  Fleet Safety │ Underwriting │ Ops Risk     │
+                              │  Co-occurrence│ Trends       │ Bayesian     │
                               └──────────────────────────────────────────────┘
                                                   │
                                                   ▼
                               ┌──────────────────────────────────────────────┐
                               │          Streamlit Application               │
-                              │  Search │ Taxonomy │ 4 Dashboards │ Risk    │
+                              │  Fleet Safety │ Underwriting │ Ops Risk     │
+                              │  Risk Profiler│ Terminology  │              │
                               └──────────────────────────────────────────────┘
 ```
 
@@ -398,10 +402,10 @@ Risk Profiler: Bayesian Model (Complete - Binary Relevance NB, ECE=0.021, Hit@5=
 Statistical Audit & Model Rewrite (Complete - Fixed 4 critical flaws, production-ready)
     │
     ▼
-Phase 7: Stakeholder Analytics (Next - formal analytics layer + 4 dashboards)
+Phase 7: Stakeholder Analytics (Complete - reusable SQL query modules)
     │
     ▼
-Phase 8: Streamlit App (Planned - Search, Taxonomy, 4 Dashboards, Risk Profiler)
+Phase 8: Streamlit App (Complete - 3 narrative reports, Risk Profiler, Terminology)
 ```
 
 ### Taxonomy Structure
@@ -579,6 +583,91 @@ python -m risk_profiler.cli validate-model --features aircraft_category,season,r
 
 ---
 
+## Stakeholder Analytics (Phase 7)
+
+The analytics layer provides reusable SQL query modules that power the Streamlit reports. All queries run against SQLite directly (431 accident reports is a small dataset; no DuckDB needed).
+
+### Architecture
+
+```
+analytics/queries/
+    shared.py            # Core: category counts, co-occurrence, prevalence by decade
+    fleet_safety.py      # Risk by aircraft type, manufacturer, component failures
+    underwriting.py      # Region/season/weather/time matrices, Bayesian profiles
+    operational_risk.py  # LOC-I/CFIT deep dives, weather x time, seasonal patterns
+    glossary_data.py     # Structured glossary content from taxonomy sources
+```
+
+### Key Analytics
+
+| Module | Functions | Purpose |
+|--------|-----------|---------|
+| **shared** | `category_counts()`, `cooccurrence_matrix()`, `category_by_feature()`, `dataset_summary()` | Foundation queries used by all reports |
+| **fleet_safety** | `risk_by_aircraft_category()`, `risk_by_manufacturer()`, `scf_pp_breakdown()`, `scf_np_breakdown()`, `failure_trends_by_decade()` | Fleet-level risk analysis |
+| **underwriting** | `region_season_matrix()`, `vmc_imc_category_distribution()`, `time_of_day_distribution()`, `bayesian_profile_comparison()` | Insurance risk segmentation |
+| **operational_risk** | `loc_i_breakdown()`, `cfit_breakdown()`, `weather_time_matrix()`, `seasonal_patterns()`, `aircraft_type_risk_signatures()` | Operational safety analysis |
+| **glossary_data** | `get_l1_glossary()`, `get_l2_glossary()`, `get_aviation_terms()`, `get_statistical_terms()` | Terminology reference data |
+
+### Design Decisions
+
+- **SQLite direct** (not DuckDB) — 431 rows is tiny; consistent with existing Risk Profiler pattern
+- **Pure functions returning DataFrames** — testable independently from CLI
+- **Douglas/McDonnell Douglas merge** — applied via SQL CASE WHEN in manufacturer queries
+- **Accident-only filter** — all queries JOIN `report_types` and filter to `report_type = 'accident'`
+
+---
+
+## Streamlit Application (Phase 8)
+
+A multi-page Streamlit application presenting aviation safety insights through consulting-style narrative reports with embedded Plotly charts.
+
+### Running the App
+
+```bash
+cd C:\Users\bvlma\CODE\riskRADAR
+venv\Scripts\activate
+streamlit run app/main.py
+```
+
+### Pages
+
+| Page | Persona | Key Visualizations |
+|------|---------|-------------------|
+| **Fleet Safety Report** | Fleet safety manager | Aircraft type risk profiles, manufacturer stacked bars, SCF component breakdowns, co-occurrence heatmap, failure trends |
+| **Underwriting Risk Report** | Aviation underwriting analyst | Co-occurrence matrix, region x season heatmap, VMC/IMC distributions, time-of-day patterns, Bayesian profile comparisons |
+| **Operational Risk Report** | Chief pilot / safety officer | LOC-I/CFIT L2 deep dives, weather x time heatmap, seasonal patterns, aircraft type risk signatures |
+| **Risk Profiler** | Any stakeholder | Interactive 5-feature Bayesian risk model with calibrated probabilities |
+| **Terminology** | Non-aviation users | Searchable glossary of CICTT categories, subcategories, aviation and statistical terms |
+
+### Application Architecture
+
+```
+[Streamlit Page] → [app/components/data_loader.py] → [analytics/queries/*.py] → [SQLite]
+                     @st.cache_data(ttl=3600)            pure functions → pd.DataFrame
+```
+
+### Shared Components
+
+| Component | Purpose |
+|-----------|---------|
+| `app/components/data_loader.py` | `@st.cache_data` wrappers for all analytics queries; `@st.cache_resource` for Bayesian model |
+| `app/components/charts.py` | Plotly chart builders: `horizontal_bar()`, `grouped_bar()`, `heatmap()`, `line_chart()`, `stacked_bar()`, `donut_chart()` |
+| `app/components/report_layout.py` | Narrative elements: `page_header()`, `kpi_row()`, `section_divider()`, `insight()`, `chart_with_insight()`, `methodology_section()`, `abbr()` (HTML tooltips) |
+| `app/components/theme.py` | Brand colors (STEEL, CORAL, AMBER, TEAL, NAVY), colorblind-safe palette, time-of-day color scheme, CSS injection |
+
+### Design Principles
+
+- **Consulting-style narrative** — each section has explanatory text alongside charts, not bare dashboards
+- **Abbreviation tooltips** — 39 aviation/statistical codes have HTML `<abbr>` tooltips with full definitions
+- **Colorblind-safe palette** — avoids red for data comparisons; uses orange (AMBER) for IMC weather
+- **Spell-then-abbreviate** — narratives spell out terms on first use: "Loss of Control — In Flight (LOC-I)"
+- **Season order** — Spring → Summer → Fall → Winter (chronological)
+- **Time-of-day colors** — Gold (Morning), Orange (Afternoon), Light Blue (Evening), Navy (Night)
+- **Co-occurrence matrix** — lower-triangle only with diagonal masked (symmetric matrix, no redundancy)
+- **Sample sizes noted** — every finding shows n=X for the underlying data
+
+---
+
 ## Project Structure
 
 ```
@@ -616,11 +705,15 @@ riskRADAR/
 ├── search/                  # BM25 + hybrid search
 │   └── cli.py               # CLI entry point
 ├── app/                     # Streamlit application
-│   ├── main.py              # Entry point
-│   └── pages/               # Search, Taxonomy, Analysis, Risk Profiler
-├── analytics/               # DuckDB analytics
-│   ├── cli.py               # Interactive SQL shell
-│   └── views.py             # Pre-built analytical views
+│   ├── main.py              # Entry point + horizontal navigation
+│   ├── views/               # Page renderers
+│   │   ├── fleet_safety.py  # Fleet Safety Report
+│   │   ├── underwriting.py  # Underwriting Risk Report
+│   │   └── operational_risk.py  # Operational Risk Report
+│   ├── pages/               # Risk Profiler, Terminology
+│   └── components/          # Shared UI: charts, layout, theme, data_loader
+├── analytics/               # Stakeholder analytics layer
+│   └── queries/             # SQL query modules (shared, fleet, underwriting, ops, glossary)
 ├── scripts/                 # Utility scripts
 │   └── verify_setup.py      # Environment verification
 ├── .env.example             # Environment template
@@ -639,10 +732,11 @@ riskRADAR/
 | Category | Technology | Purpose |
 |----------|------------|---------|
 | Language | Python 3.9+ | Primary development |
-| Database | SQLite | Metadata and run tracking |
-| Analytics | DuckDB + Parquet | Ad-hoc SQL queries |
+| Database | SQLite | Metadata, run tracking, analytics |
 | Vector DB | Qdrant Cloud | Similarity search |
 | Embeddings | sentence-transformers | Text vectorization |
+| App Framework | Streamlit | Interactive web application |
+| Visualization | Plotly | Charts and heatmaps |
 
 ### Models
 

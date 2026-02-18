@@ -1,7 +1,7 @@
 # RiskRADAR - Pick Up Here
 
-**Last Updated:** 2026-02-10
-**Last Session:** Roadmap updated — analytics-first approach (Phase 7 → Phase 8)
+**Last Updated:** 2026-02-17
+**Last Session:** Phase 7 (analytics) + Phase 8 (Streamlit app) completed. 3 narrative reports, Risk Profiler, and Terminology page all functional. Multiple bug fixes applied (duplicate keys, hover_data KeyError, SQLite thread safety, DB path resolution).
 
 ---
 
@@ -25,10 +25,39 @@
 | BM25 + Hybrid Search | Complete | BM25, semantic, and hybrid (RRF) search |
 | Weather Extraction | Complete | 72.4% coverage (369/510 reports) |
 | Time-of-Day Extraction | Complete | 90.8% coverage (463/510 reports) |
-| Bayesian Risk Model v1 | Complete | Initial softmax NB (superseded by v2) |
-| **Bayesian Risk Model v2** | **Complete** | **Binary Relevance NB, ECE=0.021, Hit@5=86.8%** |
-| **Statistical Audit** | **Complete** | **4 critical flaws found and fixed** |
-| **Production Validation** | **Complete** | **Calibration, ablation, discrimination all passing** |
+| Bayesian Risk Model v2 | Complete | Binary Relevance NB, ECE=0.021, Hit@5=86.8% |
+| Statistical Audit | Complete | 4 critical flaws found and fixed |
+| **Phase 7: Stakeholder Analytics** | **Complete** | **4 query modules: shared, fleet_safety, underwriting, operational_risk** |
+| **Phase 8: Streamlit App** | **Complete** | **5 pages: 3 reports + Risk Profiler + Terminology** |
+
+### Streamlit App Pages (All Functional)
+
+| Page | Module | Status | Notes |
+|------|--------|--------|-------|
+| Fleet Safety Report | `app/views/fleet_safety.py` | Working | Aircraft type comparison, manufacturer profiles, SCF breakdown, co-occurrence, trends |
+| Underwriting Risk Report | `app/views/underwriting.py` | Working | Co-occurrence matrix, region/season, VMC/IMC, time-of-day, Bayesian profiles |
+| Operational Risk Report | `app/views/operational_risk.py` | Working | LOC-I/CFIT deep dives, weather x time, seasonal patterns, aircraft signatures |
+| Risk Profiler | `app/pages/4_Risk_Profiler.py` | Working | 5-feature Bayesian model with calibrated probabilities |
+| Terminology | `app/pages/5_Terminology.py` | Working | Searchable glossary (L1, L2, aviation terms, statistical terms) |
+
+### Analytics Query Modules (All Functional)
+
+| Module | File | Key Functions |
+|--------|------|---------------|
+| Shared | `analytics/queries/shared.py` | `category_counts()`, `cooccurrence_matrix()`, `category_by_feature()`, `dataset_summary()` |
+| Fleet Safety | `analytics/queries/fleet_safety.py` | `risk_by_aircraft_category()`, `risk_by_manufacturer()`, `scf_pp_breakdown()`, `failure_trends_by_decade()` |
+| Underwriting | `analytics/queries/underwriting.py` | `region_season_matrix()`, `vmc_imc_category_distribution()`, `bayesian_profile_comparison()` |
+| Operational Risk | `analytics/queries/operational_risk.py` | `loc_i_breakdown()`, `cfit_breakdown()`, `weather_time_matrix()`, `seasonal_patterns()` |
+| Glossary | `analytics/queries/glossary_data.py` | `get_l1_glossary()`, `get_l2_glossary()`, `get_aviation_terms()`, `get_statistical_terms()` |
+
+### Shared App Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| Data Loader | `app/components/data_loader.py` | `@st.cache_data` wrappers, `@st.cache_resource` for Bayesian model |
+| Charts | `app/components/charts.py` | Plotly builders: horizontal_bar, grouped_bar, heatmap, line_chart, stacked_bar, donut_chart |
+| Report Layout | `app/components/report_layout.py` | page_header, kpi_row, section_divider, insight, chart_with_insight, methodology_section, abbr() |
+| Theme | `app/components/theme.py` | Brand colors, colorblind-safe palette, TIME_COLORS, TIME_WINDOWS, CSS injection |
 
 ### Data Quality Summary
 
@@ -49,166 +78,94 @@
 - **Training data:** 431 accident reports (filtered via `report_types`)
 - **Features:** aircraft_category, season, region, weather_category, time_of_day
 - **Schema:** v8 (positive_count in priors, label column in likelihoods PK)
-
-**Validation (proper LOO with baseline):**
-
-| Metric | Model | Baseline | Lift |
-|--------|-------|----------|------|
-| Hit@1 | 44.8% | 45.9% | 0.97x |
-| Hit@3 | 76.3% | 81.4% | 0.94x |
-| Hit@5 | 86.8% | 85.4% | 1.02x |
-| ECE | 0.021 | — | — |
-
-**Key properties:**
-- Probabilities are independent per category (do NOT sum to 1; sum ≈ 4.19)
-- Risk thresholds: HIGH > 67.1%, MODERATE > 54.3%
-- All 27 categories have positive discrimination (mean separation = +0.075)
-- Save/load roundtrip is lossless
-- Unseen values handled via proper Laplace smoothing
-
-### What the v1 → v2 Audit Fixed
-
-| Flaw | v1 Problem | v2 Fix |
-|------|-----------|--------|
-| Softmax on multi-label | 95.8% multi-label data forced to sum-to-1 | Independent sigmoid per category |
-| Fake LOO | Full model reused without retraining | Count-adjusted proper LOO |
-| No baseline | Model worse than prior-only at Hit@3 | Explicit baseline printed |
-| Unseen value fallback | Arbitrary α/100 | Proper Laplace with n+1 |
-
-### Weather Breakdown
-
-| Category | Count | Percentage |
-|----------|-------|------------|
-| VMC | 164 | 32.2% |
-| IMC | 205 | 40.2% |
-| Unknown | 141 | 27.6% |
-
-### Time-of-Day Breakdown
-
-| Category | Count | Percentage |
-|----------|-------|------------|
-| Morning | 106 | 20.8% |
-| Afternoon | 159 | 31.2% |
-| Evening | 57 | 11.2% |
-| Night | 141 | 27.6% |
-| Unknown | 47 | 9.2% |
-
-### Key Files
-
-| File | Purpose |
-|------|---------|
-| `sqlite/riskradar.db` | Main SQLite database (schema v8) |
-| `sqlite/schema.py` | Schema definitions (BAYES_PRIORS_TABLE, BAYES_LIKELIHOODS_TABLE) |
-| `risk_profiler/bayesian_model.py` | Binary Relevance NB with persistence + proper LOO validation |
-| `risk_profiler/extract_weather.py` | VMC/IMC extraction from chunk text |
-| `risk_profiler/extract_time.py` | Time-of-day extraction from chunk text |
-| `risk_profiler/extract_features.py` | Feature extraction pipeline |
-| `risk_profiler/aircraft_data.py` | Aircraft lookup with 686 patterns |
-| `risk_profiler/report_types.py` | Report type classification (accident vs other) |
-| `risk_profiler/cli.py` | CLI: train-model, validate-model, extract-weather, extract-time |
-| `search/` | BM25 + semantic + hybrid (RRF) search module |
-| `app/pages/4_Risk_Profiler.py` | Streamlit risk profiler page (binary relevance, 5 feature dropdowns) |
-| `taxonomy/` | CICTT classification system |
-| `embeddings/` | Vector embedding pipeline |
-| `portfolio.md` | Full model evolution narrative (audit, rewrite, validation) |
+- **ECE:** 0.021 (near-perfect calibration)
 
 ---
 
 ## TODO List (Priority Order)
 
-### Phase 7: Stakeholder Analytics (NEXT — do BEFORE Streamlit)
+### NEXT: Human UI Review
 
-Build a formal analytics layer with reusable DuckDB views, Parquet exports, and query modules. This must be completed before building the Streamlit app so dashboards have a solid analytical foundation.
+The very next task is for a **human to review the Streamlit interface** and provide a detailed critique. The app is functional but has not had a thorough visual/UX review.
 
-**Analytics layer (`analytics/`):**
-- [ ] **Core shared analytics module**
-  - Co-occurrence matrix (category × category)
-  - Trend aggregations (category prevalence over time)
-  - Risk score calculations per stakeholder dimension
-  - Parquet exports for each stakeholder view
-  - Reusable SQL views for dashboards
+**Review checklist:**
+- [ ] Navigate all 5 pages — do they load without errors?
+- [ ] Check all KPI cards — are values meaningful and accurate?
+- [ ] Verify chart readability — labels, colors, axes clear?
+- [ ] Test interactive elements — selectboxes, comparisons, filters
+- [ ] Check narratives — do they make sense to a non-aviation reader?
+- [ ] Test Risk Profiler — do all 5 dropdowns work? Are predictions sensible?
+- [ ] Check Terminology page — is it searchable and comprehensive?
+- [ ] Mobile/responsive — does the layout work on smaller screens?
+- [ ] Colorblind accessibility — are color choices distinguishable?
+- [ ] Abbreviation tooltips — do they appear on hover for all codes?
 
-- [ ] **Manufacturer's Risk Summary analytics**
-  - Risk breakdown by aircraft_category + aircraft_make
-  - SCF-PP / SCF-NP prevalence by manufacturer/type
-  - Failure mode trends (L2 subcategories for SCF-PP, SCF-NP)
-  - Data sources: aircraft_category, aircraft_make, L1/L2 taxonomy
+### After UI Review: Polish & Enhancement
 
-- [ ] **Maintenance Risk Summary analytics**
-  - SCF-PP / SCF-NP deep dive (engine, fuel, hydraulic, electrical, structural)
-  - Component failure patterns from L2 subcategories
-  - Cross-tabulation with aircraft_category and season
-  - Data sources: L1/L2 taxonomy, aircraft_category, season
-
-- [ ] **Insurance Risk Summary analytics**
-  - Category co-occurrence matrix (which risks cluster together)
-  - Risk profiles by region × season × weather
-  - Severity proxies (multi-category incidents as complexity indicator)
-  - Data sources: all features + taxonomy + report metadata
-
-- [ ] **Pilot's Risk Summary analytics**
-  - LOC-I / CFIT / UIMC profiles by aircraft type
-  - Weather × time-of-day risk matrix
-  - Seasonal patterns for human-factors categories
-  - Data sources: aircraft_category, weather_category, time_of_day, L1/L2 taxonomy
-
-### Phase 8: Streamlit Application (AFTER analytics)
-
-Build after Phase 7 analytics are developed. Each page consumes the analytics layer.
-
-- [ ] **Semantic Search page**
-  - Hybrid search (BM25 + semantic + RRF) via `search/` module
-  - Taxonomy filter dropdowns (L1, L2)
-  - Aircraft/region/date filters
-  - Results with relevance scores + PDF links
-
-- [ ] **Taxonomy Explorer page**
-  - Category distribution charts (L1 and L2)
-  - Drill-down from L1 to L2
-  - Report list per category
-
-- [ ] **Manufacturer Dashboard page** — from Phase 7 analytics
-- [ ] **Maintenance Dashboard page** — from Phase 7 analytics
-- [ ] **Insurance Dashboard page** — from Phase 7 analytics
-- [ ] **Pilot Dashboard page** — from Phase 7 analytics
-
-- [ ] **Finalize Risk Profiler page** (exists, needs polish)
-  - Test end-to-end with all 5 feature dropdowns
-  - Add visualization of risk distribution (bar chart of posteriors)
-  - Add confidence indicators for each prediction
+- [ ] Fix any bugs or layout issues found during UI review
+- [ ] Add Semantic Search page (hybrid search via `search/` module)
+- [ ] Add Taxonomy Explorer page (L1/L2 drill-down)
+- [ ] Polish Risk Profiler visualization (bar chart of posteriors, confidence indicators)
+- [ ] Consider adding landing page with project overview
 
 ### Future: API & Advanced Features
 
-- [ ] **FastAPI backend** (if needed beyond Streamlit)
-  - Semantic search endpoint
-  - Bayesian risk scoring endpoint
-  - KPI query endpoints
-
-- [ ] **Model improvements**
-  - Experiment with feature interactions (e.g., weather x time_of_day)
-  - Try hierarchical Bayes with L2 subcategories
-  - Improve weather extraction coverage (currently 72.4%)
-  - Consider adding aircraft_make as a Bayesian model feature
+- [ ] FastAPI backend (if needed beyond Streamlit)
+- [ ] Model improvements (feature interactions, hierarchical Bayes)
+- [ ] Improve weather extraction coverage (currently 72.4%)
 
 ---
 
-## Key Decisions Made
+## Bugs Fixed in Last Session
+
+| Bug | Root Cause | Fix |
+|-----|-----------|-----|
+| `StreamlitDuplicateElementKey` on fleet_ac_compare | Selectbox widget and chart_with_insight shared same key | Renamed selectbox key to `fleet_ac_compare_sel` |
+| `KeyError: "Prevalence"` in fleet_safety.py | `hover_data` dict key was a display label, not a DataFrame column | Removed `hover_data` param; count shown via `show_values=True` |
+| `sqlite3.ProgrammingError` thread safety | `@st.cache_resource` caches model object across threads | Added `check_same_thread=False` to `sqlite3.connect()` |
+| Bayesian model "unable to open database file" | Relative DB path failed when Streamlit CWD didn't match project root | Pass absolute path from `riskradar.config.DB_PATH` |
+
+## Design Decisions Made in Last Session
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| Taxonomy | CICTT L1 + Industry L2 | Industry standard, interpretable |
-| Embedding Model | MiniLM (production) | Better semantic precision (75.5% vs 60%) |
-| Search | Vector + BM25 hybrid (RRF) | Best retrieval performance |
-| Weather Feature | VMC vs IMC (binary) | NTSB standard; specific phenomena are outcome categories |
-| Time Feature | 4 buckets (Morning/Afternoon/Evening/Night) | Simple, no external dependencies |
-| Model Training | Accident-only (431 reports) | Excludes 74 non-accident docs (safety studies, etc.) |
-| **Model Architecture** | **Binary Relevance NB (v2)** | **Fixed 4 critical flaws: softmax on multi-label, fake LOO, no baseline, arbitrary unseen values** |
-| Risk Thresholds | Data-driven (percentile-based) | 90th percentile = HIGH (67.1%), 50th = MODERATE (54.3%) |
-| Model Persistence | SQLite tables (v8 schema) | Fast Streamlit loading via `load_model()` |
-| Calibration Metric | ECE (Expected Calibration Error) | Standard metric for probability reliability; model achieves 0.021 |
-| Analytics Before App | Phase 7 (analytics) → Phase 8 (Streamlit) | Build formal analytics layer with DuckDB views before dashboards |
-| Stakeholder Dashboards | 4 dashboards (Manufacturer, Maintenance, Insurance, Pilot) | Each stakeholder has distinct analytical focus and use case |
-| Aircraft Data | Use existing aircraft_category + aircraft_make | No new extractions; 92.7% coverage is sufficient |
+| Report style | Consulting-style narrative | Charts embedded in explanatory text, not bare dashboards |
+| Persona approach | 3 reports (Fleet, Underwriting, Ops) | Merged manufacturer + maintenance into Fleet Safety; data is ~47% commercial jets |
+| Color palette | Colorblind-safe (no red for data) | Orange (AMBER) for IMC weather; avoids red/green confusion |
+| Co-occurrence matrix | Lower triangle only | Symmetric matrix; upper half is redundant |
+| Season order | Spring → Summer → Fall → Winter | Chronological, user preference |
+| Time-of-day colors | Gold/Orange/Light Blue/Navy | Intuitive mapping to sun position (warm→cool) |
+| Abbreviations | HTML `<abbr>` tooltips + spell-then-abbreviate | 39 codes with full definitions; narratives spell out first use |
+| KPI selection | Data-meaningful metrics only | Removed "weather coverage" (limitation, not KPI); added "High Complexity %" |
+| Navigation | Horizontal top menu via streamlit-option-menu | All pages accessible from any page; cleaner than sidebar |
+
+---
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `sqlite/riskradar.db` | Main SQLite database (schema v8) |
+| `app/main.py` | Streamlit entry point + horizontal navigation |
+| `app/views/fleet_safety.py` | Fleet Safety Report page |
+| `app/views/underwriting.py` | Underwriting Risk Report page |
+| `app/views/operational_risk.py` | Operational Risk Report page |
+| `app/pages/4_Risk_Profiler.py` | Bayesian risk profiler page |
+| `app/pages/5_Terminology.py` | Searchable glossary page |
+| `app/components/data_loader.py` | Cached data access wrappers |
+| `app/components/charts.py` | Plotly chart builders |
+| `app/components/report_layout.py` | Narrative layout components + abbreviation tooltips |
+| `app/components/theme.py` | Brand colors + CSS |
+| `analytics/queries/shared.py` | Core analytics queries |
+| `analytics/queries/fleet_safety.py` | Fleet safety queries |
+| `analytics/queries/underwriting.py` | Underwriting queries |
+| `analytics/queries/operational_risk.py` | Operational risk queries |
+| `analytics/queries/glossary_data.py` | Glossary content queries |
+| `risk_profiler/bayesian_model.py` | Binary Relevance NB with persistence + LOO validation |
+| `risk_profiler/extract_weather.py` | VMC/IMC extraction from chunk text |
+| `risk_profiler/extract_time.py` | Time-of-day extraction from chunk text |
+| `search/` | BM25 + semantic + hybrid (RRF) search module |
+| `portfolio.md` | Full project narrative and lessons learned |
 
 ---
 
@@ -218,6 +175,9 @@ Build after Phase 7 analytics are developed. Each page consumes the analytics la
 # Activate environment
 cd C:\Users\bvlma\CODE\riskRADAR
 venv\Scripts\activate
+
+# Run Streamlit app
+streamlit run app/main.py
 
 # Risk Profiler commands
 python -m risk_profiler.cli classify-types [--dry-run]
@@ -237,21 +197,21 @@ python -m taxonomy.cli retry-unclassified [--run-id 2]
 # Quick model verification
 python -c "from risk_profiler.bayesian_model import load_model; m=load_model(); print(m.predict(top_k=5, aircraft_category='turboprop', weather_category='IMC'))"
 
-# Check DB schema version
-python -c "import sqlite3; c=sqlite3.connect('sqlite/riskradar.db'); print('label' in [r[1] for r in c.execute('PRAGMA table_info(bayes_likelihoods)').fetchall()])"
+# Quick analytics verification
+python -c "from analytics.queries.shared import category_counts; print(category_counts())"
 ```
 
 ---
 
 ## Notes for Next Session
 
-1. **Analytics FIRST, then Streamlit** — build the formal analytics layer (Phase 7) before building the app (Phase 8)
-2. Phase 7 = DuckDB views + Parquet exports + reusable query modules for 4 stakeholder dashboards
-3. Data sources for analytics: existing features (aircraft_category, aircraft_make, season, region, weather_category, time_of_day) + taxonomy (L1, L2) + report metadata — **no new extractions needed**
-4. Risk Profiler page already exists and works with binary relevance model — just needs polish
-5. Search module (`search/`) is complete — just needs Streamlit integration in Phase 8
-6. All extraction pipelines are complete — no more feature engineering unless improving coverage
-7. Schema is at version 8 — includes binary relevance bayes tables (label + positive_count)
-8. The Bayesian model is **production-ready** — audited, rewritten, and validated with proper LOO, ECE=0.021, and baseline comparison
-9. Portfolio.md has the full model evolution narrative (initial → audit → rewrite → production validation)
-10. CLAUDE.md has the full roadmap with Phase 7/8 details
+1. **FIRST TASK: Human UI review** — run the app, navigate all 5 pages, provide detailed critique
+2. All 3 narrative reports are functional but haven't had a thorough visual/UX review
+3. Risk Profiler page works with binary relevance model — dropdown selections trigger predictions
+4. Search module (`search/`) is complete — needs Streamlit page integration
+5. Taxonomy Explorer page not yet built — planned for after UI review
+6. Schema is at version 8 — includes binary relevance bayes tables (label + positive_count)
+7. The Bayesian model is production-ready — audited, rewritten, validated with proper LOO, ECE=0.021
+8. Weather coverage is 72.4% — narratives include coverage caveats where weather data is used
+9. `check_same_thread=False` was added to bayesian_model.py for Streamlit compatibility
+10. Portfolio.md has the full project narrative including Streamlit design lessons

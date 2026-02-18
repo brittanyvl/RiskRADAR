@@ -18,6 +18,7 @@ A technical narrative documenting the design decisions, challenges overcome, and
 - [The Taxonomy Journey: From Unsupervised Discovery to Industry Standards](#the-taxonomy-journey-from-unsupervised-discovery-to-industry-standards)
 - [Closing the Gap: Data Quality and Taxonomy Coverage](#closing-the-gap-data-quality-and-taxonomy-coverage)
 - [Bayesian Risk Model: From Features to Audit to Production](#bayesian-risk-model-from-features-to-audit-to-production)
+- [Streamlit Application: From Dashboards to Consulting Reports](#streamlit-application-from-dashboards-to-consulting-reports)
 - [Future Directions](#future-directions)
 - [Skills Demonstrated](#skills-demonstrated)
 
@@ -40,6 +41,8 @@ RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) 
 - **Binary Relevance Bayesian model** trained on 431 accident reports, statistically audited and rewritten to fix 4 critical flaws, achieving ECE=0.021 calibration
 - **Weather (VMC/IMC)** extracted from 369/510 reports via regex on meteorological sections
 - **Time-of-day** extracted from 463/510 reports via timestamp parsing
+- **Stakeholder analytics** built as reusable SQL query modules (fleet safety, underwriting, operational risk)
+- **Streamlit application** with 3 consulting-style narrative reports, interactive risk profiler, and searchable terminology glossary
 
 The most significant technical insights:
 1. **Chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
@@ -849,24 +852,142 @@ The model's predictions remain domain-sensible with the new architecture:
 
 ---
 
+## Streamlit Application: From Dashboards to Consulting Reports
+
+Phase 7-8 transformed the analytical foundation into a production Streamlit application. The design process surfaced important lessons about data visualization, stakeholder communication, and accessibility.
+
+### Persona Research: Who Is the Audience?
+
+The original plan called for 4 stakeholder dashboards: Manufacturer, Maintenance, Insurance, and Pilot. But analyzing the actual data revealed a mismatch: **~47% of the 431 accident reports involve commercial jet operations**, not general aviation. This shifted the personas from GA-centric to commercial aviation-centric.
+
+**Key decisions:**
+- **Merged Manufacturer + Maintenance** into a single "Fleet Safety" report. Maintenance risk (SCF-PP/SCF-NP component failures) is most meaningful *in context* of fleet type and manufacturer, not as a standalone view.
+- **Reframed Insurance → Underwriting**. Aviation underwriting analysts need risk segmentation by operational profile (aircraft type x weather x time x region), not just aggregate statistics.
+- **Reframed Pilot → Operational Risk**. A chief pilot / safety officer needs LOC-I and CFIT deep dives, weather/time risk matrices, and seasonal patterns—not just category counts.
+
+**Result:** 3 reports instead of 4, each with a tighter analytical focus and clearer narrative thread.
+
+### The KPI Design Problem
+
+Initial KPI cards revealed a common trap: **displaying available metrics rather than meaningful ones**.
+
+**Examples of bad KPIs we removed:**
+- **"Weather Coverage: 72.4%"** — This is a data limitation, not a finding. Showing it as a headline metric implies it's an insight when it's actually a caveat.
+- **"Avg Categories per Report: 4.19"** — Already shown in another report. Duplicative across pages.
+- **"Douglas Variants Merged"** — An implementation detail about data cleaning, not a stakeholder-relevant insight.
+
+**What makes a good KPI:**
+1. **Answers a question the persona cares about.** "High Complexity Reports (4+ categories): 42%" tells an underwriter that nearly half of accidents involve cascading failures—relevant for pricing.
+2. **Provides context.** "IMC Accident Share: 55.6%" with the subtitle "of weather-classified reports" frames the number honestly.
+3. **Is actionable.** Knowing that "SCF-PP prevalence dropped 15% over the last 3 decades" suggests reliability improvements that affect fleet planning.
+
+### Consulting-Style Reports vs. Interactive Dashboards
+
+We deliberately chose **narrative reports with embedded charts** over interactive dashboard grids. The reasoning:
+
+1. **Charts without context are ambiguous.** A heatmap of co-occurrence counts means nothing without explaining what co-occurrence implies for safety management. Narrative text guides interpretation.
+2. **The audience isn't data scientists.** Fleet safety managers, underwriters, and chief pilots need conclusions and implications, not raw data exploration tools.
+3. **Charts embedded in narrative feel authoritative.** This is how McKinsey, Deloitte, and aviation safety consultancies present findings—not as interactive toys but as supported arguments.
+
+**Implementation pattern:** Each section has:
+```
+Section title → Explanatory context → Chart → Insight callout → Methodology note
+```
+
+The `chart_with_insight()` component enforces this pattern, ensuring every visualization is paired with an interpretation.
+
+### Colorblind Accessibility: Avoiding Red
+
+The initial weather comparison chart used **red (CORAL)** for IMC data. This was problematic:
+- Red/green colorblindness (deuteranopia) affects ~8% of males
+- Using red for "bad weather" (IMC) vs. blue for "good weather" (VMC) relies on a value judgment that the colors should convey
+
+**Fix:** Replaced red with **orange (AMBER)** for IMC. Orange is distinguishable from blue across all common forms of color vision deficiency, and conveys "caution" without the aggressive signal of red.
+
+The full color palette was designed for accessibility:
+- **STEEL** (#4A6FA5) — Primary, neutral, safe for all vision types
+- **CORAL** (#E07A5F) — Used only for emphasis, never in data comparisons
+- **AMBER** (#DDAA33) — Warning/IMC data, distinguishable from all other colors
+- **TEAL** (#2A9D8F) — Secondary data series
+- **NAVY** (#264653) — Dark accents, night time-of-day
+
+### Time-of-Day Visualization
+
+Mapping time periods to colors required thinking about intuition, not aesthetics:
+
+| Period | Color | Reasoning |
+|--------|-------|-----------|
+| Morning (06:00-11:59) | Gold (#DDAA33) | Sunrise, warm light |
+| Afternoon (12:00-17:59) | Orange (#E07A5F) | Peak daylight, warm |
+| Evening (18:00-20:59) | Light Blue (#7EB8DA) | Fading light, cool transition |
+| Night (21:00-05:59) | Navy (#264653) | Darkness, deep blue |
+
+Showing the actual time windows as a caption (`st.caption()`) below the chart prevents ambiguity about what "Morning" means — a critical detail in aviation where operations span 24 hours.
+
+### Abbreviation Handling: The Tooltip System
+
+Aviation is saturated with abbreviations: LOC-I, CFIT, SCF-PP, VMC, IMC, CICTT, NTSB, TAWS, GPWS, HFACS, CRM. For a non-aviation reader, this is impenetrable.
+
+**Two-layer approach:**
+1. **Narratives spell out first use:** "Loss of Control — In Flight (LOC-I)" appears before any bare "LOC-I" reference.
+2. **HTML `<abbr>` tooltips:** Chart labels and repeated references use `<abbr title="Loss of Control — In Flight">LOC-I</abbr>`, showing the full definition on hover.
+
+The `ABBREVIATIONS` dict in `report_layout.py` contains 39 definitions, and the `abbr()` helper function generates the HTML. A CSS rule styles `<abbr>` elements with a dotted underline and `cursor: help` to signal interactivity.
+
+### Co-occurrence Matrix Design
+
+The co-occurrence heatmap was one of the most analytically novel visualizations. Two design decisions improved it significantly:
+
+**1. Lower triangle only.** A co-occurrence matrix is symmetric (A co-occurring with B = B co-occurring with A). Showing the full matrix wastes half the visual space on redundant information and makes it harder to scan. Masking the upper triangle and diagonal produces a cleaner, more scannable chart.
+
+**2. Annotation threshold.** Only cells with 15+ shared reports get numeric annotations. This prevents visual clutter from low-count cells while highlighting meaningful risk combinations.
+
+Implementation: `np.triu_indices_from(z, k=1)` masks the upper triangle by setting values to `np.nan`, which Plotly renders as blank cells.
+
+### Selectbox vs. Accordion Pattern
+
+The Operational Risk page initially used `st.expander()` accordions to show risk signatures per aircraft type. This was replaced with `st.selectbox()` + dynamic chart rendering:
+
+**Why accordions failed:**
+- All data loaded at page render, even for collapsed sections
+- Users had to open/close multiple accordions to compare types
+- The page was visually overwhelming with 6+ expandable sections
+
+**Why selectbox works:**
+- Only the selected aircraft type's chart renders
+- A comparison option allows side-by-side views
+- The page stays clean and focused
+
+### What We'd Do Differently
+
+1. **Start with persona interviews.** We derived personas from data analysis, but real stakeholder input would have sharpened the focus earlier.
+2. **Build a design system first.** The theme, colors, and layout patterns evolved iteratively. Starting with a cohesive design system would have prevented inconsistencies.
+3. **Prototype with static data.** Building charts with real SQL queries slowed iteration. Mocking data first would have let us validate layouts faster.
+4. **Test abbreviation tooltips on mobile.** The `<abbr>` hover pattern doesn't work on touch devices. A glossary link or tap-to-expand pattern would be more universal.
+
+---
+
 ## Future Directions
 
 ### Short-term
 
-1. **Streamlit Application**: Search with taxonomy filtering, cause explorer, trend dashboard
-2. **Trend Analytics**: Prevalence of cause categories over decades
+1. **Semantic Search Page**: Integrate `search/` module into Streamlit with taxonomy filters and PDF links
+2. **Taxonomy Explorer Page**: Interactive L1→L2 drill-down with report lists per category
+3. **UI Polish**: Incorporate human UI review feedback, improve mobile responsiveness
 
 ### Medium-term
 
 1. **Fine-tuned Model**: Train MIKA on NTSB-specific queries for further improvement
 2. **Query Expansion**: Use LLM to expand user queries with aviation terminology
-3. **Advanced Analytics**: Aircraft/location parsing, clustering, temporal trends
+3. **Feature Interactions**: Experiment with weather x time_of_day in Bayesian model
+4. **Improve Weather Coverage**: Currently 72.4%; explore additional extraction patterns
 
 ### Long-term
 
 1. **Cross-Modal Search**: Include accident photos, diagrams, flight data
 2. **Causal Analysis**: Extract and link causal chains across reports
 3. **Predictive Insights**: Identify emerging safety patterns before accidents occur
+4. **FastAPI Backend**: REST API for search and risk scoring if needed beyond Streamlit
 
 ---
 
@@ -901,17 +1022,30 @@ The model's predictions remain domain-sensible with the new architecture:
 - Feature ablation studies for model understanding
 - Per-category discrimination analysis
 
+### Data Visualization & UX
+- Consulting-style narrative reports with embedded Plotly charts
+- Colorblind-safe palette design (avoiding red/green confusion)
+- Stakeholder persona-driven page design
+- KPI selection methodology (meaningful metrics vs. available metrics)
+- Abbreviation tooltip system (39 aviation/statistical code definitions)
+- Co-occurrence matrix design (lower-triangle, annotation thresholds)
+- Time-of-day color mapping (intuitive warm→cool progression)
+- Streamlit caching architecture (`@st.cache_data`, `@st.cache_resource`)
+
 ### Software Engineering
 - Modular architecture with clear separation of concerns
 - CLI interfaces for all components
 - Configuration management via environment variables
 - Comprehensive documentation
+- Thread-safe database access in multi-threaded web frameworks
+- Reusable component library (charts, layout, theme)
 
 ### Domain Knowledge
 - Understanding NTSB report structure
 - Aviation terminology and concepts
 - Safety investigation methodology
 - CICTT occurrence taxonomy (CAST/ICAO industry standard)
+- Stakeholder-specific risk communication (fleet, underwriting, operational)
 
 ---
 
@@ -926,8 +1060,9 @@ The key insights:
 4. **Root cause analysis beats brute force**. When 92 reports lacked taxonomy, the fix wasn't lowering thresholds—it was discovering that 55% of them were non-accident documents. Understanding the problem correctly reduced the actual gap from 92 to 35, and targeted fixes brought coverage to 98.9%.
 5. **Statistical auditing catches invisible errors**. The initial Bayesian model reported Hit@5=90.7% — a number that would have gone unquestioned into a portfolio. A systematic audit revealed fake validation, miscalibrated probabilities, and hidden baseline underperformance. The rewritten model has lower headline numbers (Hit@5=86.8%) but honest ones, with near-perfect calibration (ECE=0.021). Presenting correctly-measured, honestly-interpreted results demonstrates stronger data science judgment than inflating metrics.
 6. **Multi-label data requires multi-label models**. When 95.8% of observations have multiple labels, forcing a sum-to-1 normalization is a fundamental architectural error — not a tuning problem. Recognizing this distinction between "the model needs better parameters" and "the model needs a different architecture" is a critical skill.
+7. **Data visualization is stakeholder communication**. Building dashboards is easy; building reports that answer the right questions for the right audience is hard. The shift from 4 generic dashboards to 3 persona-driven narrative reports — and the iterative refinement of KPIs, colors, and abbreviation handling — reflects the reality that the last mile of data science is persuasive communication.
 
-For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. The 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation. And the Bayesian risk model is meaningful not for its headline accuracy numbers, but because it survived a rigorous statistical audit, was rebuilt when flaws were found, and ships with honest metrics, calibration analysis, and documented limitations.
+For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. The 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation. The Bayesian risk model is meaningful not for its headline accuracy numbers, but because it survived a rigorous statistical audit, was rebuilt when flaws were found, and ships with honest metrics, calibration analysis, and documented limitations. And the Streamlit application is meaningful because it translates analytical rigor into stakeholder-accessible reports — with colorblind-safe palettes, abbreviation tooltips, and consulting-style narratives that communicate findings without requiring domain expertise.
 
 ---
 

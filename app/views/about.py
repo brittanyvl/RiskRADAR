@@ -91,7 +91,7 @@ any flight profile.
     st.markdown("### Author")
 
     st.markdown(
-        "Built by **Brady Villamaa** as a portfolio project demonstrating "
+        "Built by **Brittany Justice** as a portfolio project demonstrating "
         "data engineering, machine learning, and full-stack data application development."
     )
 
