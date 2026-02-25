@@ -87,29 +87,35 @@ def inject_css():
         background: white;
         border: 1px solid #e9ecef;
         border-radius: 8px;
-        padding: 1rem 1.2rem;
+        padding: 1.2rem 1.4rem 1rem;
         text-align: center;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         height: 100%;
+        transition: box-shadow 0.15s ease;
     }
-    .kpi-card .kpi-value {
-        font-size: 1.6rem;
-        font-weight: 700;
-        color: #1B2A4A;
-        line-height: 1.2;
-        margin-bottom: 0.25rem;
+    .kpi-card:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
     }
     .kpi-card .kpi-label {
-        font-size: 0.78rem;
-        font-weight: 500;
+        font-size: 0.72rem;
+        font-weight: 600;
         color: #6c757d;
         text-transform: uppercase;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.35rem;
+    }
+    .kpi-card .kpi-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1B2A4A;
+        line-height: 1.1;
+        margin-bottom: 0.3rem;
     }
     .kpi-card .kpi-detail {
-        font-size: 0.72rem;
-        color: #adb5bd;
-        margin-top: 0.2rem;
+        font-size: 0.73rem;
+        color: #868e96;
+        margin-top: 0.15rem;
+        line-height: 1.35;
     }
 
     /* ── Section dividers ─────────────────────────────────────── */

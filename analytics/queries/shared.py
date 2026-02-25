@@ -285,6 +285,32 @@ def dataset_summary() -> dict:
         )
     """).fetchone()[0]
 
+    # High-lethality categories: LOC-I + CFIT involvement rate
+    loci_cfit = c.execute("""
+        SELECT COUNT(DISTINCT t.report_id)
+        FROM report_taxonomy t
+        JOIN report_types rt ON t.report_id = rt.report_id
+        WHERE t.level = 'L1' AND rt.report_type = 'accident'
+              AND t.category_code IN ('LOC-I', 'CFIT')
+    """).fetchone()[0]
+
+    # Component failure rate: SCF-PP or SCF-NP involvement
+    scf_rate = c.execute("""
+        SELECT COUNT(DISTINCT t.report_id)
+        FROM report_taxonomy t
+        JOIN report_types rt ON t.report_id = rt.report_id
+        WHERE t.level = 'L1' AND rt.report_type = 'accident'
+              AND t.category_code IN ('SCF-PP', 'SCF-NP')
+    """).fetchone()[0]
+
+    # IMC involvement rate (weather = IMC)
+    imc_count = c.execute("""
+        SELECT COUNT(DISTINCT f.report_id)
+        FROM report_features f
+        JOIN report_types rt ON f.report_id = rt.report_id
+        WHERE rt.report_type = 'accident' AND f.weather_category = 'IMC'
+    """).fetchone()[0]
+
     conn.close()
 
     return {
@@ -298,4 +324,7 @@ def dataset_summary() -> dict:
         "weather_coverage_pct": round(weather_cov / accidents * 100, 1) if accidents else 0,
         "time_coverage_pct": round(time_cov / accidents * 100, 1) if accidents else 0,
         "avg_categories_per_report": round(cats_per, 1) if cats_per else 0,
+        "loci_cfit_pct": round(loci_cfit / accidents * 100, 1) if accidents else 0,
+        "component_failure_pct": round(scf_rate / accidents * 100, 1) if accidents else 0,
+        "imc_pct": round(imc_count / accidents * 100, 1) if accidents else 0,
     }

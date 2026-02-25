@@ -79,14 +79,26 @@ def horizontal_bar(
     hover_data: dict | None = None,
     height: int = 400,
     show_values: bool = True,
+    value_format: str = "int",
 ) -> go.Figure:
     """
     Horizontal bar chart — the workhorse for ranked lists.
 
     Use instead of: donut/pie charts, vertical bars with long labels.
+    Args:
+        value_format: "int" for integer, "1f" for 1 decimal, "2f" for 2 decimals,
+                      "pct" for percentage, "ratio" for "Nx" suffix.
     """
     df_sorted = df.sort_values(x, ascending=True)
-    text = df_sorted[x].apply(lambda v: f"{v:,.0f}" if isinstance(v, (int, float)) else str(v)) if show_values else None
+    _fmt_map = {
+        "int": lambda v: f"{v:,.0f}",
+        "1f": lambda v: f"{v:,.1f}",
+        "2f": lambda v: f"{v:,.2f}",
+        "pct": lambda v: f"{v:.0f}%",
+        "ratio": lambda v: f"{v:.1f}x",
+    }
+    fmt_fn = _fmt_map.get(value_format, _fmt_map["int"])
+    text = df_sorted[x].apply(lambda v: fmt_fn(v) if isinstance(v, (int, float)) else str(v)) if show_values else None
 
     hover_template = "<b>%{y}</b><br>Count: %{x:,.0f}<extra></extra>"
     if hover_data:
@@ -172,6 +184,64 @@ def grouped_bar(
     return _apply_layout(fig, title, height)
 
 
+# ── Diverging / Butterfly ────────────────────────────────────────────────
+
+def diverging_bar(
+    df: pd.DataFrame,
+    y: str,
+    left_col: str,
+    right_col: str,
+    left_label: str = "Left",
+    right_label: str = "Right",
+    left_color: str = STEEL,
+    right_color: str = CORAL,
+    title: str = "",
+    height: int = 450,
+) -> go.Figure:
+    """
+    Horizontal diverging (butterfly) bar chart — two measures mirrored.
+
+    Left values are shown as negative bars, right as positive. Text labels
+    show absolute values with counts.
+    """
+    df_plot = df.sort_values(right_col, ascending=True).copy()
+
+    fig = go.Figure()
+    # Left bars (negated for visual divergence)
+    fig.add_trace(go.Bar(
+        name=left_label,
+        y=df_plot[y],
+        x=-df_plot[left_col],
+        orientation="h",
+        marker_color=left_color,
+        text=df_plot[left_col].apply(lambda v: f"{v:.0f}%"),
+        textposition="outside",
+        textfont=dict(size=11, color="#495057"),
+        hovertemplate=f"<b>%{{y}}</b><br>{left_label}: %{{customdata:.1f}}%<extra></extra>",
+        customdata=df_plot[left_col],
+    ))
+    # Right bars
+    fig.add_trace(go.Bar(
+        name=right_label,
+        y=df_plot[y],
+        x=df_plot[right_col],
+        orientation="h",
+        marker_color=right_color,
+        text=df_plot[right_col].apply(lambda v: f"{v:.0f}%"),
+        textposition="outside",
+        textfont=dict(size=11, color="#495057"),
+        hovertemplate=f"<b>%{{y}}</b><br>{right_label}: %{{x:.1f}}%<extra></extra>",
+    ))
+
+    fig.update_layout(barmode="overlay")
+    fig.update_xaxes(
+        showgrid=True, zeroline=True, zerolinecolor="#dee2e6", zerolinewidth=2,
+        showticklabels=False,  # Hide negative tick labels
+    )
+    fig.update_yaxes(showgrid=False)
+    return _apply_layout(fig, title, height)
+
+
 # ── Heatmaps ─────────────────────────────────────────────────────────────
 
 def heatmap(
@@ -182,6 +252,9 @@ def heatmap(
     lower_triangle_only: bool = False,
     annotation_threshold: int | None = None,
     colorscale: list | str | None = None,
+    value_format: str = "int",
+    colorbar_title: str = "Reports",
+    hover_labels: dict[str, str] | None = None,
 ) -> go.Figure:
     """
     Heatmap from a pivot table / matrix DataFrame.
@@ -190,11 +263,14 @@ def heatmap(
         mask_diagonal: If True, set diagonal to NaN so it doesn't dominate visually.
         lower_triangle_only: If True, mask the upper triangle (for symmetric matrices).
         annotation_threshold: Only annotate cells with values >= this threshold.
+            If None, all non-NaN cells are annotated.
         colorscale: Custom colorscale. Defaults to SEQUENTIAL_SCALE.
+        value_format: "int" for integer display, "pct" for "X%" display.
+        colorbar_title: Title for the colorbar.
+        hover_labels: Optional dict mapping axis codes to full names for hover.
     """
     z = matrix.values.astype(float).copy()
     if lower_triangle_only:
-        # Mask upper triangle (keep lower + diagonal unless mask_diagonal is also set)
         mask = np.triu_indices_from(z, k=1)
         z[mask] = np.nan
     if mask_diagonal:
@@ -202,19 +278,54 @@ def heatmap(
 
     scale = colorscale or SEQUENTIAL_SCALE
 
-    # Build annotation text — only show values above threshold
+    # Build annotation text and dynamic font colors
     text = z.copy().astype(object)
+    font_colors = np.full(z.shape, "", dtype=object)
+    z_max = np.nanmax(z) if not np.all(np.isnan(z)) else 1
     for i in range(z.shape[0]):
         for j in range(z.shape[1]):
             val = z[i, j]
             if np.isnan(val):
                 text[i, j] = ""
+                font_colors[i, j] = "#495057"
             elif annotation_threshold is not None and val < annotation_threshold:
                 text[i, j] = ""
+                font_colors[i, j] = "#495057"
             else:
-                text[i, j] = f"{int(val)}"
+                if value_format == "pct":
+                    text[i, j] = f"{val:.0f}%"
+                else:
+                    text[i, j] = f"{int(val)}"
+                # Dark text on light cells, white text on dark cells
+                intensity = val / z_max if z_max > 0 else 0
+                font_colors[i, j] = "#ffffff" if intensity > 0.55 else "#495057"
 
-    fig = go.Figure(go.Heatmap(
+    # Build hover template with optional full names
+    if hover_labels:
+        x_labels = matrix.columns.tolist()
+        y_labels = matrix.index.tolist()
+        custom_hover = np.full(z.shape, "", dtype=object)
+        for i in range(z.shape[0]):
+            for j in range(z.shape[1]):
+                y_name = hover_labels.get(y_labels[i], y_labels[i])
+                x_name = hover_labels.get(x_labels[j], x_labels[j])
+                val = z[i, j]
+                if np.isnan(val):
+                    custom_hover[i, j] = ""
+                else:
+                    val_str = f"{val:.0f}%" if value_format == "pct" else f"{int(val)}"
+                    custom_hover[i, j] = (
+                        f"<b>{y_labels[i]}</b> ({y_name})<br>"
+                        f"<b>{x_labels[j]}</b> ({x_name})<br>"
+                        f"{colorbar_title}: {val_str}"
+                    )
+        hovertemplate = "%{customdata}<extra></extra>"
+        customdata = custom_hover
+    else:
+        hovertemplate = "<b>%{y}</b> & <b>%{x}</b><br>" + colorbar_title + ": %{z:.0f}<extra></extra>"
+        customdata = None
+
+    trace_kwargs = dict(
         z=z,
         x=matrix.columns.tolist(),
         y=matrix.index.tolist(),
@@ -222,10 +333,30 @@ def heatmap(
         text=text,
         texttemplate="%{text}",
         textfont=dict(size=10),
-        hovertemplate="<b>%{y}</b> & <b>%{x}</b><br>Reports: %{z:.0f}<extra></extra>",
+        hovertemplate=hovertemplate,
         showscale=True,
-        colorbar=dict(thickness=12, len=0.5, title="Reports"),
-    ))
+        colorbar=dict(thickness=12, len=0.5, title=colorbar_title),
+    )
+    if customdata is not None:
+        trace_kwargs["customdata"] = customdata
+
+    fig = go.Figure(go.Heatmap(**trace_kwargs))
+
+    # Apply per-cell font colors via annotations for contrast
+    x_labels = matrix.columns.tolist()
+    y_labels = matrix.index.tolist()
+    for i in range(z.shape[0]):
+        for j in range(z.shape[1]):
+            if text[i, j] != "":
+                fig.add_annotation(
+                    x=x_labels[j], y=y_labels[i],
+                    text=str(text[i, j]),
+                    showarrow=False,
+                    font=dict(size=10, color=font_colors[i, j]),
+                )
+    # Hide the built-in text since we use annotations for color control
+    fig.update_traces(texttemplate="")
+
     fig.update_yaxes(autorange="reversed", showgrid=False, tickfont=dict(size=10))
     fig.update_xaxes(showgrid=False, tickangle=-45, tickfont=dict(size=10))
     return _apply_layout(fig, title, height)

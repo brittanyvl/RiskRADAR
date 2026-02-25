@@ -17,7 +17,9 @@ import streamlit as st
 # ── Abbreviation Tooltip Dictionary ───────────────────────────────────────
 # Maps abbreviation → full name. Used by abbr() for <abbr title="..."> tags.
 ABBREVIATIONS = {
+    # ── L1 CICTT Categories (all 27) ──────────────────────────────────────
     "LOC-I": "Loss of Control — In Flight",
+    "LOC-G": "Loss of Control — Ground",
     "CFIT": "Controlled Flight Into Terrain",
     "SCF-PP": "System/Component Failure — Powerplant",
     "SCF-NP": "System/Component Failure — Non-Powerplant",
@@ -32,18 +34,22 @@ ABBREVIATIONS = {
     "UNK": "Unknown or Undetermined",
     "RAMP": "Ground Handling",
     "BIRD": "Bird Strike",
-    "ATM": "Air Traffic Management / Communication",
-    "NAV": "Navigation",
-    "RI": "Runway Incursion",
-    "TURB": "Turbulence",
+    "ATM": "ATM/CNS (Air Traffic Management)",
+    "NAV": "Navigation Errors",
+    "RI-VAP": "Runway Incursion — Vehicle/Aircraft/Person",
+    "TURB": "Turbulence Encounter",
     "WSTRW": "Windshear or Thunderstorm",
     "ADRM": "Aerodrome",
     "SEC": "Security Related",
-    "CABIN": "Cabin Safety",
+    "CABIN": "Cabin Safety Events",
     "EVAC": "Evacuation",
     "F-NI": "Fire/Smoke — Non-Impact",
     "F-POST": "Fire/Smoke — Post-Impact",
     "GCOL": "Ground Collision",
+    "CTOL": "Collision with Obstacle During Takeoff/Landing",
+    "WILD": "Wildlife Strike",
+    "AMAN": "Abrupt Maneuver",
+    # ── General aviation / meteorological terms ───────────────────────────
     "VMC": "Visual Meteorological Conditions",
     "IMC": "Instrument Meteorological Conditions",
     "CICTT": "CAST/ICAO Common Taxonomy Team",
@@ -69,19 +75,21 @@ def abbr(code: str) -> str:
 
 def kpi_row(metrics: list[dict]):
     """
-    Render a row of professional KPI cards.
+    Render a row of professional KPI cards with optional accent color.
 
-    Each dict: {label: str, value: str|int, detail: str (optional)}
+    Each dict: {label: str, value: str|int, detail: str (optional),
+                accent: str hex color (optional)}
     Max 4 cards per row for readability.
     """
     cols = st.columns(len(metrics))
     for col, m in zip(cols, metrics):
         with col:
+            accent = m.get("accent", "#4A6FA5")
             detail_html = f'<div class="kpi-detail">{m.get("detail", "")}</div>' if m.get("detail") else ""
             st.markdown(f"""
-            <div class="kpi-card">
-                <div class="kpi-value">{m['value']}</div>
+            <div class="kpi-card" style="border-top: 3px solid {accent};">
                 <div class="kpi-label">{m['label']}</div>
+                <div class="kpi-value">{m['value']}</div>
                 {detail_html}
             </div>
             """, unsafe_allow_html=True)

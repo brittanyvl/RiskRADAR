@@ -96,6 +96,42 @@ def manufacturer_category_heatmap(top_n: int = 10) -> pd.DataFrame:
     return _fn(top_n)
 
 
+@st.cache_data(ttl=3600)
+def key_risk_trends_by_decade(categories: list[str] | None = None) -> pd.DataFrame:
+    from analytics.queries.fleet_safety import key_risk_trends_by_decade as _fn
+    return _fn(categories)
+
+
+@st.cache_data(ttl=3600)
+def human_factors_breakdown() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import human_factors_breakdown as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def loci_subtypes_by_aircraft() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import loci_subtypes_by_aircraft as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def weather_risk_ratios() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import weather_risk_ratios as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def human_factors_by_category() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import human_factors_by_category as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def component_failures_by_aircraft() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import component_failures_by_aircraft as _fn
+    return _fn()
+
+
 # ---------------------------------------------------------------------------
 # underwriting.py wrappers
 # ---------------------------------------------------------------------------
