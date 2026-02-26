@@ -604,7 +604,7 @@ analytics/queries/
 |--------|-----------|---------|
 | **shared** | `category_counts()`, `cooccurrence_matrix()`, `category_by_feature()`, `dataset_summary()` | Foundation queries used by all reports |
 | **fleet_safety** | `risk_by_aircraft_category()`, `risk_by_manufacturer()`, `scf_pp_breakdown()`, `scf_np_breakdown()`, `failure_trends_by_decade()` | Fleet-level risk analysis |
-| **underwriting** | `region_season_matrix()`, `vmc_imc_category_distribution()`, `time_of_day_distribution()`, `bayesian_profile_comparison()` | Insurance risk segmentation |
+| **underwriting** | `region_season_matrix()`, `vmc_imc_category_distribution()`, `time_of_day_distribution()`, `bayesian_profile_comparison()`, `severity_ranked_categories()`, `high_complexity_categories()`, `night_high_severity_share()` | Insurance risk segmentation |
 | **operational_risk** | `loc_i_breakdown()`, `cfit_breakdown()`, `weather_time_matrix()`, `seasonal_patterns()`, `aircraft_type_risk_signatures()` | Operational safety analysis |
 | **glossary_data** | `get_l1_glossary()`, `get_l2_glossary()`, `get_aviation_terms()`, `get_statistical_terms()` | Terminology reference data |
 
@@ -633,8 +633,8 @@ streamlit run app/main.py
 
 | Page | Persona | Key Visualizations |
 |------|---------|-------------------|
-| **Fleet Safety Report** | Fleet safety manager | Aircraft type risk profiles, manufacturer stacked bars, SCF component breakdowns, co-occurrence heatmap, failure trends |
-| **Underwriting Risk Report** | Aviation underwriting analyst | Co-occurrence matrix, region x season heatmap, VMC/IMC distributions, time-of-day patterns, Bayesian profile comparisons |
+| **Fleet Safety Report** | Fleet safety manager | Aircraft type risk profiles, manufacturer % heatmap, human factors breakdown, LOC-I subtypes, IMC/VMC diverging chart, component failures, decade trends |
+| **Underwriting Risk Report** | Aviation underwriting analyst | 6 insurance-focused KPIs, aircraft type prevalence heatmap, IMC/VMC diverging pricing factors, night ops risk premium, co-occurrence clustering, quadrant bubble scatter severity spectrum, decade trends, interactive Bayesian risk profile builder |
 | **Operational Risk Report** | Chief pilot / safety officer | LOC-I/CFIT L2 deep dives, weather x time heatmap, seasonal patterns, aircraft type risk signatures |
 | **Risk Profiler** | Any stakeholder | Interactive 5-feature Bayesian risk model with calibrated probabilities |
 | **Terminology** | Non-aviation users | Searchable glossary of CICTT categories, subcategories, aviation and statistical terms |
@@ -651,7 +651,7 @@ streamlit run app/main.py
 | Component | Purpose |
 |-----------|---------|
 | `app/components/data_loader.py` | `@st.cache_data` wrappers for all analytics queries; `@st.cache_resource` for Bayesian model |
-| `app/components/charts.py` | Plotly chart builders: `horizontal_bar()`, `grouped_bar()`, `heatmap()`, `line_chart()`, `stacked_bar()`, `donut_chart()` |
+| `app/components/charts.py` | Plotly chart builders: `horizontal_bar()`, `vertical_bar()`, `grouped_bar()`, `diverging_bar()`, `heatmap()`, `line_chart()`, `stacked_bar()` |
 | `app/components/report_layout.py` | Narrative elements: `page_header()`, `kpi_row()`, `section_divider()`, `insight()`, `chart_with_insight()`, `methodology_section()`, `abbr()` (HTML tooltips) |
 | `app/components/theme.py` | Brand colors (STEEL, CORAL, AMBER, TEAL, NAVY), colorblind-safe palette, time-of-day color scheme, CSS injection |
 

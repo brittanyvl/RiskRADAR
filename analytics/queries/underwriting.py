@@ -160,8 +160,10 @@ def bayesian_profile_comparison(profiles: list[dict]) -> pd.DataFrame:
 
     results = {}
     for profile in profiles:
-        label = profile.pop("label", str(profile))
-        preds = model.predict(top_k=27, **profile)
+        # Extract label without mutating the input dict
+        features = {k: v for k, v in profile.items() if k != "label"}
+        label = profile.get("label", str(features))
+        preds = model.predict(top_k=27, **features)
         results[label] = {p["category_code"]: p["probability"] for p in preds}
 
     df = pd.DataFrame(results)
@@ -169,6 +171,71 @@ def bayesian_profile_comparison(profiles: list[dict]) -> pd.DataFrame:
     # Sort by max probability across profiles
     df["_max"] = df.max(axis=1)
     df = df.sort_values("_max", ascending=False).drop(columns=["_max"])
+    return df
+
+
+def severity_ranked_categories() -> pd.DataFrame:
+    """L1 categories ranked by average co-occurring category count (severity proxy)."""
+    conn = get_connection()
+    df = pd.read_sql_query("""
+        SELECT t.category_code, t.category_name,
+               COUNT(DISTINCT t.report_id) AS report_count,
+               AVG(rc.n_categories) AS avg_complexity,
+               SUM(CASE WHEN rc.n_categories >= 4 THEN 1 ELSE 0 END) AS high_complexity_count
+        FROM report_taxonomy t
+        JOIN report_types rt ON t.report_id = rt.report_id
+        JOIN (
+            SELECT report_id, COUNT(DISTINCT category_code) AS n_categories
+            FROM report_taxonomy
+            WHERE level = 'L1'
+            GROUP BY report_id
+        ) rc ON t.report_id = rc.report_id
+        WHERE t.level = 'L1' AND rt.report_type = 'accident'
+        GROUP BY t.category_code, t.category_name
+        ORDER BY avg_complexity DESC
+    """, conn)
+    conn.close()
+    return df
+
+
+def high_complexity_categories() -> pd.DataFrame:
+    """Top L1 categories among reports with 4+ categories (complex loss drivers)."""
+    conn = get_connection()
+    df = pd.read_sql_query("""
+        SELECT t.category_code, t.category_name,
+               COUNT(DISTINCT t.report_id) AS report_count
+        FROM report_taxonomy t
+        JOIN report_types rt ON t.report_id = rt.report_id
+        JOIN (
+            SELECT report_id
+            FROM report_taxonomy
+            WHERE level = 'L1'
+            GROUP BY report_id
+            HAVING COUNT(DISTINCT category_code) >= 4
+        ) complex ON t.report_id = complex.report_id
+        WHERE t.level = 'L1' AND rt.report_type = 'accident'
+        GROUP BY t.category_code, t.category_name
+        ORDER BY report_count DESC
+    """, conn)
+    conn.close()
+    return df
+
+
+def night_high_severity_share() -> pd.DataFrame:
+    """Time-of-day distribution for LOC-I + CFIT accidents only."""
+    conn = get_connection()
+    df = pd.read_sql_query("""
+        SELECT f.time_of_day,
+               COUNT(DISTINCT t.report_id) AS report_count
+        FROM report_taxonomy t
+        JOIN report_features f ON t.report_id = f.report_id
+        JOIN report_types rt ON t.report_id = rt.report_id
+        WHERE t.level = 'L1' AND rt.report_type = 'accident'
+              AND t.category_code IN ('LOC-I', 'CFIT')
+              AND f.time_of_day IS NOT NULL
+        GROUP BY f.time_of_day
+    """, conn)
+    conn.close()
     return df
 
 

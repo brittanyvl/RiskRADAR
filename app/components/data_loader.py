@@ -167,6 +167,24 @@ def bayesian_profile_comparison(profiles: list[dict]) -> pd.DataFrame:
 
 
 @st.cache_data(ttl=3600)
+def severity_ranked_categories() -> pd.DataFrame:
+    from analytics.queries.underwriting import severity_ranked_categories as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def high_complexity_categories() -> pd.DataFrame:
+    from analytics.queries.underwriting import high_complexity_categories as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def night_high_severity_share() -> pd.DataFrame:
+    from analytics.queries.underwriting import night_high_severity_share as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
 def category_by_aircraft_and_weather() -> pd.DataFrame:
     from analytics.queries.underwriting import category_by_aircraft_and_weather as _fn
     return _fn()
