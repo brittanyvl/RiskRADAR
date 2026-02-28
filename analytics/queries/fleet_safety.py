@@ -388,6 +388,23 @@ def human_factors_by_category() -> pd.DataFrame:
     return df
 
 
+def human_factors_totals() -> pd.DataFrame:
+    """Distinct report counts per HF subcategory (no parent breakdown)."""
+    conn = get_connection()
+    df = pd.read_sql_query("""
+        SELECT t.category_code, t.category_name,
+               COUNT(DISTINCT t.report_id) AS report_count
+        FROM report_taxonomy t
+        JOIN report_types rt ON t.report_id = rt.report_id
+        WHERE t.level = 'L2' AND t.category_code LIKE 'HF-%%'
+              AND rt.report_type = 'accident'
+        GROUP BY t.category_code, t.category_name
+        ORDER BY report_count DESC
+    """, conn)
+    conn.close()
+    return df
+
+
 def component_failures_by_aircraft() -> pd.DataFrame:
     """
     SCF-PP and SCF-NP L2 subcategories by aircraft category.

@@ -16,7 +16,7 @@ from app.components.charts import (
 )
 from app.components.report_layout import (
     page_header, kpi_row, section_divider, insight, coverage_note,
-    sample_note, methodology_section, chart_with_insight, ABBREVIATIONS,
+    sample_note, methodology_section, chart_with_insight, ABBREVIATIONS, abbr,
 )
 from app.components.theme import (
     STEEL, CORAL, AMBER, TEAL, NAVY, CHART_PALETTE,
@@ -108,6 +108,7 @@ def _render_kpis(summary: dict, n_accidents: int, cat_counts: pd.DataFrame):
     complexity = dl.multi_label_complexity()
     three_plus_pct = 0.0
     if not complexity.empty:
+        complexity["n_categories"] = complexity["n_categories"].astype(str)
         three_plus = complexity[complexity["n_categories"].isin(["3", "4+"])]
         three_plus_pct = three_plus["pct"].sum()
 
@@ -119,7 +120,7 @@ def _render_kpis(summary: dict, n_accidents: int, cat_counts: pd.DataFrame):
         if not top_imc.empty:
             imc_multiplier = top_imc["risk_ratio"].mean()
 
-    # KPI 4: Night Ops Share (night share of LOC-I + CFIT + UIMC accidents)
+    # KPI 4: Night Ops Share (night share of LOC-I + CFIT accidents)
     night_severity = dl.night_high_severity_share()
     night_hi_sev_pct = 0.0
     if not night_severity.empty:
@@ -145,7 +146,7 @@ def _render_kpis(summary: dict, n_accidents: int, cat_counts: pd.DataFrame):
         {
             "label": "IMC Risk Multiplier",
             "value": f"{imc_multiplier:.1f}x",
-            "detail": "Average IMC overrepresentation for weather-sensitive categories",
+            "detail": "Average IMC overrepresentation across top-5 weather-sensitive categories",
             "accent": STEEL,
         },
         {
@@ -357,29 +358,40 @@ def _render_severity_spectrum():
     ].sort_values("report_count", ascending=False)
 
     critical_codes = critical["category_code"].tolist()
-    if len(critical_codes) <= 3:
-        critical_display = ", ".join(f"<b>{c}</b>" for c in critical_codes)
+
+    if critical.empty:
+        chart_with_insight(
+            fig,
+            "No categories currently fall in the critical quadrant (high frequency "
+            "and high compound-loss rate). This may indicate a relatively balanced "
+            "portfolio — review individual quadrants for segment-level exposure.",
+            insight_type="default",
+            chart_key="uw_severity_spectrum",
+        )
     else:
-        critical_display = (
-            ", ".join(f"<b>{c}</b>" for c in critical_codes[:3])
-            + f", and {len(critical_codes) - 3} others"
+        if len(critical_codes) <= 3:
+            critical_display = ", ".join(f"<b>{abbr(c)}</b>" for c in critical_codes)
+        else:
+            critical_display = (
+                ", ".join(f"<b>{abbr(c)}</b>" for c in critical_codes[:3])
+                + f", and {len(critical_codes) - 3} others"
+            )
+
+        worst = critical.loc[critical["high_complexity_pct"].idxmax()]
+        insight_text = (
+            f"{len(critical_codes)} categories concentrate in the critical quadrant "
+            f"(upper right): {critical_display}. These combine high frequency with "
+            f"the highest compound-loss rates in the portfolio. "
+            f"<b>{abbr(worst['category_code'])}</b> stands out — "
+            f"{worst['high_complexity_pct']:.0f}% of its events involve 4+ concurrent "
+            f"hazard categories ({int(worst['high_complexity_count'])} compound events), "
+            f"signaling cascading failure scenarios where multiple coverage sections "
+            f"are triggered simultaneously. Categories in this quadrant warrant the "
+            f"most conservative severity assumptions in pricing and reserving."
         )
 
-    worst = critical.loc[critical["high_complexity_pct"].idxmax()]
-    insight_text = (
-        f"{len(critical_codes)} categories concentrate in the critical quadrant "
-        f"(upper right): {critical_display}. These combine high frequency with "
-        f"the highest compound-loss rates in the portfolio. "
-        f"<b>{worst['category_code']}</b> stands out — "
-        f"{worst['high_complexity_pct']:.0f}% of its events involve 4+ concurrent "
-        f"hazard categories ({int(worst['high_complexity_count'])} compound events), "
-        f"signaling cascading failure scenarios where multiple coverage sections "
-        f"are triggered simultaneously. Categories in this quadrant warrant the "
-        f"most conservative severity assumptions in pricing and reserving."
-    )
-
-    chart_with_insight(fig, insight_text, insight_type="warning",
-                       chart_key="uw_severity_spectrum")
+        chart_with_insight(fig, insight_text, insight_type="warning",
+                           chart_key="uw_severity_spectrum")
 
     # Full dataset in expander
     with st.expander(f"View all {len(severity_all)} categories"):
@@ -561,7 +573,7 @@ def _render_weather_pricing(summary: dict, n_accidents: int):
         right_col="imc_prevalence",
         left_label="VMC (clear weather)",
         right_label="IMC (poor weather)",
-        left_color=STEEL,
+        left_color=TEAL,
         right_color=CORAL,
         title="Category Prevalence: VMC vs IMC (Pricing Factors)",
         height=max(450, len(wrr_filtered) * 30 + 80),
@@ -572,12 +584,13 @@ def _render_weather_pricing(summary: dict, n_accidents: int):
     chart_with_insight(
         fig,
         f"<b>{most_imc['category_label']}</b> is {most_imc['risk_ratio']:.1f}x more "
-        f"prevalent in IMC than VMC, the largest weather-driven risk multiplier. For "
-        f"an underwriter, this translates to a concrete pricing factor: policies "
-        f"covering frequent IMC operations in {most_imc['category_code']}-prone "
-        f"segments should carry a proportional surcharge. Categories that skew VMC "
-        f"(left side), like <b>{most_vmc['category_label']}</b>, are primarily "
-        f"piloting-skill risks rather than weather risks.",
+        f"prevalent in {abbr('IMC')} than {abbr('VMC')}, the largest weather-driven "
+        f"risk multiplier. For an underwriter, this translates to a concrete pricing "
+        f"factor: policies covering frequent IMC operations in "
+        f"{most_imc['category_code']}-prone segments should carry a proportional "
+        f"surcharge. Categories that skew VMC (left side), like "
+        f"<b>{most_vmc['category_label']}</b>, are primarily piloting-skill risks "
+        f"rather than weather risks.",
         chart_key="uw_weather_diverge",
     )
 
@@ -594,7 +607,7 @@ def _render_night_ops(summary: dict, n_accidents: int):
     )
 
     # Show time window definitions
-    windows_text = " . ".join(f"**{k}** {v}" for k, v in TIME_WINDOWS.items())
+    windows_text = " · ".join(f"**{k}** {v}" for k, v in TIME_WINDOWS.items())
     st.caption(windows_text)
 
     coverage_note("Time-of-day", summary["time_coverage_pct"], n_accidents)
@@ -661,12 +674,9 @@ def _render_night_ops(summary: dict, n_accidents: int):
         height=420,
     )
 
-    # Build night share insight from data
-    overall_night = time_df[time_df["time_of_day"] == "Night"]["report_count"].sum()
-    overall_total = time_df["report_count"].sum()
-    overall_night_pct = (
-        overall_night / overall_total * 100 if overall_total > 0 else 0
-    )
+    # Overall night share from distinct-report query (avoids multi-label double-count)
+    night_share = dl.night_accident_share()
+    overall_night_pct = night_share["night_pct"]
 
     night_shares_text = []
     for cat in ["CFIT", "UIMC", "LOC-I"]:
@@ -678,7 +688,7 @@ def _render_night_ops(summary: dict, n_accidents: int):
             ].sum()
             if total_cat > 0:
                 pct = night_cat / total_cat * 100
-                night_shares_text.append(f"{cat} ({pct:.0f}%)")
+                night_shares_text.append(f"{abbr(cat)} ({pct:.0f}%)")
 
     chart_with_insight(
         fig,
@@ -906,11 +916,29 @@ def _render_cooccurrence(cat_counts: pd.DataFrame):
         index=top_10_codes, columns=top_10_codes,
     )
 
-    # Wrap long axis labels with <br> for horizontal display
+    # Wrap long axis labels with <br> so they stay horizontal
+    def _wrap_label(name: str, max_line: int = 14) -> str:
+        """Insert <br> to keep each line under max_line chars."""
+        if len(name) <= max_line:
+            return name
+        # Prefer breaking on dashes first, then spaces
+        name = name.replace(" — ", "<br>").replace(" - ", "<br>")
+        if "<br>" in name:
+            return name
+        words = name.split()
+        lines, cur = [], ""
+        for w in words:
+            if cur and len(cur) + 1 + len(w) > max_line:
+                lines.append(cur)
+                cur = w
+            else:
+                cur = f"{cur} {w}" if cur else w
+        if cur:
+            lines.append(cur)
+        return "<br>".join(lines)
+
     wrapped_labels = {
-        code: ABBREVIATIONS.get(code, code).replace(" — ", "<br>").replace(" ", "<br>", 1)
-        if len(ABBREVIATIONS.get(code, code)) > 12
-        else ABBREVIATIONS.get(code, code)
+        code: _wrap_label(ABBREVIATIONS.get(code, code))
         for code in top_10_codes
     }
     coocc_display = coocc_filtered.copy()
@@ -923,11 +951,13 @@ def _render_cooccurrence(cat_counts: pd.DataFrame):
         mask_diagonal=True,
         lower_triangle_only=True,
         annotation_threshold=0,
-        height=520,
+        height=600,
         colorbar_title="Shared Reports",
     )
-    # Override default 45° x-axis to horizontal
-    fig.update_xaxes(tickangle=0)
+    # Horizontal labels — small font + wide layout to prevent overlap
+    fig.update_xaxes(tickangle=0, tickfont=dict(size=7))
+    fig.update_yaxes(tickfont=dict(size=7))
+    fig.update_layout(width=900, margin=dict(b=130, l=130))
 
     # Find top 3 co-occurring pairs
     vals = coocc_filtered.values.astype(float).copy()
@@ -965,10 +995,10 @@ def _render_cooccurrence(cat_counts: pd.DataFrame):
 
         chart_with_insight(
             fig,
-            f"<b>{first[0]}</b> and <b>{first[1]}</b> co-occur in {first[2]} reports, "
-            f"the strongest pairing. For underwriters, this means that a policy "
-            f"triggered by a {first[0]} event has a {co_pct:.0f}% probability of also "
-            f"involving {first[1]} -- correlated exposure that should be reflected in "
+            f"<b>{abbr(first[0])}</b> and <b>{abbr(first[1])}</b> co-occur in {first[2]} "
+            f"reports, the strongest pairing. For underwriters, this means that a policy "
+            f"triggered by a {first[0]} event has a historical co-occurrence rate of "
+            f"{co_pct:.0f}% with {first[1]} -- correlated exposure that should be reflected in "
             f"aggregate risk modeling. The top 3 co-occurrence pairs are: {pair_text}.",
             chart_key="uw_cooccurrence",
         )
@@ -976,7 +1006,7 @@ def _render_cooccurrence(cat_counts: pd.DataFrame):
         st.plotly_chart(fig, use_container_width=True, key="uw_cooccurrence")
 
     # Expandable acronym reference
-    abbr_ref = " . ".join(
+    abbr_ref = " · ".join(
         f"**{code}** = {ABBREVIATIONS.get(code, code)}"
         for code in top_10_codes
         if code in ABBREVIATIONS
@@ -1241,7 +1271,7 @@ def _render_bayesian_profiles():
 
     # Acronym reference for category codes
     shown_codes = top10.index.tolist()
-    abbr_ref = " . ".join(
+    abbr_ref = " · ".join(
         f"**{code}** = {ABBREVIATIONS.get(code, code)}"
         for code in shown_codes
         if code in ABBREVIATIONS

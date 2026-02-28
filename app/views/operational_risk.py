@@ -21,15 +21,16 @@ import numpy as np
 
 from app.components import data_loader as dl
 from app.components.charts import (
-    horizontal_bar, grouped_bar, heatmap, line_chart,
+    horizontal_bar, heatmap, line_chart, grouped_bar,
 )
 from app.components.report_layout import (
     page_header, kpi_row, section_divider, insight, coverage_note,
     sample_note, methodology_section, chart_with_insight, ABBREVIATIONS,
+    abbr,
 )
 from app.components.theme import (
-    STEEL, CORAL, AMBER, TEAL, NAVY, CHART_PALETTE,
-    HEATMAP_SCALE, SEQUENTIAL_SCALE, TIME_COLORS, TIME_WINDOWS,
+    STEEL, CORAL, AMBER, TEAL, NAVY,
+    HEATMAP_SCALE, SEQUENTIAL_SCALE, TIME_WINDOWS,
 )
 
 
@@ -45,14 +46,14 @@ def render():
     seasonal_df = dl.seasonal_patterns(["LOC-I", "CFIT", "ICE", "UIMC", "FUEL"])
     region_matrix = dl.region_category_matrix(top_n_categories=5)
     critical_df = dl.critical_phase_categories()
-    hf_data = dl.human_factors_breakdown()
     hf_by_cat = dl.human_factors_by_category()
-    ac_risk = dl.risk_by_aircraft_category()
+    sigs = dl.aircraft_type_risk_signatures()
     decade_trends = dl.category_prevalence_by_decade(
         ["LOC-I", "CFIT", "UIMC", "ICE", "SCF-PP"]
     )
     coocc = dl.cooccurrence_matrix()
     night_data = dl.night_accident_share()
+    hf_totals = dl.human_factors_totals()
 
     n_accidents = summary["accident_reports"]
     avg_cats = summary["avg_categories_per_report"]
@@ -69,11 +70,13 @@ def render():
         "NTSB accident investigation findings.",
     )
 
-    # ── KPI Row 1: Headline Risk Indicators ──
+    # ── KPI Row 1 (4 KPIs): Headline Risk Indicators ──
     loc_i_row = cat_df[cat_df["category_code"] == "LOC-I"]
     cfit_row = cat_df[cat_df["category_code"] == "CFIT"]
     loc_i_pct = loc_i_row["pct_of_reports"].iloc[0] if len(loc_i_row) else 0
     cfit_pct = cfit_row["pct_of_reports"].iloc[0] if len(cfit_row) else 0
+
+    night_pct = night_data["night_pct"]
 
     kpi_row([
         {
@@ -91,27 +94,9 @@ def render():
         {
             "label": "IMC Accident Share",
             "value": f"{summary['imc_pct']:.0f}%",
-            "detail": "Of accidents occurred in Instrument Meteorological Conditions",
-            "accent": AMBER,
+            "detail": "Of weather-classified accidents occurred in Instrument Meteorological Conditions",
+            "accent": STEEL,
         },
-    ])
-
-    # ── KPI Row 2: Operational Depth Indicators ──
-    night_pct = night_data["night_pct"]
-    top_hf = hf_data.iloc[0] if not hf_data.empty else None
-    _hf_display = {
-        "HF-VIOLATION": "Procedural Violation",
-        "HF-PERCEPTUAL": "Perceptual Error",
-        "HF-DECISION": "Decision Error",
-        "HF-SKILL": "Skill-Based Error",
-    }
-    top_hf_name = (
-        _hf_display.get(top_hf["category_code"], top_hf["category_code"])
-        if top_hf is not None else "N/A"
-    )
-    top_hf_count = int(top_hf["report_count"]) if top_hf is not None else 0
-
-    kpi_row([
         {
             "label": "Night Accident Rate",
             "value": f"{night_pct:.0f}%",
@@ -119,6 +104,27 @@ def render():
                       f"accidents with known time occurred at night",
             "accent": NAVY,
         },
+    ])
+
+    # ── KPI Row 2 (2 KPIs): Operational Depth Indicators ──
+    _hf_display = {
+        "HF-VIOLATION": "Procedural Violation",
+        "HF-PERCEPTUAL": "Perceptual Error",
+        "HF-DECISION": "Decision Error",
+        "HF-SKILL": "Skill-Based Error",
+        "HF-CONDITION": "Adverse Condition",
+    }
+
+    # Use hf_totals (distinct counts) for the KPI
+    if not hf_totals.empty:
+        top_hf = hf_totals.iloc[0]
+        top_hf_name = _hf_display.get(top_hf["category_code"], top_hf["category_code"])
+        top_hf_count = int(top_hf["report_count"])
+    else:
+        top_hf_name = "N/A"
+        top_hf_count = 0
+
+    kpi_row([
         {
             "label": "Avg Contributing Factors",
             "value": f"{avg_cats:.1f}",
@@ -132,8 +138,6 @@ def render():
             "accent": NAVY,
         },
     ])
-
-    st.markdown("")  # spacer
 
     sample_note(
         n_accidents,
@@ -181,7 +185,7 @@ def render():
 
     top3 = top10.head(3)
     top3_text = ", ".join(
-        f"<b>{row['category_code']}</b> ({ABBREVIATIONS.get(row['category_code'], row['category_code'])})"
+        f"<b>{abbr(row['category_code'])}</b>"
         for _, row in top3.iterrows()
     )
     top3_pcts = top3["pct_of_reports"].sum()
@@ -199,12 +203,15 @@ def render():
 
     # ── Section 2: LOC-I Deep Dive ────────────────────────────────────────
     section_divider()
-    st.markdown("### Loss of Control — In Flight (LOC-I): Failure Mode Analysis")
     st.markdown(
-        "Loss of Control — In Flight (LOC-I) is the leading cause of fatal "
+        "### LOC-I (Loss of Control — In Flight): Failure Mode Analysis"
+    )
+    st.markdown(
+        f"{abbr('LOC-I')} is the leading cause of fatal "
         "accidents in general aviation. This section breaks down the specific "
-        "failure modes within LOC-I to identify where Upset Prevention and "
-        "Recovery Training (UPRT) should focus."
+        f"failure modes within {abbr('LOC-I')} to identify where "
+        f"{abbr('UPRT')} should focus.",
+        unsafe_allow_html=True,
     )
 
     _render_hazard_breakdown(
@@ -219,15 +226,15 @@ def render():
     # ── Section 3: CFIT Deep Dive ─────────────────────────────────────────
     section_divider()
     st.markdown(
-        "### Controlled Flight Into Terrain (CFIT): Failure Mode Analysis"
+        "### CFIT (Controlled Flight Into Terrain): Failure Mode Analysis"
     )
     st.markdown(
-        "Controlled Flight Into Terrain (CFIT) is the second most consequential "
+        f"{abbr('CFIT')} is the second most consequential "
         "operational hazard and among the most preventable through procedural "
-        "compliance, terrain awareness, and proper use of Terrain Awareness and "
-        "Warning Systems (TAWS/GPWS). This breakdown reveals the specific "
-        "failure modes that training and Standard Operating Procedures (SOPs) "
-        "must address."
+        f"compliance, terrain awareness, and proper use of {abbr('TAWS')}/{abbr('GPWS')}. "
+        "This breakdown reveals the specific failure modes that training and "
+        f"{abbr('SOPs')} must address.",
+        unsafe_allow_html=True,
     )
 
     _render_hazard_breakdown(
@@ -248,9 +255,10 @@ def render():
     st.markdown("### Operating Environment Risk Matrix")
     st.markdown(
         "When and in what weather do accidents concentrate? This matrix maps "
-        "accident counts by weather condition — Visual Meteorological "
-        "Conditions (VMC) versus Instrument Meteorological Conditions (IMC) "
-        "— against time of day. The result is a go/no-go decision support tool."
+        f"accident counts by weather condition — {abbr('VMC')} versus "
+        f"{abbr('IMC')} — against time of day. The result is a go/no-go "
+        "decision support tool.",
+        unsafe_allow_html=True,
     )
 
     windows_text = " · ".join(f"**{k}** {v}" for k, v in TIME_WINDOWS.items())
@@ -299,17 +307,18 @@ def render():
         ]
         if imc_night_count > 0:
             parts.append(
-                f"Instrument Meteorological Conditions (IMC) at night accounts "
+                f"{abbr('IMC')} at night accounts "
                 f"for {imc_night_count} accidents despite being the least common "
                 f"operating environment — this combination warrants special "
                 f"attention in crew briefings and dispatch decisions."
             )
         parts.append(
-            f"VMC accidents ({vmc_total} total) outnumber IMC ({imc_total}), "
+            f"{abbr('VMC')} accidents ({vmc_total} total) outnumber "
+            f"{abbr('IMC')} ({imc_total}), "
             f"reinforcing that clear weather does not eliminate risk — "
-            f"complacency in VMC is itself a hazard. Brief crews on VMC "
-            f"risk factors (maneuvering flight, low-altitude operations) "
-            f"as vigorously as IMC threats."
+            f"complacency in {abbr('VMC')} is itself a hazard. Brief crews on "
+            f"{abbr('VMC')} risk factors (maneuvering flight, low-altitude "
+            f"operations) as vigorously as {abbr('IMC')} threats."
         )
 
         chart_with_insight(
@@ -326,8 +335,9 @@ def render():
     st.markdown(
         "Hazard prevalence shifts with the seasons. Understanding these "
         "rhythms allows chief pilots to adjust seasonal briefing topics and "
-        "safety officers to plan quarterly Safety Management System (SMS) "
-        "focus areas proactively rather than reactively."
+        f"safety officers to plan quarterly {abbr('SMS')} "
+        "focus areas proactively rather than reactively.",
+        unsafe_allow_html=True,
     )
 
     if not seasonal_df.empty:
@@ -377,19 +387,19 @@ def render():
         )
 
         seasonal_insight = (
-            f"<b>Icing (ICE)</b> risk peaks in winter at {ice_pct:.1f}% prevalence. "
-            f"<b>Unintended Flight in IMC (UIMC)</b> also rises in winter "
+            f"<b>{abbr('ICE')}</b> risk peaks in winter at {ice_pct:.1f}% prevalence. "
+            f"<b>{abbr('UIMC')}</b> also rises in winter "
             f"({uimc_pct:.1f}%), when lower ceilings and reduced visibility "
-            f"catch Visual Flight Rules (VFR) pilots off guard. "
+            f"catch {abbr('VFR')} pilots off guard. "
         )
         if fuel_pct > 0:
             seasonal_insight += (
-                f"<b>Fuel Related (FUEL)</b> events reach {fuel_pct:.1f}% in "
-                f"summer, likely driven by longer cross-country VFR flights. "
+                f"<b>Fuel Related</b> events reach {fuel_pct:.1f}% in "
+                f"summer, likely driven by longer cross-country {abbr('VFR')} flights. "
             )
         seasonal_insight += (
             "Adjust seasonal briefings accordingly: winter operations should "
-            "emphasize known-ice limitations, Pilot Weather Report (PIREP) "
+            f"emphasize known-ice limitations, {abbr('PIREP')} "
             "checking, and go/no-go decision frameworks. Summer briefings "
             "should reinforce fuel planning discipline."
         )
@@ -406,9 +416,10 @@ def render():
     st.markdown(
         "Accident risks are not distributed uniformly across geography. "
         "Regional patterns should inform route-specific crew briefings, "
-        "base-specific training emphasis, and Safety Management System (SMS) "
+        f"base-specific training emphasis, and {abbr('SMS')} "
         "resource allocation. Values show report counts for each region and "
-        "hazard category combination."
+        "hazard category combination.",
+        unsafe_allow_html=True,
     )
 
     if not region_matrix.empty:
@@ -431,7 +442,7 @@ def render():
         chart_with_insight(
             fig_region,
             f"<b>{max_region}</b> has the highest concentration of "
-            f"<b>{max_cat_full}</b> ({max_cat_for_region}) events "
+            f"<b>{max_cat_full}</b> ({abbr(max_cat_for_region)}) events "
             f"({max_region_val} reports). Regional risk patterns should inform "
             f"route-specific crew briefings — pilots operating in high-"
             f"concentration regions should receive targeted scenario training "
@@ -443,15 +454,17 @@ def render():
 
     # ── Section 7: Critical Conditions — IMC at Night ─────────────────────
     section_divider()
-    st.markdown("### Highest-Risk Operating Condition: IMC at Night")
     st.markdown(
-        "A **risk ratio** compares how often a hazard occurs during "
-        "Instrument Meteorological Conditions (IMC) night operations versus "
-        "how often IMC night operations occur overall. A ratio above 1.0 "
-        "means the hazard is **more concentrated** in IMC night conditions "
-        "than expected. This analysis identifies which hazard categories "
-        "are disproportionately dangerous when flying Instrument Flight "
-        "Rules (IFR) at night."
+        "### Highest-Risk Operating Condition: IMC (Instrument Meteorological Conditions) at Night"
+    )
+    st.markdown(
+        f"A **risk ratio** compares how often a hazard occurs during "
+        f"{abbr('IMC')} night operations versus "
+        f"how often {abbr('IMC')} night operations occur overall. A ratio above 1.0 "
+        f"means the hazard is **more concentrated** in {abbr('IMC')} night conditions "
+        f"than expected. This analysis identifies which hazard categories "
+        f"are disproportionately dangerous when flying {abbr('IFR')} at night.",
+        unsafe_allow_html=True,
     )
 
     if not critical_df.empty:
@@ -491,13 +504,13 @@ def render():
             chart_with_insight(
                 fig_crit,
                 f"<b>{top_crit['category_label']}</b> "
-                f"({top_crit['category_code']}) has the highest IMC night "
+                f"({abbr(top_crit['category_code'])}) has the highest {abbr('IMC')} night "
                 f"concentration at {top_crit['risk_ratio']:.1f}x the baseline "
-                f"rate, based on {int(top_crit['imc_night_count'])} IMC night "
+                f"rate, based on {int(top_crit['imc_night_count'])} {abbr('IMC')} night "
                 f"reports out of {int(top_crit['total_count'])} total. "
                 f"Categories above the 1.0x baseline are disproportionately "
-                f"represented in IMC night accidents. Night Instrument Flight "
-                f"Rules (IFR) operations in these hazard areas deserve "
+                f"represented in {abbr('IMC')} night accidents. Night {abbr('IFR')} "
+                f"operations in these hazard areas deserve "
                 f"dedicated crew briefing items, minimum experience "
                 f"requirements, and dispatch-level risk gates.",
                 insight_type="critical",
@@ -505,7 +518,7 @@ def render():
             )
         else:
             insight(
-                "No hazard categories have three or more IMC night reports, "
+                f"No hazard categories have three or more {abbr('IMC')} night reports, "
                 "so risk ratio analysis is not shown. This may reflect "
                 "limited data coverage rather than low risk.",
                 type="warning",
@@ -519,35 +532,37 @@ def render():
 
     # ── Section 8: Human Factors Training Priorities ──────────────────────
     section_divider()
-    st.markdown("### Human Factors — Training Priorities")
     st.markdown(
-        "Human factors subcategories from the Human Factors Analysis and "
-        "Classification System (HFACS) framework reveal **why** accidents "
-        "happen, not just what happened. These findings directly map to "
-        "Crew Resource Management (CRM) curriculum, Upset Prevention and "
-        "Recovery Training (UPRT), and procedural compliance programs. "
-        "Understanding which error types dominate tells chief pilots exactly "
-        "where training investment yields the greatest safety return."
+        "### Human Factors (HFACS) — Training Priorities"
+    )
+    st.markdown(
+        f"Human factors subcategories from the {abbr('HFACS')} framework "
+        "reveal <b>why</b> accidents happen, not just what happened. These "
+        f"findings directly map to {abbr('CRM')} curriculum, {abbr('UPRT')}, "
+        "and procedural compliance programs. Understanding which error types "
+        "dominate tells chief pilots exactly where training investment yields "
+        "the greatest safety return.",
+        unsafe_allow_html=True,
     )
 
-    if not hf_data.empty:
-        hf_display = hf_data.copy()
-        hf_display["display_name"] = hf_display["category_code"].map(
+    if not hf_totals.empty:
+        hf_bar_display = hf_totals.copy()
+        hf_bar_display["display_name"] = hf_bar_display["category_code"].map(
             lambda c: _hf_display.get(c, c)
         )
 
         fig_hf = horizontal_bar(
-            hf_display,
+            hf_bar_display,
             x="report_count",
             y="display_name",
-            title="Human Factors in Accident Reports",
+            title="Human Factors in Accident Reports (Distinct Counts)",
             color=NAVY,
-            height=max(250, len(hf_display) * 45 + 60),
+            height=max(250, len(hf_bar_display) * 45 + 60),
             show_values=True,
         )
 
-        top_hf_row = hf_display.iloc[0]
-        second_hf = hf_display.iloc[1] if len(hf_display) > 1 else None
+        top_hf_row = hf_bar_display.iloc[0]
+        second_hf = hf_bar_display.iloc[1] if len(hf_bar_display) > 1 else None
         hf_insight = (
             f"<b>{top_hf_row['display_name']}</b> is the most common human "
             f"factor, appearing in {int(top_hf_row['report_count'])} reports."
@@ -607,24 +622,43 @@ def render():
             )
             fig_hf_cat.update_xaxes(tickangle=0)
 
+            # Build data-driven insight: find dominant HF per parent
+            hf_insight_parts = []
+            for parent in hf_pivot.index:
+                row = hf_pivot.loc[parent]
+                if row.max() > 0:
+                    top_hf_type = row.idxmax()
+                    top_hf_val = int(row.max())
+                    hf_insight_parts.append(
+                        f"<b>{parent}</b> is most associated with "
+                        f"{top_hf_type.replace('<br>', ' ')} ({top_hf_val} reports)"
+                    )
+
+            hf_cat_insight = ". ".join(hf_insight_parts) + "." if hf_insight_parts else ""
+            hf_cat_insight += (
+                " This means <b>compliance-focused training</b> should be "
+                "emphasized for categories dominated by procedural violations, "
+                "while <b>decision-making training</b> should be the focus for "
+                "categories driven by decision errors."
+            )
+
             chart_with_insight(
                 fig_hf_cat,
-                "Controlled Flight Into Terrain (CFIT) accidents are most "
-                "associated with procedural violations and perceptual errors, "
-                "while Loss of Control — In Flight (LOC-I) shows a strong "
-                "violation and perceptual component as well. Fuel Related "
-                "(FUEL) accidents cluster around decision errors (fuel "
-                "planning failures). This means <b>compliance-focused "
-                "training</b> should be emphasized in CFIT and LOC-I "
-                "prevention, while <b>decision-making training</b> should "
-                "be the focus for fuel management.",
+                hf_cat_insight,
                 chart_key="ops_hf_category",
             )
+
+            # Build dynamic parent list from the data
+            parent_codes = hf_by_cat["parent_code"].unique().tolist()
+            parent_names = [
+                f"{ABBREVIATIONS.get(c, c)}" for c in parent_codes
+            ]
+            parent_list_str = ", ".join(parent_names[:-1]) + f", and {parent_names[-1]}" if len(parent_names) > 1 else parent_names[0] if parent_names else ""
+
             st.markdown(
                 '<div class="coverage-note">'
-                "Note: Human Factors Analysis and Classification System "
-                "(HFACS) subcategories are only classified under LOC-I, "
-                "CFIT, and Fuel Related in the CICTT taxonomy. Other risk "
+                f"Note: {abbr('HFACS')} subcategories are only classified under "
+                f"{parent_list_str} in the {abbr('CICTT')} taxonomy. Other risk "
                 "categories do not have human factors Level 2 classifications "
                 "in this dataset."
                 "</div>",
@@ -638,138 +672,69 @@ def render():
     st.markdown("### Risk Profile by Aircraft Type")
     st.markdown(
         "Different aircraft types face fundamentally different risk profiles. "
-        "A chief pilot managing a mixed fleet needs to know that helicopter "
-        "Loss of Control — In Flight (LOC-I) looks different from fixed-wing "
-        "LOC-I. Select one or more aircraft types below to compare hazard "
-        "profiles. Single selections show a detailed top-10 view; multiple "
-        "selections show a side-by-side comparison of the top categories."
+        "This matrix shows the top risk concentrations for each aircraft type, "
+        "enabling chief pilots to prioritize training emphasis and safety "
+        "briefings for their specific fleet."
     )
 
-    if not ac_risk.empty:
-        type_totals = (
-            ac_risk.groupby("aircraft_category")["total_in_category"]
-            .first()
-            .sort_values(ascending=False)
+    if not sigs.empty:
+        # Filter out non-meaningful aircraft categories
+        _exclude = {"not-applicable", "other"}
+        top3_sigs = sigs[
+            (sigs["rank"] <= 3) & (~sigs["aircraft_category"].isin(_exclude))
+        ].copy()
+
+        # Wrap long column labels with <br> so they stay horizontal
+        def _wrap(name: str, max_line: int = 14) -> str:
+            if len(name) <= max_line:
+                return name
+            name = name.replace(" — ", "<br>").replace(" - ", "<br>")
+            if "<br>" in name:
+                return name
+            words = name.split()
+            lines, cur = [], ""
+            for w in words:
+                if cur and len(cur) + 1 + len(w) > max_line:
+                    lines.append(cur)
+                    cur = w
+                else:
+                    cur = f"{cur} {w}" if cur else w
+            if cur:
+                lines.append(cur)
+            return "<br>".join(lines)
+
+        top3_sigs["category_label"] = top3_sigs["category_code"].map(
+            lambda c: _wrap(ABBREVIATIONS.get(c, c))
         )
-        aircraft_types = type_totals.index.tolist()
-        default_types = aircraft_types[:3]
 
-        selected_types = st.multiselect(
-            "Select aircraft types to compare",
-            options=aircraft_types,
-            default=default_types,
-            key="ops_fleet_select",
+        pivot = top3_sigs.pivot_table(
+            index="aircraft_category",
+            columns="category_label",
+            values="prevalence_pct",
+            fill_value=0,
         )
 
-        if not selected_types:
-            st.info("Select at least one aircraft type above.")
-        elif len(selected_types) == 1:
-            # ── Single aircraft type: detailed top-10 ──
-            sel = selected_types[0]
-            type_data = ac_risk[ac_risk["aircraft_category"] == sel].copy()
-            type_data = type_data.nlargest(10, "report_count")
-            total_reports = (
-                type_data["total_in_category"].iloc[0]
-                if not type_data.empty
-                else 0
-            )
+        fig_sigs = heatmap(
+            pivot,
+            title="Top Risk Categories by Aircraft Type",
+            value_format="pct",
+            height=max(len(pivot) * 50 + 100, 350),
+            colorbar_title="Prevalence %",
+        )
+        fig_sigs.update_xaxes(tickangle=0)
+        fig_sigs.update_layout(margin=dict(b=80))
 
-            type_data["category_label"] = type_data["category_code"].map(
-                lambda c: ABBREVIATIONS.get(c, c)
-            )
-
-            fig_ac = horizontal_bar(
-                type_data,
-                x="prevalence_pct",
-                y="category_label",
-                title=f"Top Hazards: {sel}",
-                color=STEEL,
-                height=max(300, len(type_data) * 36 + 60),
-                show_values=True,
-                value_format="1f",
-            )
-            fig_ac.update_traces(
-                text=type_data.sort_values("prevalence_pct", ascending=True)[
-                    "prevalence_pct"
-                ].apply(lambda v: f"{v:.1f}%"),
-                textposition="outside",
-            )
-            fig_ac.update_xaxes(title_text="Prevalence (%)")
-
-            top_ac_cat = type_data.iloc[0] if not type_data.empty else None
-            if top_ac_cat is not None:
-                chart_with_insight(
-                    fig_ac,
-                    f"For <b>{sel}</b> aircraft ({total_reports:,} reports), "
-                    f"the dominant hazard is <b>{top_ac_cat['category_label']}"
-                    f"</b> ({top_ac_cat['category_code']}) at "
-                    f"{top_ac_cat['prevalence_pct']:.1f}% prevalence. "
-                    f"Training programs for this fleet type should prioritize "
-                    f"scenarios involving "
-                    f"{top_ac_cat['category_label'].lower()}.",
-                    chart_key="ops_ac_single",
-                )
-            else:
-                st.plotly_chart(fig_ac, use_container_width=True,
-                                key="ops_ac_single")
-        else:
-            # ── Multi-type comparison: top 6 categories ──
-            multi_data = ac_risk[
-                ac_risk["aircraft_category"].isin(selected_types)
-            ].copy()
-            top_cats = (
-                multi_data.groupby("category_code")["report_count"]
-                .sum()
-                .nlargest(6)
-                .index.tolist()
-            )
-            compare_data = multi_data[
-                multi_data["category_code"].isin(top_cats)
-            ].copy()
-
-            def _wrap_label(code):
-                name = ABBREVIATIONS.get(code, code)
-                words = name.split()
-                if len(words) <= 3:
-                    return name
-                mid = len(words) // 2
-                return " ".join(words[:mid]) + "<br>" + " ".join(words[mid:])
-
-            compare_data["category_label"] = compare_data[
-                "category_code"
-            ].map(_wrap_label)
-
-            type_colors = {
-                t: CHART_PALETTE[i % len(CHART_PALETTE)]
-                for i, t in enumerate(selected_types)
-            }
-
-            fig_compare = grouped_bar(
-                compare_data,
-                x="category_label",
-                y="prevalence_pct",
-                group="aircraft_category",
-                title=f"Risk Profile Comparison ({len(selected_types)} aircraft types)",
-                height=max(420, 420 + (len(selected_types) - 3) * 20),
-                colors=type_colors,
-            )
-            fig_compare.update_yaxes(title_text="Prevalence (%)")
-            fig_compare.update_xaxes(tickangle=0)
-
-            type_list = ", ".join(f"<b>{t}</b>" for t in selected_types)
-            chart_with_insight(
-                fig_compare,
-                f"Comparing risk profiles across {type_list}. "
-                f"Prevalence is the percentage of accident reports in each "
-                f"aircraft type that involve a given category, making fleet "
-                f"sizes comparable regardless of total report volume. "
-                f"Differences between aircraft types point to fleet-specific "
-                f"training needs — brief crews on the hazards most relevant "
-                f"to the aircraft they fly, not a one-size-fits-all syllabus.",
-                chart_key="ops_ac_compare",
-            )
+        chart_with_insight(
+            fig_sigs,
+            "This matrix shows the top risk concentrations for each aircraft "
+            "type. Use it to prioritize training emphasis and safety briefings "
+            "for your specific fleet. Differences between aircraft types point "
+            "to fleet-specific training needs — brief crews on the hazards most "
+            "relevant to the aircraft they fly, not a one-size-fits-all syllabus.",
+            chart_key="ops_fleet_heatmap",
+        )
     else:
-        st.info("Aircraft type risk data is not available.")
+        st.info("Aircraft type risk signature data is not available.")
 
     # ── Section 10: Decade Trends ─────────────────────────────────────────
     section_divider()
@@ -777,9 +742,10 @@ def render():
     st.markdown(
         "Tracking hazard prevalence by decade reveals whether key risks are "
         "improving, worsening, or holding steady — essential context for "
-        "safety officers presenting quarterly Safety Management System (SMS) "
+        f"safety officers presenting quarterly {abbr('SMS')} "
         "metrics and chief pilots justifying continued investment in training "
-        "programs for declining-but-not-eliminated risks."
+        "programs for declining-but-not-eliminated risks.",
+        unsafe_allow_html=True,
     )
 
     if not decade_trends.empty:
@@ -824,10 +790,10 @@ def render():
             )
             trend_insight = (
                 f"From the {decades[0]}s to the {decades[-1]}s, "
-                f"<b>{rise_name}</b> ({biggest_rise['category_code']}) "
+                f"<b>{rise_name}</b> ({abbr(biggest_rise['category_code'])}) "
                 f"saw the largest increase "
                 f"(+{biggest_rise['change']:.0f} percentage points), while "
-                f"<b>{drop_name}</b> ({biggest_drop['category_code']}) "
+                f"<b>{drop_name}</b> ({abbr(biggest_drop['category_code'])}) "
                 f"showed the greatest decline "
                 f"({biggest_drop['change']:.0f} percentage points). "
                 f"Prevalence is normalized per decade to account for varying "
@@ -854,9 +820,9 @@ def render():
         "When two risk categories frequently appear together in the same "
         "accident report, it signals a cascading failure pattern — one hazard "
         "triggers or compounds another. Training scenarios should combine "
-        "co-occurring hazards rather than treating them in isolation. Safety "
-        "Management Systems (SMS) should monitor these pairs as compound "
-        "risk indicators."
+        f"co-occurring hazards rather than treating them in isolation. "
+        f"{abbr('SMS')} should monitor these pairs as compound risk indicators.",
+        unsafe_allow_html=True,
     )
 
     # Filter to top 10 categories for readability
@@ -894,12 +860,12 @@ def render():
 
     chart_with_insight(
         fig_coocc,
-        f"The strongest co-occurrence is between <b>{max_cat1}</b> "
-        f"({max_cat1_full}) and <b>{max_cat2}</b> ({max_cat2_full}), "
+        f"The strongest co-occurrence is between <b>{abbr(max_cat1)}</b> "
+        f"({max_cat1_full}) and <b>{abbr(max_cat2)}</b> ({max_cat2_full}), "
         f"appearing together in {max_co_val} reports. Co-occurring "
         f"categories suggest cascading failure chains — add combined-hazard "
         f"scenarios to recurrent training (e.g., an engine failure leading "
-        f"to loss of control, or weather deterioration leading to CFIT). "
+        f"to loss of control, or weather deterioration leading to {abbr('CFIT')}). "
         f"Hover over any cell for full category names.",
         chart_key="ops_coocc_heatmap",
     )
@@ -936,7 +902,7 @@ prevalence figures across categories sum to more than 100%.
 
 **Weather and time coverage:**
 - Weather condition (VMC/IMC) is available for {summary.get('weather_coverage_pct', 0):.0f}%
-  of accident reports.
+  of weather-classified accident reports.
 - Time of day is available for {summary.get('time_coverage_pct', 0):.0f}% of accident
   reports.
 - Analyses involving these features are based on the subset with known values.
@@ -957,8 +923,9 @@ reports are included to avoid unstable ratios from small samples.
 
 **Human factors:** Level 2 subcategories (HF-DECISION, HF-PERCEPTUAL, HF-SKILL,
 HF-VIOLATION) from the Human Factors Analysis and Classification System (HFACS) are
-aggregated across all parent categories. A single report may contribute to multiple
-HF subtypes if classified under more than one parent.
+counted as distinct reports per HF type. The bar chart uses deduplicated counts (a report
+is counted once per HF type regardless of how many parent categories it appears under).
+The heatmap uses per-parent breakdowns to show interaction patterns.
 
 **Regional classification:** Reports are classified by geographic region based on
 accident location data extracted from report metadata.
@@ -999,7 +966,6 @@ def _render_hazard_breakdown(
     hfacs = df[df["category_code"].str.startswith("HF-")].copy()
 
     if not specific.empty:
-        total_specific = specific["report_count"].sum()
         top_sub = specific.iloc[0]
         second_sub = specific.iloc[1] if len(specific) > 1 else None
 
@@ -1026,15 +992,15 @@ def _render_hazard_breakdown(
         # Add persona-specific recommendations based on the hazard type
         if prefix == "LOC-I-":
             insight_parts.append(
-                "Upset Prevention and Recovery Training (UPRT) directly "
+                f"{abbr('UPRT')} directly "
                 "targets the top failure modes. Verify that recurrent "
                 "training includes slow-flight maneuvering, unusual attitude "
                 "recovery, and spin awareness appropriate to aircraft type."
             )
         elif prefix == "CFIT-":
             insight_parts.append(
-                "Standardized approach procedures, mandatory use of "
-                "Terrain Awareness and Warning Systems (TAWS/GPWS), and "
+                f"Standardized approach procedures, mandatory use of "
+                f"{abbr('TAWS')}/{abbr('GPWS')}, and "
                 "strict adherence to minimum descent altitudes address "
                 "the majority of these scenarios. Brief crews on terrain "
                 "awareness for every flight into unfamiliar or mountainous "
@@ -1053,11 +1019,11 @@ def _render_hazard_breakdown(
     if not hfacs.empty:
         with st.expander(hfacs_label):
             st.markdown(
-                "Human factors codes from the Human Factors Analysis and "
-                "Classification System (HFACS) framework that appear "
+                f"Human factors codes from the {abbr('HFACS')} framework that appear "
                 "alongside this hazard category. These represent the "
                 "crew-level contributing factors behind the accidents — "
-                "each one maps to a specific training intervention."
+                "each one maps to a specific training intervention.",
+                unsafe_allow_html=True,
             )
             fig_hf = horizontal_bar(
                 hfacs,

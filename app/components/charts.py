@@ -94,15 +94,18 @@ def horizontal_bar(
         "int": lambda v: f"{v:,.0f}",
         "1f": lambda v: f"{v:,.1f}",
         "2f": lambda v: f"{v:,.2f}",
-        "pct": lambda v: f"{v:.0f}%",
+        "pct": lambda v: f"{v:.1f}%",
         "ratio": lambda v: f"{v:.1f}x",
     }
     fmt_fn = _fmt_map.get(value_format, _fmt_map["int"])
     text = df_sorted[x].apply(lambda v: fmt_fn(v) if isinstance(v, (int, float)) else str(v)) if show_values else None
 
-    hover_template = "<b>%{y}</b><br>Count: %{x:,.0f}<extra></extra>"
+    if value_format == "pct":
+        hover_template = "<b>%{y}</b><br>Value: %{x:.1f}%<extra></extra>"
+    else:
+        hover_template = "<b>%{y}</b><br>Count: %{x:,.0f}<extra></extra>"
     if hover_data:
-        hover_parts = ["<b>%{y}</b>", "Count: %{x:,.0f}"]
+        hover_parts = ["<b>%{y}</b>", ("Value: %{x:.1f}%" if value_format == "pct" else "Count: %{x:,.0f}")]
         for key, values in hover_data.items():
             hover_parts.append(f"{key}: %{{customdata[{list(hover_data.keys()).index(key)}]}}")
         hover_template = "<br>".join(hover_parts) + "<extra></extra>"

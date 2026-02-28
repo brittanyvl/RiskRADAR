@@ -50,18 +50,49 @@ ABBREVIATIONS = {
     "WILD": "Wildlife Strike",
     "AMAN": "Abrupt Maneuver",
     # ── General aviation / meteorological terms ───────────────────────────
-    "VMC": "Visual Meteorological Conditions",
-    "IMC": "Instrument Meteorological Conditions",
+    "CG": "Center of Gravity",
     "CICTT": "CAST/ICAO Common Taxonomy Team",
-    "NTSB": "National Transportation Safety Board",
-    "HFACS": "Human Factors Analysis and Classification System",
-    "UPRT": "Upset Prevention and Recovery Training",
-    "TAWS": "Terrain Awareness and Warning System",
-    "GPWS": "Ground Proximity Warning System",
+    "CRM": "Crew Resource Management",
     "ECE": "Expected Calibration Error",
+    "GA": "General Aviation",
+    "GPWS": "Ground Proximity Warning System",
+    "HFACS": "Human Factors Analysis and Classification System",
     "IFR": "Instrument Flight Rules",
-    "VFR": "Visual Flight Rules",
+    "IMC": "Instrument Meteorological Conditions",
+    "MEL": "Minimum Equipment List",
+    "MRO": "Maintenance, Repair, and Overhaul",
+    "NB": "Naive Bayes",
+    "NTSB": "National Transportation Safety Board",
+    "PIREP": "Pilot Weather Report",
+    "SMS": "Safety Management System",
     "SOP": "Standard Operating Procedures",
+    "SOPs": "Standard Operating Procedures",
+    "TAWS": "Terrain Awareness and Warning System",
+    "UPRT": "Upset Prevention and Recovery Training",
+    "VFR": "Visual Flight Rules",
+    "VMC": "Visual Meteorological Conditions",
+}
+
+
+# ── Human Factors Display Name Constants ─────────────────────────────────
+# Import these from view files instead of duplicating the mapping locally.
+
+# Human Factors display names (for bar chart labels)
+HF_DISPLAY_NAMES: dict[str, str] = {
+    "HF-VIOLATION": "Procedural Violations",
+    "HF-SKILL": "Skill-Based Errors",
+    "HF-DECISION": "Decision Errors",
+    "HF-PERCEPTUAL": "Perceptual Errors",
+    "HF-CONDITION": "Adverse Conditions",
+}
+
+# Human Factors short names (for heatmap axis labels)
+HF_SHORT_NAMES: dict[str, str] = {
+    "HF-VIOLATION": "Violation",
+    "HF-SKILL": "Skill Err",
+    "HF-DECISION": "Decision",
+    "HF-PERCEPTUAL": "Perceptual",
+    "HF-CONDITION": "Conditions",
 }
 
 

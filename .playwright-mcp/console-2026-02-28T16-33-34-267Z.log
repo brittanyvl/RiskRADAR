@@ -1,0 +1,10 @@
+[     885ms] [WARNING] Unrecognized feature: 'ambient-light-sensor'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     887ms] [WARNING] Unrecognized feature: 'battery'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     887ms] [WARNING] Unrecognized feature: 'document-domain'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     888ms] [WARNING] Unrecognized feature: 'layout-animations'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     888ms] [WARNING] Unrecognized feature: 'legacy-image-formats'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     889ms] [WARNING] Unrecognized feature: 'oversized-images'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     889ms] [WARNING] Unrecognized feature: 'vr'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[     889ms] [WARNING] Unrecognized feature: 'wake-lock'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    1198ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F:0
+[   44662ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F:0

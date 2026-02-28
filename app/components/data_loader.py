@@ -109,6 +109,12 @@ def human_factors_breakdown() -> pd.DataFrame:
 
 
 @st.cache_data(ttl=3600)
+def human_factors_totals() -> pd.DataFrame:
+    from analytics.queries.fleet_safety import human_factors_totals as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
 def loci_subtypes_by_aircraft() -> pd.DataFrame:
     from analytics.queries.fleet_safety import loci_subtypes_by_aircraft as _fn
     return _fn()

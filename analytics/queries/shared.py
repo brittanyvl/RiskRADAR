@@ -267,6 +267,7 @@ def dataset_summary() -> dict:
     """).fetchone()[0]
 
     # Date range
+    # reports.filename is the PK and matches report_types.report_id semantically
     date_range = c.execute("""
         SELECT MIN(r.accident_date), MAX(r.accident_date)
         FROM reports r
@@ -326,5 +327,5 @@ def dataset_summary() -> dict:
         "avg_categories_per_report": round(cats_per, 1) if cats_per else 0,
         "loci_cfit_pct": round(loci_cfit / accidents * 100, 1) if accidents else 0,
         "component_failure_pct": round(scf_rate / accidents * 100, 1) if accidents else 0,
-        "imc_pct": round(imc_count / accidents * 100, 1) if accidents else 0,
+        "imc_pct": round(imc_count / weather_cov * 100, 1) if weather_cov else 0,
     }

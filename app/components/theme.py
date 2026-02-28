@@ -148,7 +148,7 @@ def inject_css():
     /* ── Data quality note ────────────────────────────────────── */
     .coverage-note {
         font-size: 0.75rem;
-        color: #868e96;
+        color: #6c757d;
         font-style: italic;
         padding: 0.3rem 0;
     }
