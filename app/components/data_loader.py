@@ -230,6 +230,18 @@ def critical_phase_categories() -> pd.DataFrame:
     return _fn()
 
 
+@st.cache_data(ttl=3600)
+def night_accident_share() -> dict:
+    from analytics.queries.operational_risk import night_accident_share as _fn
+    return _fn()
+
+
+@st.cache_data(ttl=3600)
+def region_category_matrix(top_n_categories: int = 5) -> pd.DataFrame:
+    from analytics.queries.operational_risk import region_category_matrix as _fn
+    return _fn(top_n_categories)
+
+
 # ---------------------------------------------------------------------------
 # glossary_data.py wrappers
 # ---------------------------------------------------------------------------

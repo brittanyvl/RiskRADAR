@@ -1,11 +1,12 @@
 """
 analytics.queries.operational_risk — Operational Risk report queries.
 
-LOC-I/CFIT deep dives, weather x time matrix, seasonal patterns.
+LOC-I/CFIT deep dives, weather x time matrix, seasonal patterns,
+regional risk concentrations, night accident share.
 """
 
 import pandas as pd
-from .shared import get_connection, subcategory_counts
+from .shared import get_connection, subcategory_counts, category_by_feature, category_counts
 
 
 def loc_i_breakdown() -> pd.DataFrame:
@@ -181,3 +182,46 @@ def critical_phase_categories() -> pd.DataFrame:
 
     df = df.sort_values("risk_ratio", ascending=False)
     return df
+
+
+def night_accident_share() -> dict:
+    """
+    Percentage of accidents (with known time_of_day) that occurred at night.
+
+    Returns: dict with night_count, total_with_time, night_pct.
+    """
+    conn = get_connection()
+    row = conn.execute("""
+        SELECT
+            SUM(CASE WHEN f.time_of_day = 'Night' THEN 1 ELSE 0 END) AS night_count,
+            COUNT(DISTINCT f.report_id) AS total_with_time
+        FROM report_features f
+        JOIN report_types rt ON f.report_id = rt.report_id
+        WHERE rt.report_type = 'accident' AND f.time_of_day IS NOT NULL
+    """).fetchone()
+    conn.close()
+
+    night_count = row[0] or 0
+    total_with_time = row[1] or 1
+    return {
+        "night_count": night_count,
+        "total_with_time": total_with_time,
+        "night_pct": round(night_count / total_with_time * 100, 1),
+    }
+
+
+def region_category_matrix(top_n_categories: int = 5) -> pd.DataFrame:
+    """
+    Region (rows) x top-N L1 categories (columns) report count matrix.
+
+    Categories are selected as the top N by overall report count.
+    Returns: pivot DataFrame with region index, category_code columns, int values.
+    """
+    top_cats = category_counts().head(top_n_categories)["category_code"].tolist()
+    matrix = category_by_feature("region", categories=top_cats)
+    if matrix.empty:
+        return matrix
+    # Sort rows by total report count descending
+    matrix["_total"] = matrix.sum(axis=1)
+    matrix = matrix.sort_values("_total", ascending=False).drop(columns=["_total"])
+    return matrix

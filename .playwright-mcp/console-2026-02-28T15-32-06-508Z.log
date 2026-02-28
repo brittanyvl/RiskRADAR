@@ -1,0 +1,21 @@
+[    2564ms] [WARNING] Unrecognized feature: 'ambient-light-sensor'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2564ms] [WARNING] Unrecognized feature: 'battery'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2564ms] [WARNING] Unrecognized feature: 'document-domain'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2565ms] [WARNING] Unrecognized feature: 'layout-animations'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2565ms] [WARNING] Unrecognized feature: 'legacy-image-formats'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2565ms] [WARNING] Unrecognized feature: 'oversized-images'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2565ms] [WARNING] Unrecognized feature: 'vr'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2565ms] [WARNING] Unrecognized feature: 'wake-lock'. @ http://localhost:8501/static/js/index.Drusyo5m.js:1
+[    2617ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F:0
+[    5547ms] [WARNING] An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing. @ http://localhost:8501/component/streamlit_option_menu.option_menu/index.html?streamlitUrl=http%3A%2F%2Flocalhost%3A8501%2F:0
+[   53114ms] [WARNING] WebSocket onclose @ http://localhost:8501/static/js/index.Drusyo5m.js:150
+[   55462ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/health:0
+[   55463ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/host-config:0
+[   55726ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/health:0
+[   57924ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/host-config:0
+[   57924ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/health:0
+[   58298ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/host-config:0
+[   60253ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/health:0
+[   60704ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/host-config:0
+[   63333ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/health:0
+[   63333ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8501/_stcore/host-config:0
