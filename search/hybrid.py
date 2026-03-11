@@ -1,7 +1,6 @@
 """Hybrid search combining BM25 and semantic search with RRF fusion."""
 
 import logging
-from typing import Optional
 
 from .bm25 import BM25Index
 from .semantic import SemanticSearcher
@@ -84,35 +83,42 @@ class HybridSearcher:
 
         scores = {}  # chunk_id -> {rrf_score, metadata}
 
+        def _new_entry(r):
+            return {
+                "chunk_id": r["chunk_id"],
+                "report_id": r["report_id"],
+                "section_name": r["section_name"],
+                "rrf_score": 0.0,
+                "bm25_rank": None,
+                "sem_rank": None,
+                "title": r.get("title", ""),
+                "location": r.get("location", ""),
+                "pdf_url": r.get("pdf_url", ""),
+                "accident_date": r.get("accident_date", ""),
+                "l1_categories": r.get("l1_categories", []),
+                "l2_subcategories": r.get("l2_subcategories", []),
+            }
+
         for r in bm25_results:
             cid = r["chunk_id"]
-            rank = r["rank"]
             if cid not in scores:
-                scores[cid] = {
-                    "chunk_id": cid,
-                    "report_id": r["report_id"],
-                    "section_name": r["section_name"],
-                    "rrf_score": 0.0,
-                    "bm25_rank": None,
-                    "sem_rank": None,
-                }
-            scores[cid]["rrf_score"] += w_bm25 / (k + rank)
-            scores[cid]["bm25_rank"] = rank
+                scores[cid] = _new_entry(r)
+            scores[cid]["rrf_score"] += w_bm25 / (k + r["rank"])
+            scores[cid]["bm25_rank"] = r["rank"]
 
         for r in semantic_results:
             cid = r["chunk_id"]
-            rank = r["rank"]
             if cid not in scores:
-                scores[cid] = {
-                    "chunk_id": cid,
-                    "report_id": r["report_id"],
-                    "section_name": r["section_name"],
-                    "rrf_score": 0.0,
-                    "bm25_rank": None,
-                    "sem_rank": None,
-                }
-            scores[cid]["rrf_score"] += w_sem / (k + rank)
-            scores[cid]["sem_rank"] = rank
+                scores[cid] = _new_entry(r)
+            else:
+                # Merge payload from semantic side into existing BM25 entry
+                entry = scores[cid]
+                if not entry.get("title"):
+                    for field in ("title", "location", "pdf_url", "accident_date",
+                                  "l1_categories", "l2_subcategories"):
+                        entry[field] = r.get(field, entry[field])
+            scores[cid]["rrf_score"] += w_sem / (k + r["rank"])
+            scores[cid]["sem_rank"] = r["rank"]
 
         # Sort by RRF score descending
         fused = sorted(scores.values(), key=lambda x: x["rrf_score"], reverse=True)[
@@ -123,9 +129,9 @@ class HybridSearcher:
         for i, r in enumerate(fused):
             r["rank"] = i + 1
             r["score"] = r.pop("rrf_score")
-            if r["bm25_rank"] and r["sem_rank"]:
+            if r["bm25_rank"] is not None and r["sem_rank"] is not None:
                 r["source"] = "both"
-            elif r["bm25_rank"]:
+            elif r["bm25_rank"] is not None:
                 r["source"] = "bm25"
             else:
                 r["source"] = "semantic"

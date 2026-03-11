@@ -292,3 +292,33 @@ def get_bayesian_model():
     from risk_profiler.bayesian_model import load_model
     from riskradar.config import DB_PATH
     return load_model(db_path=str(DB_PATH))
+
+
+# ---------------------------------------------------------------------------
+# search/ module wrappers
+# ---------------------------------------------------------------------------
+
+@st.cache_resource
+def get_chunk_index():
+    """Load full JSONL chunk index into memory. ~50-80 MB, loaded once."""
+    from search.enrichment import ChunkIndex
+    return ChunkIndex()
+
+
+@st.cache_resource
+def get_search_service():
+    """Singleton SearchService with HybridSearcher + ResultEnricher."""
+    from search.hybrid import HybridSearcher
+    from search.enrichment import ResultEnricher
+    from search.service import SearchService
+    chunk_index = get_chunk_index()
+    enricher = ResultEnricher(chunk_index)
+    searcher = HybridSearcher()
+    return SearchService(searcher, enricher)
+
+
+@st.cache_data(ttl=3600)
+def get_search_filter_options() -> dict:
+    """Filter dropdown data: L1 categories, aircraft types, date range."""
+    from analytics.queries.search_filters import get_filter_options
+    return get_filter_options()

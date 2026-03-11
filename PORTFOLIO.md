@@ -19,6 +19,7 @@ A technical narrative documenting the design decisions, challenges overcome, and
 - [Closing the Gap: Data Quality and Taxonomy Coverage](#closing-the-gap-data-quality-and-taxonomy-coverage)
 - [Bayesian Risk Model: From Features to Audit to Production](#bayesian-risk-model-from-features-to-audit-to-production)
 - [Streamlit Application: From Dashboards to Consulting Reports](#streamlit-application-from-dashboards-to-consulting-reports)
+- [Semantic Search: From Pipeline to Product](#semantic-search-from-pipeline-to-product)
 - [Future Directions](#future-directions)
 - [Skills Demonstrated](#skills-demonstrated)
 
@@ -42,7 +43,8 @@ RiskRADAR transforms 510 NTSB aviation accident reports (spanning 1966-present) 
 - **Weather (VMC/IMC)** extracted from 369/510 reports via regex on meteorological sections
 - **Time-of-day** extracted from 463/510 reports via timestamp parsing
 - **Stakeholder analytics** built as reusable SQL query modules (fleet safety, underwriting, operational risk)
-- **Streamlit application** with 3 consulting-style narrative reports, interactive risk profiler, and searchable terminology glossary
+- **Streamlit application** with 3 consulting-style narrative reports, interactive risk profiler, searchable terminology glossary, and hybrid search interface
+- **Semantic search page** with horizontal filter bar, 3 search modes (hybrid/semantic/keyword), taxonomy + date filters, paginated results with highlighted snippets, and XSS-safe rendering
 
 The most significant technical insights:
 1. **Chunk quality directly determines retrieval quality**. Version 2's chunking strategy improved Hit@10 from 94.9% to 100% and MRR from 0.788 to 0.816.
@@ -967,11 +969,66 @@ The Operational Risk page initially used `st.expander()` accordions to show risk
 
 ---
 
+## Semantic Search: From Pipeline to Product
+
+Building the search page required bridging the gap between a working search pipeline (BM25 + semantic + hybrid RRF fusion) and a production-ready user interface. This involved clean architecture decisions, UX iteration, and an operational lesson about cloud infrastructure.
+
+### Clean Architecture (4-File Design)
+
+The search integration followed a strict separation of concerns:
+
+| File | Responsibility |
+|------|---------------|
+| `search/result_types.py` | `SearchResult` dataclass — typed contract between backend and frontend |
+| `search/enrichment.py` | `ResultEnricher` — joins search hits with SQLite metadata (titles, dates, categories, PDF URLs) |
+| `search/service.py` | `SearchService` — orchestrates search → enrich → filter pipeline |
+| `analytics/queries/search_filters.py` | Filter options + post-search aircraft filtering via SQL |
+
+This design means the Streamlit view (`app/views/search.py`) has zero direct database or Qdrant dependencies — it calls `SearchService.search()` and renders `SearchResult` objects. The enrichment layer bridges the gap between Qdrant's chunk-level payloads and the report-level metadata stored in SQLite.
+
+### UX Iteration: Horizontal Filter Bar
+
+The search page layout went through three iterations based on user testing:
+
+1. **Vertical filter sidebar + radio buttons** — Rejected. Wasted horizontal space and felt disconnected from search results.
+2. **Sub-navigation bar for mode selection** — Rejected. Added visual complexity without improving the workflow.
+3. **Horizontal filter bar above search box** — Final. Five-column layout (Mode dropdown | Risk Category multiselect | Aircraft Type multiselect | Date From | Date To) with a conditional L2 subcategory row that appears only when an L1 category is selected.
+
+The key insight: search filter UI should mirror how users think about their query — mode and constraints first, then the actual search text. Putting filters *above* the search box (not beside it) keeps the full page width available for results.
+
+### XSS-Safe HTML Rendering
+
+Streamlit's `unsafe_allow_html=True` for rich result cards required careful security:
+- `html.escape()` on all user-facing text before injection
+- URL validation (`_safe_url()`) restricting to `https://` only
+- Query term highlighting applied *after* HTML escaping to prevent injection through search terms
+
+### Qdrant Cloud: An Operational Lesson
+
+**The problem:** After several weeks of development focus on the analytics reports, we returned to find the search page throwing 404 errors. The Qdrant Cloud free-tier cluster had been silently deleted due to inactivity — all 24,766 vectors across both collections (MiniLM + MIKA) were gone.
+
+**Why it matters:** This is the kind of operational surprise that doesn't appear in tutorials. Free-tier cloud services often have usage requirements that aren't prominently documented. For a portfolio project where development is intermittent, this creates a real risk of losing deployed infrastructure between work sessions.
+
+**The recovery:** Because all embedding vectors were stored locally as Parquet files (`embeddings_data/v2/`), and all taxonomy enrichment data lived in SQLite, recovery was straightforward:
+1. Create a new Qdrant Cloud cluster
+2. Update credentials in `.env` and `.streamlit/secrets.toml`
+3. Re-upload: `python -m embeddings.cli upload both` (~5 min)
+4. Re-enrich: `python -m embeddings.cli enrich both --l1-run 1 --l2-run 1` (~50 min)
+5. Restart Streamlit (cached client holds old connection)
+
+**The lesson:** Never treat cloud infrastructure as your source of truth. Local-first data storage (Parquet embeddings, SQLite metadata) meant zero data loss despite complete cloud infrastructure deletion. The recovery procedure is now documented in `pick_up_here.md` and `CLAUDE.md` for future sessions.
+
+### Known Design Challenge: Multi-Chunk Result Consolidation
+
+The current search returns one result per matching chunk, so a single report can appear multiple times in results (e.g., if "engine failure" matches chunks from the Findings, Analysis, and Probable Cause sections of the same report). The next iteration will group results by `report_id` and show the best-matching snippet per report — a common information retrieval pattern that requires careful score aggregation across chunks.
+
+---
+
 ## Future Directions
 
 ### Short-term
 
-1. **Semantic Search Page**: Integrate `search/` module into Streamlit with taxonomy filters and PDF links
+1. **Search Result Consolidation**: Group multi-chunk results by report, showing best-matching snippet per report
 2. **Taxonomy Explorer Page**: Interactive L1→L2 drill-down with report lists per category
 3. **UI Polish**: Incorporate human UI review feedback, improve mobile responsiveness
 
@@ -1001,7 +1058,7 @@ The Operational Risk page initially used `st.expander()` accordions to show risk
 - Data quality gap analysis with root cause investigation
 - Automated document type classification (prefix/title heuristics)
 
-### NLP/ML
+### NLP/ML & Information Retrieval
 - Text extraction with OCR fallback
 - Section-aware chunking with pattern matching
 - Embedding model comparison (general vs. domain-specific)
@@ -1010,6 +1067,9 @@ The Operational Risk page initially used `st.expander()` accordions to show risk
 - Embedding-based classification with seed phrases
 - Binary Relevance Naive Bayes for multi-label classification
 - Bayesian model auditing: calibration analysis, baseline comparison, LOO correctness
+- Hybrid search architecture (BM25 + semantic + RRF fusion)
+- Search result enrichment pipeline (chunk-level → report-level metadata joins)
+- Qdrant filter construction (taxonomy, date range, multi-field filters)
 
 ### Evaluation Methodology
 - Stratified benchmark design
@@ -1039,6 +1099,8 @@ The Operational Risk page initially used `st.expander()` accordions to show risk
 - Comprehensive documentation
 - Thread-safe database access in multi-threaded web frameworks
 - Reusable component library (charts, layout, theme)
+- Cloud infrastructure resilience (local-first data storage, documented recovery procedures)
+- XSS-safe HTML rendering in user-facing search results
 
 ### Domain Knowledge
 - Understanding NTSB report structure
@@ -1061,11 +1123,12 @@ The key insights:
 5. **Statistical auditing catches invisible errors**. The initial Bayesian model reported Hit@5=90.7% — a number that would have gone unquestioned into a portfolio. A systematic audit revealed fake validation, miscalibrated probabilities, and hidden baseline underperformance. The rewritten model has lower headline numbers (Hit@5=86.8%) but honest ones, with near-perfect calibration (ECE=0.021). Presenting correctly-measured, honestly-interpreted results demonstrates stronger data science judgment than inflating metrics.
 6. **Multi-label data requires multi-label models**. When 95.8% of observations have multiple labels, forcing a sum-to-1 normalization is a fundamental architectural error — not a tuning problem. Recognizing this distinction between "the model needs better parameters" and "the model needs a different architecture" is a critical skill.
 7. **Data visualization is stakeholder communication**. Building dashboards is easy; building reports that answer the right questions for the right audience is hard. The shift from 4 generic dashboards to 3 persona-driven narrative reports — and the iterative refinement of KPIs, colors, and abbreviation handling — reflects the reality that the last mile of data science is persuasive communication.
+8. **Cloud infrastructure requires defensive design**. Free-tier Qdrant Cloud clusters are silently deleted after extended inactivity — an operational surprise that doesn't appear in tutorials. Because all embedding vectors and metadata were stored locally (Parquet + SQLite), recovery from complete cloud infrastructure loss took minutes, not days. Never treat cloud services as your source of truth, especially with intermittent development schedules.
 
-For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. The 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation. The Bayesian risk model is meaningful not for its headline accuracy numbers, but because it survived a rigorous statistical audit, was rebuilt when flaws were found, and ships with honest metrics, calibration analysis, and documented limitations. And the Streamlit application is meaningful because it translates analytical rigor into stakeholder-accessible reports — with colorblind-safe palettes, abbreviation tooltips, and consulting-style narratives that communicate findings without requiring domain expertise.
+For professionals evaluating this work: the methodology and willingness to pivot are as important as the final metrics. The 38.6% semantic lift is meaningful because we measured it properly. The CICTT classification is meaningful because we recognized when an approach was failing and changed course. The 98.9% taxonomy coverage is meaningful because each percentage point was earned through deliberate investigation. The Bayesian risk model is meaningful not for its headline accuracy numbers, but because it survived a rigorous statistical audit, was rebuilt when flaws were found, and ships with honest metrics, calibration analysis, and documented limitations. The semantic search page is meaningful because it bridges the gap between a working ML pipeline and a usable product — with clean architecture, XSS-safe rendering, and iterative UX refinement driven by real user testing. And the Streamlit application is meaningful because it translates analytical rigor into stakeholder-accessible reports — with colorblind-safe palettes, abbreviation tooltips, and consulting-style narratives that communicate findings without requiring domain expertise.
 
 ---
 
-*Last updated: February 2026*
+*Last updated: March 2026*
 
 *For technical documentation, see [README.md](README.md) and module-specific documentation.*

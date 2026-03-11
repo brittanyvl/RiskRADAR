@@ -2,7 +2,6 @@
 
 import logging
 import time
-from typing import Optional
 
 from .config import SEARCH_CONFIG
 
@@ -76,6 +75,13 @@ class SemanticSearcher:
                 "section_name": payload.get("section_name", ""),
                 "score": hit.score,
                 "rank": rank,
+                # Rich payload fields
+                "title": payload.get("title", ""),
+                "location": payload.get("location", ""),
+                "pdf_url": payload.get("pdf_url", ""),
+                "accident_date": payload.get("accident_date", ""),
+                "l1_categories": payload.get("l1_categories", []),
+                "l2_subcategories": payload.get("l2_subcategories", []),
             })
 
         logger.debug(
@@ -96,6 +102,14 @@ class SemanticSearcher:
                 cats = [cats]
             must_conditions.append(
                 FieldCondition(key="l1_categories", match=MatchAny(any=cats))
+            )
+
+        if "l2_subcategories" in filters:
+            subs = filters["l2_subcategories"]
+            if isinstance(subs, str):
+                subs = [subs]
+            must_conditions.append(
+                FieldCondition(key="l2_subcategories", match=MatchAny(any=subs))
             )
 
         if "report_id" in filters:
